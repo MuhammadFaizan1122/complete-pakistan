@@ -56,7 +56,6 @@ export function HeroSection() {
                 </Flex>
             </Container>
 
-            {/* Notification Strip */}
             <Box bg="#383d46" py={2} position={'absolute'} bottom={0} w={'100%'} px={4} >
                 <Flex
                     maxW="7xl"
