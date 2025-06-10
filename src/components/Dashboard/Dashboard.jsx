@@ -11,12 +11,9 @@ import {
     Badge,
     Card,
     CardBody,
-    Divider,
     Image
 } from '@chakra-ui/react'
 import {
-    FiBookOpen,
-    FiMapPin,
     FiStar
 } from 'react-icons/fi'
 
@@ -33,117 +30,90 @@ export default function TrainingDashboard() {
         { icon: '/Images/Icons/dashboard-icon-8.png', label: 'Accounts' },
         { icon: '/Images/Icons/dashboard-icon-9.png', label: 'Information' }
     ]
-
     const candidates = [
         {
-            name: 'Miss. Esther',
-            experience: '2 years',
-            location: 'Karachi',
-            rating: 4.5,
-            skills: ['Cooking', 'Cleaning'],
-            avatar: '/api/placeholder/40/40',
-            status: 'Active'
+            name: 'Miles, Esther',
+            role: 'Electrician with 5 year of experience in UAE',
+            matches: 2,
+            avatar: '/Images/candidate-1.png',
+            verified: true
         },
         {
-            name: 'Dolores Robertson',
-            experience: '3 years',
-            location: 'Lahore',
-            rating: 4.8,
-            skills: ['Housekeeping', 'Childcare'],
-            avatar: '/api/placeholder/40/40',
-            status: 'Active'
+            name: 'Darlene Robertson',
+            role: 'Electrician with 5 year of experience in UAE',
+            matches: 2,
+            avatar: '/Images/candidate-2.png',
+            verified: true
         },
         {
             name: 'Robert Fox',
-            experience: '4 years',
-            location: 'Islamabad',
-            rating: 4.2,
-            skills: ['Driving', 'Maintenance'],
-            avatar: '/api/placeholder/40/40',
-            status: 'Verified'
+            role: 'Electrician with 5 year of experience in UAE',
+            matches: 2,
+            avatar: '/Images/candidate-3.png',
+            verified: true
         },
         {
             name: 'Bessie Cooper',
-            experience: '1 year',
-            location: 'Faisalabad',
-            rating: 4.0,
-            skills: ['Cooking', 'Cleaning'],
-            avatar: '/api/placeholder/40/40',
-            status: 'Active'
+            role: 'Electrician with 5 year of experience in UAE',
+            matches: 2,
+            avatar: '/Images/candidate-4.png',
+            verified: true
         },
         {
             name: 'Kathryn Murphy',
-            experience: '2 years',
-            location: 'Multan',
-            rating: 4.6,
-            skills: ['Childcare', 'Tutoring'],
-            avatar: '/api/placeholder/40/40',
-            status: 'Active'
+            role: 'Electrician with 5 year of experience in UAE',
+            matches: 2,
+            avatar: '/Images/candidate-5.png',
+            verified: true
         },
         {
             name: 'Jane Cooper',
-            experience: '5 years',
-            location: 'Rawalpindi',
-            rating: 4.9,
-            skills: ['Management', 'Training'],
-            avatar: '/api/placeholder/40/40',
-            status: 'Verified'
+            role: 'Electrician with 5 year of experience in UAE',
+            matches: 2,
+            avatar: '/Images/candidate-1.png',
+            verified: true
         }
     ]
-
-    const trainingCenters = [
+    const tradeCenters = [
         {
             name: 'TEVTTA Karachi',
-            type: 'Government Certified',
-            location: 'Karachi',
-            courses: '20+',
-            rating: 4.5,
-            status: 'Active'
+            description: 'Electrician with 5 year of experience in UAE',
+            matches: 20,
+            verified: true
         },
         {
-            name: 'National Skills Center',
-            type: 'Private Institution',
-            location: 'Lahore',
-            courses: '25+',
-            rating: 4.7,
-            status: 'Active'
+            name: 'National Skills Cent...',
+            description: 'Government approved training facility for constructions trades',
+            matches: 20,
+            verified: true
         },
         {
-            name: 'National Skills Center',
-            type: 'Hybrid Programs',
-            location: 'Islamabad',
-            courses: '30+',
-            rating: 4.8,
-            status: 'Active'
+            name: 'National Skills Cent...',
+            description: 'Electrician with 5 year of experience in UAE',
+            matches: 20,
+            verified: true
         },
         {
             name: 'TEVTTA Karachi',
-            type: 'Technical Training',
-            location: 'Karachi',
-            courses: '22+',
-            rating: 4.4,
-            status: 'Active'
+            description: 'Electrician with 5 year of experience in UAE',
+            matches: 20,
+            verified: true
         },
         {
-            name: 'National Skills Center',
-            type: 'Vocational Training',
-            location: 'Lahore',
-            courses: '28+',
-            rating: 4.6,
-            status: 'Active'
+            name: 'National Skills Cent...',
+            description: 'Government approved training facility for constructions trades',
+            matches: 20,
+            verified: true
         },
         {
-            name: 'National Skills Center',
-            type: 'Professional Development',
-            location: 'Islamabad',
-            courses: '35+',
-            rating: 4.9,
-            status: 'Active'
+            name: 'National Skills Cent...',
+            description: 'Electrician with 5 year of experience in UAE',
+            matches: 20,
+            verified: true
         }
     ]
-
     return (
-        <Flex h="100vh" bg="#EBF5F4">
+        <Flex bg="#EBF5F4">
             <Box w="250px" bg="white" borderRight="1px" borderColor="gray.200" p={4}>
                 <VStack align="stretch" spacing={2}>
                     {sidebarItems.map((item, index) => (
@@ -168,8 +138,7 @@ export default function TrainingDashboard() {
                 </VStack>
             </Box>
 
-            <Box flex={1} overflow="auto">
-                {/* Header */}
+            <Box flex={1} >
                 <Box bg="white" p={4} borderBottom="1px" borderColor="gray.200">
                     <Flex justify="space-between" align="center">
                         <Text fontSize="2xl" fontWeight="bold">Dashboard</Text>
@@ -177,7 +146,6 @@ export default function TrainingDashboard() {
                         </HStack>
                     </Flex>
                 </Box>
-
                 <Box
                     backgroundImage="linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/Images/dashboard-banner.jpg')"
                     backgroundSize="cover"
@@ -191,20 +159,22 @@ export default function TrainingDashboard() {
                     position="relative"
                     overflow="hidden"
                 >
-                    <VStack align="start" spacing={2}>
-                        <Text fontSize="3xl" fontWeight="bold">
+                    <VStack position="absolute" bottom={10} left={10} align="baseline" spacing={2} >
+                        <Text fontSize="36px" fontWeight="medium">
                             Hazrat Karmanwala Trade Test & Training Center
                         </Text>
-                        <Text fontSize="lg" opacity={0.9}>
+                        <Text fontSize="20px" opacity={0.9} fontWeight="medium">
                             Serving Talent to the World Since 2010
                         </Text>
                     </VStack>
-                    <HStack position="absolute" top={4} right={4}>
-                        <Button size="sm" variant="outline" colorScheme="whiteAlpha">
-                            Upload a file
+                    <HStack position="absolute" bottom={10} right={10}>
+                        <Button size="md" variant="solid" bg={'white'} borderRadius={'12px'}>
+                            <Image src={'/Images/Icons/clarity_license-solid.png'} alt="icon" width={18} height={18} mr={2} />
+                            License #4568
                         </Button>
-                        <Button size="sm" bg="white" color="#309689">
-                            Contact Support
+                        <Button size="md" bg="#00956B" color="white" borderRadius={'12px'}>
+                            Verified Agency
+                            <Image src={'/Images/Icons/check.png'} alt="icon" width={18} height={18} ml={2} />
                         </Button>
                     </HStack>
                 </Box>
@@ -286,93 +256,132 @@ export default function TrainingDashboard() {
                     </Card>
                 </Grid>
 
-                {/* <Grid templateColumns="1fr 1fr" gap={6} p={4}>
-                    <Card>
-                        <CardBody>
-                            <Text fontSize="xl" fontWeight="bold" mb={4}>Top Candidates</Text>
-                            <Text fontSize="sm" color="gray.600" mb={4}>
-                                Select best talent who secured employment through Complete pakistan
+                <Grid templateColumns="2fr" gap={6} p={4}>
+                    <VStack align="stretch" spacing={6} mb={12}>
+                        <VStack align="start" spacing={2}>
+                            <Text fontSize="32px" fontWeight="bold" color="black">
+                                Top Candidates
                             </Text>
+                            <Text fontSize="20px" color="black">
+                                Skilled workers who secured employment through Complete pakistan
+                            </Text>
+                        </VStack>
 
-                            <VStack spacing={4} align="stretch">
-                                {candidates.map((candidate, index) => (
-                                    <Box key={index}>
-                                        <HStack justify="space-between">
-                                            <HStack>
-                                                <Avatar size="sm" name={candidate.name} />
-                                                <VStack align="start" spacing={0}>
-                                                    <Text fontWeight="semibold" fontSize="sm">{candidate.name}</Text>
-                                                    <Text fontSize="xs" color="gray.500">
-                                                        Experience with {candidate.experience} • {candidate.location}
-                                                    </Text>
-                                                    <HStack spacing={1}>
-                                                        <FiStar color="orange" size={12} />
-                                                        <Text fontSize="xs">{candidate.rating}</Text>
-                                                        <Text fontSize="xs" color="gray.500">
-                                                            {candidate.skills.join(', ')}
+                        <Grid templateColumns="repeat(3, 1fr)" gap={10}>
+                            {candidates.map((candidate, index) => (
+                                <Card key={index} bg="white" borderRadius="20px" overflow="hidden" h={'160px'}>
+                                    <CardBody p={4} my={2}>
+                                        <HStack spacing={4} align="center" justify="space-evenly">
+                                            <Avatar
+                                                size="lg"
+                                                name={candidate.name}
+                                                src={candidate.avatar}
+                                            />
+                                            <VStack spacing={3}>
+                                                <VStack spacing={1} textAlign="left" align="start" maxW={'181px'}>
+                                                    <HStack>
+                                                        <Text fontWeight="semibold" fontSize="20px">
+                                                            {candidate.name}
                                                         </Text>
-                                                    </HStack>
-                                                </VStack>
-                                            </HStack>
-                                            <Badge
-                                                colorScheme={candidate.status === 'Verified' ? 'green' : 'blue'}
-                                                size="sm"
-                                            >
-                                                {candidate.status}
-                                            </Badge>
-                                        </HStack>
-                                        {index < candidates.length - 1 && <Divider mt={4} />}
-                                    </Box>
-                                ))}
-                            </VStack>
-                        </CardBody>
-                    </Card>
 
-                    <Card>
-                        <CardBody>
-                            <Text fontSize="xl" fontWeight="bold" mb={4}>Top Trade Test Centers</Text>
-                            <Text fontSize="sm" color="gray.600" mb={4}>
+                                                    </HStack>
+
+                                                    <Text fontSize="16" color="black" lineHeight="short">
+                                                        {candidate.role}
+                                                    </Text>
+                                                </VStack>
+
+                                                <HStack spacing={1} color="#00956B" alignItems="start" w={'full'}>
+                                                    <Text fontWeight="bold" fontSize="16px">
+                                                        {candidate.matches}
+                                                    </Text>
+                                                    <FiStar fill="currentColor" className='mt-[3px]' />
+                                                    <Text fontSize="16px" fontWeight="medium" color={'#00956B'}>
+                                                        Matches
+                                                    </Text>
+                                                </HStack>
+                                            </VStack>
+                                            <VStack spacing={3}>
+                                                {candidate.verified && (
+                                                    <Badge
+                                                        borderRadius={'13px'}
+                                                        px={'8px'}
+                                                        py={'6px'}
+                                                        bg={'#EBF5F4'}
+                                                        color={'#00956B'}
+                                                        fontSize={'12px'}
+                                                        display="flex"
+                                                        alignItems="center"
+                                                        gap={1}
+                                                    >
+                                                        <Image src={'/Images/Icons/carbon_badge.png'} alt="icon" width={18} height={18} />
+                                                        Verified
+                                                    </Badge>
+                                                )}
+                                            </VStack>
+                                        </HStack>
+                                    </CardBody>
+                                </Card>
+                            ))}
+                        </Grid>
+                    </VStack>
+                    <VStack align="stretch" spacing={6}>
+                        <VStack align="start" spacing={2}>
+                            <Text fontSize="32px" fontWeight="bold" color="black">
+                                Top Trade Test Centers
+                            </Text>
+                            <Text fontSize="20px" color="black">
                                 Centers that provide quality training and certifications recognized in Gulf countries
                             </Text>
+                        </VStack>
+                        <Grid templateColumns="repeat(3, 1fr)" gap={10}>
+                            {tradeCenters.map((center, index) => (
+                                <Card key={index} bg="white" borderRadius="20px" overflow="hidden" h={'160px'}>
+                                    <CardBody p={6}>
+                                        <VStack align="start" spacing={4} h="full">
+                                            <HStack justify="space-between" w="full">
+                                                <Text fontWeight="bold" fontSize="24px" color="black">
+                                                    {center.name}
+                                                </Text>
 
-                            <VStack spacing={4} align="stretch">
-                                {trainingCenters.map((center, index) => (
-                                    <Box key={index}>
-                                        <HStack justify="space-between">
-                                            <VStack align="start" spacing={0}>
-                                                <Text fontWeight="semibold" fontSize="sm">{center.name}</Text>
-                                                <Text fontSize="xs" color="gray.500">{center.type}</Text>
-                                                <HStack spacing={2}>
-                                                    <HStack spacing={1}>
-                                                        <FiMapPin size={12} />
-                                                        <Text fontSize="xs">{center.location}</Text>
-                                                    </HStack>
-                                                    <HStack spacing={1}>
-                                                        <FiBookOpen size={12} />
-                                                        <Text fontSize="xs">{center.courses} Courses</Text>
-                                                    </HStack>
-                                                </HStack>
-                                            </VStack>
-                                            <VStack align="end" spacing={1}>
-                                                <Badge
-                                                    colorScheme={center.status === 'Active' ? 'green' : 'gray'}
-                                                    size="sm"
-                                                >
-                                                    {center.status}
-                                                </Badge>
-                                                <HStack spacing={1}>
-                                                    <FiStar color="orange" size={12} />
-                                                    <Text fontSize="xs">{center.rating}</Text>
-                                                </HStack>
-                                            </VStack>
-                                        </HStack>
-                                        {index < trainingCenters.length - 1 && <Divider mt={4} />}
-                                    </Box>
-                                ))}
-                            </VStack>
-                        </CardBody>
-                    </Card>
-                </Grid> */}
+                                                {center.verified && (
+                                                    <Badge
+                                                        borderRadius={'13px'}
+                                                        px={'8px'}
+                                                        py={'6px'}
+                                                        bg={'#EBF5F4'}
+                                                        color={'#00956B'}
+                                                        fontSize={'12px'}
+                                                        display="flex"
+                                                        alignItems="center"
+                                                        gap={1}
+                                                    >
+                                                        <Image src={'/Images/Icons/carbon_badge.png'} alt="icon" width={18} height={18} />
+                                                        Verified
+                                                    </Badge>
+                                                )}
+                                            </HStack>
+
+                                            <Text fontSize="16px" color="black" lineHeight="relaxed" flex={1}>
+                                                {center.description}
+                                            </Text>
+
+                                            <HStack spacing={1} color="#00956B" alignItems="start" w={'full'}>
+                                                <Text fontWeight="bold" fontSize="16px">
+                                                    {center.matches}
+                                                </Text>
+                                                <FiStar fill="currentColor" className='mt-[3px]' />
+                                                <Text fontSize="16px" fontWeight="medium" color={'#00956B'}>
+                                                    Matches
+                                                </Text>
+                                            </HStack>
+                                        </VStack>
+                                    </CardBody>
+                                </Card>
+                            ))}
+                        </Grid>
+                    </VStack>
+                </Grid>
             </Box>
         </Flex >
     )
