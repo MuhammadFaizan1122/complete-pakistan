@@ -14,10 +14,12 @@
     "@emotion/styled": "^11.14.0",
     "@fontsource/figtree": "^5.2.8",
     "framer-motion": "^12.16.0",
+    "lucide-react": "^0.514.0",
     "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "react-toastify": "^11.0.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

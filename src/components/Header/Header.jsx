@@ -46,18 +46,18 @@ export default function Header() {
                 <Link href={'/'}>
                     <Image width={150} height={50} src="/Images/logo.png" alt="CompletePakistan Logo" />
                 </Link>
-                
+
                 {/* Desktop Navigation */}
-                <Flex 
-                    gap={{ base: 4, md: 10 }} 
-                    align="center" 
+                <Flex
+                    gap={{ base: 4, md: 10 }}
+                    align="center"
                     display={{ base: 'none', md: 'flex' }}
                 >
-                    {navLinks.map((link) => (
-                        <Link key={link.href} href={link.href}>
-                            <Text 
-                                _hover={{ color: '#309689' }} 
-                                cursor="pointer" 
+                    {navLinks.map((link, i) => (
+                        <Link key={i} href={link.href}>
+                            <Text
+                                _hover={{ color: '#309689' }}
+                                cursor="pointer"
                                 className={`duration-300 ${pathname === link.href ? 'text-[#309689] font-semibold' : ""}`}
                             >
                                 {link.label}
@@ -65,7 +65,7 @@ export default function Header() {
                         </Link>
                     ))}
                 </Flex>
-                
+
                 {/* Mobile Menu Button */}
                 <IconButton
                     aria-label="Open Menu"
@@ -77,11 +77,13 @@ export default function Header() {
 
                 {/* Buttons */}
                 <Flex gap={2} display={{ base: 'none', md: 'flex' }}>
-                    <Button bg={'#fff'} color={'#000'}>Login</Button>
-                    <Button 
-                        bg={'#309689'} 
-                        color={'#fff'} 
-                        border="1px" 
+                    <Button as={Link} href={'/login'} bg={'#fff'} color={'#000'}>Login</Button>
+                    <Button
+                        as={Link}
+                        href={'/signup'}
+                        bg={'#309689'}
+                        color={'#fff'}
+                        border="1px"
                         _hover={{ color: "#000", bg: '#fff', borderColor: "#000" }}
                     >
                         Register
@@ -97,29 +99,33 @@ export default function Header() {
                     <DrawerHeader>Menu</DrawerHeader>
                     <DrawerBody>
                         <VStack align="start" spacing={4}>
-                            {navLinks.map((link) => (
-                                <Link key={link.href} href={link.href} onClick={onClose}>
-                                    <Text 
-                                        _hover={{ color: '#309689' }} 
-                                        cursor="pointer" 
+                            {navLinks.map((link, i) => (
+                                <Link key={i} href={link.href} onClick={onClose}>
+                                    <Text
+                                        _hover={{ color: '#309689' }}
+                                        cursor="pointer"
                                         className={`duration-300 ${pathname === link.href ? 'text-[#309689] font-semibold' : ""}`}
                                     >
                                         {link.label}
                                     </Text>
                                 </Link>
                             ))}
-                            <Button 
-                                bg={'#fff'} 
-                                color={'#000'} 
+                            <Button
+                                as={Link}
+                                href={'/login'}
+                                bg={'#fff'}
+                                color={'#000'}
                                 width="full"
                                 onClick={onClose}
                             >
                                 Login
                             </Button>
-                            <Button 
-                                bg={'#309689'} 
-                                color={'#fff'} 
-                                border="1px" 
+                            <Button
+                                as={Link}
+                                href={'/signup'}
+                                bg={'#309689'}
+                                color={'#fff'}
+                                border="1px"
                                 width="full"
                                 _hover={{ color: "#000", bg: '#fff', borderColor: "#000" }}
                                 onClick={onClose}

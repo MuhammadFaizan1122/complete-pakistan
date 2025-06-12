@@ -2,14 +2,16 @@ import Providers from '@/providers/Providers'
 import React from 'react'
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
+import { ToastContainer } from 'react-toastify';
 
 const Layout = ({ children }) => {
     return (
         <>
             <Providers>
-                <Header/>
+                <ToastContainer />
+                <Header />
                 {children}
-                <Footer/>
+                <Footer />
             </Providers>
         </>
     )
