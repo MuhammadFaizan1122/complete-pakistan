@@ -1,16 +1,6 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Layout from "@/components/Layout/Layout";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Layout from "../components/Layout/Layout";
+import SessionWrapper from "../components/SessionWrapper/SessionWrapper";
 
 export const metadata = {
   title: "Complete Pakistan",
@@ -19,14 +9,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Layout>
-          {children}
-        </Layout>
-      </body>
-    </html>
+    <SessionWrapper>
+      <html lang="en">
+        <body
+        >
+          <Layout>
+            {children}
+          </Layout>
+        </body>
+      </html>
+    </SessionWrapper>
   );
 }

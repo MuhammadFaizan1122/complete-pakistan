@@ -15,22 +15,29 @@ import {
     DrawerCloseButton,
     IconButton,
     VStack,
+    Menu,
+    MenuButton,
+    Avatar,
+    MenuList,
+    MenuItem,
 } from "@chakra-ui/react";
 import { FaBars } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Header() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
-
     const onToggle = () => setIsOpen(!isOpen);
     const onClose = () => setIsOpen(false);
+    const { data: session, status } = useSession()
+    console.log('session', session, status)
 
     const navLinks = [
         { href: '/', label: 'Home' },
-        { href: '/recent-jobs', label: 'Make CV' },
+        { href: '/create-cv', label: 'Make CV' },
         { href: '#', label: 'Hajj & Umrah' },
         { href: '#', label: 'Recruitment' },
         { href: '/jobs', label: 'Jobs Visa' },
@@ -76,18 +83,43 @@ export default function Header() {
                 />
 
                 {/* Buttons */}
-                <Flex gap={2} display={{ base: 'none', md: 'flex' }}>
-                    <Button as={Link} href={'/login'} bg={'#fff'} color={'#000'}>Login</Button>
-                    <Button
-                        as={Link}
-                        href={'/signup'}
-                        bg={'#309689'}
-                        color={'#fff'}
-                        border="1px"
-                        _hover={{ color: "#000", bg: '#fff', borderColor: "#000" }}
-                    >
-                        Register
-                    </Button>
+                <Flex gap={2} align="center">
+                    {status === "authenticated" ? (
+                        <Menu>
+                            <MenuButton>
+                                <Avatar
+                                    size="md"
+                                    name={session?.user?.name || "User"}
+                                    src={session?.user?.image || undefined}
+                                />
+                            </MenuButton>
+                            <MenuList>
+                                <MenuItem as={Link} href="/profile">
+                                    Profile
+                                </MenuItem>
+                                <MenuItem onClick={() => signOut()}>
+                                    Logout
+                                </MenuItem>
+                            </MenuList>
+                        </Menu>
+                    ) : (
+                        <Flex gap={2} display={{ base: 'none', md: 'flex' }}>
+                            <Button as={Link} href={'/login'} bg={'#fff'} color={'#000'}>
+                                Login
+                            </Button>
+                            <Button
+                                as={Link}
+                                href={'/signup'}
+                                bg={'#309689'}
+                                color={'#fff'}
+                                rounded={'8px'}
+                                border="1px"
+                                _hover={{ color: "#000", bg: '#fff', borderColor: "#000" }}
+                            >
+                                Register
+                            </Button>
+                        </Flex>
+                    )}
                 </Flex>
             </Container>
 
@@ -129,6 +161,7 @@ export default function Header() {
                                 width="full"
                                 _hover={{ color: "#000", bg: '#fff', borderColor: "#000" }}
                                 onClick={onClose}
+                                rounded={'8px'}
                             >
                                 Register
                             </Button>
