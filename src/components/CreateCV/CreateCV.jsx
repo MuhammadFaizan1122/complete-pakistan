@@ -22,12 +22,33 @@ import {
   UnorderedList,
   ListItem,
   Container,
-  Heading
+  Heading,
+  useDisclosure
 } from "@chakra-ui/react";
 import { MdAdd } from "react-icons/md";
 import Image from "next/image";
+import EmploymentPopup from "./EmploymentPopup";
+import EducationPopup from "./EducationPopup";
+import SkillPopup from "./SkillPopup";
 
 export default function CreateCVPage() {
+  const {
+    isOpen: isEmploymentOpen,
+    onOpen: onEmploymentOpen,
+    onClose: onEmploymentClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isEducationOpen,
+    onOpen: onEducationOpen,
+    onClose: onEducationClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isSkillOpen,
+    onOpen: onSkillOpen,
+    onClose: onSkillClose,
+  } = useDisclosure();
   const toast = useToast();
   const [formData, setFormData] = useState({
     name: "Muhammad Faizan",
@@ -85,7 +106,7 @@ export default function CreateCVPage() {
               outlineColor="gray.300"
               _focus={{
                 ring: 2,
-                ringColor: "teal.500",
+                ringColor: "#309689",
                 borderColor: "transparent",
                 outline: "none"
               }}
@@ -112,7 +133,7 @@ export default function CreateCVPage() {
               outlineColor="gray.300"
               _focus={{
                 ring: 2,
-                ringColor: "teal.500",
+                ringColor: "#309689",
                 borderColor: "transparent",
                 outline: "none"
               }}
@@ -139,7 +160,7 @@ export default function CreateCVPage() {
               outlineColor="gray.300"
               _focus={{
                 ring: 2,
-                ringColor: "teal.500",
+                ringColor: "#309689",
                 borderColor: "transparent",
                 outline: "none"
               }}
@@ -166,7 +187,7 @@ export default function CreateCVPage() {
               outlineColor="gray.300"
               _focus={{
                 ring: 2,
-                ringColor: "teal.500",
+                ringColor: "#309689",
                 borderColor: "transparent",
                 outline: "none"
               }}
@@ -176,9 +197,6 @@ export default function CreateCVPage() {
               transition="all 0.2s"
               resize="none"
             />
-            {/* <Input placeholder="Date of birth" type="date" value={formData.dob} onChange={e => setFormData({ ...formData, dob: e.target.value })} />
-          <Input placeholder="Enter email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} />
-          <Input placeholder="Phone number" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} /> */}
 
             <label className="text-[#2D3748] pl-1 mt-2">Country</label>
             <HStack>
@@ -197,7 +215,7 @@ export default function CreateCVPage() {
                 outlineColor="gray.300"
                 _focus={{
                   ring: 2,
-                  ringColor: "teal.500",
+                  ringColor: "#309689",
                   borderColor: "transparent",
                   outline: "none"
                 }}
@@ -225,7 +243,7 @@ export default function CreateCVPage() {
                 outlineColor="gray.300"
                 _focus={{
                   ring: 2,
-                  ringColor: "teal.500",
+                  ringColor: "#309689",
                   borderColor: "transparent",
                   outline: "none"
                 }}
@@ -253,7 +271,7 @@ export default function CreateCVPage() {
               outlineColor="gray.300"
               _focus={{
                 ring: 2,
-                ringColor: "teal.500",
+                ringColor: "#309689",
                 borderColor: "transparent",
                 outline: "none"
               }}
@@ -277,7 +295,7 @@ export default function CreateCVPage() {
                 outlineColor="gray.300"
                 _focus={{
                   ring: 2,
-                  ringColor: "teal.500",
+                  ringColor: "#309689",
                   borderColor: "transparent",
                   outline: "none"
                 }}
@@ -302,7 +320,7 @@ export default function CreateCVPage() {
                 outlineColor="gray.300"
                 _focus={{
                   ring: 2,
-                  ringColor: "teal.500",
+                  ringColor: "#309689",
                   borderColor: "transparent",
                   outline: "none"
                 }}
@@ -318,142 +336,137 @@ export default function CreateCVPage() {
 
             <Box>
               <label className="text-[#2D3748] pl-1 my-2">Education</label>
-              <HStack mt={2}>
-                <Input
-                  placeholder="Add Education"
-                  value={educationInput}
-                  onChange={e => setEducationInput(e.target.value)}
-                  w="full"
-                  px={4}
-                  py={6}
-                  border="1px solid"
-                  borderColor="gray.300"
+              <HStack mt={2}
+                border="1px solid"
+                borderColor="gray.300"
+                borderRadius="15px"
+                bg="white"
+                outline="1px solid"
+                outlineColor="gray.300"
+                px={5}
+                py={3}
+              >
+                <HStack wrap="wrap">
+                  {formData.education.map((edu, idx) => (
+                    <Tag key={idx} bg={'#309689'} color={'white'} m={1} rounded={'8px'} px={2}>
+                      <TagLabel>{edu}</TagLabel>
+                      <TagCloseButton onClick={() => handleTagRemove("education", idx)} />
+                    </Tag>
+                  ))}
+                </HStack>
+                <Button
+                  onClick={onEmploymentOpen}
                   borderRadius="15px"
-                  bg="white"
-                  outline="1px solid"
-                  outlineColor="gray.300"
-                  _focus={{
-                    ring: 2,
-                    ringColor: "teal.500",
-                    borderColor: "transparent",
-                    outline: "none"
-                  }}
-                  _active={{
-                    outline: "none"
-                  }}
-                  transition="all 0.2s"
-                />
-                <IconButton
-                  aria-label="Add"
-                  icon={<MdAdd />}
-                  onClick={() => handleTagAdd("education", educationInput)}
-                  borderRadius="15px"
-                  colorScheme="teal"
-                />
+                  border="1px dashed"
+                  borderColor="gray.400"
+                  bg="#fff"
+                  color="black"
+                  display="flex"
+                  alignItems="center"
+                  gap={2}
+                >
+                  <MdAdd size={24} />
+                  Add
+                </Button>
               </HStack>
-              <HStack wrap="wrap">
-                {formData.education.map((edu, idx) => (
-                  <Tag key={idx} colorScheme="teal" m={1}>
-                    <TagLabel>{edu}</TagLabel>
-                    <TagCloseButton onClick={() => handleTagRemove("education", idx)} />
-                  </Tag>
-                ))}
-              </HStack>
+
             </Box>
 
             <Box>
               <label className="text-[#2D3748] pl-1 my-2">Work Experience</label>
-              <HStack mt={2}>
-                <Input
-                  placeholder="Add Experience"
-                  value={experienceInput}
-                  onChange={e => setExperienceInput(e.target.value)}
-                  w="full"
-                  px={4}
-                  py={6}
-                  border="1px solid"
-                  borderColor="gray.300"
-                  borderRadius="15px"
-                  bg="white"
-                  outline="1px solid"
-                  outlineColor="gray.300"
-                  _focus={{
-                    ring: 2,
-                    ringColor: "teal.500",
-                    borderColor: "transparent",
-                    outline: "none"
-                  }}
-                  _active={{
-                    outline: "none"
-                  }}
-                  transition="all 0.2s"
-                />
-                <IconButton
+              <HStack mt={2}
+                border="1px solid"
+                borderColor="gray.300"
+                borderRadius="15px"
+                bg="white"
+                outline="1px solid"
+                outlineColor="gray.300"
+                px={5}
+                py={3}
+              >
+                <HStack wrap="wrap">
+                  {formData.experience.map((exp, idx) => (
+                    <Tag key={idx} bg={'#309689'} color={'white'} m={1} rounded={'8px'} px={2}>
+                      <TagLabel>{exp}</TagLabel>
+                      <TagCloseButton onClick={() => handleTagRemove("experience", idx)} />
+                    </Tag>
+                  ))}
+                </HStack>
+                {/* <IconButton
                   aria-label="Add"
                   icon={<MdAdd />}
                   onClick={() => handleTagAdd("experience", experienceInput)}
                   borderRadius="15px"
-                  colorScheme="teal"
-                />
-              </HStack>
-              <HStack wrap="wrap">
-                {formData.experience.map((exp, idx) => (
-                  <Tag key={idx} colorScheme="purple" m={1}>
-                    <TagLabel>{exp}</TagLabel>
-                    <TagCloseButton onClick={() => handleTagRemove("experience", idx)} />
-                  </Tag>
-                ))}
+                  bg={'#309689'}
+                  color={'white'}
+                /> */}
+                <Button
+                  onClick={onEducationOpen}
+                  borderRadius="15px"
+                  border="1px dashed"
+                  borderColor="gray.400"
+                  bg="#fff"
+                  color="black"
+                  display="flex"
+                  alignItems="center"
+                  gap={2}
+                >
+                  <MdAdd size={24} />
+                  Add
+                </Button>
               </HStack>
             </Box>
 
             <Box>
               <label className="text-[#2D3748] pl-1 my-2">Skill & Expertise</label>
-              <HStack mt={2}>
-                <Input
-                  placeholder="Add Skill"
-                  value={skillsInput}
-                  onChange={e => setSkillsInput(e.target.value)}
-                  w="full"
-                  px={4}
-                  py={6}
-                  border="1px solid"
-                  borderColor="gray.300"
-                  borderRadius="15px"
-                  bg="white"
-                  outline="1px solid"
-                  outlineColor="gray.300"
-                  _focus={{
-                    ring: 2,
-                    ringColor: "teal.500",
-                    borderColor: "transparent",
-                    outline: "none"
-                  }}
-                  _active={{
-                    outline: "none"
-                  }}
-                  transition="all 0.2s"
-                />
-                <IconButton
+              <HStack mt={2}
+                border="1px solid"
+                borderColor="gray.300"
+                borderRadius="15px"
+                bg="white"
+                outline="1px solid"
+                outlineColor="gray.300"
+                px={5}
+                py={3}
+              >
+                <HStack wrap="wrap">
+                  {formData.skills.map((skill, idx) => (
+                    <Tag key={idx} bg={'#309689'} color={'white'} m={1} rounded={'8px'} px={2}>
+                      <TagLabel>{skill}</TagLabel>
+                      <TagCloseButton onClick={() => handleTagRemove("skills", idx)} />
+                    </Tag>
+                  ))}
+                </HStack>
+                {/* <IconButton
                   aria-label="Add"
                   icon={<MdAdd />}
                   onClick={() => handleTagAdd("skills", skillsInput)}
                   borderRadius="15px"
-                  colorScheme="teal"
-                />
+                  bg={'#309689'}
+                  color={'white'}
+                /> */}
+                <Button
+                  onClick={onSkillOpen}
+                  borderRadius="15px"
+                  border="1px dashed"
+                  borderColor="gray.400"
+                  bg="#fff"
+                  color="black"
+                  display="flex"
+                  alignItems="center"
+                  w={'140px'}
+                  gap={2}
+                >
+                  <MdAdd size={24} />
+                  Add
+                </Button>
               </HStack>
-              <HStack wrap="wrap">
-                {formData.skills.map((skill, idx) => (
-                  <Tag key={idx} colorScheme="green" m={1}>
-                    <TagLabel>{skill}</TagLabel>
-                    <TagCloseButton onClick={() => handleTagRemove("skills", idx)} />
-                  </Tag>
-                ))}
-              </HStack>
+
             </Box>
           </VStack>
         </Box>
-        <Box w={{ base: "100%", md: "60%" }} bg="white" rounded="12px" shadow="md">
-          <Flex h={'full'}>
+        <Box w={{ base: "100%", md: "60%" }} bg="white" rounded={"12px"} shadow="md">
+          <Flex h={'full'} rounded={"12px"} bg={'transparent'}>
             <VStack spacing={2} align="start" bg={'#f1f2f4'} w={'30%'} borderTopLeftRadius={'12px'} borderBottomLeftRadius={'12px'} h={'full'} p={4}>
               <Box mx={'auto'}>
                 <Avatar name={formData.name} size="2xl" p={0} />
@@ -495,8 +508,8 @@ export default function CreateCVPage() {
                 </HStack>
               </Box>
             </VStack>
-            <VStack spacing={3} align="start" w={'70%'}>
-              <Container maxW="4xl" py={8} bg="white" minH="100vh">
+            <VStack spacing={3} align="start" w={'70%'} >
+              <Container maxW="4xl" py={8} bg="white" minH="100vh" rounded={'12px'}>
                 <VStack spacing={8} align="stretch">
 
                   {/* Education Section */}
@@ -726,6 +739,9 @@ export default function CreateCVPage() {
           </Flex>
         </Box>
       </Flex>
+      <EmploymentPopup isOpen={isEmploymentOpen} onClose={onEmploymentClose} />
+      <EducationPopup isOpen={isEducationOpen} onClose={onEducationClose} />
+      <SkillPopup isOpen={isSkillOpen} onClose={onSkillClose} />
     </Flex>
   );
 }

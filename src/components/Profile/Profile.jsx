@@ -156,7 +156,7 @@ export default function CreateProfessionalProfile() {
                                         value={formData.name}
                                         onChange={handleInputChange}
                                         placeholder="Enter your name"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200"
+                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
 
                                         required
                                     />
@@ -172,7 +172,7 @@ export default function CreateProfessionalProfile() {
                                         value={formData.cnicNumber}
                                         onChange={handleInputChange}
                                         placeholder="00000-0000000-0"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200"
+                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
                                         required
                                     />
                                 </div>
@@ -187,7 +187,7 @@ export default function CreateProfessionalProfile() {
                                         value={formData.passportNumber}
                                         onChange={handleInputChange}
                                         placeholder="Enter passport number"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200"
+                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
                                     />
                                 </div>
 
@@ -202,7 +202,7 @@ export default function CreateProfessionalProfile() {
                                             value={formData.dateOfBirth}
                                             onChange={handleInputChange}
                                             placeholder="dd/mm/yyyy"
-                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200 pr-12"
+                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200 pr-12"
                                         />
                                         <Calendar className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                                     </div>
@@ -217,7 +217,7 @@ export default function CreateProfessionalProfile() {
                                         value={formData.email}
                                         onChange={handleInputChange}
                                         placeholder="Enter your email address"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200"
+                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
                                         required
                                     />
                                 </div>
@@ -236,7 +236,7 @@ export default function CreateProfessionalProfile() {
                                             value={formData.phoneNumber}
                                             onChange={handleInputChange}
                                             placeholder="phone number"
-                                            className="flex-1 !px-4 !py-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200"
+                                            className="flex-1 !px-4 !py-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
                                             required
                                         />
                                     </div>
@@ -251,7 +251,7 @@ export default function CreateProfessionalProfile() {
                                         value={formData.city}
                                         onChange={handleInputChange}
                                         placeholder="Enter your City"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200"
+                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
                                     />
                                 </div>
                                 <div>
@@ -264,7 +264,7 @@ export default function CreateProfessionalProfile() {
                                         value={formData.completeAddress}
                                         onChange={handleInputChange}
                                         placeholder="Enter complete address"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200"
+                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
                                     />
                                 </div>
                             </div>
@@ -296,7 +296,7 @@ export default function CreateProfessionalProfile() {
                                             name="education"
                                             value={formData.education}
                                             onChange={handleInputChange}
-                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200 appearance-none bg-white"
+                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200 appearance-none bg-white"
                                         >
                                             <option value="">Select</option>
                                             <option value="High School">High School</option>
@@ -319,7 +319,7 @@ export default function CreateProfessionalProfile() {
                                             name="gulfExperience"
                                             value={formData.gulfExperience}
                                             onChange={handleInputChange}
-                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200 appearance-none bg-white"
+                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200 appearance-none bg-white"
                                         >
                                             <option value="">Select</option>
                                             <option value="No Experience">No Experience</option>
@@ -341,7 +341,7 @@ export default function CreateProfessionalProfile() {
                                             name="gulfLicense"
                                             value={formData.gulfLicense}
                                             onChange={handleInputChange}
-                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200 appearance-none bg-white"
+                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200 appearance-none bg-white"
                                         >
                                             <option value="">Select</option>
                                             <option value="Yes">Yes</option>
@@ -361,7 +361,7 @@ export default function CreateProfessionalProfile() {
                                             name="pakistaniLicense"
                                             value={formData.pakistaniLicense}
                                             onChange={handleInputChange}
-                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200 appearance-none bg-white"
+                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200 appearance-none bg-white"
                                         >
                                             <option value="">Select</option>
                                             <option value="Yes">Yes</option>
@@ -382,7 +382,7 @@ export default function CreateProfessionalProfile() {
                                         value={formData.keySkills}
                                         onChange={handleInputChange}
                                         placeholder="Enter passport number"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200"
+                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
                                     />
                                 </div>
                             </div>
@@ -397,7 +397,7 @@ export default function CreateProfessionalProfile() {
                                     value={formData.description}
                                     onChange={handleInputChange}
                                     rows={6}
-                                    className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline outline-gray-300 transition-all duration-200 resize-none"
+                                    className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200 resize-none"
                                 />
                             </div>
                         </>
@@ -454,7 +454,7 @@ export default function CreateProfessionalProfile() {
                                     {/* Uploaded CV Files */}
                                     <div className="mt-2 flex flex-wrap gap-2">
                                         {cvFiles.map((file, index) => (
-                                            <div key={index} className="flex items-center bg-teal-600 text-white px-3 py-1 rounded-full text-sm">
+                                            <div key={index} className="flex items-center bg-[#309689] text-white px-3 py-1 rounded-full text-sm">
                                                 <span className="mr-2">{file.name}</span>
                                                 <button
                                                     onClick={() => removeFile('cv', index)}
@@ -488,7 +488,7 @@ export default function CreateProfessionalProfile() {
                                     {/* Uploaded Certificate Files */}
                                     <div className="mt-2 flex flex-wrap gap-2">
                                         {certificateFiles.map((file, index) => (
-                                            <div key={index} className="flex items-center bg-teal-600 text-white px-3 py-1 rounded-full text-sm">
+                                            <div key={index} className="flex items-center bg-[#309689] text-white px-3 py-1 rounded-full text-sm">
                                                 <span className="mr-2">{file.name}</span>
                                                 <button
                                                     onClick={() => removeFile('certificate', index)}
@@ -518,7 +518,7 @@ export default function CreateProfessionalProfile() {
                     </button>
                     <button
                         onClick={handleNextStep}
-                        className="w-[255px] h-[50px] px-8 py-3 !bg-[#309689] hover:bg-teal-700 !text-white rounded-[12px] font-medium transition-colors duration-200 order-1 sm:order-2"
+                        className="w-[255px] h-[50px] px-8 py-3 !bg-[#309689] hover:bg-[#309689] !text-white rounded-[12px] font-medium transition-colors duration-200 order-1 sm:order-2"
                     >
                         {currentStep === 3 ? 'Save' : 'Next Step'}
                     </button>

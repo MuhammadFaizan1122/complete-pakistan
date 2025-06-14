@@ -18,14 +18,14 @@ export function HeroSection() {
     return (
         <Box
             bgImage="url('/Images/JobsBanner.jpg')"
-            bgSize="cover"
+            bgSize={{ base: 'auto', md: "cover" }}
             backgroundRepeat={'no-repeat'}
             bgPosition="center"
             py={28}
             color="white"
             textAlign="center"
             position="relative"
-            h={'350px'}
+            h={{ base: "200px", md: '350px' }}
         >
             <Container maxW="5xl">
                 <Heading fontSize={{ base: "3xl", md: "70px" }} fontWeight="bold">

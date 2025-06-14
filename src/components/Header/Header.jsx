@@ -43,8 +43,8 @@ export default function Header() {
         { href: '/jobs', label: 'Jobs Visa' },
         { href: '#', label: 'Protector' },
         { href: '#', label: 'Interview' },
-        { href: '#', label: 'About Us' },
-        { href: '#', label: 'Contact Us' },
+        { href: '/about-us', label: 'About Us' },
+        { href: '/contact-us', label: 'Contact Us' },
     ];
 
     return (
@@ -81,9 +81,7 @@ export default function Header() {
                     onClick={onToggle}
                     variant="outline"
                 />
-
-                {/* Buttons */}
-                <Flex gap={2} align="center">
+                <Flex gap={2} align="center" display={{ base: 'none', md: 'block' }}>
                     {status === "authenticated" ? (
                         <Menu>
                             <MenuButton>

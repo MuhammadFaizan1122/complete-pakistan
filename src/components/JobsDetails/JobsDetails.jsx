@@ -217,7 +217,8 @@ const Jobs = () => {
                         </HStack>
 
                         <Button
-                            colorScheme="teal"
+                            bg={'#309689'}
+                            color={'white'}
                             size="md"
                             px={6}
                             rounded={'8px'}
@@ -276,7 +277,7 @@ const Jobs = () => {
                             <Button
                                 bg="#309689"
                                 color="white"
-                                _hover={{ bg: 'teal.600' }}
+                                _hover={{ bg: '#309689' }}
                                 px={8}
                                 py={6}
                                 borderRadius="xl"
@@ -572,12 +573,12 @@ const Jobs = () => {
                                     </Box>
 
                                     <Button
-                                        bg="teal.500"
+                                        bg="#309689"
                                         color="white"
                                         size="lg"
                                         borderRadius="lg"
-                                        _hover={{ bg: 'teal.600' }}
-                                        _active={{ bg: 'teal.700' }}
+                                        _hover={{ bg: '#309689' }}
+                                        _active={{ bg: '#309689' }}
                                         mt={2}
                                     >
                                         Send Message

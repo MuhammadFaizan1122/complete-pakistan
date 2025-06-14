@@ -31,31 +31,36 @@ const features = [
 
 export default function CoreFeatures() {
   return (
-    <Box px={4} py={16} >
-      <Box maxW={'1440px'} mx={'auto'}>
-        <VStack spacing={3} textAlign="center" mb={12}>
-          <Text fontSize={{ base: "2xl", md: "50px" }} fontWeight="bold">
-            Core features
+    <Box px={{ base: 2, sm: 4, md: 4 }} py={{ base: 8, md: 16 }}>
+      <Box maxW="1440px" mx="auto">
+        <VStack spacing={{ base: 2, md: 3 }} textAlign="center" mb={{ base: 8, md: 12 }}>
+          <Text fontSize={{ base: "2xl", sm: "2xl", md: "50px" }} fontWeight="bold">
+            Core Features
           </Text>
-          <Text maxW="600px" fontSize="16px" color="black">
-            complete Pakistan offers comprehensive solutions for every stakeholders in the overseas employment process
+          <Text
+            maxW={{ base: "90%", md: "600px" }}
+            fontSize={{ base: "sm", sm: "md", md: "16px" }}
+            color="black"
+            px={{ base: 2, md: 0 }}
+          >
+            Complete Pakistan offers comprehensive solutions for every stakeholder in the overseas employment process
           </Text>
         </VStack>
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={6} >
+        <SimpleGrid columns={{ base: 2, sm: 2, md: 4 }} spacing={{ base: 4, sm: 5, md: 6 }}>
           {features.map((feature, idx) => (
             <Box
               key={idx}
-              bg={'#30968926'}
-              p={6}
-              h={'360px'}
-              w={'306px'}
+              bg="#30968926"
+              p={{ base: 4, md: 6 }}
+              h={{ base: "250px", sm: "320px", md: "360px" }}
+              w={{ base: "100%", sm: "90%", md: "306px" }}
               rounded="xl"
               shadow="md"
               textAlign="center"
-              display={'flex'}
-              justifyContent={'center'}
-              alignItems={'center'}
-              flexDirection={'column'}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column"
             >
               <Box
                 rounded="md"
@@ -63,14 +68,30 @@ export default function CoreFeatures() {
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
-                mb={4}
+                mb={{ base: 3, md: 4 }}
+                w={{ base: "48px", sm: "54px", md: "60px" }}
+                h={{ base: "48px", sm: "54px", md: "60px" }}
               >
-                <Image src={feature.icon} alt="icon" width={60} height={60} />
+                <Image
+                  src={feature.icon}
+                  alt="icon"
+                  width={60}
+                  height={60}
+                  style={{ objectFit: "contain" }}
+                  sizes="(max-width: 640px) 48px, (max-width: 768px) 54px, 60px"
+                />
               </Box>
-              <Text fontWeight="bold" fontSize="24px" mb={2} >
+              <Text
+                fontWeight="bold"
+                fontSize={{ base: "18px", sm: "20px", md: "24px" }}
+                mb={{ base: 1, md: 2 }}
+              >
                 {feature.title}
               </Text>
-              <Text fontSize="16px" color="black">
+              <Text
+                fontSize={{ base: "sm", sm: "md", md: "16px" }}
+                color="black"
+              >
                 {feature.description}
               </Text>
             </Box>

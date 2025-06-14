@@ -1,14 +1,6 @@
 'use client'
 import { Box, Flex, Text, VStack, Icon, useBreakpointValue } from "@chakra-ui/react";
 import Image from "next/image";
-import {
-  FaUsers,
-  FaUserFriends,
-  FaGlobeAsia,
-  FaBriefcase,
-  FaBuilding,
-  FaShieldAlt,
-} from "react-icons/fa";
 
 const statsData = [
   {
@@ -47,20 +39,26 @@ export function StatsSection() {
   const iconSize = useBreakpointValue({ base: "40px", md: "50px" });
 
   return (
-    <Box  bg="white">
+    <Box bg="white">
       <Flex
         maxW="1440px"
         mx="auto"
-        h={'308px'} 
-        px={6}
+        h={{ base: 'auto', md: '308px' }}
+        px={{ base: 4, md: 6 }}
+        my={{ base: 10, md: 0 }}
         wrap="wrap"
         justifyContent="center"
         alignItems="center"
-
         gap={{ base: 6, md: 10 }}
       >
         {statsData.map((item, index) => (
-          <VStack key={index} spacing={1} textAlign="center" flex="1 1 140px">
+          <VStack
+            key={index}
+            spacing={1}
+            textAlign="center"
+            flex={{ base: '1 1 120px', sm: '1 1 130px', md: '1 1 140px' }}
+            minW={{ base: '100px', md: '140px' }}
+          >
             <Box
               bg="#309689"
               borderRadius="full"
@@ -68,14 +66,27 @@ export function StatsSection() {
               alignItems="center"
               justifyContent="center"
               color="white"
-              w={'68.24px'}
-              h={'68.24px'}
-              padding={'9.1px'}
+              w={{ base: '50px', sm: '60px', md: '68.24px' }}
+              h={{ base: '50px', sm: '60px', md: '68.24px' }}
+              padding={{ base: '6px', sm: '8px', md: '9.1px' }}
             >
-              <Image src={item.icon} alt="icons" width={30} height={30} />
+              <Image
+                src={item.icon}
+                alt="icons"
+                width={30}
+                height={30}
+              />
             </Box>
-            <Text fontWeight="bold" fontSize="22.75px">{item.title}</Text>
-            <Text fontSize="18.2px" color="#1F1F1F">
+            <Text
+              fontWeight="bold"
+              fontSize={{ base: '16px', sm: '18px', md: '22.75px' }}
+            >
+              {item.title}
+            </Text>
+            <Text
+              fontSize={{ base: '14px', sm: '16px', md: '18.2px' }}
+              color="#1F1F1F"
+            >
               {item.subtitle}
             </Text>
           </VStack>

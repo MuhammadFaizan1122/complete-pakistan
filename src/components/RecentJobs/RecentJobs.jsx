@@ -236,10 +236,11 @@ const RecentJobs = () => {
 
                     {/* Job Details Button */}
                     <Button
-                        colorScheme="teal"
+                        bg={'#309689'}
+                        color={'white'}
                         size="md"
                         w="120px"
-                         mx={`auto`}
+                        mx={`auto`}
                         rounded={'8px'}
                         mt={2}
                     >
@@ -332,7 +333,8 @@ const RecentJobs = () => {
                         </HStack>
 
                         <Button
-                            colorScheme="teal"
+                            bg={'#309689'}
+                            color={'white'}
                             size="md"
                             px={6}
                             rounded={'8px'}
@@ -413,7 +415,8 @@ const RecentJobs = () => {
                                     size="sm"
                                     aria-label="Previous page"
                                 />
-                                <Button size="sm" colorScheme="teal" variant="solid">01</Button>
+                                <Button size="sm" bg={'#309689'}
+                                    color={'white'} variant="solid">01</Button>
                                 <Button size="sm" variant="ghost">02</Button>
                                 <Button size="sm" variant="ghost">03</Button>
                                 <Button size="sm" variant="ghost">04</Button>
