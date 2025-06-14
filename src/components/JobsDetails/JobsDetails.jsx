@@ -235,82 +235,141 @@ const Jobs = () => {
         <Box >
             <HeroSection />
             <Box bg={'#3096891A'} minH="100vh">
-                <Container maxW="1440px" py={20}>
+                <Container maxW={{ base: '100%', sm: 'container.sm', md: 'container.md', lg: '1440px' }} py={{ base: 10, md: 20 }}>
                     <Box bg={'transparent'} mb={6}>
-                        <Flex justify="space-between" align="center" mb={6}>
-                            <Text fontSize="md" bg={'#3096891A'} color="#309689" rounded={'12px'} px={'10px'} py={'2px'}>10 min ago</Text>
-                            <Image src={`/Images/Icons/bookmark.png`} alt="icon" width={24} height={24} />
+                        <Flex justify="space-between" align="center" mb={6} flexWrap="wrap" gap={4}>
+                            <Text
+                                fontSize={{ base: 'sm', md: 'md' }}
+                                bg={'#3096891A'}
+                                color="#309689"
+                                rounded={'12px'}
+                                px={{ base: '8px', md: '10px' }}
+                                py={'2px'}
+                            >
+                                10 min ago
+                            </Text>
+                            <Image
+                                src={`/Images/Icons/bookmark.png`}
+                                alt="icon"
+                                width={24}
+                                height={24}
+                            />
                         </Flex>
 
-                        <HStack spacing={4} mb={8} align="start">
-                            <Circle size="64px" bg="linear-gradient(135deg, #4ADE80, #3B82F6, #8B5CF6)" flexShrink={0}>
-                                <Circle size="48px" bg="white">
-                                    <Circle size="32px" bg="linear-gradient(135deg, #4ADE80, #3B82F6, #8B5CF6)" />
+                        <HStack spacing={{ base: 3, md: 4 }} mb={{ base: 6, md: 8 }} align="start">
+                            <Circle
+                                size={{ base: '48px', md: '64px' }}
+                                bg="linear-gradient(135deg, #4ADE80, #3B82F6, #8B5CF6)"
+                                flexShrink={0}
+                            >
+                                <Circle size={{ base: '36px', md: '48px' }} bg="white">
+                                    <Circle size={{ base: '24px', md: '32px' }} bg="linear-gradient(135deg, #4ADE80, #3B82F6, #8B5CF6)" />
                                 </Circle>
                             </Circle>
                             <VStack align="start" spacing={2} flex={1}>
-                                <Text fontSize="40px" color="black" lineHeight="shorter" fontWeight="bold">
+                                <Text
+                                    fontSize={{ base: '24px', sm: '32px', md: '40px' }}
+                                    color="black"
+                                    lineHeight="shorter"
+                                    fontWeight="bold"
+                                >
                                     Corporate Solutions Executive
                                 </Text>
-                                <Text fontSize="16px" color="black" fontWeight={'semibold'}>Leffler and Sons</Text>
+                                <Text fontSize={{ base: '14px', md: '16px' }} color="black" fontWeight={'semibold'}>
+                                    Leffler and Sons
+                                </Text>
                             </VStack>
                         </HStack>
-                        <Flex justify="space-between" alignItems="end" mb={16} wrap="wrap">
-                            <Flex wrap="wrap" gap={6} >
+                        <Flex
+                            justify="space-between"
+                            alignItems={{ base: 'stretch', md: 'end' }}
+                            mb={{ base: 8, md: 16 }}
+                            flexWrap="wrap"
+                            gap={4}
+                        >
+                            <Flex wrap="wrap" gap={{ base: 4, md: 6 }} direction={{ base: 'column', sm: 'row' }}>
                                 <HStack spacing={2} color="gray.600">
-                                    <Image src={`/Images/Icons/briefcase.png`} alt="icon" width={24} height={24} />
-                                    <Text fontSize="16px" color={'gray.600'}>Commerce</Text>
+                                    <Image
+                                        src={`/Images/Icons/briefcase.png`}
+                                        alt="icon"
+                                        width={24}
+                                        height={24}
+                                    />
+                                    <Text fontSize={{ base: '14px', md: '16px' }} color={'gray.600'}>
+                                        Commerce
+                                    </Text>
                                 </HStack>
                                 <HStack spacing={2} color="gray.600">
-                                    <Image src={`/Images/Icons/clock.png`} alt="icon" width={24} height={24} />
-                                    <Text fontSize="16px" color={'gray.600'}>Full time</Text>
+                                    <Image
+                                        src={`/Images/Icons/clock.png`}
+                                        alt="icon"
+                                        width={24}
+                                        height={24}
+                                    />
+                                    <Text fontSize={{ base: '14px', md: '16px' }} color={'gray.600'}>
+                                        Full time
+                                    </Text>
                                 </HStack>
                                 <HStack spacing={2} color="gray.600">
-                                    <Image src={`/Images/Icons/wallet.png`} alt="icon" width={24} height={24} />
-                                    <Text fontSize="16px" color={'gray.600'}>$40000-$42000</Text>
+                                    <Image
+                                        src={`/Images/Icons/wallet.png`}
+                                        alt="icon"
+                                        width={24}
+                                        height={24}
+                                    />
+                                    <Text fontSize={{ base: '14px', md: '16px' }} color={'gray.600'}>
+                                        $40000-$42000
+                                    </Text>
                                 </HStack>
                                 <HStack spacing={2} color="gray.600">
-                                    <Image src={`/Images/Icons/location.png`} alt="icon" width={24} height={24} />
-                                    <Text fontSize="16px" color={'gray.600'}>New-York, USA</Text>
+                                    <Image
+                                        src={`/Images/Icons/location.png`}
+                                        alt="icon"
+                                        width={24}
+                                        height={24}
+                                    />
+                                    <Text fontSize={{ base: '14px', md: '16px' }} color={'gray.600'}>
+                                        New-York, USA
+                                    </Text>
                                 </HStack>
                             </Flex>
                             <Button
                                 bg="#309689"
                                 color="white"
                                 _hover={{ bg: '#309689' }}
-                                px={8}
-                                py={6}
+                                px={{ base: 6, md: 8 }}
+                                py={{ base: 4, md: 6 }}
                                 borderRadius="xl"
                                 fontWeight="medium"
                                 size="lg"
-                                w={{ base: 'full', sm: '300px' }}
+                                w={{ base: 'full', sm: '250px', md: '300px' }}
                             >
                                 Apply Job
                             </Button>
                         </Flex>
                     </Box>
-                    <Grid templateColumns={{ base: '1fr', lg: '3fr 1fr' }} gap={8}>
+                    <Grid templateColumns={{ base: '1fr', lg: '3fr 1fr' }} gap={{ base: 6, md: 8 }}>
                         <GridItem>
                             <Box mb={6}>
-                                <Heading as="h2" size="lg" color="gray.900" mb={6}>
+                                <Heading as="h2" size={{ base: 'md', md: 'lg' }} color="gray.900" mb={6}>
                                     Job Description
                                 </Heading>
                                 <VStack spacing={4} align="start" color="gray.600" lineHeight="relaxed">
-                                    <Text>
+                                    <Text fontSize={{ base: '14px', md: '16px' }}>
                                         Nunc sed a nisl purus. Nibh dis faucibus proin lacus tristique. Sit congue non vitae odio sit erat in. Felis eu ultrices a sed massa.
                                         Commodo fringilla sed tempor risus laoreet ultricies ipsum. Habitasse morbi faucibus in iaculis lectus. Nisl enim feugiat enim volutpat.
                                         Sem quis viverra viverra lorem non nunc. Tortor gravida arcu.
                                     </Text>
-                                    <Text>
+                                    <Text fontSize={{ base: '14px', md: '16px' }}>
                                         Et nunc ut tempus duis nisl sed massa. Ornare varius faucibus nisl vitae vitae cras ornare. Cras facilisis dignissim augue lorem amet
                                         adipiscing cursus fames mauris. Tortor amet porta proin in. Orci imperdiet nisl dignissim pellentesque morbi vitae. Quisque tincidunt
-                                        metus lectus porta eget blandit euismod sem nunc. Tortor gravida arcu erat amet saepen mauris massa.Tortor varius nam maecenas duis
+                                        metus lectus porta eget blandit euismod sem nunc. Tortor gravida arcu erat amet saepen mauris massa. Tortor varius nam maecenas duis
                                         blandit elit sit sit. Ante mauris morbi diam habitant donec.
                                     </Text>
                                 </VStack>
                             </Box>
                             <Box mb={6}>
-                                <Heading as="h2" size="lg" color="gray.900" mb={6}>
+                                <Heading as="h2" size={{ base: 'md', md: 'lg' }} color="gray.900" mb={6}>
                                     Key Responsibilities
                                 </Heading>
                                 <VStack spacing={4} align="start">
@@ -323,15 +382,14 @@ const Jobs = () => {
                                         "Tortor amet porta proin in. Orci imperdiet nisl dignissim pellentesque morbi vitae. Quisque tincidunt metus lectus porta"
                                     ].map((responsibility, index) => (
                                         <HStack key={index} spacing={3} align="start">
-                                            <Icon as={FaCheck} w={4} h={4} color="#309689" mt={1} flexShrink={0} />
-                                            <Text color="gray.600">{responsibility}</Text>
+                                            <Icon as={FaCheck} w={{ base: 3, md: 4 }} h={{ base: 3, md: 4 }} color="#309689" mt={1} flexShrink={0} />
+                                            <Text fontSize={{ base: '14px', md: '16px' }} color="gray.600">{responsibility}</Text>
                                         </HStack>
                                     ))}
                                 </VStack>
                             </Box>
-
                             <Box mb={6}>
-                                <Heading as="h2" size="lg" color="gray.900" mb={6}>
+                                <Heading as="h2" size={{ base: 'md', md: 'lg' }} color="gray.900" mb={6}>
                                     Professional Skills
                                 </Heading>
                                 <VStack spacing={4} align="start">
@@ -342,67 +400,93 @@ const Jobs = () => {
                                         "Tortor amet porta proin in. Orci imperdiet nisl dignissim pellentesque morbi vitae"
                                     ].map((skill, index) => (
                                         <HStack key={index} spacing={3} align="start">
-                                            <Icon as={FaCheck} w={4} h={4} color="#309689" mt={1} flexShrink={0} />
-                                            <Text color="gray.600">{skill}</Text>
+                                            <Icon as={FaCheck} w={{ base: 3, md: 4 }} h={{ base: 3, md: 4 }} color="#309689" mt={1} flexShrink={0} />
+                                            <Text fontSize={{ base: '14px', md: '16px' }} color="gray.600">{skill}</Text>
                                         </HStack>
                                     ))}
                                 </VStack>
                             </Box>
-                            <Box>
-                                <Heading as="h2" size="lg" color="gray.900" mb={6}>
+                            <Box mb={6}>
+                                <Heading as="h2" size={{ base: 'md', md: 'lg' }} color="gray.900" mb={6}>
                                     Tags
                                 </Heading>
                                 <VStack spacing={4} align="start">
-                                    <Flex justifyContent={"start"} gap={2} alignItems="center">
-                                        {[
-                                            "Fulltime",
-                                            "New York",
-                                            "Ecommerce",
-                                            "corporate",
-                                            "Location"
-                                        ].map((tag, index) => (
-                                            <Text key={index} fontSize="md" bg={'#3096891A'} color="#309689" rounded={'12px'} px={'10px'} py={'2px'}>{tag}</Text>
+                                    <Flex justifyContent="start" gap={2} alignItems="center" flexWrap="wrap">
+                                        {["Fulltime", "New York", "Ecommerce", "corporate", "Location"].map((tag, index) => (
+                                            <Text
+                                                key={index}
+                                                fontSize={{ base: 'sm', md: 'md' }}
+                                                bg={'#3096891A'}
+                                                color="#309689"
+                                                rounded={'12px'}
+                                                px={{ base: '8px', md: '10px' }}
+                                                py={'2px'}
+                                            >
+                                                {tag}
+                                            </Text>
                                         ))}
                                     </Flex>
                                 </VStack>
                             </Box>
-                            <Box className='flex  items-center' mt={6}>
-                                <Heading as="h2" size="lg" color="gray.900" >
+                            <Box display="flex" alignItems="center" mt={6}>
+                                <Heading as="h2" size={{ base: 'md', md: 'lg' }} color="gray.900">
                                     Share Job:
                                 </Heading>
                                 <HStack spacing={4} align="start" ml={4}>
-                                    <Flex justifyContent={"start"} gap={6} alignItems="center">
-                                        <Image src={`/Images/Icons/fb.png`} alt="icon" width={24} height={24} />
-                                        <Image src={`/Images/Icons/x.png`} alt="icon" width={24} height={24} />
-                                        <Image src={`/Images/Icons/linkedin.png`} alt="icon" width={24} height={24} />
+                                    <Flex justifyContent="start" gap={{ base: 4, md: 6 }} alignItems="center">
+                                        <Image
+                                            src={`/Images/Icons/fb.png`}
+                                            alt="icon"
+                                            width={24}
+                                            height={24}
+                                        />
+                                        <Image
+                                            src={`/Images/Icons/x.png`}
+                                            alt="icon"
+                                            width={24}
+                                            height={24}
+                                        />
+                                        <Image
+                                            src={`/Images/Icons/linkedin.png`}
+                                            alt="icon"
+                                            width={24}
+                                            height={24}
+                                        />
                                     </Flex>
                                 </HStack>
                             </Box>
                             <Box>
                                 <Text
-                                    fontSize="50px"
+                                    fontSize={{ base: '32px', sm: '40px', md: '50px' }}
                                     my={4}
                                     color="black"
                                     fontWeight="bold"
                                 >
                                     Related Jobs
                                 </Text>
-                                <Text color="black" fontSize="16px">
+                                <Text fontSize={{ base: '14px', md: '16px' }} color="black">
                                     At eu lobortis pretium tincidunt amet lacus ut aenean aliquet
                                 </Text>
                             </Box>
-                            <VStack spacing={6} align="stretch" mt={6}>
+                            <VStack spacing={{ base: 4, md: 6 }} align="stretch" mt={6}>
                                 {jobsData.map((job, index) => (
                                     <ListJobCard key={job.id} job={job} index={index} />
                                 ))}
                             </VStack>
                         </GridItem>
                         <GridItem>
-                            <Box bg={'white'} borderRadius="2xl" shadow="sm" border="1px" borderColor="gray.100" p={6} mb={6}>
-                                <Heading as="h3" size="md" color="gray.900" mb={6}>
+                            <Box
+                                bg={'white'}
+                                borderRadius="2xl"
+                                shadow="sm"
+                                border="1px"
+                                borderColor="gray.100"
+                                p={{ base: 4, md: 6 }}
+                                mb={6}
+                            >
+                                <Heading as="h3" size={{ base: 'sm', md: 'md' }} color="gray.900" mb={6}>
                                     Job Overview
                                 </Heading>
-
                                 <VStack spacing={5} align="start">
                                     {[
                                         { icon: '/Images/Icons/user.png', label: "Job Title", value: "Corporate Solutions Executive" },
@@ -415,20 +499,27 @@ const Jobs = () => {
                                     ].map((item, index) => (
                                         <HStack key={index} spacing={3} align="start">
                                             <Box borderRadius="lg" display="flex" alignItems="center" justifyContent="center" flexShrink={0}>
-                                                {/* <Icon as={item.icon} w={4} h={4} color="#309689" /> */}
-                                                <Image src={item.icon} alt="icon" width={24} height={24} />
-
+                                                <Image
+                                                    src={item.icon}
+                                                    alt="icon"
+                                                    width={24}
+                                                    height={24}
+                                                />
                                             </Box>
                                             <VStack align="start" spacing={1}>
-                                                <Text fontSize="16px" fontWeight={'semibold'} color="black">{item.label}</Text>
-                                                <Text fontSize="16px" color="gray.600">{item.value}</Text>
+                                                <Text fontSize={{ base: '14px', md: '16px' }} fontWeight={'semibold'} color="black">
+                                                    {item.label}
+                                                </Text>
+                                                <Text fontSize={{ base: '14px', md: '16px' }} color="gray.600">
+                                                    {item.value}
+                                                </Text>
                                             </VStack>
                                         </HStack>
                                     ))}
                                 </VStack>
                                 <Box
                                     w="full"
-                                    h="64"
+                                    h={{ base: '48', md: '64' }}
                                     mt={8}
                                     bg="gray.100"
                                     borderRadius="xl"
@@ -437,7 +528,7 @@ const Jobs = () => {
                                     bgGradient="linear(to-br, green.50, blue.50, gray.100)"
                                 >
                                     <Circle
-                                        size="32px"
+                                        size={{ base: '24px', md: '32px' }}
                                         bg="#309689"
                                         color="white"
                                         position="absolute"
@@ -446,28 +537,24 @@ const Jobs = () => {
                                         transform="translate(-50%, -50%)"
                                         shadow="lg"
                                     >
-                                        <Icon as={MdLocationOn} w={5} h={5} />
+                                        <Icon as={MdLocationOn} w={{ base: 4, md: 5 }} h={{ base: 4, md: 5 }} />
                                     </Circle>
                                     <VStack position="absolute" top={4} left={4} align="start" spacing={1}>
-                                        <Text fontSize="xs" color="gray.500" fontWeight="medium">CRYSTAL</Text>
-                                        <Text fontSize="xs" color="gray.500" fontWeight="medium">BROOKLYN</Text>
+                                        <Text fontSize={{ base: '2xs', md: 'xs' }} color="gray.500" fontWeight="medium">CRYSTAL</Text>
+                                        <Text fontSize={{ base: '2xs', md: 'xs' }} color="gray.500" fontWeight="medium">BROOKLYN</Text>
                                     </VStack>
-
                                     <VStack position="absolute" top={4} right={4} align="end" spacing={1}>
-                                        <Text fontSize="xs" color="gray.500" fontWeight="medium">MANHATTAN PLAZA</Text>
-                                        <Text fontSize="xs" color="gray.500" fontWeight="medium">BUSINESS PARK</Text>
+                                        <Text fontSize={{ base: '2xs', md: 'xs' }} color="gray.500" fontWeight="medium">MANHATTAN PLAZA</Text>
+                                        <Text fontSize={{ base: '2xs', md: 'xs' }} color="gray.500" fontWeight="medium">BUSINESS PARK</Text>
                                     </VStack>
-
                                     <VStack position="absolute" bottom={4} left={4} align="start" spacing={1}>
-                                        <Text fontSize="xs" color="gray.500" fontWeight="medium">NEW TOWN</Text>
-                                        <Text fontSize="xs" color="gray.500" fontWeight="medium">PARK PLAZA</Text>
+                                        <Text fontSize={{ base: '2xs', md: 'xs' }} color="gray.500" fontWeight="medium">NEW TOWN</Text>
+                                        <Text fontSize={{ base: '2xs', md: 'xs' }} color="gray.500" fontWeight="medium">PARK PLAZA</Text>
                                     </VStack>
-
                                     <VStack position="absolute" bottom={4} right={4} align="end" spacing={1}>
-                                        <Text fontSize="xs" color="gray.500" fontWeight="medium">DOWNTOWN</Text>
-                                        <Text fontSize="xs" color="gray.500" fontWeight="medium">FINANCIAL DISTRICT</Text>
+                                        <Text fontSize={{ base: '2xs', md: 'xs' }} color="gray.500" fontWeight="medium">DOWNTOWN</Text>
+                                        <Text fontSize={{ base: '2xs', md: 'xs' }} color="gray.500" fontWeight="medium">FINANCIAL DISTRICT</Text>
                                     </VStack>
-
                                     <Box position="absolute" inset={0} opacity={0.2}>
                                         <Grid templateColumns="repeat(8, 1fr)" templateRows="repeat(6, 1fr)" h="full" w="full">
                                             {Array.from({ length: 48 }).map((_, i) => (
@@ -480,19 +567,18 @@ const Jobs = () => {
                             <Box
                                 maxW="md"
                                 mx="auto"
-                                p={8}
+                                p={{ base: 4, md: 8 }}
                                 borderRadius="xl"
                                 boxShadow="sm"
                             >
                                 <Text
-                                    fontSize="2xl"
+                                    fontSize={{ base: 'xl', md: '2xl' }}
                                     fontWeight="bold"
                                     mb={6}
                                     color="gray.800"
                                 >
                                     Send Us Message
                                 </Text>
-
                                 <VStack spacing={4} align="stretch">
                                     <InputGroup>
                                         <InputLeftElement pointerEvents="none">
@@ -503,14 +589,14 @@ const Jobs = () => {
                                             bg="white"
                                             border="none"
                                             borderRadius="lg"
-                                            _placeholder={{ color: 'gray.400' }}
+                                            _placeholder={{ color: 'gray.400', fontSize: { base: 'sm', md: 'md' } }}
                                             _focus={{
                                                 boxShadow: '0 0 0 1px #3182ce',
                                                 borderColor: 'blue.500'
                                             }}
+                                            fontSize={{ base: 'sm', md: 'md' }}
                                         />
                                     </InputGroup>
-
                                     <InputGroup>
                                         <InputLeftElement pointerEvents="none">
                                             <FiMail color="gray.400" />
@@ -521,14 +607,14 @@ const Jobs = () => {
                                             bg="white"
                                             border="none"
                                             borderRadius="lg"
-                                            _placeholder={{ color: 'gray.400' }}
+                                            _placeholder={{ color: 'gray.400', fontSize: { base: 'sm', md: 'md' } }}
                                             _focus={{
                                                 boxShadow: '0 0 0 1px #3182ce',
                                                 borderColor: 'blue.500'
                                             }}
+                                            fontSize={{ base: 'sm', md: 'md' }}
                                         />
                                     </InputGroup>
-
                                     <InputGroup>
                                         <InputLeftElement pointerEvents="none">
                                             <FiPhone color="gray.400" />
@@ -539,14 +625,14 @@ const Jobs = () => {
                                             bg="white"
                                             border="none"
                                             borderRadius="lg"
-                                            _placeholder={{ color: 'gray.400' }}
+                                            _placeholder={{ color: 'gray.400', fontSize: { base: 'sm', md: 'md' } }}
                                             _focus={{
                                                 boxShadow: '0 0 0 1px #3182ce',
                                                 borderColor: 'blue.500'
                                             }}
+                                            fontSize={{ base: 'sm', md: 'md' }}
                                         />
                                     </InputGroup>
-
                                     <Box position="relative">
                                         <Box
                                             position="absolute"
@@ -562,16 +648,16 @@ const Jobs = () => {
                                             border="none"
                                             borderRadius="lg"
                                             pl={10}
-                                            minH="120px"
+                                            minH={{ base: '100px', md: '120px' }}
                                             resize="vertical"
-                                            _placeholder={{ color: 'gray.400' }}
+                                            _placeholder={{ color: 'gray.400', fontSize: { base: 'sm', md: 'md' } }}
                                             _focus={{
                                                 boxShadow: '0 0 0 1px #3182ce',
                                                 borderColor: 'blue.500'
                                             }}
+                                            fontSize={{ base: 'sm', md: 'md' }}
                                         />
                                     </Box>
-
                                     <Button
                                         bg="#309689"
                                         color="white"
@@ -580,6 +666,7 @@ const Jobs = () => {
                                         _hover={{ bg: '#309689' }}
                                         _active={{ bg: '#309689' }}
                                         mt={2}
+                                        fontSize={{ base: 'sm', md: 'md' }}
                                     >
                                         Send Message
                                     </Button>

@@ -25,7 +25,7 @@ export function HeroSection() {
             color="white"
             textAlign="center"
             position="relative"
-            h={'350px'}
+            h={{ base: '240px', md: '350px' }}
         >
             <Container maxW="5xl">
                 <Heading fontSize={{ base: "3xl", md: "70px" }} fontWeight="bold">
