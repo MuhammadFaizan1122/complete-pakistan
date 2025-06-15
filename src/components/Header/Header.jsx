@@ -33,7 +33,6 @@ export default function Header() {
     const onToggle = () => setIsOpen(!isOpen);
     const onClose = () => setIsOpen(false);
     const { data: session, status } = useSession()
-    console.log('session', session, status)
 
     const navLinks = [
         { href: '/', label: 'Home' },
@@ -102,12 +101,12 @@ export default function Header() {
                         </Menu>
                     ) : (
                         <Flex gap={2} display={{ base: 'none', md: 'flex' }}>
-                            <Button as={Link} href={'/login'} bg={'#fff'} color={'#000'}>
+                            <Button as={Link} href={'/auth/login'} bg={'#fff'} color={'#000'}>
                                 Login
                             </Button>
                             <Button
                                 as={Link}
-                                href={'/signup'}
+                                href={'/auth/signup'}
                                 bg={'#309689'}
                                 color={'#fff'}
                                 rounded={'8px'}
@@ -142,7 +141,7 @@ export default function Header() {
                             ))}
                             <Button
                                 as={Link}
-                                href={'/login'}
+                                href={'/auth/login'}
                                 bg={'#fff'}
                                 color={'#000'}
                                 width="full"
@@ -152,7 +151,7 @@ export default function Header() {
                             </Button>
                             <Button
                                 as={Link}
-                                href={'/signup'}
+                                href={'/auth/signup'}
                                 bg={'#309689'}
                                 color={'#fff'}
                                 border="1px"

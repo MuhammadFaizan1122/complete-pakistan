@@ -16,14 +16,18 @@ import {
     IconButton,
     FormErrorMessage
 } from "@chakra-ui/react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import NextLink from "next/link";
 import { FaGoogle } from "react-icons/fa";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { handleLogin } from "../../handlers/auth/login";
+import { toast } from "react-toastify";
 
 // Validation schema
 const loginSchema = yup.object().shape({
@@ -40,7 +44,14 @@ const loginSchema = yup.object().shape({
 
 export const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const router = useRouter();
+    const { status } = useSession();
 
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.push("/");
+        }
+    }, [status, router]);
     const {
         register,
         handleSubmit,
@@ -51,17 +62,21 @@ export const LoginPage = () => {
 
     const onSubmit = async (data) => {
         try {
-            // Simulate login API call
-            console.log("Login data:", data);
-            // Example: await signIn('credentials', { email: data.email, password: data.password });
+            const payload = { email: data.email, password: data.password }
+            const response = await handleLogin(payload)
+            if (response.status !== 201) {
+                toast.error(response.data.errors.email[0])
+            }
         } catch (error) {
             console.error("Login error:", error);
         }
     };
-
     return (
         <AuthLayout>
-            <Heading fontSize={{ base: "2xl", md: "3xl" }} mb={6}>
+            <Box display={'flex'} justifyContent={'center'} w={'full'} mx={'auto'}>
+                <Image width={180} height={80} src="/Images/logo.png" alt="CompletePakistan Logo" />
+            </Box>
+            <Heading fontSize={{ base: "2xl", md: "3xl" }} my={4}>
                 Sign in to your account
             </Heading>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -74,6 +89,12 @@ export const LoginPage = () => {
                             rounded={'14px'}
                             p={4}
                             py={6}
+                            _focus={{
+                                ring: 2,
+                                ringColor: "#309689",
+                                borderColor: "transparent",
+                                outline: "none"
+                            }}
                             {...register("email")}
                         />
                         <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
@@ -87,6 +108,12 @@ export const LoginPage = () => {
                                 rounded={'14px'}
                                 p={4}
                                 py={6}
+                                _focus={{
+                                    ring: 2,
+                                    ringColor: "#309689",
+                                    borderColor: "transparent",
+                                    outline: "none"
+                                }}
                                 {...register("password")}
                             />
                             <InputRightElement h="full">
@@ -101,8 +128,8 @@ export const LoginPage = () => {
                         <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
                     </FormControl>
                     <Flex justify="space-between" align="center">
-                        <NextLink href="/forgot-password" passHref>
-                            <Link color="#309689" fontSize="sm">
+                        <NextLink href="/auth/forgot-password" passHref>
+                            <Link color="#309689" fontSize="sm" href="/forgot-password">
                                 Forgot password?
                             </Link>
                         </NextLink>
@@ -131,7 +158,7 @@ export const LoginPage = () => {
                     </Button>
                     <Text fontSize="sm" textAlign="center">
                         Don't have an account?{' '}
-                        <NextLink href="/signup" passHref>
+                        <NextLink href="/auth/signup" passHref>
                             <Link color="#309689">Sign up</Link>
                         </NextLink>
                     </Text>
@@ -143,14 +170,14 @@ export const LoginPage = () => {
 
 export const AuthLayout = ({ children }) => {
     return (
-        <Flex minH="90vh" align="center" justify="center" bg={'#BADDD9'}>
+        <Flex minH="100vh" align="center" justify="center" bg={'#BADDD9'} >
             <Box
                 bg={useColorModeValue('white', 'gray.700')}
                 px={8}
                 py={10}
                 rounded="2xl"
                 shadow="lg"
-                w={{ base: '90%', sm: '400px' }}
+                w={{ base: '90%', sm: '500px' }}
             >
                 {children}
             </Box>

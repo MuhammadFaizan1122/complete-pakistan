@@ -1,4 +1,4 @@
-import SetNewPassword from '../../../components/SetNewPassword/SetNewPassword'
+import SetNewPassword from '../../../../components/SetNewPassword/SetNewPassword'
 import React from 'react'
 
 const page = () => {

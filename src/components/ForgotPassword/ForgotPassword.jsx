@@ -8,13 +8,18 @@ import {
   Link,
   Stack,
   Text,
-  FormErrorMessage
+  FormErrorMessage,
+  Box
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { AuthLayout } from "../Login/Login";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import Image from "next/image";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const forgotPasswordSchema = yup.object().shape({
   email: yup
@@ -32,7 +37,14 @@ const ForgotPasswordPage = () => {
   } = useForm({
     resolver: yupResolver(forgotPasswordSchema),
   });
+  const router = useRouter();
+  const { status } = useSession();
 
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/");
+    }
+  }, [status, router]);
   const onSubmit = async (data) => {
     try {
       console.log("Forgot password email:", data.email);
@@ -43,7 +55,11 @@ const ForgotPasswordPage = () => {
 
   return (
     <AuthLayout>
-      <Heading fontSize={{ base: "2xl", md: "3xl" }} mb={6}>Forgot your password?</Heading>
+      <Box display={'flex'} justifyContent={'center'} w={'full'} mx={'auto'}>
+        <Image width={180} height={80} src="/Images/logo.png" alt="CompletePakistan Logo" />
+      </Box>
+      <Heading fontSize={{ base: "2xl", md: "3xl" }} my={4}>
+        Forgot your password?</Heading>
       <Text fontSize="sm" color="gray.600" mb={4}>
         Enter your email address and we’ll send you a link to reset your password.
       </Text>

@@ -15,13 +15,15 @@ import {
   IconButton,
   FormErrorMessage
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { AuthLayout } from "../Login/Login";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 // Validation schema
 const setNewPasswordSchema = yup.object().shape({
@@ -52,12 +54,16 @@ export default function SetNewPassword() {
   } = useForm({
     resolver: yupResolver(setNewPasswordSchema),
   });
+    const { status } = useSession();
 
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.push("/");
+        }
+    }, [status, router]);
   const onSubmit = async (data) => {
     try {
-      // Simulate password reset API call
       console.log("New password data:", data);
-      // Example: await fetch('/api/reset-password', { method: 'POST', body: JSON.stringify(data) });
       toast({ title: "Password reset successfully", status: "success", isClosable: true });
       router.push("/login");
     } catch (error) {
@@ -68,7 +74,10 @@ export default function SetNewPassword() {
 
   return (
     <AuthLayout>
-      <Heading fontSize={{ base: "2xl", md: "3xl" }} mb={4} textAlign="center">
+      <Box display={'flex'} justifyContent={'center'} w={'full'} mx={'auto'}>
+        <Image width={180} height={80} src="/Images/logo.png" alt="CompletePakistan Logo" />
+      </Box>
+      <Heading fontSize={{ base: "2xl", md: "3xl" }} my={4} textAlign="center">
         Set New Password
       </Heading>
       <Text fontSize="sm" color="gray.600" mb={6} textAlign="center">

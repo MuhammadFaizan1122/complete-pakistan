@@ -1,8 +1,7 @@
-// import connectDB from "../src/app/config/mongoose";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-// import connectDB from "../config/mongoose";
-// import { Users } from "../config/models/users";
+import CredentialsProvider from "next-auth/providers/credentials";
+import axios from "axios";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -10,51 +9,61 @@ export const authOptions: NextAuthOptions = {
             clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
             clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET as string,
         }),
-    ],
-    callbacks: {
-        async jwt({ token, user, account, profile }) {
-        
-            // try {
-            //     if (user && account?.provider === "google") {
-                    
-            //         // await connectDB();
-            //         // Find or create the user in the database
-            //         const existingUser = await Users.findOne({ email: user.email });
-            //         if (!existingUser) {
-            //             const newUser = await Users.create({
-            //                 email: user.email,
-            //                 name: user.name,
-            //                 image: user.image || "",
-            //                 role: "user",
-            //                 user_status: 1,
-            //             });
-            //             token.role = newUser.role;
-            //         } else {
-            //             token.role = existingUser.role;
-            //         }
-            //         // @ts-ignore
-            //         token.id = existingUser?._id || newUser._id;
-            //     }
-            // } catch (error) {
-            //     console.error("Error in JWT callback:", error);
-            //     throw new Error("JWT callback failed.");
-            // }
+        CredentialsProvider({
+            name: "Credentials",
+            credentials: {
+                email: { label: "Email", type: "text" },
+                password: { label: "Password", type: "password" },
+            },
+            async authorize(credentials: any) {
+                try {
+                    const response = await axios.post(
+                        `${process.env.NEXT_PUBLIC_API_BASEURL}/login`,
+                        {
+                            email: credentials.email,
+                            password: credentials.password,
+                        }
+                    );
 
+                    const user = response.data?.user;
+                    const token = response.data?.token;
+
+                    if (user && token) {
+                        return { ...user, token };
+                    }
+
+                    return null;
+                } catch (err) {
+                    return null;
+                }
+            },
+        }),
+    ],
+    secret: process.env.NEXTAUTH_SECRET,
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.id = user.id;
+                // @ts-ignore
+                token.token = user.token;
+                token.email = user.email;
+                token.name = user.name;
+                // @ts-ignore
+                token.token = user.token;
+            }
             return token;
         },
         async session({ session, token }) {
-            // try {
-            //     // Attach custom data from token to the session
-            //     // @ts-ignore
-            //     session.user.id = token.id as string;
-            //     // @ts-ignore
-            //     session.user.role = token.role as string;
-            //     // @ts-ignore
-            //     session.token = token;
-            // } catch (error) {
-            //     console.error("Error in session callback:", error);
-            //     throw new Error("Session callback failed.");
-            // }
+            if (token) {
+                // @ts-ignore
+                session.user.id = token.id;
+                // @ts-ignore
+                session.user.token = token.token;
+                session.user.email = token.email;
+                session.user.name = token.name;
+                // @ts-ignore
+                session.user.token = token.token;
+            }
             return session;
         },
     },

@@ -1,42 +1,49 @@
-// CreateCVPage.tsx
 "use client";
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
-  Grid,
   Input,
   Text,
   Select,
-  Textarea,
   Button,
   Tag,
   TagLabel,
   TagCloseButton,
   useToast,
-  IconButton,
   VStack,
   HStack,
-  Avatar,
-  UnorderedList,
-  ListItem,
-  Container,
-  Heading,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { MdAdd } from "react-icons/md";
 import Image from "next/image";
 import EmploymentPopup from "./EmploymentPopup";
 import EducationPopup from "./EducationPopup";
 import SkillPopup from "./SkillPopup";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { Country, State, City } from 'country-state-city';
+import Preview from "./Preview";
+import FileUpload from "./FileUploading";
+import JobDetails from "./JobDetails";
 
 export default function CreateCVPage() {
+  const router = useRouter();
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/");
+    }
+  }, [status, router]);
   const {
     isOpen: isEmploymentOpen,
     onOpen: onEmploymentOpen,
     onClose: onEmploymentClose,
   } = useDisclosure();
+  const [countries, setCountries] = useState(Country.getAllCountries());
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
 
   const {
     isOpen: isEducationOpen,
@@ -50,23 +57,38 @@ export default function CreateCVPage() {
     onClose: onSkillClose,
   } = useDisclosure();
   const toast = useToast();
-  const [formData, setFormData] = useState({
-    name: "Muhammad Faizan",
-    dob: "06-08-2000",
-    portfolio: "www.imfaizan.com",
-    email: "muh.faizaan@gmail.com",
-    phone: "0300-2493788",
-    country: "Pakistan",
-    city: "Karachi",
-    job: "Software Engineer",
-    category: "Software",
-    subcategory: "IT",
-    jobDetail: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam quos exercitationem voluptatem cupiditate facilis a ex sequi expedita modi labore. Perferendis nemo voluptas et explicabo ipsam ipsum. Odio voluptates aliquid consequatur molestiae explicabo recusandae deleniti quod, vero in nesciunt, atque nam ipsum tempora, quam voluptas quo debitis officiis? Eaque, doloremque!",
-    education: ['Matric', 'Intermidiate', 'Diploma', 'Cloud Native'],
-    experience: ['TechnoSol', 'DuneSoft', 'Mobitising', 'NextChainX'],
-    skills: ['figma', 'Html', 'Adobe Photoshop', 'CSS', 'Adobe Illistrator', 'C++', 'Sketch', 'MATLab']
-  });
-
+    const [formData, setFormData] = useState({
+      name: "Muhammad Faizan",
+      dob: "06-08-2000",
+      portfolio: "www.imfaizan.com",
+      email: "muh.faizaan@gmail.com",
+      phone: "0300-2493788",
+      country: '',
+      city: '',
+      state: '',
+      address: '',
+      job: "Software Engineer",
+      industry: '',
+      category: '',
+      subcategory: '',
+      jobDetail: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam quos exercitationem voluptatem cupiditate facilis a ex sequi expedita modi labore. Perferendis nemo voluptas et explicabo ipsam ipsum. Odio voluptates aliquid consequatur molestiae explicabo recusandae deleniti quod, vero in nesciunt, atque nam ipsum tempora, quam voluptas quo debitis officiis? Eaque, doloremque!",
+      education: [],
+      experience: [],
+      skills: []
+    });
+  const handleCountryChange = (e) => {
+    const countryCode = e.target.value;
+    const selectedCountry = countries.find(c => c.name === countryCode);
+    const stateList = State.getStatesOfCountry(selectedCountry.isoCode);
+    setStates(stateList);
+    setCities([]);
+  };
+  const handleStateChange = (e) => {
+    const stateCode = e.target.value;
+    const selectedState = states.find(s => s.name === stateCode);
+    const cityList = City.getCitiesOfState(selectedState.countryCode, selectedState.isoCode);
+    setCities(cityList);
+  };
   const [educationInput, setEducationInput] = useState("");
   const [experienceInput, setExperienceInput] = useState("");
   const [skillsInput, setSkillsInput] = useState("");
@@ -78,7 +100,6 @@ export default function CreateCVPage() {
     if (key === "experience") setExperienceInput("");
     if (key === "skills") setSkillsInput("");
   };
-
   const handleTagRemove = (key, index) => {
     const updated = [...formData[key]];
     updated.splice(index, 1);
@@ -87,9 +108,69 @@ export default function CreateCVPage() {
 
   return (
     <Flex direction={{ base: "column", md: "row" }} p={8} bg="#D3EFEC">
-      <Flex maxW={'1440px'} mx={'auto'} w={'full'} gap={8}>
+      <Flex maxW={'1440px'} mx={'auto'} w={'full'} gap={4}>
         <Box w={{ base: "100%", md: "40%" }}>
-          <VStack spacing={2} align="stretch">
+          <VStack spacing={2} align="stretch" px={2} maxH={'120vh'} overflowY={'scroll'}
+            sx={{
+              '&::-webkit-scrollbar': {
+                width: '8px',
+              },
+              '&::-webkit-scrollbar-track': {
+                background: '#EEEEEE4D',
+                borderRadius: '8px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: '#fff',
+                borderRadius: '8px',
+              },
+              '&::-webkit-scrollbar-thumb:hover': {
+                borderRadius: '8px',
+                background: '#2C7A7B',
+              },
+              scrollbarWidth: 'thin',
+              scrollbarColor: '#fff #F1F1F1',
+              borderRadius: '8px',
+
+            }}
+          >
+            <>
+              <label className="text-[#2D3748] pl-1 mt-2">Photo</label>
+              <Box
+                bg="white"
+                borderRadius="2xl"
+                boxShadow="md"
+                textAlign="center"
+                p={2}
+                w={{ base: 'full', md: '200px' }}
+              >
+                <Flex direction="column" align="center" gap={2} my={2}>
+                  <Image src={'/Images/Icons/camera.png'} alt="icon" width={24} height={24} className="!h-[24px]" />
+                  <Text fontSize={{ base: 'md', md: 'lg' }} color="gray.700" fontWeight="medium">
+                    Upload photo
+                  </Text>
+                  <Button
+                    as="label"
+                    htmlFor="photo-upload"
+                    border={'1px'}
+                    borderStyle={'dashed'}
+                    bg={'transparent'}
+                    color="gray.600"
+                    borderRadius="full"
+                    px={{ base: 4, md: 4 }}
+                    py={{ base: 2, md: 3 }}
+                    cursor="pointer"
+                  >
+                    Choose file
+                    <input
+                      id="photo-upload"
+                      type="file"
+                      accept="image/*"
+                      style={{ display: 'none' }}
+                    />
+                  </Button>
+                </Flex>
+              </Box>
+            </>
             <label className="text-[#2D3748] pl-1 mt-2">Name</label>
             <Input
               value={formData.name}
@@ -198,15 +279,14 @@ export default function CreateCVPage() {
               resize="none"
             />
 
-            <label className="text-[#2D3748] pl-1 mt-2">Country</label>
+            <label className="text-[#2D3748] pl-1 mt-2">Address</label>
             <HStack>
               <Select
                 placeholder="Country"
                 value={formData.country}
-                onChange={e => setFormData({ ...formData, country: e.target.value })}
+                onChange={e => { setFormData({ ...formData, country: e.target.value }), handleCountryChange(e) }}
                 w="full"
-                // px={4}
-                // py={3}
+                h="50px"
                 border="1px solid"
                 borderColor="gray.300"
                 borderRadius="15px"
@@ -224,17 +304,73 @@ export default function CreateCVPage() {
                 }}
                 transition="all 0.2s"
               >
-                <option value="Pakistan">Pakistan</option>
-                <option value="India">India</option>
-                <option value="UAE">UAE</option>
+                {countries.map(c => (
+                  <option key={c.isoCode} value={c.name}>{c.name}</option>
+                ))}
               </Select>
-              <Input
+              <Select
+                placeholder="State"
+                value={formData.state}
+                onChange={e => { setFormData({ ...formData, state: e.target.value }), handleStateChange(e) }}
+                w="full"
+                h="50px"
+                border="1px solid"
+                borderColor="gray.300"
+                borderRadius="15px"
+                bg="white"
+                outline="1px solid"
+                outlineColor="gray.300"
+                _focus={{
+                  ring: 2,
+                  ringColor: "#309689",
+                  borderColor: "transparent",
+                  outline: "none"
+                }}
+                _active={{
+                  outline: "none"
+                }}
+                transition="all 0.2s"
+              >
+                {states.map(c => (
+                  <option key={c.isoCode} value={c.name}>{c.name}</option>
+                ))}
+              </Select>
+            </HStack>
+            <HStack>
+              <Select
                 placeholder="City"
                 value={formData.city}
                 onChange={e => setFormData({ ...formData, city: e.target.value })}
                 w="full"
+                h="50px"
+                border="1px solid"
+                borderColor="gray.300"
+                borderRadius="15px"
+                bg="white"
+                outline="1px solid"
+                outlineColor="gray.300"
+                _focus={{
+                  ring: 2,
+                  ringColor: "#309689",
+                  borderColor: "transparent",
+                  outline: "none"
+                }}
+                _active={{
+                  outline: "none"
+                }}
+                transition="all 0.2s"
+              >
+                {cities.map(c => (
+                  <option key={c.isoCode} value={c.name}>{c.name}</option>
+                ))}
+              </Select>
+              <Input
+                placeholder="Address"
+                value={formData.address}
+                onChange={e => setFormData({ ...formData, address: e.target.value })}
+                w="full"
                 px={4}
-                py={3}
+                py={6}
                 border="1px solid"
                 borderColor="gray.300"
                 borderRadius="15px"
@@ -253,86 +389,9 @@ export default function CreateCVPage() {
                 transition="all 0.2s"
               />
             </HStack>
+            <FileUpload />
+            <JobDetails formData={formData} setFormData={setFormData} />
 
-
-            <label className="text-[#2D3748] pl-1 mt-2">Job Details</label>
-            <Input
-              placeholder="Job applied for"
-              value={formData.job}
-              onChange={e => setFormData({ ...formData, job: e.target.value })}
-              w="full"
-              px={4}
-              py={6}
-              border="1px solid"
-              borderColor="gray.300"
-              borderRadius="15px"
-              bg="white"
-              outline="1px solid"
-              outlineColor="gray.300"
-              _focus={{
-                ring: 2,
-                ringColor: "#309689",
-                borderColor: "transparent",
-                outline: "none"
-              }}
-              _active={{
-                outline: "none"
-              }}
-              transition="all 0.2s"
-            />
-            <label className="text-[#2D3748] pl-1 mt-2">Category</label>
-            <HStack>
-              <Select
-                placeholder="Category"
-                value={formData.category}
-                onChange={e => setFormData({ ...formData, category: e.target.value })}
-                w="full"
-                border="1px solid"
-                borderColor="gray.300"
-                borderRadius="15px"
-                bg="white"
-                outline="1px solid"
-                outlineColor="gray.300"
-                _focus={{
-                  ring: 2,
-                  ringColor: "#309689",
-                  borderColor: "transparent",
-                  outline: "none"
-                }}
-                _active={{
-                  outline: "none"
-                }}
-                transition="all 0.2s"
-              >
-                <option value="Engineering">Engineering</option>
-                <option value="IT">IT</option>
-              </Select>
-              <Select
-                placeholder="Subcategory"
-                value={formData.subcategory}
-                onChange={e => setFormData({ ...formData, subcategory: e.target.value })}
-                w="full"
-                border="1px solid"
-                borderColor="gray.300"
-                borderRadius="15px"
-                bg="white"
-                outline="1px solid"
-                outlineColor="gray.300"
-                _focus={{
-                  ring: 2,
-                  ringColor: "#309689",
-                  borderColor: "transparent",
-                  outline: "none"
-                }}
-                _active={{
-                  outline: "none"
-                }}
-                transition="all 0.2s"
-              >
-                <option value="Software">Software</option>
-                <option value="Hardware">Hardware</option>
-              </Select>
-            </HStack>
 
             <Box>
               <label className="text-[#2D3748] pl-1 my-2">Education</label>
@@ -355,7 +414,7 @@ export default function CreateCVPage() {
                   ))}
                 </HStack>
                 <Button
-                  onClick={onEmploymentOpen}
+                  onClick={onEducationOpen}
                   borderRadius="15px"
                   border="1px dashed"
                   borderColor="gray.400"
@@ -387,21 +446,13 @@ export default function CreateCVPage() {
                 <HStack wrap="wrap">
                   {formData.experience.map((exp, idx) => (
                     <Tag key={idx} bg={'#309689'} color={'white'} m={1} rounded={'8px'} px={2}>
-                      <TagLabel>{exp}</TagLabel>
+                      <TagLabel>{exp?.company}</TagLabel>
                       <TagCloseButton onClick={() => handleTagRemove("experience", idx)} />
                     </Tag>
                   ))}
                 </HStack>
-                {/* <IconButton
-                  aria-label="Add"
-                  icon={<MdAdd />}
-                  onClick={() => handleTagAdd("experience", experienceInput)}
-                  borderRadius="15px"
-                  bg={'#309689'}
-                  color={'white'}
-                /> */}
                 <Button
-                  onClick={onEducationOpen}
+                  onClick={onEmploymentOpen}
                   borderRadius="15px"
                   border="1px dashed"
                   borderColor="gray.400"
@@ -437,14 +488,6 @@ export default function CreateCVPage() {
                     </Tag>
                   ))}
                 </HStack>
-                {/* <IconButton
-                  aria-label="Add"
-                  icon={<MdAdd />}
-                  onClick={() => handleTagAdd("skills", skillsInput)}
-                  borderRadius="15px"
-                  bg={'#309689'}
-                  color={'white'}
-                /> */}
                 <Button
                   onClick={onSkillOpen}
                   borderRadius="15px"
@@ -454,7 +497,6 @@ export default function CreateCVPage() {
                   color="black"
                   display="flex"
                   alignItems="center"
-                  w={'140px'}
                   gap={2}
                 >
                   <MdAdd size={24} />
@@ -466,280 +508,10 @@ export default function CreateCVPage() {
           </VStack>
         </Box>
         <Box w={{ base: "100%", md: "60%" }} bg="white" rounded={"12px"} shadow="md">
-          <Flex h={'full'} rounded={"12px"} bg={'transparent'}>
-            <VStack spacing={2} align="start" bg={'#f1f2f4'} w={'30%'} borderTopLeftRadius={'12px'} borderBottomLeftRadius={'12px'} h={'full'} p={4}>
-              <Box mx={'auto'}>
-                <Avatar name={formData.name} size="2xl" p={0} />
-              </Box>
-              <Text fontSize="26px" color={'black'} fontWeight="bold">{formData.name || "Your Name"}</Text>
-              <Text fontSize="18px" color={'black'}>{formData.job || "Your Title"}</Text>
-
-              <Flex alignItems={'center'}>
-                <Image src={'/Images/Icons/earth.png'} alt="icon" width={16} height={14} className="!h-[16px]" />
-                <Text ml={3}>
-                  {formData.portfolio}
-                </Text>
-              </Flex>
-              <Flex alignItems={'center'}>
-                <Image src={'/Images/Icons/mail.png'} alt="icon" width={16} height={14} className="!h-[16px]" />
-                <Text ml={3}>
-                  {formData.email}
-                </Text>
-              </Flex>
-              <Flex alignItems={'center'}>
-                <Image src={'/Images/Icons/phone.png'} alt="icon" width={16} height={14} className="!h-[16px]" />
-                <Text ml={3}>
-                  {formData.phone}
-                </Text>
-              </Flex>
-              <Flex alignItems={'center'}>
-                <Image src={'/Images/Icons/marker.png'} alt="icon" width={16} height={14} className="!h-[16px]" />
-                <Text ml={3}>
-                  {formData.city}, {formData.country}
-                </Text>
-              </Flex>
-              <Text my={4} fontSize="14px" color={'black'}>{formData.jobDetail}</Text>
-              <Box>
-                <Text fontSize={'24px'} fontWeight="bold" mb={4}>Skills</Text>
-                <HStack wrap="wrap">
-                  {formData.skills.map((skill, idx) => (
-                    <Tag key={idx} bg="#309689" color={'#fff'} p={2} textTransform={'capitalize'}>{skill}</Tag>
-                  ))}
-                </HStack>
-              </Box>
-            </VStack>
-            <VStack spacing={3} align="start" w={'70%'} >
-              <Container maxW="4xl" py={8} bg="white" minH="100vh" rounded={'12px'}>
-                <VStack spacing={8} align="stretch">
-
-                  {/* Education Section */}
-                  <Box>
-                    <Heading
-                      size="lg"
-                      color="blue.600"
-                      mb={4}
-                      fontWeight="bold"
-                      fontSize="24px"
-                    >
-                      Education
-                    </Heading>
-
-                    <VStack spacing={4} align="stretch">
-                      {/* First Education Entry */}
-                      <Box>
-                        <HStack justify="space-between" align="flex-start" mb={1}>
-                          <VStack align="start" spacing={0}>
-                            <Text fontWeight="bold" fontSize="16px" color="gray.800">
-                              • Business Administration
-                            </Text>
-                            <Text fontSize="14px" color="gray.600" ml={3}>
-                              University of New York
-                            </Text>
-                          </VStack>
-                          <Text fontSize="14px" color="gray.600" fontStyle="italic">
-                            2006 - 2010, New York, NY
-                          </Text>
-                        </HStack>
-                      </Box>
-
-                      {/* Second Education Entry */}
-                      <Box>
-                        <HStack justify="space-between" align="flex-start" mb={1}>
-                          <VStack align="start" spacing={0}>
-                            <Text fontWeight="bold" fontSize="16px" color="gray.800">
-                              • Business Administration
-                            </Text>
-                            <Text fontSize="14px" color="gray.600" ml={3}>
-                              University of New York
-                            </Text>
-                          </VStack>
-                          <Text fontSize="14px" color="gray.600" fontStyle="italic">
-                            2006 - 2010, New York, NY
-                          </Text>
-                        </HStack>
-                      </Box>
-                    </VStack>
-                  </Box>
-
-                  {/* Experience Section */}
-                  <Box>
-                    <Heading
-                      size="lg"
-                      color="blue.600"
-                      mb={4}
-                      fontWeight="bold"
-                      fontSize="24px"
-                    >
-                      Experience
-                    </Heading>
-
-                    <VStack spacing={6} align="stretch">
-                      {/* Social Media Manager - Dufour */}
-                      <Box>
-                        <HStack justify="space-between" align="flex-start" mb={2}>
-                          <VStack align="start" spacing={0}>
-                            <Text fontWeight="bold" fontSize="16px" color="gray.800">
-                              Social Media Manager
-                            </Text>
-                            <Text fontSize="14px" color="gray.600">
-                              Dufour, Dubai, U.A.E.
-                            </Text>
-                          </VStack>
-                          <Text fontSize="14px" color="gray.600" fontStyle="italic">
-                            2015 - Ongoing
-                          </Text>
-                        </HStack>
-
-                        <UnorderedList spacing={1} ml={4} mt={2}>
-                          <ListItem fontSize="14px" color="gray.700">
-                            Weekly writing of ~3000 words articles for high profile industry leaders.
-                          </ListItem>
-                          <ListItem fontSize="14px" color="gray.700">
-                            Worked with social media channels with ~30000 followers.
-                          </ListItem>
-                          <ListItem fontSize="14px" color="gray.700">
-                            Overseeing the output of 17 team members including Community Managers, Analysts and Designers.
-                          </ListItem>
-                        </UnorderedList>
-                      </Box>
-
-                      {/* Social Media Manager - Herman LLC */}
-                      <Box>
-                        <HStack justify="space-between" align="flex-start" mb={2}>
-                          <VStack align="start" spacing={0}>
-                            <Text fontWeight="bold" fontSize="16px" color="gray.800">
-                              Social Media Manager
-                            </Text>
-                            <Text fontSize="14px" color="gray.600">
-                              Herman LLC, New York, NY
-                            </Text>
-                          </VStack>
-                          <Text fontSize="14px" color="gray.600" fontStyle="italic">
-                            2011 - 2015
-                          </Text>
-                        </HStack>
-
-                        <UnorderedList spacing={1} ml={4} mt={2}>
-                          <ListItem fontSize="14px" color="gray.700">
-                            Apply to events to expose the brands of my clients (4 events per month).
-                          </ListItem>
-                          <ListItem fontSize="14px" color="gray.700">
-                            Increased Social Media followers and engagement by ~250% on average per client in the first 3 months of collaboration.
-                          </ListItem>
-                        </UnorderedList>
-                      </Box>
-
-                      {/* Social Media Specialist - First Entry */}
-                      <Box>
-                        <HStack justify="space-between" align="flex-start" mb={2}>
-                          <VStack align="start" spacing={0}>
-                            <Text fontWeight="bold" fontSize="16px" color="gray.800">
-                              Social Media Specialist
-                            </Text>
-                            <Text fontSize="14px" color="gray.600">
-                              Schmeier, New York, NY
-                            </Text>
-                          </VStack>
-                          <Text fontSize="14px" color="gray.600" fontStyle="italic">
-                            2010 - 2011
-                          </Text>
-                        </HStack>
-
-                        <UnorderedList spacing={1} ml={4} mt={2}>
-                          <ListItem fontSize="14px" color="gray.700">
-                            Apply to events to expose the brands of my clients (4 events per month).
-                          </ListItem>
-                        </UnorderedList>
-                      </Box>
-
-                      {/* Social Media Specialist - Second Entry */}
-                      <Box>
-                        <HStack justify="space-between" align="flex-start" mb={2}>
-                          <VStack align="start" spacing={0}>
-                            <Text fontWeight="bold" fontSize="16px" color="gray.800">
-                              Social Media Specialist
-                            </Text>
-                            <Text fontSize="14px" color="gray.600">
-                              Schmeier, New York, NY
-                            </Text>
-                          </VStack>
-                          <Text fontSize="14px" color="gray.600" fontStyle="italic">
-                            2010 - 2011
-                          </Text>
-                        </HStack>
-
-                        <UnorderedList spacing={1} ml={4} mt={2}>
-                          <ListItem fontSize="14px" color="gray.700">
-                            Apply to events to expose the brands of my clients (4 events per month).
-                          </ListItem>
-                        </UnorderedList>
-                      </Box>
-                    </VStack>
-                  </Box>
-
-                  {/* Volunteer Experience Section */}
-                  <Box>
-                    <Heading
-                      size="lg"
-                      color="blue.600"
-                      mb={4}
-                      fontWeight="bold"
-                      fontSize="24px"
-                    >
-                      Volunteer Experience
-                    </Heading>
-
-                    <VStack spacing={6} align="stretch">
-                      {/* LC President */}
-                      <Box>
-                        <HStack justify="space-between" align="flex-start" mb={2}>
-                          <VStack align="start" spacing={0}>
-                            <Text fontWeight="bold" fontSize="16px" color="gray.800">
-                              LC President, AIESEC
-                            </Text>
-                            <Text fontSize="14px" color="gray.600">
-                              University of Sevilla
-                            </Text>
-                          </VStack>
-                          <Text fontSize="14px" color="gray.600" fontStyle="italic">
-                            2002-2006, 4 years
-                          </Text>
-                        </HStack>
-
-                        <Text fontSize="14px" color="gray.700" mt={2}>
-                          AIESEC is an international youth-run, non-governmental and not-for-profit organization that provides young world leadership development, cross-cultural and international, and volunteer exchange program experiences.
-                        </Text>
-                      </Box>
-
-                      {/* Football team member */}
-                      <Box>
-                        <HStack justify="space-between" align="flex-start" mb={2}>
-                          <VStack align="start" spacing={0}>
-                            <Text fontWeight="bold" fontSize="16px" color="gray.800">
-                              Football team member, Cadiz FC
-                            </Text>
-                            <Text fontSize="14px" color="gray.600">
-                              Cadiz Football Club
-                            </Text>
-                          </VStack>
-                          <Text fontSize="14px" color="gray.600" fontStyle="italic">
-                            2006-2008, 2 years
-                          </Text>
-                        </HStack>
-
-                        <Text fontSize="14px" color="gray.700" mt={2}>
-                          Cadiz Club de Futbol, S.A.D., known simply as Cadiz, is a professional football club based in Cadiz, Andalusia, Spain.
-                        </Text>
-                      </Box>
-                    </VStack>
-                  </Box>
-                </VStack>
-              </Container>
-            </VStack>
-          </Flex>
+          <Preview formData={formData} />
         </Box>
       </Flex>
-      <EmploymentPopup isOpen={isEmploymentOpen} onClose={onEmploymentClose} />
+      <EmploymentPopup isOpen={isEmploymentOpen} onClose={onEmploymentClose} formData={formData} setFormData={setFormData} />
       <EducationPopup isOpen={isEducationOpen} onClose={onEducationClose} />
       <SkillPopup isOpen={isSkillOpen} onClose={onSkillClose} />
     </Flex>

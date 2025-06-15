@@ -11,15 +11,21 @@ import {
     InputGroup,
     InputRightElement,
     IconButton,
-    FormErrorMessage
+    FormErrorMessage,
+    Box
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { AuthLayout } from "../Login/Login";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { handleRegister } from "../../handlers/auth/registration";
+import { toast } from "react-toastify";
 
 const signupSchema = yup.object().shape({
     fullName: yup
@@ -38,10 +44,21 @@ const signupSchema = yup.object().shape({
             "Password must contain at least one uppercase letter, one lowercase letter, and one number"
         )
         .required("Password is required"),
+    confirmPassword: yup
+        .string()
+        .oneOf([yup.ref("password"), null], "Passwords must match")
+        .required("Confirm password is required"),
 });
 const SignupPage = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const router = useRouter();
+    const { status } = useSession();
 
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.push("/");
+        }
+    }, [status, router]);
     const {
         register,
         handleSubmit,
@@ -52,7 +69,12 @@ const SignupPage = () => {
 
     const onSubmit = async (data) => {
         try {
-            console.log("Signup data:", data);
+            const payload = { name: data.fullName, email: data.email, password: data.password, password_confirmation: data.confirmPassword }
+            const response = await handleRegister(payload)
+            if (response.status !== 201) {
+                toast.error(response.data.errors.email[0])
+            }
+            console.log("response:", response);
         } catch (error) {
             console.error("Signup error:", error);
         }
@@ -60,7 +82,10 @@ const SignupPage = () => {
 
     return (
         <AuthLayout>
-            <Heading fontSize={{ base: "2xl", md: "3xl" }} mb={6}>
+            <Box display={'flex'} justifyContent={'center'} w={'full'} mx={'auto'}>
+                <Image width={180} height={80} src="/Images/logo.png" alt="CompletePakistan Logo" />
+            </Box>
+            <Heading fontSize={{ base: "2xl", md: "3xl" }} my={4}>
                 Create an account
             </Heading>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -73,6 +98,12 @@ const SignupPage = () => {
                             rounded={'14px'}
                             p={4}
                             py={6}
+                            _focus={{
+                                ring: 2,
+                                ringColor: "#309689",
+                                borderColor: "transparent",
+                                outline: "none"
+                            }}
                             {...register("fullName")}
                         />
                         <FormErrorMessage>{errors.fullName?.message}</FormErrorMessage>
@@ -86,6 +117,12 @@ const SignupPage = () => {
                             p={4}
                             py={6}
                             {...register("email")}
+                            _focus={{
+                                ring: 2,
+                                ringColor: "#309689",
+                                borderColor: "transparent",
+                                outline: "none"
+                            }}
                         />
                         <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
                     </FormControl>
@@ -99,6 +136,12 @@ const SignupPage = () => {
                                 p={4}
                                 py={6}
                                 {...register("password")}
+                                _focus={{
+                                    ring: 2,
+                                    ringColor: "#309689",
+                                    borderColor: "transparent",
+                                    outline: "none"
+                                }}
                             />
                             <InputRightElement h="full">
                                 <IconButton
@@ -111,6 +154,35 @@ const SignupPage = () => {
                         </InputGroup>
                         <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
                     </FormControl>
+                    <FormControl isInvalid={!!errors.confirmPassword}>
+                        <FormLabel>Confirm Password</FormLabel>
+                        <InputGroup>
+                            <Input
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Confirm password"
+                                rounded="14px"
+                                p={4}
+                                py={6}
+                                {...register("confirmPassword")}
+                                _focus={{
+                                    ring: 2,
+                                    ringColor: "#309689",
+                                    borderColor: "transparent",
+                                    outline: "none"
+                                }}
+                            />
+                            <InputRightElement h="full">
+                                <IconButton
+                                    variant="ghost"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                    icon={showPassword ? <FiEyeOff /> : <FiEye />}
+                                />
+                            </InputRightElement>
+                        </InputGroup>
+                        <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
+                    </FormControl>
+
                     <Button
                         bg={'#309689'}
                         color={'#fff'}
@@ -124,7 +196,7 @@ const SignupPage = () => {
                     </Button>
                     <Text fontSize="sm" textAlign="center">
                         Already have an account?{' '}
-                        <NextLink href="/login" passHref>
+                        <NextLink href="/auth/login" passHref>
                             <Link color="#309689">Login</Link>
                         </NextLink>
                     </Text>

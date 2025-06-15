@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import {
   Modal,
@@ -14,35 +15,37 @@ import {
   FormControl,
   FormLabel,
   InputGroup,
-  InputRightElement,
-  useDisclosure
+  Select
 } from '@chakra-ui/react';
-import { SlCalender } from "react-icons/sl";
-import Image from 'next/image';
+import { Country, State } from 'country-state-city';
 
-const EmploymentPopup = ({ isOpen, onOpen, onClose }) => {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-  const [formData, setFormData] = useState({
-    position: '',
-    employer: '',
-    city: '',
+const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => {
+  const [countries, setCountries] = useState(Country.getAllCountries());
+  const [states, setStates] = useState([]);
+
+  const [employmentData, setEmploymentData] = useState({
+    designation: '',
+    company: '',
+    country: '',
+    state: '',
     startDate: '',
     endDate: '',
     description: ''
   });
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
+    setEmploymentData(prev => ({
       ...prev,
       [field]: value
     }));
   };
 
   const handleCancel = () => {
-    setFormData({
-      position: '',
-      employer: '',
-      city: '',
+    setEmploymentData({
+      designation: '',
+      company: '',
+      country: '',
+      state: '',
       startDate: '',
       endDate: '',
       description: ''
@@ -51,13 +54,22 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose }) => {
   };
 
   const handleDone = () => {
-    console.log('Form submitted:', formData);
+    setFormData(prev => ({
+      ...prev,
+      experience: [...(prev.experience || []), employmentData]
+    }));
     onClose();
   };
-
+  const handleCountryChange = (e) => {
+    const countryCode = e.target.value;
+    const selectedCountry = countries.find(c => c.name === countryCode);
+    const stateList = State.getStatesOfCountry(selectedCountry.isoCode);
+    setStates(stateList);
+    setCities([]);
+  };
   return (
     <Box>
-      <Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered width={'656px'} height={'705px'}>
+      <Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered width={'656px'} h={'1000px'} className={'!h-auto'}>
         <ModalOverlay bg="blackAlpha.600" />
         <ModalContent
           maxW="656px"
@@ -80,43 +92,8 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose }) => {
               >
                 Employment
               </Text>
-
-              <FormControl>
-                <FormLabel
-                  fontSize="16px"
-                  color="gray.700"
-                  fontWeight="normal"
-                  mb={2}
-                >
-                  Position
-                </FormLabel>
-                <Input
-                  placeholder="Enter your detail"
-                  value={formData.position}
-                  onChange={(e) => handleInputChange('position', e.target.value)}
-                  bg="gray.50"
-                  border="1px solid"
-                  borderColor="gray.300"
-                  py={6}
-                  px={4}
-                  borderRadius="12px"
-                  fontSize="14px"
-                  _placeholder={{ color: 'gray.400' }}
-                  outline="1px solid"
-                  outlineColor="gray.300"
-                  _focus={{
-                    ring: 2,
-                    ringColor: "#309689",
-                    borderColor: "transparent",
-                    outline: "none"
-                  }}
-                  _active={{
-                    outline: "none"
-                  }}
-                />
-              </FormControl>
-
               <HStack spacing={4}>
+
                 <FormControl>
                   <FormLabel
                     fontSize="16px"
@@ -124,18 +101,18 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose }) => {
                     fontWeight="normal"
                     mb={2}
                   >
-                    Employer
+                    Designation
                   </FormLabel>
                   <Input
-                    placeholder="Enter your school name"
-                    value={formData.employer}
-                    onChange={(e) => handleInputChange('employer', e.target.value)}
+                    placeholder="Enter your designation"
+                    value={employmentData.designation}
+                    onChange={(e) => handleInputChange('designation', e.target.value)}
                     bg="gray.50"
                     border="1px solid"
                     borderColor="gray.300"
-                    borderRadius="12px"
                     py={6}
                     px={4}
+                    borderRadius="12px"
                     fontSize="14px"
                     _placeholder={{ color: 'gray.400' }}
                     outline="1px solid"
@@ -151,7 +128,6 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose }) => {
                     }}
                   />
                 </FormControl>
-
                 <FormControl>
                   <FormLabel
                     fontSize="16px"
@@ -159,18 +135,18 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose }) => {
                     fontWeight="normal"
                     mb={2}
                   >
-                    City
+                    Company Name
                   </FormLabel>
                   <Input
-                    placeholder="Enter your city name"
-                    value={formData.city}
-                    onChange={(e) => handleInputChange('city', e.target.value)}
+                    placeholder="Enter company"
+                    value={employmentData.company}
+                    onChange={(e) => handleInputChange('company', e.target.value)}
                     bg="gray.50"
                     border="1px solid"
                     borderColor="gray.300"
-                    borderRadius="12px"
                     py={6}
                     px={4}
+                    borderRadius="12px"
                     fontSize="14px"
                     _placeholder={{ color: 'gray.400' }}
                     outline="1px solid"
@@ -185,6 +161,84 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose }) => {
                       outline: "none"
                     }}
                   />
+                </FormControl>
+              </HStack>
+
+              <HStack spacing={4}>
+                <FormControl>
+                  <FormLabel
+                    fontSize="16px"
+                    color="gray.700"
+                    fontWeight="normal"
+                    mb={2}
+                  >
+                    Country
+                  </FormLabel>
+                  <Select
+                    placeholder="Country"
+                    value={employmentData.country}
+                    onChange={e => { setEmploymentData({ ...employmentData, country: e.target.value }), handleCountryChange(e) }}
+                    w="full"
+                    h="50px"
+                    border="1px solid"
+                    borderColor="gray.300"
+                    borderRadius="15px"
+                    bg="white"
+                    outline="1px solid"
+                    outlineColor="gray.300"
+                    _focus={{
+                      ring: 2,
+                      ringColor: "#309689",
+                      borderColor: "transparent",
+                      outline: "none"
+                    }}
+                    _active={{
+                      outline: "none"
+                    }}
+                    transition="all 0.2s"
+                  >
+                    {countries.map(c => (
+                      <option key={c.isoCode} value={c.name}>{c.name}</option>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel
+                    fontSize="16px"
+                    color="gray.700"
+                    fontWeight="normal"
+                    mb={2}
+                  >
+                    State
+                  </FormLabel>
+                  <Select
+                    placeholder="State"
+                    value={employmentData.state}
+                    onChange={e => setEmploymentData({ ...employmentData, state: e.target.value })}
+                    w="full"
+                    h="50px"
+                    border="1px solid"
+                    borderColor="gray.300"
+                    borderRadius="15px"
+                    bg="white"
+                    outline="1px solid"
+                    outlineColor="gray.300"
+                    _focus={{
+                      ring: 2,
+                      ringColor: "#309689",
+                      borderColor: "transparent",
+                      outline: "none"
+                    }}
+                    _active={{
+                      outline: "none"
+                    }}
+                    transition="all 0.2s"
+                  >
+                    {states.map(c => (
+                      <option key={c.isoCode} value={c.name}>{c.name}</option>
+                    ))}
+                  </Select>
                 </FormControl>
               </HStack>
 
@@ -201,7 +255,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose }) => {
                   <InputGroup>
                     <Input
                       placeholder="dd/mm/yyyy"
-                      value={formData.startDate}
+                      value={employmentData.startDate}
                       onChange={(e) => handleInputChange('startDate', e.target.value)}
                       bg="gray.50"
                       border="1px solid"
@@ -213,6 +267,8 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose }) => {
                       fontSize="14px"
                       _placeholder={{ color: 'gray.400' }}
                       outline="1px solid"
+                      max={new Date().toISOString().split("T")[0]}
+
                       outlineColor="gray.300"
                       _focus={{
                         ring: 2,
@@ -224,14 +280,6 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose }) => {
                         outline: "none"
                       }}
                     />
-                    {/* <InputRightElement
-                      pointerEvents="none"
-                      children={
-                        <Image alt={'icons'} src={'/Images/Icons/calender.png'} width={15} height={15} />
-                        // <SlCalender color="gray.400" />
-                      }
-                      pr={4}
-                    /> */}
                   </InputGroup>
                 </FormControl>
 
@@ -247,13 +295,15 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose }) => {
                   <InputGroup>
                     <Input
                       placeholder="dd/mm/yyyy"
-                      value={formData.endDate}
+                      value={employmentData.endDate}
                       onChange={(e) => handleInputChange('endDate', e.target.value)}
                       bg="gray.50"
                       type='date'
                       border="1px solid"
                       borderColor="gray.300"
                       borderRadius="12px"
+                      max={new Date().toISOString().split("T")[0]}
+
                       py={6}
                       px={4}
                       fontSize="14px"
@@ -270,13 +320,6 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose }) => {
                         outline: "none"
                       }}
                     />
-                    {/* <InputRightElement
-                      pointerEvents="none"
-                      children={
-                        <Image alt={'icons'} src={'/Images/Icons/calender.png'} width={15} height={15} />
-                      }
-                      pr={4}
-                    /> */}
                   </InputGroup>
                 </FormControl>
               </HStack>
@@ -292,7 +335,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose }) => {
                 </FormLabel>
                 <Textarea
                   placeholder="Enter description..."
-                  value={formData.description}
+                  value={employmentData.description}
                   onChange={(e) => handleInputChange('description', e.target.value)}
                   bg="gray.50"
                   border="1px solid"
