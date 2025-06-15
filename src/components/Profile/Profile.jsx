@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { Calendar, ChevronDown } from 'lucide-react';
+import { Box, Button, Flex, FormControl, FormLabel, Grid, Input, Select, Stack, Text, Textarea, Wrap, WrapItem } from '@chakra-ui/react';
 
 export default function CreateProfessionalProfile() {
     const [currentStep, setCurrentStep] = useState(1);
@@ -30,10 +31,10 @@ export default function CreateProfessionalProfile() {
 
     const handleNextStep = () => {
         if (currentStep === 1) {
-            if (!validateStep1()) {
-                alert('Please fill in all required fields (Name, CNIC, Email, Phone Number)');
-                return;
-            }
+            // if (!validateStep1()) {
+            //     alert('Please fill in all required fields (Name, CNIC, Email, Phone Number)');
+            //     return;
+            // }
             setCurrentStep(2);
         } else if (currentStep === 2) {
             setCurrentStep(3);
@@ -85,8 +86,6 @@ export default function CreateProfessionalProfile() {
         formData.append("photo", photoFile);
         cvFiles.forEach((file, index) => formData.append(`cv[${index}]`, file));
         certificateFiles.forEach((file, index) => formData.append(`certificates[${index}]`, file));
-
-        // Use formData for API call
     };
 
     const handleFileChange = (e) => {
@@ -103,20 +102,18 @@ export default function CreateProfessionalProfile() {
 
     return (
         <div className="min-h-screen bg-[#BADDD9] flex items-center justify-center p-4">
-            <div className="bg-white rounded-[32px] shadow-xl max-w-[1440px] p-6 md:p-20 w-[1274px] h-[1076px] my-10">
-                {/* Header */}
+            <div className="bg-white rounded-[32px] shadow-xl max-w-[1440px] p-6 md:p-20 w-[1274px] h-auto sm:h-[1076px] my-10">
                 <div className="mb-8">
                     <p className="text-2xl md:text-[32px] font-semibold text-black mb-3">
                         Create Your Professional Profile
                     </p>
-                    <p className="text-black text-[20px] md:text-base leading-relaxed">
+                    <p className="text-black text-[18px] md:text-base leading-relaxed">
                         Build a comprehensive profile to connect with agencies, agents, and Trade Test Centers
                         for international job opportunities.
                     </p>
                 </div>
 
-                {/* Step Indicators */}
-                <div className="flex items-center justify-center md:justify-start mb-8 space-x-4 md:space-x-8">
+                <div className="flex  items-center justify-center md:justify-start mb-8 gap-4 sm:space-x-4 md:space-x-8">
                     <div className="flex items-center space-x-2">
                         <div className={`w-10 h-10 ${currentStep >= 1 ? 'bg-[#00956B] text-white' : 'bg-gray-200 text-gray-600'} rounded-full flex items-center justify-center text-[16px] font-semibold`}>
                             1
@@ -139,390 +136,529 @@ export default function CreateProfessionalProfile() {
                     </div>
                 </div>
 
-                {/* Form Section */}
+
                 <div className="mb-8">
                     {currentStep === 1 && (
                         <>
-                            <p className="text-[26px] font-semibold text-black mb-16">Personal Details</p>
+                            <Box>
+                                <Text fontSize={{ base: 'xl', md: '26px' }} fontWeight="semibold" mb={{ base: 8, md: 10 }}>
+                                    Personal Details
+                                </Text>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        Name <span className="text-red-500">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleInputChange}
-                                        placeholder="Enter your name"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
+                                <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={6}>
+                                    {/* Name */}
+                                    <FormControl isRequired>
+                                        <FormLabel fontSize="md">Name</FormLabel>
+                                        <Input
+                                            name="name"
+                                            value={formData.name}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter your name"
+                                            borderRadius="15px"
+                                            focusBorderColor="#309689"
+                                            px={4}
+                                            py={6}
+                                        />
+                                    </FormControl>
 
-                                        required
-                                    />
-                                </div>
+                                    {/* CNIC */}
+                                    <FormControl isRequired>
+                                        <FormLabel fontSize="md">CNIC Number</FormLabel>
+                                        <Input
+                                            name="cnicNumber"
+                                            value={formData.cnicNumber}
+                                            onChange={handleInputChange}
+                                            placeholder="00000-0000000-0"
+                                            borderRadius="15px"
+                                            focusBorderColor="#309689"
+                                            px={4}
+                                            py={6}
+                                        />
+                                    </FormControl>
 
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        CNIC number <span className="text-red-500">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="cnicNumber"
-                                        value={formData.cnicNumber}
-                                        onChange={handleInputChange}
-                                        placeholder="00000-0000000-0"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
-                                        required
-                                    />
-                                </div>
+                                    {/* Passport */}
+                                    <FormControl>
+                                        <FormLabel fontSize="md">Passport Number</FormLabel>
+                                        <Input
+                                            name="passportNumber"
+                                            value={formData.passportNumber}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter passport number"
+                                            borderRadius="15px"
+                                            focusBorderColor="#309689"
+                                            px={4}
+                                            py={6}
+                                        />
+                                    </FormControl>
 
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        passport Number
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="passportNumber"
-                                        value={formData.passportNumber}
-                                        onChange={handleInputChange}
-                                        placeholder="Enter passport number"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        Date of birth
-                                    </label>
-                                    <div className="relative">
-                                        <input
-                                            type="text"
+                                    {/* DOB */}
+                                    <FormControl>
+                                        <FormLabel fontSize="md">Date of Birth</FormLabel>
+                                        <Input
                                             name="dateOfBirth"
                                             value={formData.dateOfBirth}
                                             onChange={handleInputChange}
                                             placeholder="dd/mm/yyyy"
-                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200 pr-12"
+                                            borderRadius="15px"
+                                            type='date'
+                                            focusBorderColor="#309689"
+                                            px={4}
+                                            py={6}
+                                            pr="2.5rem"
                                         />
-                                        <Calendar className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        Email Address <span className="text-red-500">*</span>
-                                    </label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleInputChange}
-                                        placeholder="Enter your email address"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        Phone number <span className="text-red-500">*</span>
-                                    </label>
-                                    <div className="flex">
-                                        <div className="flex items-center px-3 py-3 border border-r-0 border-gray-300 rounded-l-lg bg-gray-50">
-                                            <div className="w-5 h-4 bg-gradient-to-b from-black via-red-500 to-yellow-400 rounded-sm mr-2"></div>
-                                            <span className="text-sm text-gray-600">+370</span>
-                                        </div>
-                                        <input
-                                            type="tel"
-                                            name="phoneNumber"
-                                            value={formData.phoneNumber}
+                                    </FormControl>
+
+                                    {/* Email */}
+                                    <FormControl isRequired>
+                                        <FormLabel fontSize="md">Email Address</FormLabel>
+                                        <Input
+                                            type="email"
+                                            name="email"
+                                            value={formData.email}
                                             onChange={handleInputChange}
-                                            placeholder="phone number"
-                                            className="flex-1 !px-4 !py-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
-                                            required
+                                            placeholder="Enter your email address"
+                                            borderRadius="15px"
+                                            focusBorderColor="#309689"
+                                            px={4}
+                                            py={6}
                                         />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        City
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="city"
-                                        value={formData.city}
-                                        onChange={handleInputChange}
-                                        placeholder="Enter your City"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        Complete Address
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="completeAddress"
-                                        value={formData.completeAddress}
-                                        onChange={handleInputChange}
-                                        placeholder="Enter complete address"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
-                                    />
-                                </div>
-                            </div>
+                                    </FormControl>
+
+                                    {/* Phone Number */}
+                                    <FormControl isRequired>
+                                        <FormLabel fontSize="md">Phone Number</FormLabel>
+                                        <Flex>
+                                            <Flex
+                                                align="center"
+                                                px={3}
+                                                py={3}
+                                                border="1px solid"
+                                                borderRight="none"
+                                                borderColor="gray.300"
+                                                borderRadius="15px"
+                                                borderRightRadius="none"
+                                                bg="gray.50"
+                                            >
+                                                <Box w="5" h="4" bgGradient="linear(to-b, black, red.500, yellow.400)" rounded="sm" mr={2}></Box>
+                                                <Text fontSize="sm" color="gray.600">+370</Text>
+                                            </Flex>
+                                            <Input
+                                                name="phoneNumber"
+                                                value={formData.phoneNumber}
+                                                onChange={handleInputChange}
+                                                placeholder="Phone number"
+                                                borderRadius="15px"
+                                                borderLeftRadius="1px"
+                                                borderColor="gray.300"
+                                                px={4}
+                                                py={6}
+                                                focusBorderColor="#309689"
+                                            />
+                                        </Flex>
+                                    </FormControl>
+
+                                    {/* City */}
+                                    <FormControl>
+                                        <FormLabel fontSize="md">City</FormLabel>
+                                        <Input
+                                            name="city"
+                                            value={formData.city}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter your city"
+                                            borderRadius="15px"
+                                            focusBorderColor="#309689"
+                                            px={4}
+                                            py={6}
+                                        />
+                                    </FormControl>
+
+                                    {/* Complete Address */}
+                                    <FormControl>
+                                        <FormLabel fontSize="md">Complete Address</FormLabel>
+                                        <Input
+                                            name="completeAddress"
+                                            value={formData.completeAddress}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter complete address"
+                                            borderRadius="15px"
+                                            focusBorderColor="#309689"
+                                            px={4}
+                                            py={6}
+                                        />
+                                    </FormControl>
+                                </Grid>
+                            </Box>
                         </>
                     )}
 
                     {currentStep === 2 && (
                         <>
-                            <p className="text-[26px] font-semibold text-black mb-16">Professional Details</p>
+                            <Box>
+                                <Text fontSize={{ base: 'xl', md: '26px' }} fontWeight="semibold" mb={{ base: 8, md: 10 }}>
+                                    Professional Details
+                                </Text>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-                                {/* Applied Positions */}
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        Applied Positions
-                                    </label>
-                                    <div className="bg-[#E8F4F3] !px-4 !py-3 rounded-[15px] border border-gray-300">
-                                        <span className="text-gray-700">Electronic Technician</span>
-                                    </div>
-                                </div>
-
-                                {/* Education */}
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        Education
-                                    </label>
-                                    <div className="relative">
-                                        <select
+                                <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={6} mt={8}>
+                                    <FormControl>
+                                        <FormLabel fontSize="md">Applied Position</FormLabel>
+                                        <Box
+                                            bg="#E8F4F3"
+                                            px={4}
+                                            py={3}
+                                            borderRadius="15px"
+                                            border="1px solid"
+                                            borderColor="gray.300"
+                                        >
+                                            <Text color="gray.700">Electronic Technician</Text>
+                                        </Box>
+                                    </FormControl>
+                                    <FormControl>
+                                        <FormLabel fontSize="md">Education</FormLabel>
+                                        <Select
                                             name="education"
                                             value={formData.education}
                                             onChange={handleInputChange}
-                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200 appearance-none bg-white"
+                                            placeholder="Select"
+                                            borderRadius="15px"
+                                            h="50px"
+
+                                            focusBorderColor="#309689"
+                                            icon={
+                                                <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                                            }
                                         >
-                                            <option value="">Select</option>
                                             <option value="High School">High School</option>
                                             <option value="Bachelor's Degree">Bachelor's Degree</option>
                                             <option value="Master's Degree">Master's Degree</option>
                                             <option value="Diploma">Diploma</option>
                                             <option value="Certificate">Certificate</option>
-                                        </select>
-                                        <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                    </div>
-                                </div>
+                                        </Select>
+                                    </FormControl>
 
-                                {/* Gulf Experience */}
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        Gulf Experience
-                                    </label>
-                                    <div className="relative">
-                                        <select
+                                    {/* Gulf Experience */}
+                                    <FormControl>
+                                        <FormLabel fontSize="md">Gulf Experience</FormLabel>
+                                        <Select
                                             name="gulfExperience"
                                             value={formData.gulfExperience}
                                             onChange={handleInputChange}
-                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200 appearance-none bg-white"
+                                            placeholder="Select"
+                                            borderRadius="15px"
+                                            h="50px"
+
+                                            focusBorderColor="#309689"
+                                            icon={
+                                                <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                                            }
                                         >
-                                            <option value="">Select</option>
                                             <option value="No Experience">No Experience</option>
                                             <option value="1-2 Years">1-2 Years</option>
                                             <option value="3-5 Years">3-5 Years</option>
                                             <option value="5+ Years">5+ Years</option>
-                                        </select>
-                                        <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                    </div>
-                                </div>
+                                        </Select>
+                                    </FormControl>
 
-                                {/* Gulf License */}
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        Gulf License
-                                    </label>
-                                    <div className="relative">
-                                        <select
+                                    <FormControl>
+                                        <FormLabel fontSize="md">Gulf License</FormLabel>
+                                        <Select
                                             name="gulfLicense"
                                             value={formData.gulfLicense}
                                             onChange={handleInputChange}
-                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200 appearance-none bg-white"
+                                            placeholder="Select"
+                                            borderRadius="15px"
+                                            h="50px"
+                                            focusBorderColor="#309689"
+                                            icon={
+                                                <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                                            }
                                         >
-                                            <option value="">Select</option>
                                             <option value="Yes">Yes</option>
                                             <option value="No">No</option>
-                                        </select>
-                                        <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                    </div>
-                                </div>
+                                        </Select>
+                                    </FormControl>
 
-                                {/* Pakistani License */}
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        Pakistani License
-                                    </label>
-                                    <div className="relative">
-                                        <select
+                                    {/* Pakistani License */}
+                                    <FormControl>
+                                        <FormLabel fontSize="md">Pakistani License</FormLabel>
+                                        <Select
                                             name="pakistaniLicense"
                                             value={formData.pakistaniLicense}
                                             onChange={handleInputChange}
-                                            className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200 appearance-none bg-white"
+                                            placeholder="Select"
+                                            borderRadius="15px"
+                                            h="50px"
+                                            focusBorderColor="#309689"
+                                            icon={
+                                                <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                                            }
                                         >
-                                            <option value="">Select</option>
                                             <option value="Yes">Yes</option>
                                             <option value="No">No</option>
-                                        </select>
-                                        <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                                    </div>
-                                </div>
+                                        </Select>
+                                    </FormControl>
 
-                                {/* Key Skills */}
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                        Key Skills
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="keySkills"
-                                        value={formData.keySkills}
-                                        onChange={handleInputChange}
-                                        placeholder="Enter passport number"
-                                        className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200"
-                                    />
-                                </div>
-                            </div>
+                                    {/* Key Skills */}
+                                    <FormControl>
+                                        <FormLabel fontSize="md">Key Skills</FormLabel>
+                                        <Input
+                                            name="keySkills"
+                                            value={formData.keySkills}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter key skills"
+                                            borderRadius="15px"
+                                            px={4}
+                                            py={6}
+                                            focusBorderColor="#309689"
+                                        />
+                                    </FormControl>
+                                </Grid>
 
-                            {/* Description - Full Width */}
-                            <div className="mt-6">
-                                <label className="block text-[16px] font-medium text-gray-700 mb-2">
-                                    Description
-                                </label>
-                                <textarea
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleInputChange}
-                                    rows={6}
-                                    className="w-full !px-4 !py-3 border border-gray-300 rounded-[15px] focus:ring-2 focus:ring-[#309689] focus:border-transparent outline outline-gray-300 transition-all duration-200 resize-none"
-                                />
-                            </div>
+                                {/* Description */}
+                                <Box mt={6}>
+                                    <FormControl>
+                                        <FormLabel fontSize="md">Description</FormLabel>
+                                        <Textarea
+                                            name="description"
+                                            value={formData.description}
+                                            onChange={handleInputChange}
+                                            rows={6}
+                                            resize="none"
+                                            borderRadius="15px"
+                                            px={4}
+                                            py={3}
+                                            focusBorderColor="#309689"
+                                            placeholder="Write a brief description"
+                                        />
+                                    </FormControl>
+                                </Box>
+                            </Box>
                         </>
                     )}
-
                     {currentStep === 3 && (
                         <>
-                            <p className="text-[26px] font-semibold text-black mb-10">Documents</p>
+                            <Text fontSize="2xl" fontWeight="semibold" color="black" mb={10}>
+                                Documents
+                            </Text>
 
-                            <div className="space-y-10">
-                                {/* Photo Upload */}
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
+                            <Stack spacing={{ base: 6, md: 10 }}>
+                                {/* Photo */}
+                                <Box>
+                                    <FormLabel fontSize="md" color="gray.700" mb={2}>
                                         Photo
-                                    </label>
-                                    <div className="!border border-gray-300 rounded-[15px] bg-white px-4 py-6 flex items-center justify-center text-center">
-                                        <div>
-                                            <div className="flex flex-col items-center justify-center space-y-2">
-                                                <div className="text-gray-500 text-sm">
-                                                    <span className="block">Upload photo</span>
-                                                    <span className="block text-xs mt-1">Upload a professional photo with white background recommended</span>
-                                                </div>
-                                                <input
-                                                    type="file"
-                                                    name="photo"
-                                                    accept="image/*"
-                                                    // onChange={handleFileChange}
-                                                    className="mt-2"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </FormLabel>
+                                    <Box
+                                        border="1px solid"
+                                        borderColor="gray.300"
+                                        borderRadius="15px"
+                                        bg="white"
+                                        px={{ base: 3, md: 4 }}
+                                        py={{ base: 4, md: 6 }}
+                                        textAlign="center"
+                                        display="flex"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                    >
+                                        <Stack spacing={2} align="center">
+                                            <Text fontSize="sm" color="gray.500">
+                                                Upload photo
+                                            </Text>
+                                            <Text fontSize="xs" color="gray.500" textAlign="center">
+                                                Upload a professional photo with white background recommended
+                                            </Text>
+                                            <Input
+                                                type="file"
+                                                name="photo"
+                                                accept="image/*"
+                                                mt={2}
+                                                width={{ base: "100%", md: "auto" }}
+                                                maxW="250px"
+                                                paddingY="1"
+                                                paddingX="3"
+                                                fontSize="sm"
+                                                background="white"
+                                                border="1px solid"
+                                                borderColor="gray.300"
+                                                borderRadius="md"
+                                                cursor="pointer"
+                                            />
 
-                                {/* CV Documents Upload */}
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
+                                        </Stack>
+                                    </Box>
+                                </Box>
+
+                                {/* CV Documents */}
+                                <Box>
+                                    <FormLabel fontSize="md" color="gray.700" mb={2}>
                                         CV Documents
-                                    </label>
-                                    <div className="border border-gray-300 rounded-[15px] bg-white px-4 py-10 flex items-center justify-center text-center relative">
-                                        <div className="text-gray-500 text-sm">
+                                    </FormLabel>
+                                    <Box
+                                        border="1px solid"
+                                        borderColor="gray.300"
+                                        borderRadius="15px"
+                                        bg="white"
+                                        px={{ base: 3, md: 4 }}
+                                        py={{ base: 6, md: 10 }}
+                                        textAlign="center"
+                                        position="relative"
+                                    >
+                                        <Text fontSize="sm" color="gray.500">
                                             Drag and drop files here
-                                        </div>
-                                        <input
+                                        </Text>
+                                        <Input
                                             type="file"
                                             name="cvDocuments"
                                             accept=".pdf,.doc,.docx,image/*"
                                             multiple
-                                            // onChange={handleFileChange}
-                                            className="absolute inset-0 opacity-0 cursor-pointer"
+                                            position="absolute"
+                                            top={0}
+                                            left={0}
+                                            w="100%"
+                                            h="100%"
+                                            opacity={0}
+                                            cursor="pointer"
                                         />
-                                    </div>
+                                    </Box>
 
-                                    {/* Uploaded CV Files */}
-                                    <div className="mt-2 flex flex-wrap gap-2">
+                                    <Wrap mt={3}>
                                         {cvFiles.map((file, index) => (
-                                            <div key={index} className="flex items-center bg-[#309689] text-white px-3 py-1 rounded-full text-sm">
-                                                <span className="mr-2">{file.name}</span>
-                                                <button
-                                                    onClick={() => removeFile('cv', index)}
-                                                    className="text-white ml-1"
+                                            <WrapItem key={index}>
+                                                <Box
+                                                    display="flex"
+                                                    alignItems="center"
+                                                    bg="#309689"
+                                                    color="white"
+                                                    px={3}
+                                                    py={1}
+                                                    borderRadius="full"
+                                                    fontSize="sm"
+                                                    maxW="full"
                                                 >
-                                                    ×
-                                                </button>
-                                            </div>
+                                                    <Text mr={2} isTruncated>
+                                                        {file.name}
+                                                    </Text>
+                                                    <Button
+                                                        onClick={() => removeFile("cv", index)}
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        color="white"
+                                                        _hover={{ bg: "transparent" }}
+                                                        px={1}
+                                                    >
+                                                        ×
+                                                    </Button>
+                                                </Box>
+                                            </WrapItem>
                                         ))}
-                                    </div>
-                                </div>
+                                    </Wrap>
+                                </Box>
 
-                                {/* Licenses / Certificates Upload */}
-                                <div>
-                                    <label className="block text-[16px] font-medium text-gray-700 mb-2">
+                                {/* Licenses & Certificates */}
+                                <Box>
+                                    <FormLabel fontSize="md" color="gray.700" mb={2}>
                                         Licenses & Certificates
-                                    </label>
-                                    <div className="border border-gray-300 rounded-[15px] bg-white px-4 py-10 flex items-center justify-center text-center relative">
-                                        <div className="text-gray-500 text-sm">
+                                    </FormLabel>
+                                    <Box
+                                        border="1px solid"
+                                        borderColor="gray.300"
+                                        borderRadius="15px"
+                                        bg="white"
+                                        px={{ base: 3, md: 4 }}
+                                        py={{ base: 6, md: 10 }}
+                                        textAlign="center"
+                                        position="relative"
+                                    >
+                                        <Text fontSize="sm" color="gray.500">
                                             Upload any licenses or certificates that may be relevant
-                                        </div>
-                                        <input
+                                        </Text>
+                                        <Input
                                             type="file"
                                             name="certificates"
                                             multiple
-                                            // onChange={handleFileChange}
-                                            className="absolute inset-0 opacity-0 cursor-pointer"
+                                            position="absolute"
+                                            top={0}
+                                            left={0}
+                                            w="100%"
+                                            h="100%"
+                                            opacity={0}
+                                            cursor="pointer"
                                         />
-                                    </div>
+                                    </Box>
 
-                                    {/* Uploaded Certificate Files */}
-                                    <div className="mt-2 flex flex-wrap gap-2">
+                                    <Wrap mt={3}>
                                         {certificateFiles.map((file, index) => (
-                                            <div key={index} className="flex items-center bg-[#309689] text-white px-3 py-1 rounded-full text-sm">
-                                                <span className="mr-2">{file.name}</span>
-                                                <button
-                                                    onClick={() => removeFile('certificate', index)}
-                                                    className="text-white ml-1"
+                                            <WrapItem key={index}>
+                                                <Box
+                                                    display="flex"
+                                                    alignItems="center"
+                                                    bg="#309689"
+                                                    color="white"
+                                                    px={3}
+                                                    py={1}
+                                                    borderRadius="full"
+                                                    fontSize="sm"
+                                                    maxW="full"
                                                 >
-                                                    ×
-                                                </button>
-                                            </div>
+                                                    <Text mr={2} isTruncated>
+                                                        {file.name}
+                                                    </Text>
+                                                    <Button
+                                                        onClick={() => removeFile("certificate", index)}
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        color="white"
+                                                        _hover={{ bg: "transparent" }}
+                                                        px={1}
+                                                    >
+                                                        ×
+                                                    </Button>
+                                                </Box>
+                                            </WrapItem>
                                         ))}
-                                    </div>
-                                </div>
-                            </div>
-
+                                    </Wrap>
+                                </Box>
+                            </Stack>
 
                         </>
                     )}
-
                 </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4 gap-4">
-                    <button
+                <Flex
+                    direction={{ base: "column", sm: "row" }}
+                    justify="flex-end"
+                    gap={{ base: 3, sm: 4 }}
+                >
+                    <Button
                         onClick={handleCancel}
-                        className="w-[255px] h-[50px] px-6 py-3 text-gray-700 !bg-[#F1F2F4] hover:bg-gray-300 rounded-[12px] font-medium transition-colors duration-200 order-2 sm:order-1"
+                        w={{ base: 'full', sm: '255px' }}
+                        h="50px"
+                        px={6}
+                        py={3}
+                        bg="#F1F2F4"
+                        _hover={{ bg: "gray.300" }}
+                        color="gray.700"
+                        borderRadius="12px"
+                        fontWeight="medium"
+                        order={{ base: 2, sm: 1 }}
                     >
-                        {currentStep > 1 ? 'Previous Step' : 'Cancel'}
-                    </button>
-                    <button
+                        {currentStep > 1 ? "Previous Step" : "Cancel"}
+                    </Button>
+
+                    <Button
                         onClick={handleNextStep}
-                        className="w-[255px] h-[50px] px-8 py-3 !bg-[#309689] hover:bg-[#309689] !text-white rounded-[12px] font-medium transition-colors duration-200 order-1 sm:order-2"
+                        w={{ base: 'full', sm: '255px' }}
+                        h="50px"
+                        px={8}
+                        py={3}
+                        bg="#309689"
+                        _hover={{ bg: "#309689" }}
+                        color="white"
+                        borderRadius="12px"
+                        fontWeight="medium"
+                        order={{ base: 1, sm: 2 }}
                     >
-                        {currentStep === 3 ? 'Save' : 'Next Step'}
-                    </button>
-                </div>
+                        {currentStep === 3 ? "Save" : "Next Step"}
+                    </Button>
+                </Flex>
+
             </div>
         </div>
     );

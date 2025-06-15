@@ -32,7 +32,7 @@ const features = [
 export default function TopCompanies() {
   return (
     <Box px={4} py={16} bg={'#3096891A'}>
-      <Box maxW={'1440px'} mx={'auto'}>
+      <Box maxW={'1440px'} mx={'auto'}  >
         <VStack spacing={3} textAlign="center" mb={12}>
           <Text fontSize={{ base: "2xl", md: "50px" }} fontWeight="bold">
             Top Companies
@@ -41,7 +41,7 @@ export default function TopCompanies() {
             At eu lobortis pretium tincidunt amet lacus ut aenean aliquet. Blandit a massa elementum
           </Text>
         </VStack>
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={6} >
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={6} mx={'auto'} justifyItems="center">
           {features.map((feature, idx) => (
             <Box
               key={idx}
@@ -67,10 +67,10 @@ export default function TopCompanies() {
               >
                 <Image src={feature.icon} alt="icon" width={60} height={60} />
               </Box>
-              <Text fontWeight="bold" fontSize="24px" mb={2} >
+              <Text fontWeight="bold" fontSize={{ base: "xl", md: "24px" }} mb={2} >
                 {feature.title}
               </Text>
-              <Text fontSize="16px" color="black">
+              <Text fontSize={{ base: "md", md: "16px" }} color="black">
                 {feature.description}
               </Text>
               <Box bg={'#3096891A'} px={2} py={1} borderRadius="md" mt={4}>

@@ -1,6 +1,6 @@
 'use client'
 import { HeroSection } from './HeroSection'
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import {
     Box,
     Container,
@@ -59,7 +59,7 @@ const Jobs = () => {
     const [selectedDatePosted, setSelectedDatePosted] = useState([]);
     const [salaryRange, setSalaryRange] = useState([0, 100000]);
     const [selectedTags, setSelectedTags] = useState([]);
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    // const { isOpen, onOpen, onClose } = useDisclosure();
 
     const jobsData = [
         {
@@ -223,16 +223,13 @@ const Jobs = () => {
 
     const FilterSection = () => (
         <VStack spacing={6} align="stretch">
-            {/* Search */}
             <Box>
                 <Text fontSize="lg" fontWeight="semibold" mb={3}>
                     Search by Job Title
                 </Text>
                 <InputGroup>
                     <InputLeftElement pointerEvents="none">
-                        {/* <Image src="/Images/Icons/search.png" alt="search" width={16} height={16} /> */}
                         <IoSearch className="text-[15px]" />
-
                     </InputLeftElement>
                     <Input
                         placeholder="Job title or company"
@@ -242,8 +239,6 @@ const Jobs = () => {
                     />
                 </InputGroup>
             </Box>
-
-            {/* Location */}
             <Box>
                 <Text fontSize="lg" fontWeight="semibold" mb={3}>
                     Location
@@ -261,8 +256,6 @@ const Jobs = () => {
                     <option value="boston">Boston, USA</option>
                 </Select>
             </Box>
-
-            {/* Category */}
             <Box>
                 <Text fontSize="lg" fontWeight="semibold" mb={3}>
                     Category
@@ -283,7 +276,6 @@ const Jobs = () => {
                 </CheckboxGroup>
             </Box>
 
-            {/* Job Type */}
             <Box>
                 <Text fontSize="lg" fontWeight="semibold" mb={3}>
                     Job Type
@@ -304,7 +296,6 @@ const Jobs = () => {
                 </CheckboxGroup>
             </Box>
 
-            {/* Experience Level */}
             <Box>
                 <Text fontSize="lg" fontWeight="semibold" mb={3}>
                     Experience Level
@@ -325,7 +316,6 @@ const Jobs = () => {
                 </CheckboxGroup>
             </Box>
 
-            {/* Date Posted */}
             <Box>
                 <Text fontSize="lg" fontWeight="semibold" mb={3}>
                     Date Posted
@@ -346,7 +336,6 @@ const Jobs = () => {
                 </CheckboxGroup>
             </Box>
 
-            {/* Salary Range */}
             <Box>
                 <Text fontSize="lg" fontWeight="semibold" mb={3}>
                     Salary
@@ -379,7 +368,6 @@ const Jobs = () => {
                 </VStack>
             </Box>
 
-            {/* Tags */}
             <Box>
                 <Text fontSize="lg" fontWeight="semibold" mb={3}>
                     Tags
@@ -415,12 +403,10 @@ const Jobs = () => {
                 )}
             </Box>
 
-            {/* Clear Filters */}
             <Button variant="outline" colorScheme="red" size="sm" onClick={clearAllFilters}>
                 Clear All Filters
             </Button>
 
-            {/* Promotional Card */}
             <Card bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)" color="white" rounded="xl">
                 <CardBody p={6} textAlign="center">
                     <VStack spacing={3}>
@@ -435,9 +421,8 @@ const Jobs = () => {
         </VStack>
     );
 
-    const JobCard = ({ job, index }) => (
+    const JobCard = memo(({ job }) => (
         <Card
-            key={index}
             bg={'#fff'}
             shadow="sm"
             border="1px"
@@ -446,32 +431,41 @@ const Jobs = () => {
             _hover={{ shadow: 'md' }}
             transition="all 0.2s"
         >
-            <CardBody p={6}>
-                <Flex direction="column" gap={4}>
+            <CardBody p={{ base: 4, md: 6 }}>
+                <Flex direction="column" gap={{ base: 3, md: 4 }}>
                     <Flex justify="space-between" align="center">
-                        <Box bg={'#3096891A'} px={4} py={2} borderRadius="md">
-                            <Text fontSize="16px" color="gray.500">
+                        <Box bg={'#3096891A'} px={{ base: 3, md: 4 }} py={2} borderRadius="md">
+                            <Text fontSize={{ base: '14px', md: '16px' }} color="gray.500">
                                 {job.timeAgo}
                             </Text>
                         </Box>
                         <IconButton
                             icon={
-                                <Image src={`/Images/Icons/bookmark.png`} alt="icon" width={24} height={24} />
+                                <Image
+                                    src={`/Images/Icons/bookmark.png`}
+                                    alt="icon"
+                                    width={24}
+                                    height={24}
+                                />
                             }
                             variant="ghost"
-                            size="16px"
+                            size={{ base: 'sm', md: 'md' }}
                             onClick={() => toggleBookmark(job.id)}
                             aria-label="Bookmark job"
                         />
                     </Flex>
 
-                    <Flex gap={3} align="flex-start">
+                    <Flex gap={{ base: 2, md: 3 }} align="flex-start">
                         <CompanyAvatar colors={job.colors} company={job.company} />
                         <VStack align="flex-start" spacing={1} flex={1}>
-                            <Heading size="md" color="gray.800" fontWeight="semibold">
+                            <Heading
+                                size={{ base: 'sm', md: 'md' }}
+                                color="gray.800"
+                                fontWeight="semibold"
+                            >
                                 {job.title}
                             </Heading>
-                            <Text color="gray.600" fontSize="sm">
+                            <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
                                 {job.company}
                             </Text>
                         </VStack>
@@ -481,37 +475,55 @@ const Jobs = () => {
                         justify="space-between"
                         align="center"
                         direction={{ base: 'column', lg: 'row' }}
-                        gap={4}
+                        gap={{ base: 3, md: 4 }}
                     >
                         <HStack
-                            spacing={6}
+                            spacing={{ base: 4, md: 6 }}
                             wrap="wrap"
                             align="center"
+                            justify="flex-start"
                         >
                             <HStack spacing={2}>
-                                <Image src={`/Images/Icons/briefcase.png`} alt="icon" width={24} height={24} />
-                                <Text fontSize="sm" color="gray.600">
+                                <Image
+                                    src={`/Images/Icons/briefcase.png`}
+                                    alt="icon"
+                                    width={24}
+                                    height={24}
+                                />
+                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
                                     {job.industry}
                                 </Text>
                             </HStack>
-
                             <HStack spacing={2}>
-                                <Image src={`/Images/Icons/clock.png`} alt="icon" width={24} height={24} />
-                                <Text fontSize="sm" color="gray.600">
+                                <Image
+                                    src={`/Images/Icons/clock.png`}
+                                    alt="icon"
+                                    width={24}
+                                    height={24}
+                                />
+                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
                                     {job.type}
                                 </Text>
                             </HStack>
-
                             <HStack spacing={2}>
-                                <Image src={`/Images/Icons/wallet.png`} alt="icon" width={24} height={24} />
-                                <Text fontSize="sm" color="gray.600">
+                                <Image
+                                    src={`/Images/Icons/wallet.png`}
+                                    alt="icon"
+                                    width={24}
+                                    height={24}
+                                />
+                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
                                     {job.salary}
                                 </Text>
                             </HStack>
-
                             <HStack spacing={2}>
-                                <Image src={`/Images/Icons/location.png`} alt="icon" width={24} height={24} />
-                                <Text fontSize="sm" color="gray.600">
+                                <Image
+                                    src={`/Images/Icons/location.png`}
+                                    alt="icon"
+                                    width={24}
+                                    height={24}
+                                />
+                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
                                     {job.location}
                                 </Text>
                             </HStack>
@@ -521,11 +533,12 @@ const Jobs = () => {
                             as={Link}
                             href={`/job-details/${job.id}`}
                             bg={'#309689'}
-                            size="md"
+                            size={{ base: 'sm', md: 'md' }}
                             rounded={'8px'}
-                            px={6}
+                            px={{ base: 4, md: 6 }}
                             flexShrink={0}
                             color={'white'}
+                            _hover={{ bg: '#309689' }}
                         >
                             Job Details
                         </Button>
@@ -533,46 +546,70 @@ const Jobs = () => {
                 </Flex>
             </CardBody>
         </Card>
-    );
+    ));
+    const [isOpen, setIsOpen] = useState(false);
+
+    const onOpen = useMemo(() => () => setIsOpen(true), []);
+    const onClose = useMemo(() => () => setIsOpen(false), []);
+    const memoizedJobs = useMemo(() => jobsData, []);
 
     return (
         <Box>
             <HeroSection />
             <Box bg={'#3096891A'} minH="100vh">
-                <Container maxW="1440px" py={8}>
-                    <Flex gap={8} direction={{ base: 'column', lg: 'row' }}>
+                <Container
+                    maxW={{ base: '100%', sm: 'container.sm', md: 'container.md', lg: '1440px' }}
+                    py={{ base: 4, md: 8 }}
+                >
+                    <Flex gap={{ base: 4, md: 8 }} direction={{ base: 'column', lg: 'row' }}>
                         <Box
                             w={{ base: 'full', lg: '300px' }}
                             display={{ base: 'none', lg: 'block' }}
                             flexShrink={0}
                         >
-                            <Box bg="white" p={6} rounded="xl" shadow="sm">
+                            <Box
+                                bg="white"
+                                p={{ base: 4, md: 6 }}
+                                rounded="xl"
+                                shadow="sm"
+                            >
                                 <FilterSection />
                             </Box>
                         </Box>
 
                         <Box display={{ base: 'block', lg: 'none' }} mb={4}>
-                            <Button onClick={onOpen} bg={'#309689'} color={'white'} leftIcon={<Text>⚙️</Text>}>
+                            <Button
+                                onClick={onOpen}
+                                bg={'#309689'}
+                                color={'white'}
+                                leftIcon={<Text fontSize={{ base: 'sm', md: 'md' }}>⚙️</Text>}
+                                size={{ base: 'sm', md: 'md' }}
+                                w={{ base: 'full', sm: 'auto' }}
+                            >
                                 Filters
                             </Button>
                         </Box>
 
                         <Box flex={1}>
-                            <VStack spacing={6} align="stretch">
+                            <VStack spacing={{ base: 4, md: 6 }} align="stretch">
                                 <Flex
                                     justify="space-between"
                                     align="center"
                                     direction={{ base: 'column', md: 'row' }}
-                                    gap={4}
+                                    gap={{ base: 2, md: 4 }}
                                 >
-                                    <Text color="gray.500" fontSize="sm">
+                                    <Text
+                                        color="gray.500"
+                                        fontSize={{ base: 'xs', md: 'sm' }}
+                                    >
                                         Showing 6-6 of 10 results
                                     </Text>
                                     <Select
                                         placeholder="Sort by latest"
-                                        w={{ base: 'full', md: '200px' }}
-                                        size="sm"
+                                        w={{ base: 'full', md: '180px', lg: '200px' }}
+                                        size={{ base: 'xs', md: 'sm' }}
                                         bg="white"
+                                        fontSize={{ base: 'xs', md: 'sm' }}
                                     >
                                         <option value="latest">Sort by latest</option>
                                         <option value="salary">Sort by salary</option>
@@ -580,29 +617,61 @@ const Jobs = () => {
                                     </Select>
                                 </Flex>
 
-                                <VStack spacing={4} align="stretch">
-                                    {jobsData.map((job, index) => (
+                                <VStack spacing={{ base: 3, md: 4 }} align="stretch">
+                                    {memoizedJobs.map((job, index) => (
                                         <JobCard key={job.id} job={job} index={index} />
                                     ))}
                                 </VStack>
 
-                                <Flex justify="center" mt={8}>
-                                    <HStack spacing={2}>
+                                <Flex justify="center" mt={{ base: 4, md: 8 }}>
+                                    <HStack spacing={{ base: 1, md: 2 }}>
                                         <IconButton
-                                            icon={<Text>←</Text>}
+                                            icon={<Text fontSize={{ base: 'xs', md: 'sm' }}>←</Text>}
                                             variant="ghost"
-                                            size="sm"
+                                            size={{ base: 'xs', md: 'sm' }}
                                             aria-label="Previous page"
                                         />
-                                        <Button size="sm" bg={'#309689'} color={'white'} variant="solid">01</Button>
-                                        <Button size="sm" variant="ghost">02</Button>
-                                        <Button size="sm" variant="ghost">03</Button>
-                                        <Button size="sm" variant="ghost">04</Button>
-                                        <Button size="sm" variant="ghost">05</Button>
-                                        <IconButton
-                                            icon={<Text>→</Text>}
+                                        <Button
+                                            size={{ base: 'xs', md: 'sm' }}
+                                            bg={'#309689'}
+                                            color={'white'}
+                                            variant="solid"
+                                            fontSize={{ base: 'xs', md: 'sm' }}
+                                        >
+                                            01
+                                        </Button>
+                                        <Button
+                                            size={{ base: 'xs', md: 'sm' }}
                                             variant="ghost"
-                                            size="sm"
+                                            fontSize={{ base: 'xs', md: 'sm' }}
+                                        >
+                                            02
+                                        </Button>
+                                        <Button
+                                            size={{ base: 'xs', md: 'sm' }}
+                                            variant="ghost"
+                                            fontSize={{ base: 'xs', md: 'sm' }}
+                                        >
+                                            03
+                                        </Button>
+                                        <Button
+                                            size={{ base: 'xs', md: 'sm' }}
+                                            variant="ghost"
+                                            fontSize={{ base: 'xs', md: 'sm' }}
+                                        >
+                                            04
+                                        </Button>
+                                        <Button
+                                            size={{ base: 'xs', md: 'sm' }}
+                                            variant="ghost"
+                                            fontSize={{ base: 'xs', md: 'sm' }}
+                                        >
+                                            05
+                                        </Button>
+                                        <IconButton
+                                            icon={<Text fontSize={{ base: 'xs', md: 'sm' }}>→</Text>}
+                                            variant="ghost"
+                                            size={{ base: 'xs', md: 'sm' }}
                                             aria-label="Next page"
                                         />
                                     </HStack>
@@ -611,11 +680,18 @@ const Jobs = () => {
                         </Box>
                     </Flex>
 
-                    <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="sm">
+                    <Drawer
+                        isOpen={isOpen}
+                        placement="left"
+                        onClose={onClose}
+                        size={{ base: 'xs', sm: 'sm' }}
+                    >
                         <DrawerOverlay />
                         <DrawerContent>
-                            <DrawerCloseButton />
-                            <DrawerHeader>Filters</DrawerHeader>
+                            <DrawerCloseButton size={{ base: 'sm', md: 'md' }} />
+                            <DrawerHeader fontSize={{ base: 'md', md: 'lg' }}>
+                                Filters
+                            </DrawerHeader>
                             <DrawerBody>
                                 <FilterSection />
                             </DrawerBody>

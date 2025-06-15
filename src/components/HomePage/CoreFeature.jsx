@@ -46,7 +46,7 @@ export default function CoreFeatures() {
             Complete Pakistan offers comprehensive solutions for every stakeholder in the overseas employment process
           </Text>
         </VStack>
-        <SimpleGrid columns={{ base: 2, sm: 2, md: 4 }} spacing={{ base: 4, sm: 5, md: 6 }}>
+        <SimpleGrid columns={{ base: 2, sm: 2, md: 4 }} spacing={{ base: 4, sm: 5, md: 6 }} justifyItems="center" >
           {features.map((feature, idx) => (
             <Box
               key={idx}
