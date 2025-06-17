@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import {
   Modal,
@@ -14,11 +15,7 @@ import {
   FormControl,
   FormLabel,
   InputGroup,
-  InputRightElement,
-  useDisclosure
 } from '@chakra-ui/react';
-import { SlCalender } from "react-icons/sl";
-import Image from 'next/image';
 
 const EducationPopup = ({ isOpen, onOpen, onClose }) => {
   // const { isOpen, onOpen, onClose } = useDisclosure();

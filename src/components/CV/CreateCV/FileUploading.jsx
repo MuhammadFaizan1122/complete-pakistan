@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { FaFilePdf, FaFileImage, FaTimes } from "react-icons/fa";
 
-const FileUpload = () => {
+const FileUpload = ({ setFormData }) => {
     const [uploadedDocs, setUploadedDocs] = useState([]);
     const fileInputRef = useRef();
     const toast = useToast();
@@ -56,6 +56,7 @@ const FileUpload = () => {
         }
 
         setUploadedDocs(prev => [...prev, ...newFiles]);
+        setFormData(prev => [...prev, ...newFiles]);
     };
 
 

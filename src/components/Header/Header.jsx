@@ -5,7 +5,6 @@ import {
     Button,
     Container,
     Flex,
-    Heading,
     Text,
     Drawer,
     DrawerBody,
@@ -20,6 +19,7 @@ import {
     Avatar,
     MenuList,
     MenuItem,
+    Collapse,
 } from "@chakra-ui/react";
 import { FaBars } from "react-icons/fa";
 import Image from "next/image";
@@ -30,9 +30,16 @@ import { signOut, useSession } from "next-auth/react";
 export default function Header() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
+    const [cvMenuOpen, setCvMenuOpen] = useState(false);
+    const [recruitmentOpen, setRecruitmentOpen] = useState(false);
+
     const onToggle = () => setIsOpen(!isOpen);
-    const onClose = () => setIsOpen(false);
-    const { data: session, status } = useSession()
+    const onClose = () => {
+        setIsOpen(false);
+        setCvMenuOpen(false);
+    };
+
+    const { data: session, status } = useSession();
 
     const navLinks = [
         { href: '/', label: 'Home' },
@@ -44,6 +51,18 @@ export default function Header() {
         { href: '#', label: 'Interview' },
         { href: '/about-us', label: 'About Us' },
         { href: '/contact-us', label: 'Contact Us' },
+    ];
+
+    const makeCvLinks = [
+        { href: '/create-cv', label: 'Create CV' },
+        { href: '/cv-directory', label: 'Create Other CV' },
+        { href: '/cv-directory', label: 'CV Directory' },
+    ];
+    const recruitmentLinks = [
+        { href: '#', label: 'Overseas Employement Promoters - OEP' },
+        { href: '#', label: 'Trade Test & Trade Center - TTC' },
+        { href: '#', label: 'Verified Trade Partners' },
+        { href: '#', label: 'Consultancies' },
     ];
 
     return (
@@ -60,27 +79,52 @@ export default function Header() {
                     display={{ base: 'none', md: 'flex' }}
                 >
                     {navLinks.map((link, i) => (
-                        <Link key={i} href={link.href}>
-                            <Text
-                                _hover={{ color: '#309689' }}
-                                cursor="pointer"
-                                className={`duration-300 ${pathname === link.href ? 'text-[#309689] font-semibold' : ""}`}
-                            >
-                                {link.label}
-                            </Text>
-                        </Link>
+                        link.label === "Make CV" ? (
+                            <Menu key={i} isLazy>
+                                <MenuButton fontWeight={pathname.startsWith("/create") ? "semibold" : "normal"} color={pathname.startsWith("/create") ? "#309689" : ""}>
+                                    <Flex align="center" gap={1} cursor="pointer" _hover={{ color: "#309689" }} fontWeight={pathname.startsWith("/create") ? "semibold" : "normal"}>
+                                        Make CV
+                                    </Flex>
+                                </MenuButton>
+                                <MenuList>
+                                    {makeCvLinks.map((subLink, j) => (
+                                        <MenuItem key={j} as={Link} href={status === 'authenticated' ? subLink.href :'/auth/login'}>
+                                            {subLink.label}
+                                        </MenuItem>
+                                    ))}
+                                </MenuList>
+                            </Menu>
+                        ) : link.label === "Recruitment" ? (
+                            <Menu key={i} isLazy>
+                                <MenuButton fontWeight={'normal'}>
+                                    <Flex align="center" gap={1} cursor="pointer" _hover={{ color: "#309689" }} >
+                                        Recruitment
+                                    </Flex>
+                                </MenuButton>
+                                <MenuList>
+                                    {recruitmentLinks.map((subLink, j) => (
+                                        <MenuItem key={j} as={Link} href={subLink.href}>
+                                            {subLink.label}
+                                        </MenuItem>
+                                    ))}
+                                </MenuList>
+                            </Menu>
+                        ) : (
+                            <Link key={i} href={link.href}>
+                                <Text
+                                    _hover={{ color: '#309689' }}
+                                    cursor="pointer"
+                                    className={`duration-300 ${pathname === link.href ? 'text-[#309689] font-semibold' : ""}`}
+                                >
+                                    {link.label}
+                                </Text>
+                            </Link>
+                        )
                     ))}
                 </Flex>
 
-                {/* Mobile Menu Button */}
-                <IconButton
-                    aria-label="Open Menu"
-                    icon={<FaBars />}
-                    display={{ base: 'flex', md: 'none' }}
-                    onClick={onToggle}
-                    variant="outline"
-                />
-                <Flex gap={2} align="center" display={{ base: 'none', md: 'block' }}>
+                {/* Desktop Auth */}
+                <Flex gap={2} align="center" display={{ base: 'none', md: 'flex' }}>
                     {status === "authenticated" ? (
                         <Menu>
                             <MenuButton>
@@ -100,7 +144,7 @@ export default function Header() {
                             </MenuList>
                         </Menu>
                     ) : (
-                        <Flex gap={2} display={{ base: 'none', md: 'flex' }}>
+                        <>
                             <Button as={Link} href={'/auth/login'} bg={'#fff'} color={'#000'}>
                                 Login
                             </Button>
@@ -115,9 +159,18 @@ export default function Header() {
                             >
                                 Register
                             </Button>
-                        </Flex>
+                        </>
                     )}
                 </Flex>
+
+                {/* Mobile Menu Button */}
+                <IconButton
+                    aria-label="Open Menu"
+                    icon={<FaBars />}
+                    display={{ base: 'flex', md: 'none' }}
+                    onClick={onToggle}
+                    variant="outline"
+                />
             </Container>
 
             {/* Mobile Drawer */}
@@ -125,43 +178,147 @@ export default function Header() {
                 <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton />
-                    <DrawerHeader>Menu</DrawerHeader>
+                    <DrawerHeader>
+                        {status === "authenticated" && (
+                            <Flex align="center" mt={4} gap={3}>
+                                <Avatar size="md" src={session?.user?.image || undefined} />
+                                <Text>{session?.user?.name || "User"}</Text>
+                            </Flex>
+                        )}
+                    </DrawerHeader>
                     <DrawerBody>
                         <VStack align="start" spacing={4}>
-                            {navLinks.map((link, i) => (
-                                <Link key={i} href={link.href} onClick={onClose}>
+                            {status === 'authenticated'
+                                &&
+                                <Link href={'/profile'} onClick={onClose}>
                                     <Text
                                         _hover={{ color: '#309689' }}
                                         cursor="pointer"
-                                        className={`duration-300 ${pathname === link.href ? 'text-[#309689] font-semibold' : ""}`}
+                                        className={`duration-300 ${pathname === '/profile' ? 'text-[#309689] font-semibold' : ""}`}
                                     >
-                                        {link.label}
+                                        Profile
                                     </Text>
                                 </Link>
-                            ))}
-                            <Button
-                                as={Link}
-                                href={'/auth/login'}
-                                bg={'#fff'}
-                                color={'#000'}
-                                width="full"
-                                onClick={onClose}
-                            >
-                                Login
-                            </Button>
-                            <Button
-                                as={Link}
-                                href={'/auth/signup'}
-                                bg={'#309689'}
-                                color={'#fff'}
-                                border="1px"
-                                width="full"
-                                _hover={{ color: "#000", bg: '#fff', borderColor: "#000" }}
-                                onClick={onClose}
-                                rounded={'8px'}
-                            >
-                                Register
-                            </Button>
+                            }
+                            {navLinks.map((link, i) => {
+                                if (link.label === "Make CV") {
+                                    return (
+                                        <Box key={i} width="full">
+                                            <Flex
+                                                justify="space-between"
+                                                align="center"
+                                                onClick={() => setCvMenuOpen(!cvMenuOpen)}
+                                                cursor="pointer"
+                                                _hover={{ color: "#309689" }}
+                                            >
+                                                <Text
+                                                    className={`duration-300 ${pathname.startsWith("/create") || pathname === "/cv-directory" ? 'text-[#309689] font-semibold' : ""}`}
+                                                >
+                                                    Make CV
+                                                </Text>
+
+                                            </Flex>
+                                            <Collapse in={cvMenuOpen} animateOpacity>
+                                                <VStack pl={4} pt={2} align="start">
+                                                    {makeCvLinks.map((sub, j) => (
+                                                        <Link key={j} href={sub.href} onClick={onClose}>
+                                                            <Text
+                                                                _hover={{ color: "#309689" }}
+                                                                className={`duration-300 ${pathname === sub.href ? 'text-[#309689] font-semibold' : ""}`}
+                                                            >
+                                                                {sub.label}
+                                                            </Text>
+                                                        </Link>
+                                                    ))}
+                                                </VStack>
+                                            </Collapse>
+                                        </Box>
+                                    );
+                                } else if (link.label === "Recruitment") {
+                                    return (
+                                        <Box key={i} width="full">
+                                            <Flex
+                                                justify="space-between"
+                                                align="center"
+                                                onClick={() => setRecruitmentOpen(!recruitmentOpen)}
+                                                cursor="pointer"
+                                                _hover={{ color: "#309689" }}
+                                            >
+                                                <Text
+                                                    className={`duration-300 ${pathname.includes("/create") || pathname === "/cv-directory" ? 'text-[#309689] font-semibold' : ""}`}
+                                                >
+                                                    Recruitment
+                                                </Text>
+
+                                            </Flex>
+                                            <Collapse in={recruitmentOpen} animateOpacity>
+                                                <VStack pl={4} pt={2} align="start">
+                                                    {recruitmentLinks.map((sub, j) => (
+                                                        <Link key={j} href={sub.href} onClick={onClose}>
+                                                            <Text
+                                                                _hover={{ color: "#309689" }}
+                                                                className={`duration-300 truncate ${pathname === sub.href ? 'text-[#309689] font-semibold' : ""}`}
+                                                            >
+                                                                {sub.label}
+                                                            </Text>
+                                                        </Link>
+                                                    ))}
+                                                </VStack>
+                                            </Collapse>
+                                        </Box>
+                                    );
+                                }
+                                return (
+                                    <Link key={i} href={link.href} onClick={onClose}>
+                                        <Text
+                                            _hover={{ color: '#309689' }}
+                                            cursor="pointer"
+                                            className={`duration-300 ${pathname === link.href ? 'text-[#309689] font-semibold' : ""}`}
+                                        >
+                                            {link.label}
+                                        </Text>
+                                    </Link>
+                                );
+                            })}
+                            {status !== "authenticated" ? (
+                                <>
+                                    <Button
+                                        as={Link}
+                                        href={'/auth/login'}
+                                        bg={'#fff'}
+                                        color={'#000'}
+                                        width="full"
+                                        onClick={onClose}
+                                    >
+                                        Login
+                                    </Button>
+                                    <Button
+                                        as={Link}
+                                        href={'/auth/signup'}
+                                        bg={'#309689'}
+                                        color={'#fff'}
+                                        border="1px"
+                                        width="full"
+                                        _hover={{ color: "#000", bg: '#fff', borderColor: "#000" }}
+                                        onClick={onClose}
+                                        rounded={'8px'}
+                                    >
+                                        Register
+                                    </Button>
+                                </>
+                            ) :
+                                <Button
+                                    bg={'#309689'}
+                                    color={'#fff'}
+                                    border="1px"
+                                    width="full"
+                                    _hover={{ color: "#000", bg: '#fff', borderColor: "#000" }}
+                                    onClick={() => { signOut(), onClose() }}
+                                    rounded={'8px'}
+                                >
+                                    Logout
+                                </Button>
+                            }
                         </VStack>
                     </DrawerBody>
                 </DrawerContent>

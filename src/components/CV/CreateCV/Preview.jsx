@@ -24,12 +24,17 @@ import {
 import { MdAdd } from "react-icons/md";
 import Image from "next/image";
 
-const Preview = ({formData}) => {
+const Preview = ({ formData, imgPreview }) => {
     return (
         <Flex h={'full'} rounded={"12px"} bg={'transparent'}>
             <VStack spacing={2} align="start" bg={'#f1f2f4'} w={'30%'} borderTopLeftRadius={'12px'} borderBottomLeftRadius={'12px'} h={'full'} p={4}>
                 <Box mx={'auto'}>
-                    <Avatar name={formData.name} size="2xl" p={0} />
+                    {imgPreview ? (
+                        <Avatar src={imgPreview} size="2xl" />
+                    ) : (
+                        <Avatar name={formData.name} size="2xl" />
+                    )}
+                    {/* <Avatar name={formData.name} size="2xl" p={0} /> */}
                 </Box>
                 <Text fontSize="26px" color={'black'} fontWeight="bold">{formData.name || "Your Name"}</Text>
                 <Text fontSize="18px" color={'black'}>{formData.job || "Your Title"}</Text>

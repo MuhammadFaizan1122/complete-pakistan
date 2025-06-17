@@ -1,35 +1,59 @@
 'use client'
-import { handleGetIndustry } from "../../handlers/CV/industry";
+import { handleGetIndustry } from "../../../handlers/CV/industry";
 import { Input, HStack, Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
-const JobDetails = ({ formData, setFormData }) => {
-    const [industryList, setIndustryList] = useState([])
+const JobDetails = ({ formData, setFormData, setUserIndustry, setUserCategory, setUserSubCategory }) => {
+    const [industryList, setIndustryList] = useState([
+        {
+            id: 1,
+            name: 'Technical',
+            categories: [
+                {
+                    id: 2,
+                    name: 'IT',
+                    subcategories: [
+                        {
+                            id: 3,
+                            name: 'Software Engineer'
+                        }
+                    ]
+                }
+            ]
+        }
+    ])
     const [categoryList, setCategoryList] = useState([])
     const [subCategoryList, setSubCategoryList] = useState([])
     const handleIndustryChange = (e) => {
         const industryName = e.target.value;
         const selectedIndustry = industryList.find(c => c.name === industryName);
+        setUserIndustry(selectedIndustry);
         setCategoryList(selectedIndustry.categories);
     };
     const handleCategoryChange = (e) => {
         const categoryName = e.target.value;
         const selectedCategory = categoryList.find(c => c.name === categoryName);
+        setUserCategory(selectedCategory);
         setSubCategoryList(selectedCategory.subcategories);
     };
-    const handleFetchIndustry = async () => {
-        try {
-            const response = await handleGetIndustry()
-            if (response.status === 200) {
-                setIndustryList(response.data.data)
-            }
-        } catch (error) {
-            console.log('error', error)
-        }
-    }
-    useEffect(() => {
-        handleFetchIndustry()
-    }, [])
+    const handleSubCategoryChange = (e) => {
+        const subCategoryName = e.target.value;
+        const selectedSubCategory = categoryList.find(c => c.name === subCategoryName);
+        setUserSubCategory(selectedSubCategory);
+    };
+    // const handleFetchIndustry = async () => {
+    //     try {
+    //         const response = await handleGetIndustry()
+    //         if (response.status === 200) {
+    //             setIndustryList(response.data.data)
+    //         }
+    //     } catch (error) {
+    //         console.log('error', error)
+    //     }
+    // }
+    // useEffect(() => {
+    //     handleFetchIndustry()
+    // }, [])
 
     return (
         <>
@@ -38,7 +62,10 @@ const JobDetails = ({ formData, setFormData }) => {
                 <Select
                     placeholder="Industry"
                     value={formData.industry}
-                    onChange={e => { handleIndustryChange(e), setFormData({ ...formData, industry: e.target.value }) }}
+                    onChange={(e) => {
+                        handleIndustryChange(e);
+                        setFormData({ ...formData, industry: e.target.value });
+                    }}
                     w="full"
                     h="50px"
                     border="1px solid"
@@ -102,7 +129,7 @@ const JobDetails = ({ formData, setFormData }) => {
                 <Select
                     placeholder="Subcategory"
                     value={formData.subcategory}
-                    onChange={e => setFormData({ ...formData, subcategory: e.target.value })}
+                    onChange={e => { handleSubCategoryChange(e), setFormData({ ...formData, subcategory: e.target.value }) }}
                     w="full"
                     border="1px solid"
                     borderColor="gray.300"

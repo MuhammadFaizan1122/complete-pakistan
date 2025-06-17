@@ -1,4 +1,4 @@
-import CreateCVPage from '../../components/CreateCV/CreateCV'
+import CreateCVPage from '../../components/CV/CreateCV/CreateCV'
 import React from 'react'
 
 const page = () => {
