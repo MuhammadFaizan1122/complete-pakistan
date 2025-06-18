@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Flex,
@@ -32,6 +32,8 @@ import JobDetails from "./JobDetails";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 const validationSchema = yup.object().shape({
   name: yup.string()
     .min(2, 'Name must be at least 2 characters')
@@ -53,6 +55,12 @@ const validationSchema = yup.object().shape({
   email: yup.string()
     .email('Invalid email format')
     .required('Email is required'),
+  madicalDate: yup.string()
+    .max(new Date(), 'Date of birth cannot be in the future')
+    .required('Madical date is required'),
+  passport: yup.string()
+    .min(12, 'Passport must be at least 12 characters')
+    .required('Passport is required'),
   phone: yup.string()
     .matches(
       /^(\+?\d{1,3}[-.\s]?)?\d{3}[-.\s]?\d{3}[-.\s]?\d{4}$/,
@@ -92,6 +100,7 @@ export default function CreateCVPage() {
   const router = useRouter();
   const { status } = useSession();
   const toast = useToast();
+  const previewRef = useRef(null);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -137,6 +146,8 @@ export default function CreateCVPage() {
       portfolio: '',
       email: '',
       phone: '',
+      passport: '',
+      madicalDate: '',
       country: '',
       city: '',
       state: '',
@@ -212,26 +223,6 @@ export default function CreateCVPage() {
     console.log('userCategory:', userCategory);
     console.log('userSubCategory:', userSubCategory);
 
-    const pay = {
-      attachments: [],
-      skills: [],
-      experience: [],
-      education: [],
-      jobDetail: "",
-      subcategory: "",
-      category: "",
-      industry: "",
-      job: "",
-      portfolio: "",
-      address: "abcds",
-      city: "Karachi",
-      state: "Sindh",
-      country: "Pakistan",
-      phone: "+92 342-2140766",
-      email: "muh.faizaan@gmail.com",
-      dob: "1999-05-01T19:00:00.000Z",
-      name: "Muhammad Faizan"
-    }
     const payload = {
       cv_profile: {
         title: "Mr",
@@ -311,6 +302,38 @@ export default function CreateCVPage() {
     // Handle form submission (e.g., API call)
   };
 
+  const downloadPDF = async () => {
+    const element = previewRef.current;
+    if (!element) return;
+
+    try {
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "px",
+        format: "a4",
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const scaledWidth = imgWidth * ratio;
+      const scaledHeight = imgHeight * ratio;
+
+      pdf.addImage(imgData, "PNG", 0, 0, scaledWidth, scaledHeight);
+      pdf.save("resume.pdf");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
+  };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Flex direction={{ base: 'column', md: 'row' }} p={8} bg="#D3EFEC">
@@ -473,6 +496,62 @@ export default function CreateCVPage() {
                   {...register('email')}
                 />
                 <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors.madicalDate}>
+                <FormLabel className="text-[#2D3748] pl-1 mt-2">Madical Date</FormLabel>
+                <Input
+                  type="date"
+                  placeholder="Enter your madicald ate"
+                  rounded={'15px'}
+                  p={4}
+                  py={6}
+                  border="1px solid"
+                  borderColor="gray.300"
+                  bg="white"
+                  outline="1px solid"
+                  outlineColor="gray.300"
+                  _focus={{
+                    ring: 2,
+                    ringColor: '#309689',
+                    borderColor: 'transparent',
+                    outline: 'none',
+                  }}
+                  _active={{
+                    outline: 'none',
+                  }}
+                  transition="all 0.2s"
+                  resize="none"
+                  {...register('madicalDate')}
+                />
+                <FormErrorMessage>{errors.madicalDate?.message}</FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors.passport}>
+                <FormLabel className="text-[#2D3748] pl-1 mt-2">Passport</FormLabel>
+                <Input
+                  type="number"
+                  placeholder="Enter your passport"
+                  rounded={'15px'}
+                  p={4}
+                  py={6}
+                  border="1px solid"
+                  borderColor="gray.300"
+                  bg="white"
+                  outline="1px solid"
+                  outlineColor="gray.300"
+                  _focus={{
+                    ring: 2,
+                    ringColor: '#309689',
+                    borderColor: 'transparent',
+                    outline: 'none',
+                  }}
+                  _active={{
+                    outline: 'none',
+                  }}
+                  transition="all 0.2s"
+                  resize="none"
+                  {...register('passport')}
+                />
+                <FormErrorMessage>{errors.passport?.message}</FormErrorMessage>
               </FormControl>
 
               <FormControl isInvalid={!!errors.phone}>
@@ -787,9 +866,21 @@ export default function CreateCVPage() {
               >
                 Submit CV
               </Button>
+              <Button
+                onClick={downloadPDF}
+                mt={4}
+                bg="#309689"
+                color="white"
+                borderRadius="15px"
+                px={6}
+                py={6}
+                _hover={{ bg: '#28796f' }}
+              >
+                Download CV
+              </Button>
             </VStack>
           </Box>
-          <Box w={{ base: '100%', md: '60%' }} bg="white" rounded={'12px'} shadow="md">
+          <Box w={{ base: '100%', md: '60%' }} bg="white" rounded={'12px'} shadow="md" ref={previewRef}>
             <Preview formData={formValues} imgPreview={imgPreview} />
           </Box>
         </Flex>

@@ -36,28 +36,38 @@ const Preview = ({ formData, imgPreview }) => {
                     )}
                     {/* <Avatar name={formData.name} size="2xl" p={0} /> */}
                 </Box>
-                <Text fontSize="26px" color={'black'} fontWeight="bold">{formData.name || "Your Name"}</Text>
+                <Text className="w-full max-w-[270px] text-ellipsis" fontSize="26px" color={'black'} fontWeight="bold">{formData.name || "Your Name"}</Text>
                 <Text fontSize="18px" color={'black'}>{formData.job || "Your Title"}</Text>
 
-                <Flex alignItems={'center'}>
+                <Flex
+                    alignItems="center"
+                    className="w-full max-w-[250px] text-ellipsis"
+                >
                     <Image src={'/Images/Icons/earth.png'} alt="icon" width={16} height={14} className="!h-[16px]" />
                     <Text ml={3}>
                         {formData.portfolio}
                     </Text>
                 </Flex>
-                <Flex alignItems={'center'}>
+                <Flex
+                    alignItems="center"
+                    className="w-full max-w-[250px] text-ellipsis"
+                >
                     <Image src={'/Images/Icons/mail.png'} alt="icon" width={16} height={14} className="!h-[16px]" />
-                    <Text ml={3}>
+                    <Text ml={3} className="!truncate">
                         {formData.email}
                     </Text>
                 </Flex>
-                <Flex alignItems={'center'}>
+                <Flex alignItems={'center'}
+                    className="w-full max-w-[250px] text-ellipsis"
+                >
                     <Image src={'/Images/Icons/phone.png'} alt="icon" width={16} height={14} className="!h-[16px]" />
                     <Text ml={3}>
                         {formData.phone}
                     </Text>
                 </Flex>
-                <Flex alignItems={'center'}>
+                <Flex alignItems={'center'}
+                    className="w-full max-w-[250px] text-ellipsis"
+                >
                     <Image src={'/Images/Icons/marker.png'} alt="icon" width={16} height={14} className="!h-[16px]" />
                     <Text ml={3}>
                         {formData.city}, {formData.country}

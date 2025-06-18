@@ -1,6 +1,6 @@
 'use client'
 import { HeroSection } from './HeroSection'
-import React, { memo, useMemo } from 'react'
+import React, { memo, useEffect, useMemo } from 'react'
 import {
     Box,
     Container,
@@ -47,6 +47,27 @@ import Image from 'next/image';
 import { IoSearch } from 'react-icons/io5';
 import TopCompanies from './TopCompanies';
 import Link from 'next/link';
+export function getTimeAgo(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+
+    const minutes = Math.floor(diff / (1000 * 60));
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+    if (minutes < 1) return 'just now';
+    if (minutes < 60) return `${minutes} min ago`;
+    if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    if (days === 1) return 'Yesterday';
+    if (days <= 30) return `${days} days ago`;
+
+    return date.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+}
 
 const Jobs = () => {
     const [bookmarkedJobs, setBookmarkedJobs] = useState(new Set());
@@ -436,7 +457,7 @@ const Jobs = () => {
                     <Flex justify="space-between" align="center">
                         <Box bg={'#3096891A'} px={{ base: 3, md: 4 }} py={2} borderRadius="md">
                             <Text fontSize={{ base: '14px', md: '16px' }} color="gray.500">
-                                {job.timeAgo}
+                                {getTimeAgo(job.createdAt)}
                             </Text>
                         </Box>
                         <IconButton
@@ -456,17 +477,17 @@ const Jobs = () => {
                     </Flex>
 
                     <Flex gap={{ base: 2, md: 3 }} align="flex-start">
-                        <CompanyAvatar colors={job.colors} company={job.company} />
+                        <CompanyAvatar colors={['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']} company={job.companyName} />
                         <VStack align="flex-start" spacing={1} flex={1}>
                             <Heading
                                 size={{ base: 'sm', md: 'md' }}
                                 color="gray.800"
                                 fontWeight="semibold"
                             >
-                                {job.title}
+                                {job.jobTitle}
                             </Heading>
                             <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
-                                {job.company}
+                                {job.companyName}
                             </Text>
                         </VStack>
                     </Flex>
@@ -502,7 +523,7 @@ const Jobs = () => {
                                     height={24}
                                 />
                                 <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
-                                    {job.type}
+                                    {job.jobType}
                                 </Text>
                             </HStack>
                             <HStack spacing={2}>
@@ -513,7 +534,7 @@ const Jobs = () => {
                                     height={24}
                                 />
                                 <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
-                                    {job.salary}
+                                    {job.salaryMin + " - " + job.salaryMax}
                                 </Text>
                             </HStack>
                             <HStack spacing={2}>
@@ -524,7 +545,7 @@ const Jobs = () => {
                                     height={24}
                                 />
                                 <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
-                                    {job.location}
+                                    {job.country}
                                 </Text>
                             </HStack>
                         </HStack>
@@ -552,6 +573,12 @@ const Jobs = () => {
     const onOpen = useMemo(() => () => setIsOpen(true), []);
     const onClose = useMemo(() => () => setIsOpen(false), []);
     const memoizedJobs = useMemo(() => jobsData, []);
+    const [jobs, setJobs] = useState([])
+    useEffect(() => {
+        const Jobs = JSON.parse(localStorage.getItem('jobs') || '[]');
+        // console.log('Jobs', Jobs)
+        setJobs(Jobs)
+    }, [])
 
     return (
         <Box>
@@ -618,8 +645,10 @@ const Jobs = () => {
                                 </Flex>
 
                                 <VStack spacing={{ base: 3, md: 4 }} align="stretch">
-                                    {memoizedJobs.map((job, index) => (
-                                        <JobCard key={job.id} job={job} index={index} />
+                                    {jobs.length === 0 ? (
+                                        <Text>No jobs found.</Text>
+                                    ) : jobs.map((job, index) => (
+                                        <JobCard key={index} job={job} index={index} />
                                     ))}
                                 </VStack>
 

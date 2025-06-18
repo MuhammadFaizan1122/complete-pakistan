@@ -20,6 +20,7 @@ import {
     FiStar,
     FiX
 } from 'react-icons/fi'
+import JobCreationPage from './Visa';
 
 export default function TrainingDashboard() {
     const [activeTab, setActiveTab] = useState('Dashboard');
@@ -396,17 +397,7 @@ export default function TrainingDashboard() {
             case 'Visa':
                 return (
                     <Box p={4}>
-                        <Text fontSize={{ base: '2xl', md: '32px' }} fontWeight="bold" color="black" mb={4}>
-                            Visa Management
-                        </Text>
-                        <Card rounded="lg">
-                            <CardBody>
-                                <VStack align="start" spacing={4}>
-                                    <Text fontSize="lg">Manage visa applications and statuses.</Text>
-                                    <Button bg="#309689" color="#fff" >View Visa Applications</Button>
-                                </VStack>
-                            </CardBody>
-                        </Card>
+                        <JobCreationPage />
                     </Box>
                 );
             case 'Companies':
@@ -638,7 +629,7 @@ export default function TrainingDashboard() {
 
             {/* Main Content */}
             <Box flex={1}>
-                <Box bg="white" p={4} borderBottom="1px" borderColor="gray.200">
+                <Box bg="white" py={{ base: 2, sm: 0 }} px={{ base: 4 }} borderBottom="1px" borderColor="gray.200">
                     <Flex justify="space-between" align="center">
                         <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight="bold">{activeTab}</Text>
                         <HStack>

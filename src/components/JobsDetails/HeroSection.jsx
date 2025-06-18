@@ -29,7 +29,7 @@ export function HeroSection() {
         >
             <Container maxW="5xl">
                 <Heading fontSize={{ base: "3xl", md: "70px" }} fontWeight="bold">
-                    Jobs
+                    Jobs Details
                 </Heading>
 
             </Container>

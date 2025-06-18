@@ -1,7 +1,7 @@
 'use client'
 import { HeroSection } from './HeroSection'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Box,
     Container,
@@ -36,8 +36,11 @@ import {
     FiPhone,
     FiMessageSquare
 } from 'react-icons/fi'
+import { useParams } from 'next/navigation';
+import { getTimeAgo } from '../Jobs/Jobs';
 
 const Jobs = () => {
+    const params = useParams()
     const cardBg = useColorModeValue('white', 'gray.800');
     const jobsData = [
         {
@@ -231,6 +234,29 @@ const Jobs = () => {
             </CardBody>
         </Card>
     );
+    const [job, setJob] = useState([])
+    useEffect(() => {
+        const storedJobs = JSON.parse(localStorage.getItem('jobs') || '[]');
+
+        if (!params?.id) {
+            console.warn('Missing job ID in params');
+            return;
+        }
+
+        const matchedJob = storedJobs.find((e) => e.id == params.id);
+
+        if (matchedJob) {
+            setJob(matchedJob);
+        } else {
+            console.warn('Job not found with ID:', params.id);
+        }
+
+        // Debug logs
+        console.log('Matched Job:', matchedJob);
+        console.log('All Jobs:', storedJobs);
+        console.log('Params:', params);
+    }, [params?.id]);
+
     return (
         <Box >
             <HeroSection />
@@ -246,7 +272,7 @@ const Jobs = () => {
                                 px={{ base: '8px', md: '10px' }}
                                 py={'2px'}
                             >
-                                10 min ago
+                                {getTimeAgo(job.createdAt)}
                             </Text>
                             <Image
                                 src={`/Images/Icons/bookmark.png`}
@@ -273,10 +299,10 @@ const Jobs = () => {
                                     lineHeight="shorter"
                                     fontWeight="bold"
                                 >
-                                    Corporate Solutions Executive
+                                    {job.jobTitle}
                                 </Text>
                                 <Text fontSize={{ base: '14px', md: '16px' }} color="black" fontWeight={'semibold'}>
-                                    Leffler and Sons
+                                    {job.companyName}
                                 </Text>
                             </VStack>
                         </HStack>
@@ -296,7 +322,7 @@ const Jobs = () => {
                                         height={24}
                                     />
                                     <Text fontSize={{ base: '14px', md: '16px' }} color={'gray.600'}>
-                                        Commerce
+                                        {job.industry}
                                     </Text>
                                 </HStack>
                                 <HStack spacing={2} color="gray.600">
@@ -307,7 +333,7 @@ const Jobs = () => {
                                         height={24}
                                     />
                                     <Text fontSize={{ base: '14px', md: '16px' }} color={'gray.600'}>
-                                        Full time
+                                        {job.jobType}
                                     </Text>
                                 </HStack>
                                 <HStack spacing={2} color="gray.600">
@@ -318,7 +344,7 @@ const Jobs = () => {
                                         height={24}
                                     />
                                     <Text fontSize={{ base: '14px', md: '16px' }} color={'gray.600'}>
-                                        $40000-$42000
+                                        {"$" + job.salaryMin + " - $" + job.salaryMax}
                                     </Text>
                                 </HStack>
                                 <HStack spacing={2} color="gray.600">
@@ -329,7 +355,7 @@ const Jobs = () => {
                                         height={24}
                                     />
                                     <Text fontSize={{ base: '14px', md: '16px' }} color={'gray.600'}>
-                                        New-York, USA
+                                        {job.state + ", " + job.country}
                                     </Text>
                                 </HStack>
                             </Flex>
@@ -356,15 +382,7 @@ const Jobs = () => {
                                 </Heading>
                                 <VStack spacing={4} align="start" color="gray.600" lineHeight="relaxed">
                                     <Text fontSize={{ base: '14px', md: '16px' }}>
-                                        Nunc sed a nisl purus. Nibh dis faucibus proin lacus tristique. Sit congue non vitae odio sit erat in. Felis eu ultrices a sed massa.
-                                        Commodo fringilla sed tempor risus laoreet ultricies ipsum. Habitasse morbi faucibus in iaculis lectus. Nisl enim feugiat enim volutpat.
-                                        Sem quis viverra viverra lorem non nunc. Tortor gravida arcu.
-                                    </Text>
-                                    <Text fontSize={{ base: '14px', md: '16px' }}>
-                                        Et nunc ut tempus duis nisl sed massa. Ornare varius faucibus nisl vitae vitae cras ornare. Cras facilisis dignissim augue lorem amet
-                                        adipiscing cursus fames mauris. Tortor amet porta proin in. Orci imperdiet nisl dignissim pellentesque morbi vitae. Quisque tincidunt
-                                        metus lectus porta eget blandit euismod sem nunc. Tortor gravida arcu erat amet saepen mauris massa. Tortor varius nam maecenas duis
-                                        blandit elit sit sit. Ante mauris morbi diam habitant donec.
+                                        {job.jobDescription}
                                     </Text>
                                 </VStack>
                             </Box>
@@ -373,14 +391,7 @@ const Jobs = () => {
                                     Key Responsibilities
                                 </Heading>
                                 <VStack spacing={4} align="start">
-                                    {[
-                                        "Et nunc ut tempus duis nisl sed massa. Ornare varius faucibus nisl vitae vitae cras ornare. Cras facilisis dignissim augue",
-                                        "Cras facilisis dignissim augue lorem amet adipiscing cursus fames mauris. Tortor amet porta proin in",
-                                        "Ornare varius faucibus nisl vitae vitae cras ornare. Cras facilisis dignissim augue lorem amet adipiscing cursus fames",
-                                        "Tortor amet porta proin in. Orci imperdiet nisl dignissim pellentesque morbi vitae. Quisque tincidunt metus lectus porta",
-                                        "Tortor amet porta proin in. Orci imperdiet nisl dignissim pellentesque morbi vitae. Quisque tincidunt metus lectus porta",
-                                        "Tortor amet porta proin in. Orci imperdiet nisl dignissim pellentesque morbi vitae. Quisque tincidunt metus lectus porta"
-                                    ].map((responsibility, index) => (
+                                    {job.keyResponsibilities?.map((responsibility, index) => (
                                         <HStack key={index} spacing={3} align="start">
                                             <Icon as={FaCheck} w={{ base: 3, md: 4 }} h={{ base: 3, md: 4 }} color="#309689" mt={1} flexShrink={0} />
                                             <Text fontSize={{ base: '14px', md: '16px' }} color="gray.600">{responsibility}</Text>
