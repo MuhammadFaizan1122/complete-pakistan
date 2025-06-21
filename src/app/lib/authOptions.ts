@@ -50,6 +50,10 @@ export const authOptions: NextAuthOptions = {
                 token.token = (user as any).token;
                 token.email = user.email;
                 token.name = user.name;
+                // @ts-ignore
+                token.role = user.role;
+                // @ts-ignore
+                token.type = user.type;
             }
             return token;
         },
@@ -59,6 +63,10 @@ export const authOptions: NextAuthOptions = {
                 (session.user as any).token = token.token;
                 session.user.email = token.email;
                 session.user.name = token.name;
+                // @ts-ignore
+                session.user.role = token.role;
+                // @ts-ignore
+                session.user.type = token.type;
             }
             return session;
         },

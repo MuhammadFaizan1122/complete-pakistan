@@ -12,7 +12,8 @@ import {
     InputRightElement,
     IconButton,
     FormErrorMessage,
-    Box
+    Box,
+    useToast
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { AuthLayout } from "../Login/Login";
@@ -25,7 +26,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { handleRegister } from "../../handlers/auth/registration";
-import { toast } from "react-toastify";
 
 const signupSchema = yup.object().shape({
     fullName: yup
@@ -53,6 +53,7 @@ const SignupPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const { status } = useSession();
+    const toast = useToast();
 
     useEffect(() => {
         if (status === "authenticated") {
@@ -72,7 +73,25 @@ const SignupPage = () => {
             const payload = { name: data.fullName, email: data.email, password: data.password, password_confirmation: data.confirmPassword }
             const response = await handleRegister(payload)
             if (response.status !== 201) {
-                toast.error(response.data.errors.email[0])
+                console.log('response', response)
+                // toast.error(response)
+                toast({
+                    title: 'Error',
+                    description: response.data.message,
+                    status: 'error',
+                    duration: 4000,
+                    isClosable: true,
+                });
+            }
+            if (response.status === 201) {
+                toast({
+                    title: 'Success',
+                    description: response.data.message,
+                    status: 'success',
+                    duration: 4000,
+                    isClosable: true,
+                });
+                router.push("/auth/login");
             }
             console.log("response:", response);
         } catch (error) {

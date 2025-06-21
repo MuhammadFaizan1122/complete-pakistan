@@ -13,7 +13,8 @@ import {
     IconButton,
     FormErrorMessage,
     Box,
-    Image as ChakraImage
+    Image as ChakraImage,
+    useToast
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { AuthLayout } from "../Login/Login";
@@ -25,7 +26,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 // import { handleRegister } from "../../handlers/auth/registration";
-import { toast } from "react-toastify";
 import { companySignupSchema } from "../../utils/validation";
 import { companyRegistration } from "../../handlers/auth/companyRegistration";
 
@@ -34,6 +34,7 @@ const CompanyRegisterPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const { status } = useSession();
+    const toast = useToast();
 
     useEffect(() => {
         if (status === "authenticated") {
@@ -67,9 +68,26 @@ const CompanyRegisterPage = () => {
 
             const response = await companyRegistration(formData);
             if (response.status !== 201) {
-                toast.error(response.data.errors?.agencyEmail?.[0] || "Registration failed");
+                // toast.error(.errors?.agencyEmail?.[0] || "Registration failed");
+                // toast.error(response.data.message)
+                toast({
+                    title: 'Error',
+                    description: response.data.message || 'Registration failed',
+                    status: 'error',
+                    duration: 4000,
+                    isClosable: true,
+                });
             }
-            console.log("response:", response);
+            if (response.status === 201) {
+                toast({
+                    title: 'Success',
+                    description: response.data.message || 'Registration successful',
+                    status: 'success',
+                    duration: 4000,
+                    isClosable: true,
+                });
+                router.push("/auth/login");
+            }
         } catch (error) {
             console.error("Signup error:", error);
             toast.error("An error occurred during registration");

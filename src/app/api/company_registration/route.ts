@@ -10,7 +10,6 @@ export async function POST(req: NextRequest) {
         await connectDB();
 
         const formData = await req.formData();
-
         const data: any = {
             agencyName: formData.get('agencyName'),
             agencyEmail: formData.get('agencyEmail'),
@@ -25,6 +24,11 @@ export async function POST(req: NextRequest) {
             password: formData.get('password'),
             confirmPassword: formData.get('confirmPassword'),
         };
+        // @ts-ignore
+        const existingUser = await CompanyAccount.findOne({ agencyEmail: data.agencyEmail });
+        if (existingUser) {
+            return NextResponse.json({ message: 'Company already exists' }, { status: 409 });
+        }
 
         data.agencyLogo = [data.agencyLogo];
         data.supportingDocument = [data.supportingDocument];
@@ -48,7 +52,7 @@ export async function POST(req: NextRequest) {
         const account = await CompanyAccount.create({ ...data, status: 'pending' });
 
         return NextResponse.json(
-            { message: 'Account submitted for review', account },
+            { message: 'Account submitted for review. It may take 2 to 3  working days', account },
             { status: 201 }
         );
     } catch (error: any) {

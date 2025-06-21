@@ -14,7 +14,8 @@ import {
     InputGroup,
     InputRightElement,
     IconButton,
-    FormErrorMessage
+    FormErrorMessage,
+    useToast
 } from "@chakra-ui/react";
 import { signIn, useSession } from "next-auth/react";
 import NextLink from "next/link";
@@ -27,7 +28,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { handleLogin } from "../../handlers/auth/login";
-import { toast } from "react-toastify";
 
 // Validation schema
 const loginSchema = yup.object().shape({
@@ -46,6 +46,7 @@ export const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const { status } = useSession();
+    const toast = useToast();
 
     useEffect(() => {
         if (status === "authenticated") {
@@ -64,9 +65,26 @@ export const LoginPage = () => {
         try {
             const payload = { email: data.email, password: data.password }
             const response = await handleLogin(payload)
-            if (response.status !== 201) {
+            if (response.status !== 200) {
+                toast({
+                    title: 'Error!',
+                    description: response.data.message,
+                    status: 'error',
+                    duration: 4000,
+                    isClosable: true,
+                });
                 console.log('response', response)
-                // toast.error(response.data.errors.email[0])
+            }
+            if (response.status === 200) {
+                toast({
+                    title: 'Success',
+                    description: 'You are successfully logged in',
+                    status: 'success',
+                    duration: 4000,
+                    isClosable: true,
+                });
+                // toast.error(response.data.message)
+                console.log('response', response)
             }
         } catch (error) {
             console.error("Login error:", error);
