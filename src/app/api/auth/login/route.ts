@@ -13,10 +13,9 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: "Missing credentials" }, { status: 400 });
         }
 
-        // Try to find in User model
         // @ts-ignore
         const user = await User.findOne({ email });
-        
+
         if (user) {
             const isPasswordCorrect = await bcrypt.compare(password, user.password);
             if (!isPasswordCorrect) {
@@ -36,7 +35,6 @@ export async function POST(req: NextRequest) {
             });
         }
 
-        // Try to find in CompanyAccount model
         // @ts-ignore
         const company = await CompanyAccount.findOne({ agencyEmail: email });
 
@@ -44,6 +42,9 @@ export async function POST(req: NextRequest) {
             const isPasswordCorrect = await bcrypt.compare(password, company.password);
             if (!isPasswordCorrect) {
                 return NextResponse.json({ message: "Invalid password" }, { status: 401 });
+            }
+            if (!company.status || company.status !== 'approved') {
+                return NextResponse.json({ message: "This company account is under review" }, { status: 401 });
             }
 
             const token = `company-token-${company._id}`;
@@ -53,7 +54,7 @@ export async function POST(req: NextRequest) {
                     name: company.agencyName,
                     email: company.agencyEmail,
                     role: "company",
-                    type: "agency", // custom if needed
+                    type: "agency",
                 },
                 token,
             });
