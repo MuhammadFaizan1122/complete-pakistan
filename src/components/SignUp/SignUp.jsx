@@ -200,6 +200,12 @@ const SignupPage = () => {
                             <Link color="#309689">Login</Link>
                         </NextLink>
                     </Text>
+                    <Text fontSize="sm" textAlign="center">
+                        Wanna continue as a company?{' '}
+                        <NextLink href="/auth/company-registration" passHref>
+                            <Link color="#309689">Register company</Link>
+                        </NextLink>
+                    </Text>
                 </Stack>
             </form>
         </AuthLayout>

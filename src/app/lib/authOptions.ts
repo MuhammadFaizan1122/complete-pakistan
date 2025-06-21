@@ -1,7 +1,7 @@
+// lib/authOptions.ts
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import axios from "axios";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -17,16 +17,18 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials: any) {
                 try {
-                    const response = await axios.post(
-                        `${process.env.NEXT_PUBLIC_API_BASEURL}/login`,
-                        {
+                    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
                             email: credentials.email,
                             password: credentials.password,
-                        }
-                    );
+                        }),
+                    });
 
-                    const user = response.data?.user;
-                    const token = response.data?.token;
+                    const data = await res.json();
+                    const user = data.user;
+                    const token = data.token;
 
                     if (user && token) {
                         return { ...user, token };
@@ -34,6 +36,7 @@ export const authOptions: NextAuthOptions = {
 
                     return null;
                 } catch (err) {
+                    console.error("Auth Error:", err);
                     return null;
                 }
             },
@@ -44,25 +47,18 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
-                // @ts-ignore
-                token.token = user.token;
+                token.token = (user as any).token;
                 token.email = user.email;
                 token.name = user.name;
-                // @ts-ignore
-                token.token = user.token;
             }
             return token;
         },
         async session({ session, token }) {
             if (token) {
-                // @ts-ignore
-                session.user.id = token.id;
-                // @ts-ignore
-                session.user.token = token.token;
+                (session.user as any).id = token.id;
+                (session.user as any).token = token.token;
                 session.user.email = token.email;
                 session.user.name = token.name;
-                // @ts-ignore
-                session.user.token = token.token;
             }
             return session;
         },

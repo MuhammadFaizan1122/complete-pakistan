@@ -175,7 +175,7 @@ export default function CreateCVPage() {
     setValue('state', '');
     setValue('city', '');
   };
-
+  console.log('formValues', formValues)
   const handleStateChange = (e) => {
     const stateCode = e.target.value;
     const selectedState = states.find((s) => s.name === stateCode);
@@ -733,7 +733,7 @@ export default function CreateCVPage() {
                         rounded={'8px'}
                         px={2}
                       >
-                        <TagLabel>{edu}</TagLabel>
+                        <TagLabel>{edu?.institute}</TagLabel>
                         <TagCloseButton
                           onClick={() => handleTagRemove('education', idx)}
                         />
@@ -895,7 +895,6 @@ export default function CreateCVPage() {
           onClose={onEducationClose}
           formData={formValues}
           setFormData={setValue}
-          handleTagAdd={(value) => handleTagAdd('education', value)}
         />
         <SkillPopup
           isOpen={isSkillOpen}

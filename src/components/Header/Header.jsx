@@ -59,11 +59,12 @@ export default function Header() {
         { href: '/cv-directory', label: 'CV Directory' },
     ];
     const recruitmentLinks = [
-        { href: '#', label: 'Overseas Employement Promoters - OEP' },
-        { href: '#', label: 'Trade Test & Trade Center - TTC' },
-        { href: '#', label: 'Verified Trade Partners' },
-        { href: '#', label: 'Consultancies' },
+        { href: '/dashboard', label: 'Overseas Employement Promoters - OEP' },
+        { href: '/dashboard', label: 'Trade Test & Trade Center - TTC' },
+        { href: '/dashboard', label: 'Verified Trade Partners' },
+        { href: '/dashboard', label: 'Consultancies' },
     ];
+    console.log('session', session)
 
     return (
         <Box bg="white" boxShadow="sm" py={4}>

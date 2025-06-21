@@ -65,7 +65,8 @@ export const LoginPage = () => {
             const payload = { email: data.email, password: data.password }
             const response = await handleLogin(payload)
             if (response.status !== 201) {
-                toast.error(response.data.errors.email[0])
+                console.log('response', response)
+                // toast.error(response.data.errors.email[0])
             }
         } catch (error) {
             console.error("Login error:", error);
@@ -177,7 +178,7 @@ export const AuthLayout = ({ children }) => {
                 py={10}
                 rounded="2xl"
                 shadow="lg"
-                w={{ base: '90%', sm: '500px' }}
+                w={{ base: '90%', sm: '600px' }}
             >
                 {children}
             </Box>

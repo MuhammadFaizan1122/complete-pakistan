@@ -3,7 +3,7 @@ import { signIn } from "next-auth/react";
 
 export const handleLogin = async (payload) => {
     try {
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_API_BASEURL}/login`, payload);
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_API_BASEURL_2}/auth/login`, payload);
 
         if (res.status === 200) {
             const loginRes = await signIn("credentials", {

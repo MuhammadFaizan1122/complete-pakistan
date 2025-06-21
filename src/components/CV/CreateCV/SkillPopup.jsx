@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import {
   Modal,
@@ -6,62 +7,80 @@ import {
   ModalBody,
   Box,
   Text,
-  Input,
   Textarea,
   Button,
   VStack,
   HStack,
   FormControl,
   FormLabel,
-  InputGroup,
-  InputRightElement,
-  useDisclosure
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Checkbox,
+  Input,
+  Tag,
+  TagLabel,
+  TagCloseButton,
 } from '@chakra-ui/react';
-import { SlCalender } from "react-icons/sl";
-import Image from 'next/image';
+// import { ChevronDownIcon } from '@chakra-ui/icons';
 
-const SkillPopup = ({ isOpen, onOpen, onClose }) => {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-  const [formData, setFormData] = useState({
-    position: '',
-    employer: '',
-    city: '',
-    startDate: '',
-    endDate: '',
-    description: ''
+const SkillPopup = ({ isOpen, onClose, formData, setFormData }) => {
+  const [formDataState, setFormDataState] = useState({
+    skills: [],
   });
 
+  // Predefined skills options
+  const skillOptions = [
+    'HTML',
+    'CSS',
+    'JavaScript',
+    'React',
+    'Node.js',
+    'Python',
+    'Java',
+    'SQL',
+    'TypeScript',
+    'Git',
+  ];
+
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
+    setFormDataState(prev => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
-  const handleCancel = () => {
-    setFormData({
-      position: '',
-      employer: '',
-      city: '',
-      startDate: '',
-      endDate: '',
-      description: ''
+  const handleSkillsChange = (skill) => {
+    setFormDataState(prev => {
+      const newSkills = prev.skills.includes(skill)
+        ? prev.skills.filter(s => s !== skill)
+        : [...prev.skills, skill];
+      return { ...prev, skills: newSkills };
     });
+  };
+
+  const handleCancel = () => {
+    setFormDataState({
+      skills: [],
+    });
+    const currentSkills = formDataState.skills || [];
+    setFormData('skills', [...currentSkills, formDataState.skills]);
     onClose();
   };
 
   const handleDone = () => {
-    console.log('Form submitted:', formData);
+    setFormData('skills', [...(formData.skills || []), ...formDataState.skills]);
     onClose();
   };
 
   return (
     <Box>
-      <Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered width={'656px'} height={'705px'}>
+      <Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered width={'656px'} height={'auto'}>
         <ModalOverlay bg="blackAlpha.600" />
         <ModalContent
           maxW="656px"
-          height="705px"
+          height="auto"
           bg="white"
           borderRadius="20px"
           border="2px solid"
@@ -88,234 +107,63 @@ const SkillPopup = ({ isOpen, onOpen, onClose }) => {
                   fontWeight="normal"
                   mb={2}
                 >
-                  Position
+                  Add Skills
                 </FormLabel>
-                <Input
-                  placeholder="Enter your detail"
-                  value={formData.position}
-                  onChange={(e) => handleInputChange('position', e.target.value)}
-                  bg="gray.50"
-                  border="1px solid"
-                  borderColor="gray.300"
-                  py={6}
-                  px={4}
-                  borderRadius="12px"
-                  fontSize="14px"
-                  _placeholder={{ color: 'gray.400' }}
-                  outline="1px solid"
-                  outlineColor="gray.300"
-                  _focus={{
-                    ring: 2,
-                    ringColor: "#309689",
-                    borderColor: "transparent",
-                    outline: "none"
-                  }}
-                  _active={{
-                    outline: "none"
-                  }}
-                />
-              </FormControl>
-
-              <HStack spacing={4}>
-                <FormControl>
-                  <FormLabel
-                    fontSize="16px"
-                    color="gray.700"
-                    fontWeight="normal"
-                    mb={2}
-                  >
-                    Employer
-                  </FormLabel>
-                  <Input
-                    placeholder="Enter your school name"
-                    value={formData.employer}
-                    onChange={(e) => handleInputChange('employer', e.target.value)}
+                <Menu closeOnSelect={false}>
+                  <MenuButton
+                    as={Button}
+                    // rightIcon={<ChevronDownIcon />}
                     bg="gray.50"
                     border="1px solid"
                     borderColor="gray.300"
                     borderRadius="12px"
+                    w={'full'}
                     py={6}
                     px={4}
                     fontSize="14px"
-                    _placeholder={{ color: 'gray.400' }}
-                    outline="1px solid"
-                    outlineColor="gray.300"
+                    textAlign="left"
+                    color={formData.skills.length === 0 ? 'gray.400' : 'gray.700'}
+                    _hover={{ bg: 'gray.100' }}
+                    _active={{ bg: 'gray.200' }}
                     _focus={{
                       ring: 2,
-                      ringColor: "#309689",
-                      borderColor: "transparent",
-                      outline: "none"
+                      ringColor: '#309689',
+                      borderColor: 'transparent',
+                      outline: 'none',
                     }}
-                    _active={{
-                      outline: "none"
-                    }}
-                  />
-                </FormControl>
-
-                <FormControl>
-                  <FormLabel
-                    fontSize="16px"
-                    color="gray.700"
-                    fontWeight="normal"
-                    mb={2}
                   >
-                    City
-                  </FormLabel>
-                  <Input
-                    placeholder="Enter your city name"
-                    value={formData.city}
-                    onChange={(e) => handleInputChange('city', e.target.value)}
-                    bg="gray.50"
-                    border="1px solid"
-                    borderColor="gray.300"
-                    borderRadius="12px"
-                    py={6}
-                    px={4}
-                    fontSize="14px"
-                    _placeholder={{ color: 'gray.400' }}
-                    outline="1px solid"
-                    outlineColor="gray.300"
-                    _focus={{
-                      ring: 2,
-                      ringColor: "#309689",
-                      borderColor: "transparent",
-                      outline: "none"
-                    }}
-                    _active={{
-                      outline: "none"
-                    }}
-                  />
-                </FormControl>
-              </HStack>
+                    {formData.skills.length > 0 ? `${formData.skills.length} skill(s) selected` : 'Select skills...'}
+                  </MenuButton>
+                  <MenuList maxH="200px" overflowY="auto">
+                    {skillOptions.map(skill => (
+                      <MenuItem key={skill} onClick={() => handleSkillsChange(skill)}>
+                        <Checkbox
+                          isChecked={formDataState.skills.includes(skill)}
+                          onChange={() => handleSkillsChange(skill)}
+                          colorScheme="teal"
+                        >
+                          {skill}
+                        </Checkbox>
+                      </MenuItem>
+                    ))}
 
-              <HStack spacing={4}>
-                <FormControl>
-                  <FormLabel
-                    fontSize="16px"
-                    color="gray.700"
-                    fontWeight="normal"
-                    mb={2}
-                  >
-                    Start
-                  </FormLabel>
-                  <InputGroup>
-                    <Input
-                      placeholder="dd/mm/yyyy"
-                      value={formData.startDate}
-                      onChange={(e) => handleInputChange('startDate', e.target.value)}
-                      bg="gray.50"
-                      border="1px solid"
-                      borderColor="gray.300"
-                      borderRadius="12px"
-                      type='date'
-                      py={6}
-                      px={4}
-                      fontSize="14px"
-                      _placeholder={{ color: 'gray.400' }}
-                      outline="1px solid"
-                      outlineColor="gray.300"
-                      _focus={{
-                        ring: 2,
-                        ringColor: "#309689",
-                        borderColor: "transparent",
-                        outline: "none"
-                      }}
-                      _active={{
-                        outline: "none"
-                      }}
-                    />
-                    {/* <InputRightElement
-                      pointerEvents="none"
-                      children={
-                        <Image alt={'icons'} src={'/Images/Icons/calender.png'} width={15} height={15} />
-                        // <SlCalender color="gray.400" />
-                      }
-                      pr={4}
-                    /> */}
-                  </InputGroup>
-                </FormControl>
-
-                <FormControl>
-                  <FormLabel
-                    fontSize="16px"
-                    color="gray.700"
-                    fontWeight="normal"
-                    mb={2}
-                  >
-                    End
-                  </FormLabel>
-                  <InputGroup>
-                    <Input
-                      placeholder="dd/mm/yyyy"
-                      value={formData.endDate}
-                      onChange={(e) => handleInputChange('endDate', e.target.value)}
-                      bg="gray.50"
-                      type='date'
-                      border="1px solid"
-                      borderColor="gray.300"
-                      borderRadius="12px"
-                      py={6}
-                      px={4}
-                      fontSize="14px"
-                      _placeholder={{ color: 'gray.400' }}
-                      outline="1px solid"
-                      outlineColor="gray.300"
-                      _focus={{
-                        ring: 2,
-                        ringColor: "#309689",
-                        borderColor: "transparent",
-                        outline: "none"
-                      }}
-                      _active={{
-                        outline: "none"
-                      }}
-                    />
-                    {/* <InputRightElement
-                      pointerEvents="none"
-                      children={
-                        <Image alt={'icons'} src={'/Images/Icons/calender.png'} width={15} height={15} />
-                      }
-                      pr={4}
-                    /> */}
-                  </InputGroup>
-                </FormControl>
-              </HStack>
-
-              <FormControl>
-                <FormLabel
-                  fontSize="16px"
-                  color="gray.700"
-                  fontWeight="normal"
-                  mb={2}
-                >
-                  Description
-                </FormLabel>
-                <Textarea
-                  placeholder="Enter description..."
-                  value={formData.description}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
-                  bg="gray.50"
-                  border="1px solid"
-                  borderColor="gray.300"
-                  borderRadius="12px"
-                  py={6}
-                  px={4}
-                  fontSize="14px"
-                  minH="120px"
-                  resize="vertical"
-                  _placeholder={{ color: 'gray.400' }}
-                  outline="1px solid"
-                  outlineColor="gray.300"
-                  _focus={{
-                    ring: 2,
-                    ringColor: "#309689",
-                    borderColor: "transparent",
-                    outline: "none"
-                  }}
-                  _active={{
-                    outline: "none"
-                  }}
-                />
+                  </MenuList>
+                </Menu>
+                <HStack mt={2} wrap="wrap" spacing={2}>
+                  {formDataState.skills.map(skill => (
+                    <Tag
+                      key={skill}
+                      size="md"
+                      borderRadius="8px"
+                      variant="solid"
+                      bg="#E6FFFA"
+                      color="gray.700"
+                    >
+                      <TagLabel>{skill}</TagLabel>
+                      <TagCloseButton onClick={() => handleSkillsChange(skill)} />
+                    </Tag>
+                  ))}
+                </HStack>
               </FormControl>
 
               <HStack spacing={4} mt={4}>
