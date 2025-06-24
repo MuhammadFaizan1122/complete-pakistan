@@ -181,6 +181,12 @@ export const LoginPage = () => {
                             <Link color="#309689">Sign up</Link>
                         </NextLink>
                     </Text>
+                    <Text fontSize="sm" textAlign="center">
+                        Want to create company account?{' '}
+                        <NextLink href="/auth/company-registration" passHref>
+                            <Link color="#309689">Create Account</Link>
+                        </NextLink>
+                    </Text>
                 </Stack>
             </form>
         </AuthLayout>

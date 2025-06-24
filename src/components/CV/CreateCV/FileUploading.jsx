@@ -1,10 +1,10 @@
 'use client'
 import { Box, Flex, Text, Button, Input, IconButton, useToast } from "@chakra-ui/react";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaFilePdf, FaFileImage, FaTimes } from "react-icons/fa";
 
-const FileUpload = ({ setFormData }) => {
+const FileUpload = ({ setFormData, resetTrigger }) => {
     const [uploadedDocs, setUploadedDocs] = useState([]);
     const fileInputRef = useRef();
     const toast = useToast();
@@ -56,10 +56,19 @@ const FileUpload = ({ setFormData }) => {
         }
 
         setUploadedDocs(prev => [...prev, ...newFiles]);
-        setFormData(prev => [...prev, ...newFiles]);
+        setFormData('attachments', [...uploadedDocs, ...newFiles]);
+
     };
 
-
+    useEffect(() => {
+        if (resetTrigger) {
+            setUploadedDocs([]);
+            setFormData('attachments', []);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = null;
+            }
+        }
+    }, [resetTrigger]);
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
         handleFiles(files);

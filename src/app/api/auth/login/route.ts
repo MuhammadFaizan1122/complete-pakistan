@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
                     name: company.agencyName,
                     email: company.agencyEmail,
                     role: "company",
-                    type: "agency",
+                    type: company.type,
                 },
                 token,
             });

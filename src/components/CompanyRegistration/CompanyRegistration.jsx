@@ -14,7 +14,8 @@ import {
     FormErrorMessage,
     Box,
     Image as ChakraImage,
-    useToast
+    useToast,
+    Select
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { AuthLayout } from "../Login/Login";
@@ -28,6 +29,8 @@ import { useSession } from "next-auth/react";
 // import { handleRegister } from "../../handlers/auth/registration";
 import { companySignupSchema } from "../../utils/validation";
 import { companyRegistration } from "../../handlers/auth/companyRegistration";
+import { ChevronDown } from 'lucide-react';
+import { handleUpload } from "../../handlers/contentUploading/contentUploading";
 
 
 const CompanyRegisterPage = () => {
@@ -52,33 +55,50 @@ const CompanyRegisterPage = () => {
 
     const onSubmit = async (data) => {
         try {
-            const formData = new FormData();
-            formData.append("agencyName", data.agencyName);
-            formData.append("agencyEmail", data.agencyEmail);
-            formData.append("agencyLogo", data.agencyLogo[0]);
-            formData.append("ntn", data.ntn);
-            formData.append("supportingDocument", data.supportingDocument[0]);
-            formData.append("contactPersonName", data.contactPersonName);
-            formData.append("contactPersonPhone", data.contactPersonPhone);
-            formData.append("contactPersonIdFront", data.contactPersonIdFront[0]);
-            formData.append("contactPersonIdBack", data.contactPersonIdBack[0]);
-            formData.append("agencyCoverPhoto", data.agencyCoverPhoto[0]);
-            formData.append("password", data.password);
-            formData.append("confirmPassword", data.confirmPassword);
+            // Upload all files and get URLs
+            const uploadFile = async (file) =>
+                file ? (await handleUpload(file))?.data?.url || '' : '';
 
-            const response = await companyRegistration(formData);
-            if (response.status !== 201) {
-                // toast.error(.errors?.agencyEmail?.[0] || "Registration failed");
-                // toast.error(response.data.message)
-                toast({
-                    title: 'Error',
-                    description: response.data.message || 'Registration failed',
-                    status: 'error',
-                    duration: 4000,
-                    isClosable: true,
-                });
-            }
-            if (response.status === 201) {
+            const [
+                agencyLogoUrl,
+                supportingDocumentUrl,
+                idFrontUrl,
+                idBackUrl,
+                coverPhotoUrl
+            ] = await Promise.all([
+                uploadFile(data.agencyLogo[0]),
+                uploadFile(data.supportingDocument[0]),
+                uploadFile(data.contactPersonIdFront[0]),
+                uploadFile(data.contactPersonIdBack[0]),
+                uploadFile(data.agencyCoverPhoto[0])
+            ]);
+            console.log('agencyLogoUrl', agencyLogoUrl)
+            console.log('supportingDocumentUrl', supportingDocumentUrl)
+            console.log('idFrontUrl', idFrontUrl)
+            console.log('idBackUrl', idBackUrl)
+            console.log('coverPhotoUrl', coverPhotoUrl)
+            // Build final JSON payload
+            const finalPayload = {
+                agencyName: data.agencyName,
+                agencyEmail: data.agencyEmail,
+                agencyLogo: agencyLogoUrl,
+                type: data.type,
+                ntn: data.ntn,
+                supportingDocument: supportingDocumentUrl,
+                contactPersonName: data.contactPersonName,
+                contactPersonPhone: data.contactPersonPhone,
+                contactPersonIdFront: idFrontUrl,
+                contactPersonIdBack: idBackUrl,
+                agencyCoverPhoto: coverPhotoUrl,
+                password: data.password,
+                confirmPassword: data.confirmPassword
+            };
+
+            // Send to API
+            // console.log('finalPayload', finalPayload)
+            const response = await companyRegistration(finalPayload);
+
+            if (response?.status === 201) {
                 toast({
                     title: 'Success',
                     description: response.data.message || 'Registration successful',
@@ -87,12 +107,22 @@ const CompanyRegisterPage = () => {
                     isClosable: true,
                 });
                 router.push("/auth/login");
+            } else {
+                throw new Error(response?.data?.message || 'Registration failed');
             }
+
         } catch (error) {
             console.error("Signup error:", error);
-            toast.error("An error occurred during registration");
+            toast({
+                title: 'Error',
+                description: error?.message || 'An error occurred during registration',
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+            });
         }
     };
+
 
     return (
         <AuthLayout>
@@ -155,7 +185,26 @@ const CompanyRegisterPage = () => {
                         />
                         <FormErrorMessage>{errors.agencyLogo?.message}</FormErrorMessage>
                     </FormControl>
-
+                    <FormControl isInvalid={!!errors.type} px={2}>
+                        <FormLabel fontSize="md">Company Type</FormLabel>
+                        <Select
+                            name="type"
+                            placeholder="Select"
+                            borderRadius="15px"
+                            h="50px"
+                            {...register("type")}
+                            focusBorderColor="#309689"
+                            icon={
+                                <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                            }
+                        >
+                            <option value="OEP">OEP</option>
+                            <option value="TTC">TTC</option>
+                            <option value="VTP">VTP</option>
+                            <option value="consultancies">Consultancies</option>
+                        </Select>
+                        <FormErrorMessage>{errors.type}</FormErrorMessage>
+                    </FormControl>
                     <FormControl isInvalid={!!errors.ntn} px={2}>
                         <FormLabel>NTN/Tax ID</FormLabel>
                         <Input
@@ -261,7 +310,10 @@ const CompanyRegisterPage = () => {
                             type="file"
                             accept="image/jpeg,image/png,image/jpg"
                             rounded={'14px'}
+                            h={50}
                             p={2}
+                            py={3}
+
                             {...register("agencyCoverPhoto")}
                         />
                         <FormErrorMessage>{errors.agencyCoverPhoto?.message}</FormErrorMessage>

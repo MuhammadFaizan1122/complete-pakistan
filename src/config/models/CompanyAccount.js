@@ -14,6 +14,7 @@ const CompanyAccountSchema = new mongoose.Schema({
     agencyCoverPhoto: { type: String, required: true },
     password: { type: String, required: true, minlength: 8 },
     status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
+    type: { type: String, enum: ['OEP', 'TTC', 'VTP', 'consultancies'], default: 'consultancies' },
 }, { timestamps: true });
 
 export default mongoose.models.CompanyAccount || mongoose.model('CompanyAccount', CompanyAccountSchema);

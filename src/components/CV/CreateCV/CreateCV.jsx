@@ -34,6 +34,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { handleUpload } from "../../../handlers/contentUploading/contentUploading";
+import { handleCreateCV } from "../../../handlers/CV/create-cv";
+
 const validationSchema = yup.object().shape({
   name: yup.string()
     .min(2, 'Name must be at least 2 characters')
@@ -98,7 +101,9 @@ const validationSchema = yup.object().shape({
 
 export default function CreateCVPage() {
   const router = useRouter();
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+  const [resetUploads, setResetUploads] = useState(false);
+  console.log('session', session)
   const toast = useToast();
   const previewRef = useRef(null);
 
@@ -131,12 +136,14 @@ export default function CreateCVPage() {
   const [userSubCategory, setUserSubCategory] = useState();
   const [cities, setCities] = useState([]);
   const [imgPreview, setImgPreview] = useState('');
+  const [cvImage, setCvImage] = useState();
 
   const {
     register,
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -152,7 +159,7 @@ export default function CreateCVPage() {
       city: '',
       state: '',
       address: '',
-      job: 'Software Engineer',
+      job: '',
       industry: '',
       category: '',
       subcategory: '',
@@ -175,7 +182,6 @@ export default function CreateCVPage() {
     setValue('state', '');
     setValue('city', '');
   };
-  console.log('formValues', formValues)
   const handleStateChange = (e) => {
     const stateCode = e.target.value;
     const selectedState = states.find((s) => s.name === stateCode);
@@ -210,6 +216,7 @@ export default function CreateCVPage() {
       });
       return;
     }
+    setCvImage(file);
     const reader = new FileReader();
     reader.onloadend = () => {
       setImgPreview(reader.result);
@@ -217,90 +224,59 @@ export default function CreateCVPage() {
     reader.readAsDataURL(file);
   };
 
-  const onSubmit = (data) => {
-    console.log('Form submitted:', data);
-    console.log('userIndustry:', userIndustry);
-    console.log('userCategory:', userCategory);
-    console.log('userSubCategory:', userSubCategory);
+  const onSubmit = async (data) => {
+    try {
+      const cvResp = cvImage ? await handleUpload(cvImage) : null;
+      const cvImageUrl = cvResp?.data?.url || '';
 
-    const payload = {
-      cv_profile: {
-        title: "Mr",
-        full_name: data.name,
-        email: data.email,
-        phone: data.phone,
-        dob: data.dob.slice(0, 10),
-        nationality: data.country,
-        gender: "male",
-        address: data.address,
-        about: data.jobDetail,
-        father_name: "James Doe",
-        birth_year: data.dob.slice(0, 4),
-        country: data.country,
-        city: data.city,
-        area: data.state,
-        industry_id: 1,
-        job_applied_for: data.jobDetail,
-        category_id: 1,
-        sub_category_id: 2,
-        is_public: true
-      },
-      cv_educations: [
-        {
-          degree: "BSc Computer Science",
-          institution: "Example University",
-          level: "Bachelor",
-          details: "Graduated with honors",
-          duration: "4 years",
-          start_date: "2015-09-01",
-          end_date: "2019-06-30"
+      const attachments = data.attachments || [];
+      const uploadedAttachmentUrls = [];
+
+      for (const file of attachments) {
+        const res = await handleUpload(file);
+        if (res?.data?.url) {
+          uploadedAttachmentUrls.push(res.data.url);
         }
-      ],
-      cv_experiences: [
-        {
-          job_title: "Software Engineer",
-          company: "Tech Corp",
-          location: "New York",
-          city: "New York",
-          country: "USA",
-          from_year: 2020,
-          to_year: 2022,
-          designation: "Developer",
-          start_date: "2020-01-01",
-          end_date: "2022-12-31",
-          description: "Developed web applications."
-        }
-      ],
-      cv_skills: [
-        {
-          skill: "PHP",
-          level: "Expert"
-        },
-        {
-          skill: "Laravel",
-          level: "Advanced"
-        }
-      ]
-      //   cv_attachments: [
-      //     {
-      //       title: "PHP",
-      //       file: "Expert.pdf"
-      //     },
-      //     {
-      //       title: "Laravel",
-      //       file: "Advanced.pdf"
-      //     }
-      //   ]
+      }
+
+      const finalPayload = {
+        ...data,
+        cv: cvImageUrl,
+        attachments: uploadedAttachmentUrls,
+        userId: session.user.id,
+      };
+
+      const response = await handleCreateCV(finalPayload);
+
+      if (response?.status === 201) {
+        toast({
+          title: 'Success',
+          description: 'Your CV has been created successfully.',
+          status: 'success',
+          duration: 4000,
+          isClosable: true,
+        });
+
+        reset();
+        setCvImage(null);
+        setResetUploads(true);
+        setTimeout(() => setResetUploads(false), 100);
+      } else {
+        throw new Error(response?.data?.message || 'CV creation failed');
+      }
+
+    } catch (error) {
+      console.error('CV submission error:', error);
+      toast({
+        title: 'Error',
+        description: error?.message || 'Something went wrong while submitting your CV.',
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      });
     }
-    toast({
-      title: 'Form submitted',
-      description: 'Your CV data has been submitted successfully.',
-      status: 'success',
-      duration: 4000,
-      isClosable: true,
-    });
-    // Handle form submission (e.g., API call)
   };
+
 
   const downloadPDF = async () => {
     const element = previewRef.current;
@@ -707,7 +683,7 @@ export default function CreateCVPage() {
                 <FormErrorMessage>{errors.city?.message || errors.address?.message}</FormErrorMessage>
               </FormControl>
 
-              <FileUpload setFormData={setValue} formData={formValues} />
+              <FileUpload setFormData={setValue} formData={formValues} resetTrigger={resetUploads} />
               <JobDetails setFormData={setValue} formData={formValues} setUserIndustry={setUserIndustry} setUserCategory={setUserCategory} setUserSubCategory={setUserSubCategory} />
 
               <FormControl isInvalid={!!errors.education}>

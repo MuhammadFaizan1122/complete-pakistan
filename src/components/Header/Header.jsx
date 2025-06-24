@@ -89,7 +89,7 @@ export default function Header() {
                                 </MenuButton>
                                 <MenuList>
                                     {makeCvLinks.map((subLink, j) => (
-                                        <MenuItem key={j} as={Link} href={status === 'authenticated' ? subLink.href :'/auth/login'}>
+                                        <MenuItem key={j} as={Link} href={status === 'authenticated' ? subLink.href : '/auth/login'}>
                                             {subLink.label}
                                         </MenuItem>
                                     ))}
@@ -134,8 +134,13 @@ export default function Header() {
                                     name={session?.user?.name || "User"}
                                     src={session?.user?.image || undefined}
                                 />
-                            </MenuButton>
+                            </MenuButton> 
                             <MenuList>
+                                {session.user?.role === 'company' && (
+                                    <MenuItem as={Link} href="/dashboard">
+                                        Dashboard
+                                    </MenuItem>
+                                )}
                                 <MenuItem as={Link} href="/profile">
                                     Profile
                                 </MenuItem>

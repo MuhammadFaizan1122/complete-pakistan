@@ -103,25 +103,33 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
   };
 
   const handleDone = () => {
-  console.log('handleDone called with employmentData:', employmentData);
-  try {
-    if (!validateForm()) {
-      console.log('Validation failed');
-      return;
+    console.log('handleDone called with employmentData:', employmentData);
+    try {
+      if (!validateForm()) {
+        console.log('Validation failed');
+        return;
+      }
+
+      // Update education array using react-hook-form's setValue
+      const currentEducation = formData.education || [];
+      setFormData('education', [...currentEducation, employmentData]);
+      setEmploymentData({
+        level: '',
+        institute: '',
+        country: '',
+        state: '',
+        startDate: '',
+        endDate: '',
+        details: ''
+      });
+      console.log('Education updated:', [...currentEducation, employmentData]);
+      console.log('Calling onClose');
+      onClose();
+    } catch (error) {
+      console.error('Error in handleDone:', error);
+      throw error; // Rethrow for debugging
     }
-
-    // Update education array using react-hook-form's setValue
-    const currentEducation = formData.education || [];
-    setFormData('education', [...currentEducation, employmentData]);
-
-    console.log('Education updated:', [...currentEducation, employmentData]);
-    console.log('Calling onClose');
-    onClose();
-  } catch (error) {
-    console.error('Error in handleDone:', error);
-    throw error; // Rethrow for debugging
-  }
-};
+  };
   const handleCountryChange = (e) => {
     const countryCode = e.target.value;
     const selectedCountry = countries.find(c => c.name === countryCode);
@@ -129,7 +137,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
     setStates(stateList);
     setCities([]);
   };
-  console.log('errors', errors)
+  // console.log('errors', errors)
   return (
     <Box>
       <Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered width={'656px'} h={'1000px'} className={'!h-auto'}>

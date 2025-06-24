@@ -54,10 +54,13 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
   };
 
   const handleDone = () => {
-    setFormData(prev => ({
-      ...prev,
-      experience: [...(prev.experience || []), employmentData]
-    }));
+      const currentEducation = formData.experience || [];
+      setFormData('experience', [...currentEducation, employmentData]);
+
+    // setFormData(prev => ({
+    //   ...prev,
+    //   experience: [...(prev.experience || []), employmentData]
+    // }));
     onClose();
   };
   const handleCountryChange = (e) => {
@@ -65,7 +68,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
     const selectedCountry = countries.find(c => c.name === countryCode);
     const stateList = State.getStatesOfCountry(selectedCountry.isoCode);
     setStates(stateList);
-    setCities([]);
+    // setCities([]);
   };
   return (
     <Box>
