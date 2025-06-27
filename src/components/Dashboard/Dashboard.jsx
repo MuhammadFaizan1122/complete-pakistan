@@ -158,8 +158,8 @@ export default function TrainingDashboard() {
                         >
                             <VStack position="absolute" top={{ base: 4, md: 10 }} left={{ base: 4, md: 10 }} align="baseline" spacing={2}>
                                 <Text fontSize={{ base: '24px', md: '36px' }} fontWeight="medium">
-                                    {dashboardData?.companyAccount?.agencyName} 
-                                                                   </Text>
+                                    {dashboardData?.companyAccount?.agencyName}
+                                </Text>
                                 <Text fontSize={{ base: '16px', md: '20px' }} opacity={0.9} fontWeight="medium">
                                     Serving Talent to the World Since 2010
                                 </Text>
