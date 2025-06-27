@@ -20,6 +20,10 @@ import {
     MenuList,
     MenuItem,
     Collapse,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverBody,
 } from "@chakra-ui/react";
 import { FaBars } from "react-icons/fa";
 import Image from "next/image";
@@ -32,6 +36,8 @@ export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const [cvMenuOpen, setCvMenuOpen] = useState(false);
     const [recruitmentOpen, setRecruitmentOpen] = useState(false);
+    const [makeCvOpen, setMakeCvOpen] = useState(false)
+    const [recruitmentOpen2, setRecruitmentOpen2] = useState(false)
 
     const onToggle = () => setIsOpen(!isOpen);
     const onClose = () => {
@@ -79,49 +85,93 @@ export default function Header() {
                     align="center"
                     display={{ base: 'none', md: 'flex' }}
                 >
-                    {navLinks.map((link, i) => (
-                        link.label === "Make CV" ? (
-                            <Menu key={i} isLazy>
-                                <MenuButton fontWeight={pathname.startsWith("/create") ? "semibold" : "normal"} color={pathname.startsWith("/create") ? "#309689" : ""}>
-                                    <Flex align="center" gap={1} cursor="pointer" _hover={{ color: "#309689" }} fontWeight={pathname.startsWith("/create") ? "semibold" : "normal"}>
-                                        Make CV
-                                    </Flex>
-                                </MenuButton>
-                                <MenuList>
-                                    {makeCvLinks.map((subLink, j) => (
-                                        <MenuItem key={j} as={Link} href={status === 'authenticated' ? subLink.href : '/auth/login'}>
-                                            {subLink.label}
-                                        </MenuItem>
-                                    ))}
-                                </MenuList>
-                            </Menu>
-                        ) : link.label === "Recruitment" ? (
-                            <Menu key={i} isLazy>
-                                <MenuButton fontWeight={'normal'}>
-                                    <Flex align="center" gap={1} cursor="pointer" _hover={{ color: "#309689" }} >
-                                        Recruitment
-                                    </Flex>
-                                </MenuButton>
-                                <MenuList>
-                                    {recruitmentLinks.map((subLink, j) => (
-                                        <MenuItem key={j} as={Link} href={subLink.href}>
-                                            {subLink.label}
-                                        </MenuItem>
-                                    ))}
-                                </MenuList>
-                            </Menu>
-                        ) : (
+                    {navLinks.map((link, i) => {
+                        if (link.label === 'Make CV') {
+                            return (
+                                <Popover trigger="hover" placement="bottom-start" key={i}>
+                                    <PopoverTrigger>
+                                        <Text
+                                            fontWeight={pathname.startsWith('/create') ? 'semibold' : 'normal'}
+                                            color={pathname.startsWith('/create') ? '#309689' : ''}
+                                            cursor="pointer"
+                                            _hover={{ color: '#309689' }}
+                                        >
+                                            Make CV
+                                        </Text>
+                                    </PopoverTrigger>
+                                    <PopoverContent w="fit-content">
+                                        <PopoverBody p={2}>
+                                            {makeCvLinks.map((subLink, j) => (
+                                                <abbr key={j} title={subLink.label} style={{ textDecoration: 'none' }}>
+                                                    <Box
+
+                                                        as={Link}
+                                                        href={status === 'authenticated' ? subLink.href : '/auth/login'}
+                                                        display="block"
+                                                        px={3}
+                                                        py={2}
+                                                        borderRadius="md"
+                                                        _hover={{ bg: 'gray.100' }}
+                                                    >
+                                                        {subLink.label}
+                                                    </Box>
+                                                </abbr>
+                                            ))}
+                                        </PopoverBody>
+                                    </PopoverContent>
+                                </Popover>
+                            )
+                        }
+
+                        if (link.label === 'Recruitment') {
+                            return (
+                                <Popover trigger="hover" placement="bottom-start" key={i}>
+                                    <PopoverTrigger>
+                                        <Text
+                                            cursor="pointer"
+                                            _hover={{ color: '#309689' }}
+                                        >
+                                            Recruitment
+                                        </Text>
+                                    </PopoverTrigger>
+                                    <PopoverContent w="fit-content">
+                                        <PopoverBody p={2}>
+                                            {recruitmentLinks.map((subLink, j) => (
+                                                <abbr key={j} title={subLink.label} style={{ textDecoration: 'none' }}>
+                                                    <Box
+                                                        as={Link}
+                                                        href={subLink.href}
+                                                        display="block"
+                                                        px={3}
+                                                        py={2}
+                                                        borderRadius="md"
+                                                        _hover={{ bg: 'gray.100' }}
+                                                    >
+                                                        {subLink.label}
+                                                    </Box>
+                                                </abbr>
+                                            ))}
+                                        </PopoverBody>
+                                    </PopoverContent>
+                                </Popover>
+                            )
+                        }
+
+                        // Regular non-dropdown links
+                        return (
                             <Link key={i} href={link.href}>
                                 <Text
                                     _hover={{ color: '#309689' }}
                                     cursor="pointer"
-                                    className={`duration-300 ${pathname === link.href ? 'text-[#309689] font-semibold' : ""}`}
+                                    fontWeight={pathname === link.href ? 'semibold' : 'normal'}
+                                    color={pathname === link.href ? '#309689' : ''}
+                                    transition="color 0.3s"
                                 >
                                     {link.label}
                                 </Text>
                             </Link>
                         )
-                    ))}
+                    })}
                 </Flex>
 
                 {/* Desktop Auth */}
@@ -134,7 +184,7 @@ export default function Header() {
                                     name={session?.user?.name || "User"}
                                     src={session?.user?.image || undefined}
                                 />
-                            </MenuButton> 
+                            </MenuButton>
                             <MenuList>
                                 {session.user?.role === 'company' && (
                                     <MenuItem as={Link} href="/dashboard">

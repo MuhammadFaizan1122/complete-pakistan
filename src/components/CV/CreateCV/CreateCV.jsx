@@ -387,64 +387,67 @@ export default function CreateCVPage() {
                   </Flex>
                 </Box>
               </FormControl>
+              <HStack>
 
-              <FormControl isInvalid={!!errors.name}>
-                <FormLabel className="text-[#2D3748] pl-1 mt-2">Name</FormLabel>
-                <Input
-                  placeholder="Enter your name"
-                  rounded={'15px'}
-                  p={4}
-                  py={6}
-                  border="1px solid"
-                  borderColor="gray.300"
-                  bg="white"
-                  outline="1px solid"
-                  outlineColor="gray.300"
-                  _focus={{
-                    ring: 2,
-                    ringColor: '#309689',
-                    borderColor: 'transparent',
-                    outline: 'none',
-                  }}
-                  _active={{
-                    outline: 'none',
-                  }}
-                  transition="all 0.2s"
-                  resize="none"
-                  {...register('name')}
-                />
-                <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
-              </FormControl>
 
-              <FormControl isInvalid={!!errors.dob}>
-                <FormLabel className="text-[#2D3748] pl-1 mt-2">Date of Birth</FormLabel>
-                <Input
-                  type="date"
-                  rounded={'15px'}
-                  p={4}
-                  py={6}
-                  border="1px solid"
-                  borderColor="gray.300"
-                  max={new Date().toISOString().split("T")[0]}
-                  bg="white"
-                  outline="1px solid"
-                  outlineColor="gray.300"
-                  _focus={{
-                    ring: 2,
-                    ringColor: '#309689',
-                    borderColor: 'transparent',
-                    outline: 'none',
-                  }}
-                  _active={{
-                    outline: 'none',
-                  }}
-                  transition="all 0.2s"
-                  resize="none"
-                  {...register('dob')}
-                />
-                <FormErrorMessage>{errors.dob?.message}</FormErrorMessage>
-              </FormControl>
+                <FormControl isInvalid={!!errors.name}>
+                  <FormLabel className="text-[#2D3748] pl-1 mt-2">Name</FormLabel>
+                  <Input
+                    placeholder="Enter your name"
+                    rounded={'15px'}
+                    p={4}
+                    py={6}
+                    border="1px solid"
+                    borderColor="gray.300"
+                    bg="white"
+                    outline="1px solid"
+                    outlineColor="gray.300"
+                    _focus={{
+                      ring: 2,
+                      ringColor: '#309689',
+                      borderColor: 'transparent',
+                      outline: 'none',
+                    }}
+                    _active={{
+                      outline: 'none',
+                    }}
+                    transition="all 0.2s"
+                    resize="none"
+                    {...register('name')}
+                  />
+                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+                </FormControl>
 
+                <FormControl isInvalid={!!errors.dob}>
+                  <FormLabel className="text-[#2D3748] pl-1 mt-2">Date of Birth</FormLabel>
+                  <Input
+                    type="date"
+                    rounded={'15px'}
+                    p={4}
+                    py={6}
+                    border="1px solid"
+                    borderColor="gray.300"
+                    max={new Date().toISOString().split("T")[0]}
+                    bg="white"
+                    outline="1px solid"
+                    outlineColor="gray.300"
+                    _focus={{
+                      ring: 2,
+                      ringColor: '#309689',
+                      borderColor: 'transparent',
+                      outline: 'none',
+                    }}
+                    _active={{
+                      outline: 'none',
+                    }}
+                    transition="all 0.2s"
+                    resize="none"
+                    {...register('dob')}
+                  />
+                  <FormErrorMessage>{errors.dob?.message}</FormErrorMessage>
+                </FormControl>
+
+              </HStack>
               <FormControl isInvalid={!!errors.email}>
                 <FormLabel className="text-[#2D3748] pl-1 mt-2">Email</FormLabel>
                 <Input

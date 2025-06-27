@@ -41,33 +41,17 @@ import {
     TagCloseButton,
     Wrap,
     WrapItem,
+    useToast,
+    Spinner,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import Image from 'next/image';
+import JobCard from './JobCard';
 import { IoSearch } from 'react-icons/io5';
 import TopCompanies from './TopCompanies';
 import Link from 'next/link';
-export function getTimeAgo(dateString) {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diff = now.getTime() - date.getTime();
+import { handleGetJobs } from '../../handlers/Jobs/jobs';
 
-    const minutes = Math.floor(diff / (1000 * 60));
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-    if (minutes < 1) return 'just now';
-    if (minutes < 60) return `${minutes} min ago`;
-    if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-    if (days === 1) return 'Yesterday';
-    if (days <= 30) return `${days} days ago`;
-
-    return date.toLocaleDateString(undefined, {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
-}
 
 const Jobs = () => {
     const [bookmarkedJobs, setBookmarkedJobs] = useState(new Set());
@@ -80,76 +64,8 @@ const Jobs = () => {
     const [selectedDatePosted, setSelectedDatePosted] = useState([]);
     const [salaryRange, setSalaryRange] = useState([0, 100000]);
     const [selectedTags, setSelectedTags] = useState([]);
-    // const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const jobsData = [
-        {
-            id: 1,
-            title: 'Forward Security Director',
-            company: 'Bauch, Scheppe and Schuilst Co',
-            timeAgo: '10 min ago',
-            industry: 'Hotels & Tourism',
-            type: 'Full time',
-            salary: '$40000-$42000',
-            location: 'New York, USA',
-            colors: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
-        },
-        {
-            id: 2,
-            title: 'Regional Creative Facilitator',
-            company: 'Wisozk - Becker Co',
-            timeAgo: '12 min ago',
-            industry: 'Media',
-            type: 'Part time',
-            salary: '$28000-$32000',
-            location: 'Los Angeles, USA',
-            colors: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
-        },
-        {
-            id: 3,
-            title: 'Internal Integration Planner',
-            company: 'Mraz, Quigley and Feest Inc.',
-            timeAgo: '15 min ago',
-            industry: 'Construction',
-            type: 'Full time',
-            salary: '$48000-$50000',
-            location: 'Texas, USA',
-            colors: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
-        },
-        {
-            id: 4,
-            title: 'District Intranet Director',
-            company: 'VonRueden - Weber Co',
-            timeAgo: '24 min ago',
-            industry: 'Commerce',
-            type: 'Full time',
-            salary: '$42000-$46000',
-            location: 'Florida, USA',
-            colors: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
-        },
-        {
-            id: 5,
-            title: 'Corporate Tactics Facilitator',
-            company: 'Cormier, Turner and Flatley Inc',
-            timeAgo: '25 min ago',
-            industry: 'Commerce',
-            type: 'Full time',
-            salary: '$38000-$40000',
-            location: 'Boston, USA',
-            colors: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
-        },
-        {
-            id: 6,
-            title: 'Forward Accounts Consultant',
-            company: 'Pfeffer Group',
-            timeAgo: '30 min ago',
-            industry: 'Financial Services',
-            type: 'Full time',
-            salary: '$45000-$48000',
-            location: 'Boston, USA',
-            colors: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
-        }
-    ];
+    const [loading, setLoading] = useState(true);
+    const toast = useToast();
 
     const categories = [
         { name: 'Design', count: 10 },
@@ -187,39 +103,9 @@ const Jobs = () => {
         'engineering', 'design', 'office', 'creative', 'management', 'swift', 'consultant'
     ];
 
-    const toggleBookmark = (jobId) => {
-        const newBookmarked = new Set(bookmarkedJobs);
-        if (newBookmarked.has(jobId)) {
-            newBookmarked.delete(jobId);
-        } else {
-            newBookmarked.add(jobId);
-        }
-        setBookmarkedJobs(newBookmarked);
-    };
+   
 
-    const CompanyAvatar = ({ colors, company }) => (
-        <Box position="relative" w="40px" h="40px">
-            <Box
-                w="40px"
-                h="40px"
-                borderRadius="full"
-                position="relative"
-                overflow="hidden"
-            >
-                {colors.map((color, index) => (
-                    <Box
-                        key={index}
-                        position="absolute"
-                        w="20px"
-                        h="20px"
-                        bg={color}
-                        top={index < 2 ? 0 : '20px'}
-                        left={index % 2 === 0 ? 0 : '20px'}
-                    />
-                ))}
-            </Box>
-        </Box>
-    );
+    
 
     const handleTagAdd = (tag) => {
         if (!selectedTags.includes(tag)) {
@@ -442,144 +328,44 @@ const Jobs = () => {
         </VStack>
     );
 
-    const JobCard = memo(({ job }) => (
-        <Card
-            bg={'#fff'}
-            shadow="sm"
-            border="1px"
-            rounded={'20px'}
-            borderColor="gray.200"
-            _hover={{ shadow: 'md' }}
-            transition="all 0.2s"
-        >
-            <CardBody p={{ base: 4, md: 6 }}>
-                <Flex direction="column" gap={{ base: 3, md: 4 }}>
-                    <Flex justify="space-between" align="center">
-                        <Box bg={'#3096891A'} px={{ base: 3, md: 4 }} py={2} borderRadius="md">
-                            <Text fontSize={{ base: '14px', md: '16px' }} color="gray.500">
-                                {getTimeAgo(job.createdAt)}
-                            </Text>
-                        </Box>
-                        <IconButton
-                            icon={
-                                <Image
-                                    src={`/Images/Icons/bookmark.png`}
-                                    alt="icon"
-                                    width={24}
-                                    height={24}
-                                />
-                            }
-                            variant="ghost"
-                            size={{ base: 'sm', md: 'md' }}
-                            onClick={() => toggleBookmark(job.id)}
-                            aria-label="Bookmark job"
-                        />
-                    </Flex>
-
-                    <Flex gap={{ base: 2, md: 3 }} align="flex-start">
-                        <CompanyAvatar colors={['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']} company={job.companyName} />
-                        <VStack align="flex-start" spacing={1} flex={1}>
-                            <Heading
-                                size={{ base: 'sm', md: 'md' }}
-                                color="gray.800"
-                                fontWeight="semibold"
-                            >
-                                {job.jobTitle}
-                            </Heading>
-                            <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
-                                {job.companyName}
-                            </Text>
-                        </VStack>
-                    </Flex>
-
-                    <Flex
-                        justify="space-between"
-                        align="center"
-                        direction={{ base: 'column', lg: 'row' }}
-                        gap={{ base: 3, md: 4 }}
-                    >
-                        <HStack
-                            spacing={{ base: 4, md: 6 }}
-                            wrap="wrap"
-                            align="center"
-                            justify="flex-start"
-                        >
-                            <HStack spacing={2}>
-                                <Image
-                                    src={`/Images/Icons/briefcase.png`}
-                                    alt="icon"
-                                    width={24}
-                                    height={24}
-                                />
-                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
-                                    {job.industry}
-                                </Text>
-                            </HStack>
-                            <HStack spacing={2}>
-                                <Image
-                                    src={`/Images/Icons/clock.png`}
-                                    alt="icon"
-                                    width={24}
-                                    height={24}
-                                />
-                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
-                                    {job.jobType}
-                                </Text>
-                            </HStack>
-                            <HStack spacing={2}>
-                                <Image
-                                    src={`/Images/Icons/wallet.png`}
-                                    alt="icon"
-                                    width={24}
-                                    height={24}
-                                />
-                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
-                                    {job.salaryMin + " - " + job.salaryMax}
-                                </Text>
-                            </HStack>
-                            <HStack spacing={2}>
-                                <Image
-                                    src={`/Images/Icons/location.png`}
-                                    alt="icon"
-                                    width={24}
-                                    height={24}
-                                />
-                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">
-                                    {job.country}
-                                </Text>
-                            </HStack>
-                        </HStack>
-
-                        <Button
-                            as={Link}
-                            href={`/job-details/${job.id}`}
-                            bg={'#309689'}
-                            size={{ base: 'sm', md: 'md' }}
-                            rounded={'8px'}
-                            px={{ base: 4, md: 6 }}
-                            flexShrink={0}
-                            color={'white'}
-                            _hover={{ bg: '#309689' }}
-                        >
-                            Job Details
-                        </Button>
-                    </Flex>
-                </Flex>
-            </CardBody>
-        </Card>
-    ));
     const [isOpen, setIsOpen] = useState(false);
 
     const onOpen = useMemo(() => () => setIsOpen(true), []);
     const onClose = useMemo(() => () => setIsOpen(false), []);
-    const memoizedJobs = useMemo(() => jobsData, []);
     const [jobs, setJobs] = useState([])
     useEffect(() => {
-        const Jobs = JSON.parse(localStorage.getItem('jobs') || '[]');
-        // console.log('Jobs', Jobs)
-        setJobs(Jobs)
-    }, [])
+        const fetchJobs = async () => {
+            try {
+                setLoading(true);
+                const res = await handleGetJobs();
 
+                if (res?.status === 200) {
+                    setJobs(res.data?.data || []);
+                } else {
+                    toast({
+                        title: 'Failed to Load Jobs',
+                        description: res?.data?.message || 'Something went wrong while fetching job listings.',
+                        status: 'error',
+                        duration: 4000,
+                        isClosable: true,
+                    });
+                }
+            } catch (err) {
+                console.error('Fetch jobs error:', err);
+                toast({
+                    title: 'Server Error',
+                    description: err?.message || 'Unable to connect to the server.',
+                    status: 'error',
+                    duration: 4000,
+                    isClosable: true,
+                });
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchJobs();
+    }, []);
     return (
         <Box>
             <HeroSection />
@@ -645,66 +431,72 @@ const Jobs = () => {
                                 </Flex>
 
                                 <VStack spacing={{ base: 3, md: 4 }} align="stretch">
-                                    {jobs.length === 0 ? (
-                                        <Text>No jobs found.</Text>
-                                    ) : jobs.map((job, index) => (
-                                        <JobCard key={index} job={job} index={index} />
-                                    ))}
-                                </VStack>
 
-                                <Flex justify="center" mt={{ base: 4, md: 8 }}>
-                                    <HStack spacing={{ base: 1, md: 2 }}>
-                                        <IconButton
-                                            icon={<Text fontSize={{ base: 'xs', md: 'sm' }}>←</Text>}
-                                            variant="ghost"
-                                            size={{ base: 'xs', md: 'sm' }}
-                                            aria-label="Previous page"
-                                        />
-                                        <Button
-                                            size={{ base: 'xs', md: 'sm' }}
-                                            bg={'#309689'}
-                                            color={'white'}
-                                            variant="solid"
-                                            fontSize={{ base: 'xs', md: 'sm' }}
-                                        >
-                                            01
-                                        </Button>
-                                        <Button
-                                            size={{ base: 'xs', md: 'sm' }}
-                                            variant="ghost"
-                                            fontSize={{ base: 'xs', md: 'sm' }}
-                                        >
-                                            02
-                                        </Button>
-                                        <Button
-                                            size={{ base: 'xs', md: 'sm' }}
-                                            variant="ghost"
-                                            fontSize={{ base: 'xs', md: 'sm' }}
-                                        >
-                                            03
-                                        </Button>
-                                        <Button
-                                            size={{ base: 'xs', md: 'sm' }}
-                                            variant="ghost"
-                                            fontSize={{ base: 'xs', md: 'sm' }}
-                                        >
-                                            04
-                                        </Button>
-                                        <Button
-                                            size={{ base: 'xs', md: 'sm' }}
-                                            variant="ghost"
-                                            fontSize={{ base: 'xs', md: 'sm' }}
-                                        >
-                                            05
-                                        </Button>
-                                        <IconButton
-                                            icon={<Text fontSize={{ base: 'xs', md: 'sm' }}>→</Text>}
-                                            variant="ghost"
-                                            size={{ base: 'xs', md: 'sm' }}
-                                            aria-label="Next page"
-                                        />
-                                    </HStack>
-                                </Flex>
+                                    {loading ? (
+                                        <Spinner size="lg" color="#309689" mx={'auto'} />
+                                    ) :
+                                        jobs.length === 0 ? (
+                                            <Text textAlign={'center'} my={10}>No jobs found.</Text>
+                                        ) : jobs.map((job, index) => (
+                                            <JobCard key={index} job={job} index={index} />
+                                        ))}
+                                </VStack>
+                                {
+                                    jobs.length > 10 && (
+                                        <Flex justify="center" mt={{ base: 4, md: 8 }}>
+                                            <HStack spacing={{ base: 1, md: 2 }}>
+                                                <IconButton
+                                                    icon={<Text fontSize={{ base: 'xs', md: 'sm' }}>←</Text>}
+                                                    variant="ghost"
+                                                    size={{ base: 'xs', md: 'sm' }}
+                                                    aria-label="Previous page"
+                                                />
+                                                <Button
+                                                    size={{ base: 'xs', md: 'sm' }}
+                                                    bg={'#309689'}
+                                                    color={'white'}
+                                                    variant="solid"
+                                                    fontSize={{ base: 'xs', md: 'sm' }}
+                                                >
+                                                    01
+                                                </Button>
+                                                <Button
+                                                    size={{ base: 'xs', md: 'sm' }}
+                                                    variant="ghost"
+                                                    fontSize={{ base: 'xs', md: 'sm' }}
+                                                >
+                                                    02
+                                                </Button>
+                                                <Button
+                                                    size={{ base: 'xs', md: 'sm' }}
+                                                    variant="ghost"
+                                                    fontSize={{ base: 'xs', md: 'sm' }}
+                                                >
+                                                    03
+                                                </Button>
+                                                <Button
+                                                    size={{ base: 'xs', md: 'sm' }}
+                                                    variant="ghost"
+                                                    fontSize={{ base: 'xs', md: 'sm' }}
+                                                >
+                                                    04
+                                                </Button>
+                                                <Button
+                                                    size={{ base: 'xs', md: 'sm' }}
+                                                    variant="ghost"
+                                                    fontSize={{ base: 'xs', md: 'sm' }}
+                                                >
+                                                    05
+                                                </Button>
+                                                <IconButton
+                                                    icon={<Text fontSize={{ base: 'xs', md: 'sm' }}>→</Text>}
+                                                    variant="ghost"
+                                                    size={{ base: 'xs', md: 'sm' }}
+                                                    aria-label="Next page"
+                                                />
+                                            </HStack>
+                                        </Flex>)
+                                }
                             </VStack>
                         </Box>
                     </Flex>

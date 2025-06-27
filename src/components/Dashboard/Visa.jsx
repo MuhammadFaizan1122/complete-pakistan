@@ -24,6 +24,9 @@ import {
 } from '@chakra-ui/react';
 import { Country, State } from 'country-state-city';
 import { useState, useRef } from 'react';
+import { handleCreateJob } from "../../handlers/Jobs/jobs";
+import { handleUpload } from '../../handlers/contentUploading/contentUploading';
+import { useSession } from 'next-auth/react';
 
 const jobTypes = ['Full-time', 'Part-time', 'Hourly', 'Freelance', 'Internship'];
 const tags = ['Full-time', 'Remote', 'New York', 'Corporate', 'LeadGen'];
@@ -45,6 +48,8 @@ export default function JobCreationPage() {
     const [userIndustry, setUserIndustry] = useState();
     const [userCategory, setUserCategory] = useState();
     const [keyResponsibilities, setKeyResponsibilities] = useState(['']);
+    const { data: session, status } = useSession();
+
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const fileInputRef = useRef(null);
@@ -146,10 +151,8 @@ export default function JobCreationPage() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const Jobs = JSON.parse(localStorage.getItem('jobs') || '[]');
-        const newId = Jobs.length > 0 ? Jobs[Jobs.length - 1].id + 1 : 1;
 
         if (!validateForm()) {
             toast({
@@ -162,47 +165,62 @@ export default function JobCreationPage() {
             return;
         }
 
-        const jobData = {
-            id: newId,
-            ...formData,
-            keyResponsibilities,
-            selectedSkills,
-            selectedTags,
-            image: image ? image.name : null,
-            createdAt: new Date().toISOString(),
-        };
-        console.log('jobData', jobData)
-        const existingJobs = JSON.parse(localStorage.getItem('jobs') || '[]');
-        localStorage.setItem('jobs', JSON.stringify([...existingJobs, jobData]));
+        try {
+            const imageResp = image ? await handleUpload(image) : null;
+            const imageUrl = imageResp?.data?.url || '';
 
-        toast({
-            title: 'Job Created!',
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-        });
+            const jobData = {
+                ...formData,
+                keyResponsibilities,
+                selectedSkills,
+                selectedTags,
+                image: imageUrl,
+                userId: session?.user?.id || '',
+            };
 
-        setFormData({
-            jobTitle: '',
-            companyName: '',
-            jobType: '',
-            country: '',
-            state: '',
-            salaryMin: '',
-            salaryMax: '',
-            industry: '',
-            category: '',
-            jobDescription: '',
-        });
-        setKeyResponsibilities(['']);
-        setSelectedSkills([]);
-        setSelectedTags([]);
-        setImage(null);
-        setImagePreview(null);
-        setStates([]);
-        setCategoryList([]);
-        fileInputRef.current.value = '';
+            const res = await handleCreateJob(jobData);
+
+            if (res?.error) throw new Error(res.error);
+
+            toast({
+                title: 'Job Created!',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            });
+
+            setFormData({
+                jobTitle: '',
+                companyName: '',
+                jobType: '',
+                country: '',
+                state: '',
+                salaryMin: '',
+                salaryMax: '',
+                industry: '',
+                category: '',
+                jobDescription: '',
+            });
+            setKeyResponsibilities(['']);
+            setSelectedSkills([]);
+            setSelectedTags([]);
+            setImage(null);
+            setImagePreview(null);
+            setStates([]);
+            setCategoryList([]);
+            fileInputRef.current.value = '';
+        } catch (error) {
+            console.error('Job submission error:', error);
+            toast({
+                title: 'Error',
+                description: error.message || 'Something went wrong.',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+        }
     };
+
 
     return (
         <Box maxW="6xl" mx="auto" py={8} px={{ base: 4, md: 6 }}>
