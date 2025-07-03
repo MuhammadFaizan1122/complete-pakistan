@@ -15,8 +15,8 @@ import {
 } from "@chakra-ui/react";
 import Image from "next/image";
 
-const Preview = ({ formData, imgPreview }) => {
-    // console.log("formData", formData);
+const Preview = ({ formData, imgPreview, watch }) => {
+    console.log("formData", formData);
     return (
         <Flex h={'full'} rounded={"12px"} bg={'transparent'}>
             <VStack spacing={2} align="start" bg={'#f1f2f4'} w={'30%'} borderTopLeftRadius={'12px'} borderBottomLeftRadius={'12px'} h={'full'} p={4}>
@@ -64,6 +64,31 @@ const Preview = ({ formData, imgPreview }) => {
                         {formData.city}, {formData.country}
                     </Text>
                 </Flex>
+                <Flex alignItems={'center'}
+                    className="w-full max-w-[250px] text-ellipsis"
+                >
+                    {
+                        formData.dob &&
+                        <>
+                        <Image src={'/Images/Icons/marker.png'} alt="icon" width={16} height={14} className="!h-[16px]" />
+                        <Text ml={3}>
+                            <Text>{new Date(watch('dob')).toDateString()}</Text>
+                        </Text>
+                        </>
+                    }
+                    
+                </Flex>
+                 <Flex alignItems={'center'}
+                    className="w-full max-w-[250px] text-ellipsis"
+                >
+                     {
+                        formData.madicalDate &&
+                        <>
+                            <Image src={'/Images/Icons/marker.png'} alt="icon" width={16} height={14} className="!h-[16px]" />
+                            <Text>{new Date(watch('madicalDate')).toDateString()}</Text>
+                        </>
+}
+                                                     </Flex>
                 <Text my={4} fontSize="14px" color={'black'}>{formData.jobDetail}</Text>
                 <Box>
                     <Text fontSize={'24px'} fontWeight="bold" mb={4}>Skills</Text>

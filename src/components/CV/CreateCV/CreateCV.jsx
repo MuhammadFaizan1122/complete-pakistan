@@ -36,7 +36,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { handleUpload } from "../../../handlers/contentUploading/contentUploading";
 import { handleCreateCV } from "../../../handlers/CV/create-cv";
-
+import {StepwiseDatePicker} from './CustomDatePicker'
 const validationSchema = yup.object().shape({
   name: yup.string()
     .min(2, 'Name must be at least 2 characters')
@@ -417,8 +417,15 @@ export default function CreateCVPage() {
                   />
                   <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
                 </FormControl>
+                <StepwiseDatePicker
+                  name="dob"
+                  label="Date of Birth"
+                  errors={errors}
+                  watch={watch}
+                  setValue={setValue}
+                />
 
-                <FormControl isInvalid={!!errors.dob}>
+                {/* <FormControl isInvalid={!!errors.dob}>
                   <FormLabel className="text-[#2D3748] pl-1 mt-2">Date of Birth</FormLabel>
                   <Input
                     type="date"
@@ -445,7 +452,7 @@ export default function CreateCVPage() {
                     {...register('dob')}
                   />
                   <FormErrorMessage>{errors.dob?.message}</FormErrorMessage>
-                </FormControl>
+                </FormControl> */}
 
               </HStack>
               <FormControl isInvalid={!!errors.email}>
@@ -476,7 +483,7 @@ export default function CreateCVPage() {
                 />
                 <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
               </FormControl>
-              <FormControl isInvalid={!!errors.madicalDate}>
+              {/* <FormControl isInvalid={!!errors.madicalDate}>
                 <FormLabel className="text-[#2D3748] pl-1 mt-2">Madical Date</FormLabel>
                 <Input
                   type="date"
@@ -503,7 +510,14 @@ export default function CreateCVPage() {
                   {...register('madicalDate')}
                 />
                 <FormErrorMessage>{errors.madicalDate?.message}</FormErrorMessage>
-              </FormControl>
+              </FormControl> */}
+               <StepwiseDatePicker
+                  name="madicalDate"
+                  label="Madical Date"
+                  errors={errors}
+                  watch={watch}
+                  setValue={setValue}
+                />
               <FormControl isInvalid={!!errors.passport}>
                 <FormLabel className="text-[#2D3748] pl-1 mt-2">Passport</FormLabel>
                 <Input
@@ -860,7 +874,7 @@ export default function CreateCVPage() {
             </VStack>
           </Box>
           <Box w={{ base: '100%', md: '60%' }} bg="white" rounded={'12px'} shadow="md" ref={previewRef}>
-            <Preview formData={formValues} imgPreview={imgPreview} />
+            <Preview formData={formValues} imgPreview={imgPreview} watch={watch}/>
           </Box>
         </Flex>
         <EmploymentPopup
