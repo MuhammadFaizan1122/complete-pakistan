@@ -5,6 +5,7 @@ import Member from '../../../config/models/Members';
 import Job from '../../../config/models/Jobs';
 import CvProfile from '../../../config/models/CvProfile';
 
+
 export async function GET(req: NextRequest) {
     try {
         await connectDB();
