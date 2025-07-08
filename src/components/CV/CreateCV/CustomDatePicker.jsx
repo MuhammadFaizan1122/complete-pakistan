@@ -102,9 +102,30 @@ export const StepwiseDatePicker = ({ name, label, errors, watch, setValue }) => 
               <VStack align="start">
                 <Text fontWeight="bold">Select Month</Text>
                 <HStack wrap="wrap" spacing={1}>
-                  {months.map((month, index) => (
-                    <Button key={month} size="sm" onClick={() => handleMonthSelect(index)}>
-                      {month}
+                  {(name === 'madicalDate' 
+                    ? (() => {
+                        const currentDate = new Date();
+                        const currentMonth = currentDate.getMonth(); 
+                        const last3Months = [];
+                        
+                        for (let i = 2; i >= 0; i--) {
+                          const monthIndex = (currentMonth - i + 12) % 12;
+                          last3Months.push({
+                            name: months[monthIndex],
+                            index: monthIndex
+                          });
+                        }
+                        
+                        return last3Months;
+                      })()
+                    : months.map((month, index) => ({ name: month, index }))
+                  ).map((monthObj, arrayIndex) => (
+                    <Button 
+                      key={monthObj.name} 
+                      size="sm" 
+                      onClick={() => handleMonthSelect(monthObj.index)}
+                    >
+                      {monthObj.name}
                     </Button>
                   ))}
                 </HStack>
@@ -115,7 +136,26 @@ export const StepwiseDatePicker = ({ name, label, errors, watch, setValue }) => 
               <VStack align="start">
                 <Text fontWeight="bold">Select Year</Text>
                 <HStack wrap="wrap" spacing={1}>
-                  {years.map(year => (
+                  {(name === 'madicalDate' 
+                    ? (() => {
+                        const currentDate = new Date();
+                        const currentMonth = currentDate.getMonth();
+                        const currentYear = currentDate.getFullYear();
+                        const availableYears = new Set();
+                        
+                        for (let i = 2; i >= 0; i--) {
+                          const monthIndex = (currentMonth - i + 12) % 12;
+                          if (currentMonth - i < 0) {
+                            availableYears.add(currentYear - 1);
+                          } else {
+                            availableYears.add(currentYear);
+                          }
+                        }
+                        
+                        return Array.from(availableYears).sort();
+                      })()
+                    : years
+                  ).map(year => (
                     <Button key={year} size="sm" onClick={() => handleYearSelect(year)}>
                       {year}
                     </Button>

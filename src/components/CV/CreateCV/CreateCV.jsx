@@ -17,6 +17,7 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
+  Switch,
 } from "@chakra-ui/react";
 import { MdAdd } from "react-icons/md";
 import Image from "next/image";
@@ -42,6 +43,7 @@ const validationSchema = yup.object().shape({
     .min(2, 'Name must be at least 2 characters')
     .max(50, 'Name must be at most 50 characters')
     .required('Name is required'),
+
   dob: yup.date()
     .max(new Date(), 'Date of birth cannot be in the future')
     .test('is-adult', 'You must be at least 18 years old', function (value) {
@@ -55,28 +57,43 @@ const validationSchema = yup.object().shape({
       return age >= 18;
     })
     .required('Date of birth is required'),
+
   email: yup.string()
     .email('Invalid email format')
     .required('Email is required'),
-  madicalDate: yup.string()
-    .max(new Date(), 'Date of birth cannot be in the future')
-    .required('Madical date is required'),
+
+  gamca: yup.boolean().default(false),
+
+  madicalDate: yup.date()
+    .max(new Date(), 'Medical date cannot be in the future')
+    .when('gamca', {
+      is: true,
+      then: (schema) => schema.required('Medical date is required'),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+
   passport: yup.string()
-    .min(12, 'Passport must be at least 12 characters')
+    .length(9, 'Passport must be exactly 9 characters')
     .required('Passport is required'),
+
   phone: yup.string()
+    .min(9, 'Number must be at least 9 characters')
+    .max(15, 'Number should be maximum 15 characters')
     .matches(
       /^(\+?\d{1,3}[-.\s]?)?\d{3}[-.\s]?\d{3}[-.\s]?\d{4}$/,
       'Invalid phone number format'
     )
     .required('Phone number is required'),
+
   country: yup.string().required('Country is required'),
   state: yup.string().required('State is required'),
   city: yup.string().required('City is required'),
+
   address: yup.string()
     .min(5, 'Address must be at least 5 characters')
     .max(100, 'Address must be at most 100 characters')
     .required('Address is required'),
+
   portfolio: yup.string().url('Invalid URL format').optional(),
   job: yup.string().required('Job title is required'),
   industry: yup.string().optional(),
@@ -84,19 +101,11 @@ const validationSchema = yup.object().shape({
   subcategory: yup.string().optional(),
   jobDetail: yup.string().max(500, 'Job details must be at most 500 characters').optional(),
   education: yup.array().optional(),
-  // education: yup.array()
-  //   .min(1, 'At least one education entry is required')
-  //   .required('Education is required'),
   experience: yup.array().optional(),
-  // experience: yup.array()
-  //   .min(1, 'At least one experience entry is required')
-  //   .required('Experience is required'),
   skills: yup.array().optional(),
-  // skills: yup.array()
-  //   .min(1, 'At least one skill is required')
-  //   .required('Skills are required'),
   attachments: yup.array().optional(),
 });
+
 
 
 export default function CreateCVPage() {
@@ -160,6 +169,7 @@ export default function CreateCVPage() {
       state: '',
       address: '',
       job: '',
+      gamca: false,
       industry: '',
       category: '',
       subcategory: '',
@@ -511,19 +521,27 @@ export default function CreateCVPage() {
                 />
                 <FormErrorMessage>{errors.madicalDate?.message}</FormErrorMessage>
               </FormControl> */}
-               <StepwiseDatePicker
+              <FormControl display="flex" alignItems="center" mt={4}>
+                <FormLabel className="text-[#2D3748] pl-1 mt-2">GAMCA medical fitness report</FormLabel>
+              <Switch id="gamca" {...register('gamca')} />
+            </FormControl>
+
+              {watch('gamca') && (
+                <StepwiseDatePicker
                   name="madicalDate"
-                  label="Madical Date"
+                  label="Medical Date"
                   errors={errors}
                   watch={watch}
                   setValue={setValue}
                 />
+              )}
               <FormControl isInvalid={!!errors.passport}>
                 <FormLabel className="text-[#2D3748] pl-1 mt-2">Passport</FormLabel>
                 <Input
                   type="number"
                   placeholder="Enter your passport"
                   rounded={'15px'}
+                  maxLength={9}
                   p={4}
                   py={6}
                   border="1px solid"
@@ -542,7 +560,13 @@ export default function CreateCVPage() {
                   }}
                   transition="all 0.2s"
                   resize="none"
-                  {...register('passport')}
+                  {...register('passport', {
+                    required: 'Passport is required',
+                    pattern: {
+                      value: /^\d{9}$/,
+                      message: 'Passport must be exactly 9 digits',
+                    },
+                  })}
                 />
                 <FormErrorMessage>{errors.passport?.message}</FormErrorMessage>
               </FormControl>
