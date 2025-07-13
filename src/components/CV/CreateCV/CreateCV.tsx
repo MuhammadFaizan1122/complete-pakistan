@@ -345,8 +345,7 @@ export default function CreateCVPage() {
                                 </TabPanel>
                             </TabPanels>
                         </Tabs>
-                        {/* @ts-ignore */}
-                        <FileUpload setFormData={setValue} formData={formValues} resetTrigger={resetUploads} />
+                        {/* <FileUpload setFormData={setValue} formData={formValues} resetTrigger={resetUploads} /> */}
                         {/* <Button
                             type="submit"
                             mt={4}
