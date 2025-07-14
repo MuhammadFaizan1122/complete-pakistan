@@ -30,7 +30,7 @@ const Preview = ({ formData, imgPreview, watch }) => {
                     )}
                 </Box>
                 <Text className="w-full max-w-[270px] text-ellipsis" fontSize="26px" color={'black'} fontWeight="bold">{formData.name || "Your Name"}</Text>
-                <Text fontSize="18px" color={'black'}>{formData.job || "Your Title"}</Text>
+                <Text fontSize="18px" color={'black'}>{formData.jobTitle || "Your Title"}</Text>
                 <Flex
                     alignItems="center"
                     className="w-full max-w-[250px] text-ellipsis"
@@ -56,17 +56,17 @@ const Preview = ({ formData, imgPreview, watch }) => {
                         {formData.city}, {formData.country}
                     </Text>
                 </Flex>
-                
+
                 <Flex alignItems={'center'}
                     className="w-full max-w-[250px] text-ellipsis"
                 >
                     {
                         formData.passport &&
                         <>
-                        <BsPassport className="w-[16px] h-[16px]" />
-                        <Text ml={2}>
-                            <Text>Passport: {formData.passport}</Text>
-                        </Text>
+                            <BsPassport className="w-[16px] h-[16px]" />
+                            <Text ml={2}>
+                                <Text>Passport: {formData.passport}</Text>
+                            </Text>
                         </>
                     }
                 </Flex>
@@ -76,24 +76,24 @@ const Preview = ({ formData, imgPreview, watch }) => {
                     {
                         formData.dob &&
                         <>
-                        <SlCalender className="w-[15px] h-[15px]" />
-                        <Text ml={2}>
-                            <Text>DOB: {new Date(watch('dob')).toDateString()}</Text>
-                        </Text>
+                            <SlCalender className="w-[15px] h-[15px]" />
+                            <Text ml={2}>
+                                <Text>DOB: {new Date(watch('dob')).toDateString()}</Text>
+                            </Text>
                         </>
                     }
                 </Flex>
-                 <Flex alignItems={'center'}
+                <Flex alignItems={'center'}
                     className="w-full max-w-[250px] text-ellipsis"
                 >
-                     {
+                    {
                         formData.madicalDate &&
                         <>
-                        <SlCalender className="w-[15px] h-[15px]" />
-                        <Text ml={2}>Medical: {new Date(watch('madicalDate')).toDateString()}</Text>
+                            <SlCalender className="w-[15px] h-[15px]" />
+                            <Text ml={2}>Medical: {new Date(watch('madicalDate')).toDateString()}</Text>
                         </>
-}
-                                                     </Flex>
+                    }
+                </Flex>
                 <Text my={4} fontSize="14px" color={'black'}>{formData.jobDetail}</Text>
                 <Box>
                     <Text fontSize={'24px'} fontWeight="bold" mb={4}>Skills</Text>
@@ -107,6 +107,23 @@ const Preview = ({ formData, imgPreview, watch }) => {
             <VStack spacing={3} align="start" w={'70%'} >
                 <Container maxW="4xl" py={8} bg="white" minH="100vh" rounded={'12px'}>
                     <VStack spacing={8} align="stretch">
+                        <Box>
+                            <Heading
+                                size="lg"
+                                color="blue.600"
+                                mb={4}
+                                fontWeight="bold"
+                                fontSize="24px"
+                            >
+                                Objective
+                            </Heading>
+
+                            <VStack spacing={4} align="stretch">
+                                <Text fontSize="14px" color="gray.600">
+                                    {formData.objective}
+                                </Text>
+                            </VStack>
+                        </Box>
                         <Box>
                             <Heading
                                 size="lg"
@@ -176,7 +193,6 @@ const Preview = ({ formData, imgPreview, watch }) => {
                                 ))}
                             </VStack>
                         </Box>
-
                     </VStack>
                 </Container>
             </VStack>

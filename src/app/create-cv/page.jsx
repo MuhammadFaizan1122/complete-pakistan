@@ -1,9 +1,9 @@
-import CreateCVPage from '../../components/CV/CreateCV/CreateCV'
 import React from 'react'
+import CVRoot from '../../components/CV/CVRoot/CVRoot'
 
 const page = () => {
   return (
-    <CreateCVPage />
+    <CVRoot />
   )
 }
 

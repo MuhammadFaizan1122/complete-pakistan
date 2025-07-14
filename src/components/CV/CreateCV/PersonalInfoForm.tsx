@@ -15,6 +15,7 @@ import {
   Wrap,
   WrapItem,
   Checkbox,
+  Textarea,
 } from "@chakra-ui/react";
 import Image from "next/image";
 interface PersonalInfoFormProps {
@@ -36,13 +37,33 @@ export default function PersonalInfoForm({
 }: PersonalInfoFormProps) {
   const [city, setCity] = useState("");
 
+  function formatCNIC(value: string) {
+    const cleaned = value.replace(/\D/g, '').slice(0, 13);
+    const part1 = cleaned.slice(0, 5);
+    const part2 = cleaned.slice(5, 12);
+    const part3 = cleaned.slice(12, 13);
+
+    let formatted = part1;
+    if (part2) formatted += `-${part2}`;
+    if (part3) formatted += `-${part3}`;
+    return formatted;
+  }
+  function formatPassport(value: string) {
+    let cleaned = value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+
+    let letters = cleaned.replace(/[^A-Za-z]/g, '').slice(0, 2);
+    let digits = cleaned.replace(/[^0-9]/g, '').slice(0, 7);
+
+    return letters + digits;
+  }
+
   const pakistaniCities = [
     "Karachi", "Lahore", "Islamabad", "Rawalpindi", "Faisalabad", "Multan", "Peshawar",
     "Quetta", "Sialkot", "Gujranwala", "Hyderabad", "Bahawalpur", "Sargodha", "Other (Specify)"
   ];
   const languages = ["English", "Urdu", "Arabic", "Punjabi", "Saraiki", "Pashto", "Balochi", "Sindhi", "Kashmiri"];
   const gulfCountries = ["UAE", "Saudi Arabia", "Qatar", "Kuwait", "Oman", "Bahrain"];
-
+  const passport = watch("passport") || "";
   return (
     <VStack spacing={4} align="stretch">
       <Text fontSize="lg" color="#2D3748" fontWeight="bold">Personal Information</Text>
@@ -91,7 +112,7 @@ export default function PersonalInfoForm({
               </Button>
             </VStack>
           </Box>
-          <Box
+          {/* <Box
             bg="white"
             borderRadius="2xl"
             boxShadow="md"
@@ -108,11 +129,31 @@ export default function PersonalInfoForm({
                   Image Preview
                 </Text>
               )}
-
             </VStack>
-          </Box>
+          </Box> */}
         </Flex>
       </FormControl>
+      <FormControl isInvalid={!!errors.objective} mt={4}>
+        <FormLabel className="text-[#2D3748] pl-1">Objective</FormLabel>
+        <Textarea
+          placeholder="Write your objective here..."
+          rounded="15px"
+          p={4}
+          rows={5}
+          border="1px solid"
+          borderColor="gray.300"
+          bg="white"
+          outline="1px solid"
+          outlineColor="gray.300"
+          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+          _active={{ outline: "none" }}
+          transition="all 0.2s"
+          resize="vertical"
+          {...register("objective")}
+        />
+        <FormErrorMessage>{errors.objective?.message}</FormErrorMessage>
+      </FormControl>
+
       <HStack>
         <FormControl isInvalid={!!errors.name}>
           <FormLabel className="text-[#2D3748] pl-1 mt-2">Name</FormLabel>
@@ -159,6 +200,12 @@ export default function PersonalInfoForm({
           <Input
             placeholder="Enter your passport number"
             rounded="15px"
+            type="text"
+            value={passport}
+            onChange={(e) => {
+              const formatted = formatPassport(e.target.value);
+              setValue("passport", formatted);
+            }}
             p={4}
             py={6}
             border="1px solid"
@@ -166,18 +213,28 @@ export default function PersonalInfoForm({
             bg="white"
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{
+              ring: 2,
+              ringColor: "#309689",
+              borderColor: "transparent",
+              outline: "none",
+            }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
-            {...register("passport")}
           />
           <FormErrorMessage>{errors.passport?.message}</FormErrorMessage>
-        </FormControl>
+        </FormControl>;
         <FormControl isInvalid={!!errors.cnic}>
           <FormLabel className="text-[#2D3748] pl-1 mt-2">CNIC # (XXXXX-XXXXXXX-X)</FormLabel>
           <Input
             placeholder="Enter your CNIC"
             rounded="15px"
+            type="text"
+            // value={cnic}
+            onChange={(e) => {
+              const formatted = formatCNIC(e.target.value);
+              setValue("cnic", formatted);
+            }}
             p={4}
             py={6}
             border="1px solid"
@@ -185,10 +242,14 @@ export default function PersonalInfoForm({
             bg="white"
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{
+              ring: 2,
+              ringColor: "#309689",
+              borderColor: "transparent",
+              outline: "none",
+            }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
-            {...register("cnic")}
           />
           <FormErrorMessage>{errors.cnic?.message}</FormErrorMessage>
         </FormControl>
@@ -316,13 +377,25 @@ export default function PersonalInfoForm({
           onChange={(val) => setValue('languages', val)}
         >
           <Wrap>
-            {["English", "Urdu", "Arabic", "Punjabi", "Pashto"].map(lang => (
+            {["English", "Urdu", "Arabic", "Punjabi", "Siraiki", "Pashto", "Balochi", "Sindhi", "Kashmiri"].map(lang => (
               <WrapItem key={lang}>
                 <Checkbox value={lang}>{lang}</Checkbox>
               </WrapItem>
             ))}
           </Wrap>
         </CheckboxGroup>
+        <Input
+          rounded="15px"
+          p={4}
+          py={6}
+          outline="1px solid"
+          outlineColor="gray.300"
+          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+          _active={{ outline: "none" }}
+          transition="all 0.2s"
+          mt={2} placeholder="Other languages (Comma Separated)"
+          onChange={(val) => setValue('languages', val)}
+        />
         <FormErrorMessage>{errors.languages?.message}</FormErrorMessage>
       </FormControl>
 
@@ -351,9 +424,9 @@ export default function PersonalInfoForm({
           _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
           _active={{ outline: "none" }}
           transition="all 0.2s"
-          mt={2} placeholder="Other Countries (Comma Separated)" 
+          mt={2} placeholder="Other Countries (Comma Separated)"
           onChange={(val) => setValue('countriesVisited', val)}
-          />
+        />
         <FormErrorMessage>{errors.countriesVisited?.message}</FormErrorMessage>
       </FormControl>
 

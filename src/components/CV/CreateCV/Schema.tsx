@@ -16,17 +16,14 @@ export const validationSchema = yup.object({
     .date()
     .required("Date of birth is required")
     .max(new Date(new Date().setFullYear(new Date().getFullYear() - 18)), "You must be at least 18 years old"),
-  // livingcity: yup.string().required("Living city is required"),
   livingcity: yup.string().required("Living city is required"),
-
   otherCity: yup.string().when("livingcity", (livingcity, schema) => {
     // @ts-ignore
     return livingcity === "Other (Specify)"
       ? schema.required("Please specify your city")
       : schema.notRequired();
   }),
-
-
+  objective: yup.string().notRequired(),
   village: yup.string().required("Village/town is required"),
   gender: yup.string().required("Gender is required"),
   passportIssue: yup.string().required("Passport issue date is required"),

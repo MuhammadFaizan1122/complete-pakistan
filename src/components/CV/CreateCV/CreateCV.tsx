@@ -70,6 +70,7 @@ export default function CreateCVPage() {
         resolver: yupResolver(validationSchema),
         defaultValues: {
             name: "",
+            objective:'Motivated and detail-oriented professional seeking a challenging position in a dynamic organization where I can utilize my skills, grow professionally, and contribute to achieving company goals. Committed to delivering high-quality results through strong work ethic, adaptability, and continuous learning.',
             fatherName: "",
             passport: "",
             cnic: "",

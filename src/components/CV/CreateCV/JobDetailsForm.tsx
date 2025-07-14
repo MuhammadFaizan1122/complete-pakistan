@@ -1,4 +1,5 @@
-import React from "react";
+'use client'
+import React, { useState } from "react";
 import {
   Box,
   FormControl,
@@ -9,6 +10,7 @@ import {
   FormErrorMessage,
   Text,
 } from "@chakra-ui/react";
+import FileUpload from "./FileUploading";
 
 interface JobDetailsFormProps {
   register: any;
@@ -29,9 +31,14 @@ export default function JobDetailsForm({
   setUserCategory,
   setUserSubCategory,
 }: JobDetailsFormProps) {
+  const [resetUploads, setResetUploads] = useState(false);
+  const formValues = watch();
+
   return (
     <VStack spacing={4} align="stretch">
       <Text fontSize="lg" color="#2D3748" fontWeight="bold">Job Details</Text>
+      {/* @ts-ignore */}
+      <FileUpload setFormData={setValue} formData={formValues} resetTrigger={resetUploads} />
       <FormControl isInvalid={!!errors.jobTitle}>
         <FormLabel className="text-[#2D3748] pl-1 mt-2">Job Title</FormLabel>
         <Input
