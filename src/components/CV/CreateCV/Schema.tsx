@@ -51,7 +51,7 @@ export const validationSchema = yup.object({
   country: yup.string().required("Country is required"),
   state: yup.string().required("State is required"),
   city: yup.string().required("City is required"),
-  // localAddress: yup.string().required("Local address is required"),
+  localAddress: yup.string().required("Local address is required"),
   education: yup
     .array()
     .of(
