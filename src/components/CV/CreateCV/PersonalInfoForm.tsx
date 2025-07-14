@@ -48,6 +48,7 @@ export default function PersonalInfoForm({
     if (part3) formatted += `-${part3}`;
     return formatted;
   }
+
   function formatPassport(value: string) {
     let cleaned = value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
 
@@ -230,7 +231,7 @@ export default function PersonalInfoForm({
             placeholder="Enter your CNIC"
             rounded="15px"
             type="text"
-            // value={cnic}
+            value={watch("cnic") || ""} 
             onChange={(e) => {
               const formatted = formatCNIC(e.target.value);
               setValue("cnic", formatted);
