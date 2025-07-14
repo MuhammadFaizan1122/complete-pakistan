@@ -135,7 +135,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
     const selectedCountry = countries.find(c => c.name === countryCode);
     const stateList = State.getStatesOfCountry(selectedCountry.isoCode);
     setStates(stateList);
-    setCities([]);
+    // setCities([]);
   };
   // console.log('errors', errors)
   return (

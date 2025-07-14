@@ -13,6 +13,8 @@ import {
 } from "@chakra-ui/react";
 import { Country, State, City } from "country-state-city";
 // import { StepwiseDatePicker } from "./CustomDatePicker";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 interface ContactInfoFormProps {
   register: any;
@@ -59,31 +61,211 @@ export default function ContactInfoForm({ register, setValue, watch, errors }: C
   return (
     <VStack spacing={4} align="stretch">
       <Text fontSize="lg" color="#2D3748" fontWeight="bold">Contact Information</Text>
-      <FormControl isInvalid={!!errors.email}>
-        <FormLabel className="text-[#2D3748] pl-1 mt-2">Email</FormLabel>
-        <Input
-          type="email"
-          placeholder="Enter your email"
-          rounded="15px"
-          p={4}
-          py={6}
-          border="1px solid"
-          borderColor="gray.300"
-          bg="white"
-          outline="1px solid"
-          outlineColor="gray.300"
-          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
-          _active={{ outline: "none" }}
-          transition="all 0.2s"
-          {...register("email")}
-        />
-        <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-      </FormControl>
-      <FormControl display="flex" alignItems="center" mt={4}>
+      <HStack>
+
+        <FormControl isInvalid={!!errors.email}>
+          <FormLabel className="text-[#2D3748] pl-1 mt-2">Email</FormLabel>
+          <Input
+            type="email"
+            placeholder="Enter your email"
+            rounded="15px"
+            p={4}
+            py={6}
+            border="1px solid"
+            borderColor="gray.300"
+            bg="white"
+            outline="1px solid"
+            outlineColor="gray.300"
+            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _active={{ outline: "none" }}
+            transition="all 0.2s"
+            {...register("email")}
+          />
+          <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={!!errors.phone}>
+          <FormLabel className="text-[#2D3748] pl-1 mt-2">Phone Number</FormLabel>
+          <PhoneInput
+            country={'pk'}
+            inputStyle={{
+              width: '100%',
+              height: '50px',
+              border: '1px solid #D1D5DB',
+              borderRadius: '15px',
+              outline: '1px solid #D1D5DB',
+              fontSize: '16px',
+              paddingLeft: '48px',
+              paddingRight: '16px',
+              paddingTop: '24px',
+              paddingBottom: '24px',
+              backgroundColor: 'white',
+              transition: 'all 0.2s',
+            }}
+            buttonStyle={{
+              border: 'none',
+              background: 'none',
+              borderRadius: '15px 0 0 15px',
+            }}
+            containerStyle={{
+              width: '100%',
+              position: 'relative',
+            }}
+            inputClass="phone-input-custom"
+            onChange={(value) => setValue('phone', value)}
+            value={watch('phone')}
+            inputProps={{
+              name: 'phone',
+              required: true,
+              placeholder: 'Enter WhatsApp number',
+            }}
+          />
+          <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
+        </FormControl>
+      </HStack>
+      <HStack>
+        <FormControl isInvalid={!!errors.whatsapp}>
+          <FormLabel className="text-[#2D3748] pl-1 mt-2">Whatsapp Number</FormLabel>
+          <PhoneInput
+            country={'pk'}
+            inputStyle={{
+              width: '100%',
+              height: '50px',
+              border: '1px solid #D1D5DB',
+              borderRadius: '15px',
+              outline: '1px solid #D1D5DB',
+              fontSize: '16px',
+              paddingLeft: '48px',
+              paddingRight: '16px',
+              paddingTop: '24px',
+              paddingBottom: '24px',
+              backgroundColor: 'white',
+              transition: 'all 0.2s',
+            }}
+            buttonStyle={{
+              border: 'none',
+              background: 'none',
+              borderRadius: '15px 0 0 15px',
+            }}
+            containerStyle={{
+              width: '100%',
+              position: 'relative',
+            }}
+            inputClass="phone-input-custom"
+            onChange={(value) => setValue('whatsapp', value)}
+            value={watch('whatsapp')}
+            inputProps={{
+              name: 'whatsapp',
+              required: false,
+              placeholder: 'Enter WhatsApp number',
+            }}
+          />
+          <FormErrorMessage>{errors.whatsapp?.message}</FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={!!errors.otherNumber}>
+          <FormLabel className="text-[#2D3748] pl-1 mt-2">Other Country Number</FormLabel>
+          <PhoneInput
+            country={'pk'}
+            inputStyle={{
+              width: '100%',
+              height: '50px',
+              border: '1px solid #D1D5DB',
+              borderRadius: '15px',
+              outline: '1px solid #D1D5DB',
+              fontSize: '16px',
+              paddingLeft: '48px',
+              paddingRight: '16px',
+              paddingTop: '24px',
+              paddingBottom: '24px',
+              backgroundColor: 'white',
+              transition: 'all 0.2s',
+            }}
+            buttonStyle={{
+              border: 'none',
+              background: 'none',
+              borderRadius: '15px 0 0 15px',
+            }}
+            containerStyle={{
+              width: '100%',
+              position: 'relative',
+            }}
+            inputClass="phone-input-custom"
+            onChange={(value) => setValue('otherNumber', value)}
+            value={watch('otherNumber')}
+            inputProps={{
+              name: 'otherNumber',
+              required: false,
+              placeholder: 'Enter Other Country number',
+            }}
+          />
+          <FormErrorMessage>{errors.otherNumber?.message}</FormErrorMessage>
+        </FormControl>
+      </HStack>
+      <HStack>
+        <FormControl isInvalid={!!errors.backupNumber}>
+          <FormLabel className="text-[#2D3748] pl-1 mt-2">Backup Number</FormLabel>
+         <PhoneInput
+            country={'pk'}
+            inputStyle={{
+              width: '100%',
+              height: '50px',
+              border: '1px solid #D1D5DB',
+              borderRadius: '15px',
+              outline: '1px solid #D1D5DB',
+              fontSize: '16px',
+              paddingLeft: '48px',
+              paddingRight: '16px',
+              paddingTop: '24px',
+              paddingBottom: '24px',
+              backgroundColor: 'white',
+              transition: 'all 0.2s',
+            }}
+            buttonStyle={{
+              border: 'none',
+              background: 'none',
+              borderRadius: '15px 0 0 15px',
+            }}
+            containerStyle={{
+              width: '100%',
+              position: 'relative',
+            }}
+            inputClass="phone-input-custom"
+            onChange={(value) => setValue('backupNumber', value)}
+            value={watch('backupNumber')}
+            inputProps={{
+              name: 'backupNumber',
+              required: false,
+              placeholder: 'Enter backup number',
+            }}
+          />
+          <FormErrorMessage>{errors.backupNumber?.message}</FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={!!errors.backupEmail}>
+          <FormLabel className="text-[#2D3748] pl-1 mt-2">Backup Email</FormLabel>
+          <Input
+            type="email"
+            placeholder="backup email"
+            rounded="15px"
+            p={4}
+            py={6}
+            border="1px solid"
+            borderColor="gray.300"
+            bg="white"
+            outline="1px solid"
+            outlineColor="gray.300"
+            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _active={{ outline: "none" }}
+            transition="all 0.2s"
+            {...register("backupEmail")}
+          />
+          <FormErrorMessage>{errors.backupEmail?.message}</FormErrorMessage>
+        </FormControl>
+      </HStack>
+
+      {/* <FormControl display="flex" alignItems="center" mt={4}>
         <FormLabel className="text-[#2D3748] mt-2 pl-1">GAMCA medical fitness report</FormLabel>
         <Switch id="gamca" {...register("gamca")} />
       </FormControl>
-      {/* {watch("gamca") && (
+      {watch("gamca") && (
         <StepwiseDatePicker
           name="madicalDate"
           label="GAMCA Medical Date"
@@ -92,49 +274,6 @@ export default function ContactInfoForm({ register, setValue, watch, errors }: C
           setValue={setValue}
         />
       )} */}
-      <HStack spacing={4} flexWrap="wrap">
-        <FormControl isInvalid={!!errors.passport}>
-          <FormLabel className="text-[#2D3748] pl-1 mt-2">Passport</FormLabel>
-          <Input
-            type="number"
-            placeholder="Enter your passport"
-            rounded="15px"
-            maxLength={9}
-            p={4}
-            py={6}
-            border="1px solid"
-            borderColor="gray.300"
-            bg="white"
-            outline="1px solid"
-            outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
-            _active={{ outline: "none" }}
-            transition="all 0.2s"
-            {...register("passport")}
-          />
-          <FormErrorMessage>{errors.passport?.message}</FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={!!errors.phone}>
-          <FormLabel className="text-[#2D3748] pl-1 mt-2">Phone Number</FormLabel>
-          <Input
-            type="tel"
-            placeholder="Enter your phone"
-            rounded="15px"
-            p={4}
-            py={6}
-            border="1px solid"
-            borderColor="gray.300"
-            bg="white"
-            outline="1px solid"
-            outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
-            _active={{ outline: "none" }}
-            transition="all 0.2s"
-            {...register("phone")}
-          />
-          <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
-        </FormControl>
-      </HStack>
       <FormControl isInvalid={!!errors.country || !!errors.state}>
         <FormLabel className="text-[#2D3748] pl-1">Address</FormLabel>
         <HStack spacing={4} flexWrap="wrap">
@@ -152,7 +291,6 @@ export default function ContactInfoForm({ register, setValue, watch, errors }: C
             transition="all 0.2s"
             {...register("country")}
             onChange={(e) => {
-              register("country").onChange(e);
               handleCountryChange(e);
             }}
           >
@@ -174,7 +312,6 @@ export default function ContactInfoForm({ register, setValue, watch, errors }: C
             transition="all 0.2s"
             {...register("state")}
             onChange={(e) => {
-              register("state").onChange(e);
               handleStateChange(e);
             }}
           >
@@ -207,8 +344,8 @@ export default function ContactInfoForm({ register, setValue, watch, errors }: C
           </Select>
           <FormErrorMessage>{errors.city?.message}</FormErrorMessage>
         </FormControl>
-        <FormControl isInvalid={!!errors.address}>
-          <FormLabel className="text-[#2D3748] pl-1 mt-2">Address</FormLabel>
+        <FormControl isInvalid={!!errors.localAddress}>
+          <FormLabel className="text-[#2D3748] pl-1 mt-2">Local Address (as on CNIC)</FormLabel>
           <Input
             placeholder="Address"
             rounded="15px"
@@ -222,9 +359,9 @@ export default function ContactInfoForm({ register, setValue, watch, errors }: C
             _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
-            {...register("address")}
+            {...register("localAddress")}
           />
-          <FormErrorMessage>{errors.address?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors.localAddress?.message}</FormErrorMessage>
         </FormControl>
       </HStack>
     </VStack>

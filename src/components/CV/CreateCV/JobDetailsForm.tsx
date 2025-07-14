@@ -32,7 +32,7 @@ export default function JobDetailsForm({
   return (
     <VStack spacing={4} align="stretch">
       <Text fontSize="lg" color="#2D3748" fontWeight="bold">Job Details</Text>
-      <FormControl isInvalid={!!errors.job}>
+      <FormControl isInvalid={!!errors.jobTitle}>
         <FormLabel className="text-[#2D3748] pl-1 mt-2">Job Title</FormLabel>
         <Input
           placeholder="Enter job title"
@@ -47,9 +47,9 @@ export default function JobDetailsForm({
           _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
           _active={{ outline: "none" }}
           transition="all 0.2s"
-          {...register("job")}
+          {...register("jobTitle")}
         />
-        <FormErrorMessage>{errors.job?.message}</FormErrorMessage>
+        <FormErrorMessage>{errors.jobTitle?.message}</FormErrorMessage>
       </FormControl>
       <FormControl isInvalid={!!errors.industry}>
         <FormLabel className="text-[#2D3748] pl-1 mt-2">Industry</FormLabel>
@@ -68,7 +68,7 @@ export default function JobDetailsForm({
           {...register("industry")}
           onChange={(e) => {
             setUserIndustry(e.target.value);
-            register("industry").onChange(e);
+            setValue("industry", e.target.value);
           }}
         >
           {["Construction", "Manufacturing", "IT", "Healthcare", "Education"].map((industry) => (
@@ -94,7 +94,7 @@ export default function JobDetailsForm({
           {...register("category")}
           onChange={(e) => {
             setUserCategory(e.target.value);
-            register("category").onChange(e);
+            setValue("category", e.target.value);
           }}
         >
           {["Technical", "Management", "Support", "Other"].map((category) => (
@@ -120,7 +120,7 @@ export default function JobDetailsForm({
           {...register("subcategory")}
           onChange={(e) => {
             setUserSubCategory(e.target.value);
-            register("subcategory").onChange(e);
+            setValue("subcategory", e.target.value);
           }}
         >
           {["Engineer", "Technician", "Supervisor", "Other"].map((subcategory) => (
@@ -129,7 +129,7 @@ export default function JobDetailsForm({
         </Select>
         <FormErrorMessage>{errors.subcategory?.message}</FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={!!errors.jobDetail}>
+      <FormControl isInvalid={!!errors.jobDetails}>
         <FormLabel className="text-[#2D3748] pl-1 mt-2">Job Details</FormLabel>
         <Input
           placeholder="Enter job details"
@@ -144,9 +144,9 @@ export default function JobDetailsForm({
           _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
           _active={{ outline: "none" }}
           transition="all 0.2s"
-          {...register("jobDetail")}
+          {...register("jobDetails")}
         />
-        <FormErrorMessage>{errors.jobDetail?.message}</FormErrorMessage>
+        <FormErrorMessage>{errors.jobDetails?.message}</FormErrorMessage>
       </FormControl>
     </VStack>
   );

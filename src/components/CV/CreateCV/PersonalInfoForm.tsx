@@ -133,7 +133,7 @@ export default function PersonalInfoForm({
           />
           <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
         </FormControl>
-        <FormControl isInvalid={!!errors.name}>
+        <FormControl isInvalid={!!errors.fatherName}>
           <FormLabel className="text-[#2D3748] pl-1 mt-2">Father Name</FormLabel>
           <Input
             placeholder="Enter your father name"
@@ -148,13 +148,13 @@ export default function PersonalInfoForm({
             _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
-            {...register("name")}
+            {...register("fatherName")}
           />
-          <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors.fatherName?.message}</FormErrorMessage>
         </FormControl>
       </HStack>
       <HStack>
-        <FormControl isInvalid={!!errors.name}>
+        <FormControl isInvalid={!!errors.passport}>
           <FormLabel className="text-[#2D3748] pl-1 mt-2">Passport # (2 letters + 7 digits)</FormLabel>
           <Input
             placeholder="Enter your passport number"
@@ -169,11 +169,11 @@ export default function PersonalInfoForm({
             _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
-            {...register("name")}
+            {...register("passport")}
           />
-          <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors.passport?.message}</FormErrorMessage>
         </FormControl>
-        <FormControl isInvalid={!!errors.name}>
+        <FormControl isInvalid={!!errors.cnic}>
           <FormLabel className="text-[#2D3748] pl-1 mt-2">CNIC # (XXXXX-XXXXXXX-X)</FormLabel>
           <Input
             placeholder="Enter your CNIC"
@@ -188,13 +188,13 @@ export default function PersonalInfoForm({
             _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
-            {...register("name")}
+            {...register("cnic")}
           />
-          <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors.cnic?.message}</FormErrorMessage>
         </FormControl>
       </HStack>
       <HStack>
-        <FormControl>
+        <FormControl isInvalid={!!errors.dob}>
           <FormLabel>Date of Birth</FormLabel>
           <Input
             rounded="15px"
@@ -205,9 +205,13 @@ export default function PersonalInfoForm({
             _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
-            type="date" {...register("dob")} />
+            type="date"
+            max={new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split("T")[0]}
+            {...register("dob")}
+          />
+          <FormErrorMessage>{errors.dob?.message}</FormErrorMessage>
         </FormControl>
-        <FormControl>
+        <FormControl isInvalid={!!errors.livingcity}>
           <FormLabel>Living City</FormLabel>
           <Select
             outline="1px solid"
@@ -217,23 +221,27 @@ export default function PersonalInfoForm({
             _active={{ outline: "none" }}
             transition="all 0.2s"
             h={'50px'}
-            placeholder="Select City" onChange={(e) => setCity(e.target.value)} {...register("city")}>
+            placeholder="Select City" onChange={(e) => setCity(e.target.value)} {...register("livingcity")}>
             {pakistaniCities.map((city) => (
               <option key={city} value={city}>{city}</option>
             ))}
           </Select>
+          <FormErrorMessage>{errors.livingcity?.message}</FormErrorMessage>
         </FormControl>
       </HStack>
       {city === "Other (Specify)" && (
-        <FormControl>
+        <FormControl isInvalid={!!errors.livingcity}>
           <FormLabel>Specify City</FormLabel>
-          <Input rounded="15px"
+          <Input
+            rounded="15px"
             p={4}
-            py={6} placeholder="Enter your city" {...register("otherCity")} />
+            py={6}
+            placeholder="Enter your city" {...register("livingcity")} />
+          <FormErrorMessage>{errors.livingcity?.message}</FormErrorMessage>
         </FormControl>
       )}
       <HStack>
-        <FormControl isInvalid={!!errors.name}>
+        <FormControl isInvalid={!!errors.village}>
           <FormLabel className="text-[#2D3748] pl-1 mt-2">Village/Town</FormLabel>
           <Input
             placeholder="Native Village/Town"
@@ -248,11 +256,11 @@ export default function PersonalInfoForm({
             _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
-            {...register("name")}
+            {...register("village")}
           />
-          <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors.village?.message}</FormErrorMessage>
         </FormControl>
-        <FormControl>
+        <FormControl isInvalid={!!errors.gender}>
           <FormLabel className="text-[#2D3748] pl-1 mt-2">Gender</FormLabel>
           <Select
             outline="1px solid"
@@ -262,15 +270,17 @@ export default function PersonalInfoForm({
             _active={{ outline: "none" }}
             transition="all 0.2s"
             h={'50px'}
-            placeholder="Gender" onChange={(e) => setCity(e.target.value)} {...register("gender")}>
+            placeholder="Gender"
+            {...register("gender")}>
             <option value={'male'}>{'Male'}</option>
             <option value={'female'}>{'Female'}</option>
             <option value={'trans'}>{'Trans'}</option>
           </Select>
+          <FormErrorMessage>{errors.gender?.message}</FormErrorMessage>
         </FormControl>
       </HStack>
       <HStack>
-        <FormControl>
+        <FormControl isInvalid={!!errors.passportIssue}>
           <FormLabel>Passport Issue Date</FormLabel>
           <Input
             rounded="15px"
@@ -281,9 +291,10 @@ export default function PersonalInfoForm({
             _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
-            type="date" {...register("passportIssueDate")} />
+            type="date" {...register("passportIssue")} />
+          <FormErrorMessage>{errors.passportIssue?.message}</FormErrorMessage>
         </FormControl>
-        <FormControl>
+        <FormControl isInvalid={!!errors.passportExpiry}>
           <FormLabel>Passport Expiry Date</FormLabel>
           <Input
             rounded="15px"
@@ -294,48 +305,78 @@ export default function PersonalInfoForm({
             _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
-            type="date" {...register("passportExpiryDate")} />
+            type="date" {...register("passportExpiry")} />
+          <FormErrorMessage>{errors.passportExpiry?.message}</FormErrorMessage>
         </FormControl>
       </HStack>
-      <FormControl>
+      <FormControl isInvalid={!!errors.languages}>
         <FormLabel>Languages</FormLabel>
-        <CheckboxGroup>
+        <CheckboxGroup
+          value={watch('languages')}
+          onChange={(val) => setValue('languages', val)}
+        >
           <Wrap>
-            {languages.map((lang) => (
+            {["English", "Urdu", "Arabic", "Punjabi", "Pashto"].map(lang => (
               <WrapItem key={lang}>
-                <Checkbox value={lang} {...register("languages")}>{lang}</Checkbox>
+                <Checkbox value={lang}>{lang}</Checkbox>
               </WrapItem>
             ))}
           </Wrap>
         </CheckboxGroup>
-        <Input mt={2} placeholder="Other Languages (Comma Separated)" {...register("otherLanguages")} />
+        <FormErrorMessage>{errors.languages?.message}</FormErrorMessage>
       </FormControl>
 
+
       {/* Gulf Countries */}
-      <FormControl>
+      <FormControl isInvalid={!!errors.countriesVisited}>
         <FormLabel>Countries Visited (Gulf Countries)</FormLabel>
-        <CheckboxGroup>
+        <CheckboxGroup
+          // value={watch('countriesVisited')}
+          onChange={(val) => setValue('countriesVisited', val)}
+        >
           <Wrap>
             {gulfCountries.map((country) => (
               <WrapItem key={country}>
-                <Checkbox value={country} {...register("gulfCountries")}>{country}</Checkbox>
+                <Checkbox value={country} >{country}</Checkbox>
               </WrapItem>
             ))}
           </Wrap>
         </CheckboxGroup>
-        <Input mt={2} placeholder="Other Countries (Comma Separated)" {...register("otherCountries")} />
+        <Input
+          rounded="15px"
+          p={4}
+          py={6}
+          outline="1px solid"
+          outlineColor="gray.300"
+          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+          _active={{ outline: "none" }}
+          transition="all 0.2s"
+          mt={2} placeholder="Other Countries (Comma Separated)" 
+          onChange={(val) => setValue('countriesVisited', val)}
+          />
+        <FormErrorMessage>{errors.countriesVisited?.message}</FormErrorMessage>
       </FormControl>
 
       {/* Experience */}
-      <FormControl>
+      <FormControl isInvalid={!!errors.yearsOfExperience}>
         <FormLabel>Experienced (Numerical Years)</FormLabel>
-        <Select placeholder="Select Experience">
+        <Select
+          outline="1px solid"
+          rounded="15px"
+          outlineColor="gray.300"
+          {...register("yearsOfExperience")}
+          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+          _active={{ outline: "none" }}
+          transition="all 0.2s"
+          h={'50px'}
+          placeholder="Select Experience">
           <option value="1-3 Years">1-3 Years</option>
           <option value="4-6 Years">4-6 Years</option>
           <option value="7-10 Years">7-10 Years</option>
           <option value="11-15 Years">11-15 Years</option>
           <option value="16+ Years">16+ Years</option>
         </Select>
+        <FormErrorMessage>{errors.yearsOfExperience?.message}</FormErrorMessage>
       </FormControl>
     </VStack>
   );

@@ -70,27 +70,39 @@ export default function CreateCVPage() {
         resolver: yupResolver(validationSchema),
         defaultValues: {
             name: "",
-            dob: "",
-            email: "",
-            // @ts-ignore
-            phone: "",
+            fatherName: "",
             passport: "",
-            madicalDate: "",
+            cnic: "",
+            dob: new Date(),
+            livingcity: "",
+            village: "",
+            gender: "",
+            passportIssue: "",
+            passportExpiry: "",
+            languages: [],
+            countriesVisited: [],
+            yearsOfExperience: '',
+            email: "",
+            phone: "",
+            whatsapp: "",
+            otherNumber: "",
+            backupNumber: "",
+            backupEmail: "",
             country: "",
-            city: "",
             state: "",
-            address: "",
-            job: "",
-            gamca: false,
+            city: "",
+            // localAddress: "",
+            // education: [],
+            // experience: [],
+            // skills: [],
+            jobTitle: "",
             industry: "",
             category: "",
             subcategory: "",
-            jobDetail: "",
-            education: [],
-            experience: [],
-            skills: [],
+            jobDetails: "",
             attachments: [],
         },
+        mode: "onChange",
     });
 
     const formValues = watch();
@@ -126,23 +138,28 @@ export default function CreateCVPage() {
 
     const onSubmit = async (data: any) => {
         try {
+            console.log('working')
             const cvResp = cvImage ? await handleUpload(cvImage) : null;
+            console.log('cvResp', cvResp)
             const cvImageUrl = cvResp?.data?.url || "";
             const uploadedAttachmentUrls = [];
             for (const file of data.attachments || []) {
                 const res = await handleUpload(file);
                 if (res?.data?.url) uploadedAttachmentUrls.push(res.data.url);
             }
+            console.log('working2')
 
             const finalPayload = {
                 ...data,
-                cv: cvImageUrl,
+                photo: cvImageUrl,
                 attachments: uploadedAttachmentUrls,
                 // @ts-ignore
                 userId: session?.user.id,
             };
+            console.log('working3')
 
             const response = await handleCreateCV(finalPayload);
+            console.log('working4')
             if (response?.status === 201) {
                 toast({
                     title: "Success",
@@ -346,7 +363,7 @@ export default function CreateCVPage() {
                             </TabPanels>
                         </Tabs>
                         {/* <FileUpload setFormData={setValue} formData={formValues} resetTrigger={resetUploads} /> */}
-                        {/* <Button
+                        <Button
                             type="submit"
                             mt={4}
                             bg="#309689"
@@ -369,7 +386,7 @@ export default function CreateCVPage() {
                             _hover={{ bg: "#28796f" }}
                         >
                             Download CV
-                        </Button> */}
+                        </Button>
                     </Box>
                     <Box
                         w={{ base: "100%", md: "60%" }}
