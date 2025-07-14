@@ -20,6 +20,7 @@ export const validationSchema = yup.object({
   livingcity: yup.string().required("Living city is required"),
 
   otherCity: yup.string().when("livingcity", (livingcity, schema) => {
+    // @ts-ignore
     return livingcity === "Other (Specify)"
       ? schema.required("Please specify your city")
       : schema.notRequired();
