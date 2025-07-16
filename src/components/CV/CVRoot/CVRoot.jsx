@@ -2,12 +2,16 @@
 import React, { useState } from 'react';
 import { Box, Text, Flex } from '@chakra-ui/react';
 import CreateCVPage from '../CreateCV/CreateCV';
+import SummaryForm from '../CreateCV/CvSummery/CvSummery';
 
 const CVRoot = () => {
   const [selectedView, setSelectedView] = useState(null);
 
-  if (selectedView) {
+  if (selectedView === 'create') {
     return <CreateCVPage />;
+  }
+  if (selectedView === 'summary'){
+    return <SummaryForm />;
   }
 
   return (
