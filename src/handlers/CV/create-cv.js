@@ -10,3 +10,14 @@ export const handleCreateCV = async (payload) => {
     }
 };
 
+export const handleGetCV = async () => {
+    try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASEURL_2}/cv/get`);
+        return res;
+    } catch (error) {
+        console.error("Create CV error:", error);
+        return error.response;
+    }
+};
+
+

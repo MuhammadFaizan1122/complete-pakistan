@@ -12,10 +12,18 @@ export const validationSchema = yup.object({
     .string()
     .matches(/^\d{5}-\d{7}-\d{1}$/, "CNIC must be in format 12345-1234567-1")
     .required("CNIC is required"),
+  drivingLicence: yup
+    .string()
+    .matches(/^\d+$/, "Driving Licence must be a number")
+    .max(16, "Driving Licence must be at most 16 digits")
+    .notRequired(),
   dob: yup
     .date()
     .required("Date of birth is required")
     .max(new Date(new Date().setFullYear(new Date().getFullYear() - 18)), "You must be at least 18 years old"),
+  madicalDate: yup
+    .date()
+    .notRequired(),
   livingcity: yup.string().required("Living city is required"),
   otherCity: yup.string().when("livingcity", (livingcity, schema) => {
     // @ts-ignore

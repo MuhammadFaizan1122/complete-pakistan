@@ -84,6 +84,8 @@ export default function CreateCVPage() {
             countriesVisited: [],
             yearsOfExperience: '',
             email: "",
+            drivingLicence: "",
+            madicalDate:new Date(),
             phone: "",
             whatsapp: "",
             otherNumber: "",
@@ -139,17 +141,13 @@ export default function CreateCVPage() {
 
     const onSubmit = async (data: any) => {
         try {
-            console.log('working')
             const cvResp = cvImage ? await handleUpload(cvImage) : null;
-            console.log('cvResp', cvResp)
             const cvImageUrl = cvResp?.data?.url || "";
             const uploadedAttachmentUrls = [];
             for (const file of data.attachments || []) {
                 const res = await handleUpload(file);
                 if (res?.data?.url) uploadedAttachmentUrls.push(res.data.url);
             }
-            console.log('working2')
-
             const finalPayload = {
                 ...data,
                 photo: cvImageUrl,
@@ -157,10 +155,7 @@ export default function CreateCVPage() {
                 // @ts-ignore
                 userId: session?.user.id,
             };
-            console.log('working3')
-
             const response = await handleCreateCV(finalPayload);
-            console.log('working4')
             if (response?.status === 201) {
                 toast({
                     title: "Success",
@@ -348,7 +343,7 @@ export default function CreateCVPage() {
                                         setValue={setValue}
                                         watch={watch}
                                         errors={errors}
-                                        onEducationOpen={onEducationOpen}
+                                        // onEducationOpen={onEducationOpen}
                                     />
                                 </TabPanel>
                                 <TabPanel p={0} pt={4}>
@@ -359,7 +354,7 @@ export default function CreateCVPage() {
                                         setValue={setValue}
                                         watch={watch}
                                         errors={errors}
-                                        onEmploymentOpen={onEmploymentOpen}
+                                        // onEmploymentOpen={onEmploymentOpen}
                                     />
                                 </TabPanel>
                                 <TabPanel p={0} pt={4}>
@@ -371,7 +366,7 @@ export default function CreateCVPage() {
                                         setValue={setValue}
                                         watch={watch}
                                         errors={errors}
-                                        onSkillOpen={onSkillOpen}
+                                        // onSkillOpen={onSkillOpen}
                                     />
                                 </TabPanel>
 

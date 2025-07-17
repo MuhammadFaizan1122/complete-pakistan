@@ -19,10 +19,9 @@ import { BsPassport } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
 
 const Preview = ({ formData, imgPreview, watch }) => {
-    console.log("formData", formData);
     return (
         <Flex h={'full'} rounded={"12px"} bg={'transparent'}>
-            <VStack spacing={2} align="start" bg={'#f1f2f4'} w={'30%'} borderTopLeftRadius={'12px'} borderBottomLeftRadius={'12px'} h={'full'} p={4}>
+            <VStack spacing={2} align="start" bg={'#D3EFEC'} w={'30%'} borderTopLeftRadius={'12px'} borderBottomLeftRadius={'12px'} h={'full'} p={4}>
                 <Box mx={'auto'}>
                     {imgPreview ? (
                         <Avatar src={imgPreview} size="2xl" />
@@ -55,7 +54,7 @@ const Preview = ({ formData, imgPreview, watch }) => {
                 >
                     <Image src={'/Images/Icons/marker.png'} alt="icon" width={16} height={14} className="!h-[16px]" />
                     <Text ml={3}>
-                        {formData.city}, {formData.country}
+                        {formData.localAddress},{formData.city}, {formData.country}
                     </Text>
                 </Flex>
 

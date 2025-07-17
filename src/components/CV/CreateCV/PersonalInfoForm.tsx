@@ -16,6 +16,7 @@ import {
   WrapItem,
   Checkbox,
   Textarea,
+  Switch,
 } from "@chakra-ui/react";
 import Image from "next/image";
 interface PersonalInfoFormProps {
@@ -40,6 +41,7 @@ export default function PersonalInfoForm({
   setTabIndex
 }: PersonalInfoFormProps) {
   const [city, setCity] = useState("");
+  const [showMedicalField, setShowMedicalField] = useState(false);
 
   function formatCNIC(value: string) {
     const cleaned = value.replace(/\D/g, '').slice(0, 13);
@@ -75,8 +77,12 @@ export default function PersonalInfoForm({
   }, [])
 
   const goNext = () => setTabIndex((prev) => prev + 1);
-  const goBack = () => setTabIndex((prev) => Math.max(prev - 1, 0));
-
+  // Calculate date range (last 3 months)
+  const today = new Date();
+  const maxDate = today.toISOString().split("T")[0];
+  const minDate = new Date(today.setMonth(today.getMonth() - 3))
+    .toISOString()
+    .split("T")[0];
   return (
     <VStack spacing={4} align="stretch">
       <Text fontSize="lg" color="#2D3748" fontWeight="bold">Personal Information</Text>
@@ -385,6 +391,66 @@ export default function PersonalInfoForm({
           <FormErrorMessage>{errors.passportExpiry?.message}</FormErrorMessage>
         </FormControl>
       </HStack>
+      <HStack>
+        <FormControl isInvalid={!!errors.drivingLicence}>
+          <FormLabel>Driving Licence</FormLabel>
+          <Input
+            rounded="15px"
+            p={4}
+            py={6}
+            placeholder="Enter Driving Licence (If you have)"
+            outline="1px solid"
+            outlineColor="gray.300"
+            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _active={{ outline: "none" }}
+            transition="all 0.2s"
+            type="text"
+            maxLength={16}
+            inputMode="numeric"
+            pattern="[0-9]*"
+            {...register("drivingLicence")}
+            onInput={(e) => {
+              e.currentTarget.value = e.currentTarget.value.replace(/\D/g, "");
+            }}
+          />
+          <FormErrorMessage>{errors.drivingLicence?.message}</FormErrorMessage>
+        </FormControl>
+
+        {/* GAMCA Medical Switch or Date */}
+        {!showMedicalField ? (
+          <FormControl>
+            <FormLabel>Have GAMCA Medical?</FormLabel>
+            <Box pt={2}>
+              <Switch
+                colorScheme="teal"
+                size="lg"
+                onChange={() => setShowMedicalField(true)}
+              />
+            </Box>
+          </FormControl>
+        ) : (
+          <FormControl isInvalid={!!errors.madicalDate}>
+            <FormLabel>GAMCA Medical Date</FormLabel>
+            <Input
+              rounded="15px"
+              p={4}
+              py={6}
+              outline="1px solid"
+              outlineColor="gray.300"
+              _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+              _active={{ outline: "none" }}
+              transition="all 0.2s"
+              type="date"
+              min={minDate}
+              max={maxDate}
+              {...register("madicalDate")}
+            />
+            <FormErrorMessage>{errors.madicalDate?.message}</FormErrorMessage>
+          </FormControl>
+
+        )}
+      </HStack>
+
       <FormControl isInvalid={!!errors.languages}>
         <FormLabel>Languages</FormLabel>
         <CheckboxGroup

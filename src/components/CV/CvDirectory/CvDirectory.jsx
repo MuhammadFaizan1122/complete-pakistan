@@ -12,14 +12,17 @@ import {
     Card,
     CardBody,
     Image,
-    IconButton
+    IconButton,
+    useToast,
+    Spinner
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
     FiMenu,
     FiStar,
     FiX
 } from 'react-icons/fi'
+import { handleGetCV } from '../../../handlers/CV/create-cv'
 
 const CvDirectory = () => {
     const candidates = [
@@ -104,13 +107,44 @@ const CvDirectory = () => {
             verified: true
         }
     ]
+    const [cvs, setCvs] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const toast = useToast();
+
+    const handleCVs = async () => {
+        try {
+            const response = await handleGetCV();
+            if (response.status === 200) {
+                setCvs(response.data.data);
+            } else {
+                throw new Error(response?.message || 'Failed to fetch CVs');
+            }
+        } catch (error) {
+            console.error('Fetch error:', error);
+            toast({
+                title: 'Error',
+                description: error.message || 'Something went wrong while fetching CVs.',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+                position: 'top-right',
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        handleCVs();
+    }, []);
+
     return (
         <Box flex={1} maxW={'1440px'} mx={'auto'}>
             <Grid templateColumns="2fr" gap={6} p={4}>
                 <VStack align="stretch" spacing={6} mb={12}>
                     <VStack align="start" spacing={2}>
                         <Text fontSize={{ base: '2xl', md: '32px' }} fontWeight="bold" color="black">
-                            My CVs
+                            CVs
                         </Text>
                         {/* <Text fontSize={{ base: 'lg', md: '20px' }} color="black">
                             Skilled workers who secured employment through Complete pakistan
@@ -120,82 +154,86 @@ const CvDirectory = () => {
                     <Grid
                         templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" }}
                         gap={10}>
-                        {candidates.map((candidate, index) => (
-                            <Card key={index} bg="white" borderRadius="20px" overflow="hidden" h={'160px'}>
-                                <CardBody p={{ base: 2, sm: 4 }} my={2}>
-                                    <HStack spacing={4} align="center" justify={{ base: 'flex-start', sm: 'space-evenly' }}>
-                                        <Avatar
-                                            size={{ base: 'md', sm: 'lg' }}
-                                            name={candidate.name}
-                                            src={candidate.avatar}
-                                        />
-                                        <VStack spacing={3}>
-                                            <VStack spacing={1} textAlign="left" align="start" maxW={'181px'}>
-                                                <HStack>
-                                                    <Text fontWeight="semibold" fontSize="20px">
-                                                        {candidate.name}
+                        {loading ? (
+                            <Spinner />
+                        ) : (
+                            cvs.map((candidate, index) => (
+                                <Card key={index} bg="white" borderRadius="20px" overflow="hidden" h={'160px'}>
+                                    <CardBody p={{ base: 2, sm: 4 }} my={2}>
+                                        <HStack spacing={4} align="center" justify={{ base: 'flex-start', sm: 'space-evenly' }}>
+                                            <Avatar
+                                                size={{ base: 'md', sm: 'lg' }}
+                                                name={candidate.name}
+                                                src={candidate.avatar}
+                                            />
+                                            <VStack spacing={3}>
+                                                <VStack spacing={1} textAlign="left" align="start" maxW={'181px'}>
+                                                    <HStack>
+                                                        <Text fontWeight="semibold" fontSize="20px">
+                                                            {candidate.name}
+                                                        </Text>
+
+                                                    </HStack>
+
+                                                    <Text fontSize="16" color="black" lineHeight="short">
+                                                        {candidate.role}
                                                     </Text>
-
-                                                </HStack>
-
-                                                <Text fontSize="16" color="black" lineHeight="short">
-                                                    {candidate.role}
-                                                </Text>
-                                            </VStack>
-
-                                            <HStack spacing={1} color="#00956B" alignItems="center" w={'full'}>
-                                                <Text fontWeight="bold" fontSize="16px">
-                                                    {candidate.matches}
-                                                </Text>
-                                                <FiStar fill="currentColor" className='' />
-                                                <Text fontSize="16px" fontWeight="medium" color={'#00956B'}>
-                                                    Matches
-                                                </Text>
-                                                <VStack spacing={3} display={{ base: 'block', sm: 'none' }} ml={2}>
-                                                    {candidate.verified && (
-                                                        <Badge
-                                                            borderRadius={'13px'}
-                                                            px={'8px'}
-                                                            py={'6px'}
-                                                            bg={'#EBF5F4'}
-                                                            color={'#00956B'}
-                                                            fontSize={'12px'}
-                                                            display="flex"
-                                                            alignItems="center"
-                                                            gap={1}
-                                                        >
-                                                            <Image src={'/Images/Icons/carbon_badge.png'} alt="icon" width={18} height={18} />
-                                                            Verified
-                                                        </Badge>
-                                                    )}
                                                 </VStack>
-                                            </HStack>
-                                        </VStack>
-                                        <VStack spacing={3} display={{ base: 'none', sm: 'block' }}>
-                                            {candidate.verified && (
-                                                <Badge
-                                                    borderRadius={'13px'}
-                                                    px={'8px'}
-                                                    py={'6px'}
-                                                    bg={'#EBF5F4'}
-                                                    color={'#00956B'}
-                                                    fontSize={'12px'}
-                                                    display="flex"
-                                                    alignItems="center"
-                                                    gap={1}
-                                                >
-                                                    <Image src={'/Images/Icons/carbon_badge.png'} alt="icon" width={18} height={18} />
-                                                    Verified
-                                                </Badge>
-                                            )}
-                                        </VStack>
-                                    </HStack>
-                                </CardBody>
-                            </Card>
-                        ))}
+
+                                                <HStack spacing={1} color="#00956B" alignItems="center" w={'full'}>
+                                                    <Text fontWeight="bold" fontSize="16px">
+                                                        {candidate.matches}
+                                                    </Text>
+                                                    <FiStar fill="currentColor" className='' />
+                                                    <Text fontSize="16px" fontWeight="medium" color={'#00956B'}>
+                                                        Matches
+                                                    </Text>
+                                                    <VStack spacing={3} display={{ base: 'block', sm: 'none' }} ml={2}>
+                                                        {candidate.verified && (
+                                                            <Badge
+                                                                borderRadius={'13px'}
+                                                                px={'8px'}
+                                                                py={'6px'}
+                                                                bg={'#EBF5F4'}
+                                                                color={'#00956B'}
+                                                                fontSize={'12px'}
+                                                                display="flex"
+                                                                alignItems="center"
+                                                                gap={1}
+                                                            >
+                                                                <Image src={'/Images/Icons/carbon_badge.png'} alt="icon" width={18} height={18} />
+                                                                Verified
+                                                            </Badge>
+                                                        )}
+                                                    </VStack>
+                                                </HStack>
+                                            </VStack>
+                                            <VStack spacing={3} display={{ base: 'none', sm: 'block' }}>
+                                                {candidate.verified && (
+                                                    <Badge
+                                                        borderRadius={'13px'}
+                                                        px={'8px'}
+                                                        py={'6px'}
+                                                        bg={'#EBF5F4'}
+                                                        color={'#00956B'}
+                                                        fontSize={'12px'}
+                                                        display="flex"
+                                                        alignItems="center"
+                                                        gap={1}
+                                                    >
+                                                        <Image src={'/Images/Icons/carbon_badge.png'} alt="icon" width={18} height={18} />
+                                                        Verified
+                                                    </Badge>
+                                                )}
+                                            </VStack>
+                                        </HStack>
+                                    </CardBody>
+                                </Card>
+                            ))
+                        )}
                     </Grid>
                 </VStack>
-                <VStack align="stretch" spacing={6}>
+                {/* <VStack align="stretch" spacing={6}>
                     <VStack align="start" spacing={2}>
                         <Text fontSize={{ base: '2xl', md: '32px' }} fontWeight="bold" color="black">
                             Top Trade Test Centers
@@ -253,7 +291,7 @@ const CvDirectory = () => {
                             </Card>
                         ))}
                     </Grid>
-                </VStack>
+                </VStack> */}
             </Grid>
         </Box>
 
