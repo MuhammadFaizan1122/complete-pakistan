@@ -16,6 +16,7 @@ import {
 import Image from "next/image";
 import { SlCalender } from "react-icons/sl";
 import { BsPassport } from "react-icons/bs";
+import { FaUserAlt } from "react-icons/fa";
 
 const Preview = ({ formData, imgPreview, watch }) => {
     console.log("formData", formData);
@@ -29,8 +30,9 @@ const Preview = ({ formData, imgPreview, watch }) => {
                         <Avatar name={formData.name} size="2xl" />
                     )}
                 </Box>
-                <Text className="w-full max-w-[270px] text-ellipsis" fontSize="26px" color={'black'} fontWeight="bold">{formData.name || "Your Name"}</Text>
-                <Text fontSize="18px" color={'black'}>{formData.jobTitle || "Your Title"}</Text>
+                <Text className="w-full max-w-[270px] text-ellipsis" fontSize="26px" color={'black'} fontWeight="bold" textTransform={'capitalize'}>{formData.name || "Your Name"}</Text>
+                <Text fontSize="18px" color="blue.600" fontWeight={'bold'} textTransform={'capitalize'}>{formData.jobTitle || "Your Title"}</Text>
+                <Text fontSize="16px" color="black.600" textTransform={'capitalize'}>{`S/O:  ${formData.fatherName}`}</Text>
                 <Flex
                     alignItems="center"
                     className="w-full max-w-[250px] text-ellipsis"
@@ -57,6 +59,26 @@ const Preview = ({ formData, imgPreview, watch }) => {
                     </Text>
                 </Flex>
 
+
+                <Flex alignItems={'center'}
+                    className="w-full max-w-[250px] text-ellipsis"
+                >
+                    {
+                        formData.gender &&
+                        <>
+                            <FaUserAlt className="w-[16px] h-[16px]" />
+                            <Text ml={2}>
+                                <Text textTransform={'capitalize'}>Gender: {formData.gender}</Text>
+                            </Text>
+                        </>
+                    }
+                </Flex>
+                <Text fontSize="16px" color="black.600" textTransform={'capitalize'}>
+                    {`Languages: ${formData.languages?.join(', ')}`}
+                </Text>
+                <Text fontSize="16px" color="black.600" textTransform={'capitalize'}>
+                    {`Visited Countries: ${formData?.countriesVisited?.join(', ')}`}
+                </Text>
                 <Flex alignItems={'center'}
                     className="w-full max-w-[250px] text-ellipsis"
                 >
@@ -64,12 +86,39 @@ const Preview = ({ formData, imgPreview, watch }) => {
                         formData.passport &&
                         <>
                             <BsPassport className="w-[16px] h-[16px]" />
-                            <Text ml={2}>
+                            <Text ml={2} textTransform={'uppercase'}>
                                 <Text>Passport: {formData.passport}</Text>
                             </Text>
                         </>
                     }
                 </Flex>
+                <Flex alignItems={'center'}
+                    className="w-full max-w-[250px] text-ellipsis"
+                >
+                    {
+                        formData.passportExpiry &&
+                        <>
+                            <BsPassport className="w-[16px] h-[16px]" />
+                            <Text ml={2}>
+                                <Text>Passport Expiry: {formData.passportExpiry}</Text>
+                            </Text>
+                        </>
+                    }
+                </Flex>
+                <Flex alignItems={'center'}
+                    className="w-full max-w-[250px] text-ellipsis"
+                >
+                    {
+                        formData.cnic &&
+                        <>
+                            <BsPassport className="w-[16px] h-[16px]" />
+                            <Text ml={2}>
+                                <Text>CNIC: {formData.cnic}</Text>
+                            </Text>
+                        </>
+                    }
+                </Flex>
+                <Text fontSize="16px" color="black.600">{`Years of experience:  ${formData.yearsOfExperience}`}</Text>
                 <Flex alignItems={'center'}
                     className="w-full max-w-[250px] text-ellipsis"
                 >

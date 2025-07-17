@@ -9,6 +9,8 @@ import {
   VStack,
   FormErrorMessage,
   Text,
+  Button,
+  HStack,
 } from "@chakra-ui/react";
 import FileUpload from "./FileUploading";
 
@@ -17,6 +19,8 @@ interface JobDetailsFormProps {
   setValue: any;
   watch: any;
   errors: any;
+  tabIndex: any;
+  setTabIndex: any;
   setUserIndustry: (val: string) => void;
   setUserCategory: (val: string) => void;
   setUserSubCategory: (val: string) => void;
@@ -30,10 +34,12 @@ export default function JobDetailsForm({
   setUserIndustry,
   setUserCategory,
   setUserSubCategory,
+  setTabIndex
 }: JobDetailsFormProps) {
   const [resetUploads, setResetUploads] = useState(false);
   const formValues = watch();
-
+  const goNext = () => setTabIndex((prev) => prev + 1);
+  const goBack = () => setTabIndex((prev) => Math.max(prev - 1, 0));
   return (
     <VStack spacing={4} align="stretch">
       <Text fontSize="lg" color="#2D3748" fontWeight="bold">Job Details</Text>
@@ -155,6 +161,34 @@ export default function JobDetailsForm({
         />
         <FormErrorMessage>{errors.jobDetails?.message}</FormErrorMessage>
       </FormControl>
+      <HStack>
+        <Button
+          mt={4}
+          w={'full'}
+          bg="#309689"
+          color="white"
+          rounded="15px"
+          px={6}
+          py={6}
+          _hover={{ bg: "#28796f" }}
+          onClick={goBack}
+        >
+          Previous
+        </Button>
+        <Button
+          mt={4}
+          w={'full'}
+          bg="#309689"
+          color="white"
+          rounded="15px"
+          px={6}
+          py={6}
+          _hover={{ bg: "#28796f" }}
+          onClick={goNext}
+        >
+          Next
+        </Button>
+      </HStack>
     </VStack>
   );
 }

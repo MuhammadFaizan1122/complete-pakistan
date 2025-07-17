@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   FormControl,
@@ -25,6 +25,8 @@ interface PersonalInfoFormProps {
   errors: any;
   handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   imgPreview: string;
+  tabIndex: any;
+  setTabIndex: any;
 }
 
 export default function PersonalInfoForm({
@@ -34,6 +36,8 @@ export default function PersonalInfoForm({
   errors,
   handleImageChange,
   imgPreview,
+  tabIndex,
+  setTabIndex
 }: PersonalInfoFormProps) {
   const [city, setCity] = useState("");
 
@@ -65,55 +69,64 @@ export default function PersonalInfoForm({
   const languages = ["English", "Urdu", "Arabic", "Punjabi", "Saraiki", "Pashto", "Balochi", "Sindhi", "Kashmiri"];
   const gulfCountries = ["UAE", "Saudi Arabia", "Qatar", "Kuwait", "Oman", "Bahrain"];
   const passport = watch("passport") || "";
+
+  useEffect(() => {
+    setValue("gender", "male");
+  }, [])
+
+  const goNext = () => setTabIndex((prev) => prev + 1);
+  const goBack = () => setTabIndex((prev) => Math.max(prev - 1, 0));
+
   return (
     <VStack spacing={4} align="stretch">
       <Text fontSize="lg" color="#2D3748" fontWeight="bold">Personal Information</Text>
-      <FormControl>
-        <FormLabel className="text-[#2D3748] pl-1 mt-2">Photo</FormLabel>
-        <Flex justify={'space-around'}>
-          <Box
-            bg="white"
-            borderRadius="2xl"
-            boxShadow="md"
-            textAlign="center"
-            p={2}
-            w={{ base: "full", md: "200px" }}
-          >
-            <VStack spacing={2} my={2} alignItems={'center'} display={'flex'} flexDir={'column'} h={'full'}>
-              <Image
-                src="/Images/Icons/camera.png"
-                alt="icon"
-                width={24}
-                height={24}
-                className="!h-[24px]"
-              />
-              <Text fontSize={{ base: "md", md: "lg" }} color="gray.700" fontWeight="medium">
-                Upload photo
-              </Text>
-              <Button
-                as="label"
-                htmlFor="photo-upload"
-                border="1px dashed"
-                borderColor="gray.600"
-                bg="transparent"
-                color="gray.600"
-                rounded="full"
-                px={{ base: 4, md: 4 }}
-                py={{ base: 2, md: 3 }}
-                cursor="pointer"
-              >
-                Choose file
-                <input
-                  id="photo-upload"
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
-                  style={{ display: "none" }}
-                  onChange={handleImageChange}
+      <HStack>
+        <FormControl>
+          <FormLabel className="text-[#2D3748] pl-1 mt-2">Photo</FormLabel>
+          <Flex justify={'space-around'}>
+            <Box
+              bg="white"
+              borderRadius="2xl"
+              boxShadow="md"
+              textAlign="center"
+              p={2}
+              w={{ base: "full", md: "200px" }}
+            >
+              <VStack spacing={2} my={2} alignItems={'center'} display={'flex'} flexDir={'column'} h={'full'}>
+                <Image
+                  src="/Images/Icons/camera.png"
+                  alt="icon"
+                  width={24}
+                  height={24}
+                  className="!h-[24px]"
                 />
-              </Button>
-            </VStack>
-          </Box>
-          {/* <Box
+                <Text fontSize={{ base: "md", md: "lg" }} color="gray.700" fontWeight="medium">
+                  Upload photo
+                </Text>
+                <Button
+                  as="label"
+                  htmlFor="photo-upload"
+                  border="1px dashed"
+                  borderColor="gray.600"
+                  bg="transparent"
+                  color="gray.600"
+                  rounded="full"
+                  px={{ base: 4, md: 4 }}
+                  py={{ base: 2, md: 3 }}
+                  cursor="pointer"
+                >
+                  Choose file
+                  <input
+                    id="photo-upload"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    style={{ display: "none" }}
+                    onChange={handleImageChange}
+                  />
+                </Button>
+              </VStack>
+            </Box>
+            {/* <Box
             bg="white"
             borderRadius="2xl"
             boxShadow="md"
@@ -132,28 +145,29 @@ export default function PersonalInfoForm({
               )}
             </VStack>
           </Box> */}
-        </Flex>
-      </FormControl>
-      <FormControl isInvalid={!!errors.objective} mt={4}>
-        <FormLabel className="text-[#2D3748] pl-1">Objective</FormLabel>
-        <Textarea
-          placeholder="Write your objective here..."
-          rounded="15px"
-          p={4}
-          rows={5}
-          border="1px solid"
-          borderColor="gray.300"
-          bg="white"
-          outline="1px solid"
-          outlineColor="gray.300"
-          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
-          _active={{ outline: "none" }}
-          transition="all 0.2s"
-          resize="vertical"
-          {...register("objective")}
-        />
-        <FormErrorMessage>{errors.objective?.message}</FormErrorMessage>
-      </FormControl>
+          </Flex>
+        </FormControl>
+        <FormControl isInvalid={!!errors.objective} mt={4}>
+          <FormLabel className="text-[#2D3748] pl-1">Objective</FormLabel>
+          <Textarea
+            placeholder="Write your objective here..."
+            rounded="15px"
+            p={4}
+            rows={5}
+            border="1px solid"
+            borderColor="gray.300"
+            bg="white"
+            outline="1px solid"
+            outlineColor="gray.300"
+            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _active={{ outline: "none" }}
+            transition="all 0.2s"
+            resize="vertical"
+            {...register("objective")}
+          />
+          <FormErrorMessage>{errors.objective?.message}</FormErrorMessage>
+        </FormControl>
+      </HStack>
 
       <HStack>
         <FormControl isInvalid={!!errors.name}>
@@ -231,7 +245,7 @@ export default function PersonalInfoForm({
             placeholder="Enter your CNIC"
             rounded="15px"
             type="text"
-            value={watch("cnic") || ""} 
+            value={watch("cnic") || ""}
             onChange={(e) => {
               const formatted = formatCNIC(e.target.value);
               setValue("cnic", formatted);
@@ -325,6 +339,7 @@ export default function PersonalInfoForm({
         <FormControl isInvalid={!!errors.gender}>
           <FormLabel className="text-[#2D3748] pl-1 mt-2">Gender</FormLabel>
           <Select
+            defaultValue="male"
             outline="1px solid"
             rounded="15px"
             outlineColor="gray.300"
@@ -336,7 +351,6 @@ export default function PersonalInfoForm({
             {...register("gender")}>
             <option value={'male'}>{'Male'}</option>
             <option value={'female'}>{'Female'}</option>
-            <option value={'trans'}>{'Trans'}</option>
           </Select>
           <FormErrorMessage>{errors.gender?.message}</FormErrorMessage>
         </FormControl>
@@ -452,6 +466,21 @@ export default function PersonalInfoForm({
         </Select>
         <FormErrorMessage>{errors.yearsOfExperience?.message}</FormErrorMessage>
       </FormControl>
+      <HStack>
+        <Button
+          mt={4}
+          w={'full'}
+          bg="#309689"
+          color="white"
+          rounded="15px"
+          px={6}
+          py={6}
+          _hover={{ bg: "#28796f" }}
+          onClick={goNext}
+        >
+          Next
+        </Button>
+      </HStack>
     </VStack>
   );
 }

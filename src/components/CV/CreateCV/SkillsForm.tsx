@@ -15,14 +15,17 @@ import {
 import { MdAdd } from "react-icons/md";
 
 interface SkillsFormProps {
+  downloadPDF: any;
   register: any;
   setValue: any;
   watch: any;
   errors: any;
+  tabIndex: any;
+  setTabIndex: any;
   onSkillOpen: () => void;
 }
 
-export default function SkillsForm({ register, setValue, watch, errors, onSkillOpen }: SkillsFormProps) {
+export default function SkillsForm({ downloadPDF, register, setValue, watch, errors, onSkillOpen, setTabIndex }: SkillsFormProps) {
   const skills = watch("skills");
 
   const handleTagRemove = (index: number) => {
@@ -30,7 +33,8 @@ export default function SkillsForm({ register, setValue, watch, errors, onSkillO
     updated.splice(index, 1);
     setValue("skills", updated, { shouldValidate: true });
   };
-
+  const goNext = () => setTabIndex((prev) => prev + 1);
+  const goBack = () => setTabIndex((prev) => Math.max(prev - 1, 0));
   return (
     <VStack spacing={4} align="stretch">
       <Text fontSize="lg" color="#2D3748" fontWeight="bold">Skills & Expertise</Text>
@@ -77,6 +81,59 @@ export default function SkillsForm({ register, setValue, watch, errors, onSkillO
         </HStack>
         <FormErrorMessage>{errors.skills?.message}</FormErrorMessage>
       </FormControl>
+      <HStack>
+        <Button
+          mt={4}
+          w={'full'}
+          bg="#309689"
+          color="white"
+          rounded="15px"
+          px={6}
+          py={6}
+          _hover={{ bg: "#28796f" }}
+          onClick={goBack}
+        >
+          Previous
+        </Button>
+        <Button
+          type="submit"
+          mt={4}
+          bg="#309689"
+          color="white"
+          w={'full'}
+          rounded="15px"
+          px={6}
+          py={6}
+          _hover={{ bg: "#28796f" }}
+        >
+          Submit CV
+        </Button>
+        <Button
+          onClick={downloadPDF}
+          mt={4}
+          bg="#309689"
+          w={'full'}
+          color="white"
+          rounded="15px"
+          px={6}
+          py={6}
+          _hover={{ bg: "#28796f" }}
+        >
+          Download CV
+        </Button>
+        <Button
+          mt={4}
+          bg="#309689"
+          w={'full'}
+          color="white"
+          rounded="15px"
+          px={6}
+          py={6}
+          _hover={{ bg: "#28796f" }}
+        >
+          Share CV
+        </Button>
+      </HStack>
     </VStack>
   );
 }

@@ -10,6 +10,7 @@ import {
   VStack,
   FormErrorMessage,
   Text,
+  Button,
 } from "@chakra-ui/react";
 import { Country, State, City } from "country-state-city";
 // import { StepwiseDatePicker } from "./CustomDatePicker";
@@ -21,13 +22,16 @@ interface ContactInfoFormProps {
   setValue: any;
   watch: any;
   errors: any;
+  tabIndex: any;
+  setTabIndex: any;
 }
 
-export default function ContactInfoForm({ register, setValue, watch, errors }: ContactInfoFormProps) {
+export default function ContactInfoForm({ register, setValue, watch, errors, setTabIndex }: ContactInfoFormProps) {
   const [countries, setCountries] = useState(Country.getAllCountries());
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-
+  const goNext = () => setTabIndex((prev) => prev + 1);
+  const goBack = () => setTabIndex((prev) => Math.max(prev - 1, 0));
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const countryCode = e.target.value;
     const selectedCountry = countries.find((c) => c.name === countryCode);
@@ -203,7 +207,7 @@ export default function ContactInfoForm({ register, setValue, watch, errors }: C
       <HStack>
         <FormControl isInvalid={!!errors.backupNumber}>
           <FormLabel className="text-[#2D3748] pl-1 mt-2">Backup Number</FormLabel>
-         <PhoneInput
+          <PhoneInput
             country={'pk'}
             inputStyle={{
               width: '100%',
@@ -363,6 +367,34 @@ export default function ContactInfoForm({ register, setValue, watch, errors }: C
           />
           <FormErrorMessage>{errors.localAddress?.message}</FormErrorMessage>
         </FormControl>
+      </HStack>
+      <HStack>
+        <Button
+          mt={4}
+          w={'full'}
+          bg="#309689"
+          color="white"
+          rounded="15px"
+          px={6}
+          py={6}
+          _hover={{ bg: "#28796f" }}
+          onClick={goBack}
+        >
+          Previous
+        </Button>
+        <Button
+          mt={4}
+          w={'full'}
+          bg="#309689"
+          color="white"
+          rounded="15px"
+          px={6}
+          py={6}
+          _hover={{ bg: "#28796f" }}
+          onClick={goNext}
+        >
+          Next
+        </Button>
       </HStack>
     </VStack>
   );

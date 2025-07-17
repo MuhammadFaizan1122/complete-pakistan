@@ -19,10 +19,12 @@ interface EducationFormProps {
   setValue: any;
   watch: any;
   errors: any;
+  tabIndex: any;
+  setTabIndex: any;
   onEducationOpen: () => void;
 }
 
-export default function EducationForm({ register, setValue, watch, errors, onEducationOpen }: EducationFormProps) {
+export default function EducationForm({ register, setValue, watch, errors, onEducationOpen, setTabIndex }: EducationFormProps) {
   const education = watch("education");
 
   const handleTagRemove = (index: number) => {
@@ -30,7 +32,8 @@ export default function EducationForm({ register, setValue, watch, errors, onEdu
     updated.splice(index, 1);
     setValue("education", updated, { shouldValidate: true });
   };
-
+  const goNext = () => setTabIndex((prev) => prev + 1);
+  const goBack = () => setTabIndex((prev) => Math.max(prev - 1, 0));
   return (
     <VStack spacing={4} align="stretch">
       <Text fontSize="lg" color="#2D3748" fontWeight="bold">Education</Text>
@@ -77,6 +80,34 @@ export default function EducationForm({ register, setValue, watch, errors, onEdu
         </HStack>
         <FormErrorMessage>{errors.education?.message}</FormErrorMessage>
       </FormControl>
+      <HStack>
+        <Button
+          mt={4}
+          w={'full'}
+          bg="#309689"
+          color="white"
+          rounded="15px"
+          px={6}
+          py={6}
+          _hover={{ bg: "#28796f" }}
+          onClick={goBack}
+        >
+          Previous
+        </Button>
+        <Button
+          mt={4}
+          w={'full'}
+          bg="#309689"
+          color="white"
+          rounded="15px"
+          px={6}
+          py={6}
+          _hover={{ bg: "#28796f" }}
+          onClick={goNext}
+        >
+          Next
+        </Button>
+      </HStack>
     </VStack>
   );
 }

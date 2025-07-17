@@ -42,7 +42,7 @@ export default function CreateCVPage() {
     const [imgPreview, setImgPreview] = useState("");
     const [cvImage, setCvImage] = useState<File | null>(null);
     const [resetUploads, setResetUploads] = useState(false);
-
+    const [tabIndex, setTabIndex] = useState(0);
     const {
         isOpen: isEmploymentOpen,
         onOpen: onEmploymentOpen,
@@ -70,14 +70,14 @@ export default function CreateCVPage() {
         resolver: yupResolver(validationSchema),
         defaultValues: {
             name: "",
-            objective:'Motivated and detail-oriented professional seeking a challenging position in a dynamic organization where I can utilize my skills, grow professionally, and contribute to achieving company goals. Committed to delivering high-quality results through strong work ethic, adaptability, and continuous learning.',
+            objective: 'Motivated and detail-oriented professional seeking a challenging position in a dynamic organization where I can utilize my skills, grow professionally, and contribute to achieving company goals. Committed to delivering high-quality results through strong work ethic, adaptability, and continuous learning.',
             fatherName: "",
             passport: "",
             cnic: "",
             dob: new Date(),
             livingcity: "",
             village: "",
-            gender: "",
+            gender: "male",
             passportIssue: "",
             passportExpiry: "",
             languages: [],
@@ -246,7 +246,7 @@ export default function CreateCVPage() {
                             scrollbarColor: "#fff #EEEEEE4D",
                         }}
                     >
-                        <Tabs variant="unstyled">
+                        <Tabs index={tabIndex} onChange={setTabIndex} variant="unstyled">
                             <TabList
                                 borderBottom="1px solid"
                                 borderColor="gray.200"
@@ -279,6 +279,14 @@ export default function CreateCVPage() {
                                     py={2}
                                     _selected={{ borderBottom: "2px solid", borderColor: "#309689", color: "#309689", fontWeight: "bold" }}
                                 >
+                                    Job Details
+                                </Tab>
+                                <Tab
+                                    fontSize="sm"
+                                    px={3}
+                                    py={2}
+                                    _selected={{ borderBottom: "2px solid", borderColor: "#309689", color: "#309689", fontWeight: "bold" }}
+                                >
                                     Education
                                 </Tab>
                                 <Tab
@@ -297,14 +305,7 @@ export default function CreateCVPage() {
                                 >
                                     Skills
                                 </Tab>
-                                <Tab
-                                    fontSize="sm"
-                                    px={3}
-                                    py={2}
-                                    _selected={{ borderBottom: "2px solid", borderColor: "#309689", color: "#309689", fontWeight: "bold" }}
-                                >
-                                    Job Details
-                                </Tab>
+
                             </TabList>
                             <TabPanels>
                                 <TabPanel p={0} pt={4}>
@@ -315,40 +316,18 @@ export default function CreateCVPage() {
                                         errors={errors}
                                         handleImageChange={handleImageChange}
                                         imgPreview={imgPreview}
+                                        tabIndex={tabIndex}
+                                        setTabIndex={setTabIndex}
                                     />
                                 </TabPanel>
                                 <TabPanel p={0} pt={4}>
-                                    <ContactInfoForm register={register} setValue={setValue} watch={watch} errors={errors} />
-                                </TabPanel>
-                                <TabPanel p={0} pt={4}>
-                                    <EducationForm
-                                        register={register}
-                                        setValue={setValue}
-                                        watch={watch}
-                                        errors={errors}
-                                        onEducationOpen={onEducationOpen}
-                                    />
-                                </TabPanel>
-                                <TabPanel p={0} pt={4}>
-                                    <ExperienceForm
-                                        register={register}
-                                        setValue={setValue}
-                                        watch={watch}
-                                        errors={errors}
-                                        onEmploymentOpen={onEmploymentOpen}
-                                    />
-                                </TabPanel>
-                                <TabPanel p={0} pt={4}>
-                                    <SkillsForm
-                                        register={register}
-                                        setValue={setValue}
-                                        watch={watch}
-                                        errors={errors}
-                                        onSkillOpen={onSkillOpen}
-                                    />
+                                    <ContactInfoForm register={register} setValue={setValue} watch={watch} errors={errors} tabIndex={tabIndex}
+                                        setTabIndex={setTabIndex} />
                                 </TabPanel>
                                 <TabPanel p={0} pt={4}>
                                     <JobDetailsForm
+                                        tabIndex={tabIndex}
+                                        setTabIndex={setTabIndex}
                                         register={register}
                                         setValue={setValue}
                                         watch={watch}
@@ -361,33 +340,45 @@ export default function CreateCVPage() {
                                         setUserSubCategory={(val: string) => setValue("subcategory", val)}
                                     />
                                 </TabPanel>
+                                <TabPanel p={0} pt={4}>
+                                    <EducationForm
+                                        tabIndex={tabIndex}
+                                        setTabIndex={setTabIndex}
+                                        register={register}
+                                        setValue={setValue}
+                                        watch={watch}
+                                        errors={errors}
+                                        onEducationOpen={onEducationOpen}
+                                    />
+                                </TabPanel>
+                                <TabPanel p={0} pt={4}>
+                                    <ExperienceForm
+                                        tabIndex={tabIndex}
+                                        setTabIndex={setTabIndex}
+                                        register={register}
+                                        setValue={setValue}
+                                        watch={watch}
+                                        errors={errors}
+                                        onEmploymentOpen={onEmploymentOpen}
+                                    />
+                                </TabPanel>
+                                <TabPanel p={0} pt={4}>
+                                    <SkillsForm
+                                        tabIndex={tabIndex}
+                                        setTabIndex={setTabIndex}
+                                        downloadPDF={downloadPDF}
+                                        register={register}
+                                        setValue={setValue}
+                                        watch={watch}
+                                        errors={errors}
+                                        onSkillOpen={onSkillOpen}
+                                    />
+                                </TabPanel>
+
                             </TabPanels>
                         </Tabs>
                         {/* <FileUpload setFormData={setValue} formData={formValues} resetTrigger={resetUploads} /> */}
-                        <Button
-                            type="submit"
-                            mt={4}
-                            bg="#309689"
-                            color="white"
-                            rounded="15px"
-                            px={6}
-                            py={6}
-                            _hover={{ bg: "#28796f" }}
-                        >
-                            Submit CV
-                        </Button>
-                        <Button
-                            onClick={downloadPDF}
-                            mt={4}
-                            bg="#309689"
-                            color="white"
-                            rounded="15px"
-                            px={6}
-                            py={6}
-                            _hover={{ bg: "#28796f" }}
-                        >
-                            Download CV
-                        </Button>
+
                     </Box>
                     <Box
                         w={{ base: "100%", md: "60%" }}

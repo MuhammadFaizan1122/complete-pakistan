@@ -19,10 +19,12 @@ interface ExperienceFormProps {
   setValue: any;
   watch: any;
   errors: any;
+  tabIndex: any;
+  setTabIndex: any;
   onEmploymentOpen: () => void;
 }
 
-export default function ExperienceForm({ register, setValue, watch, errors, onEmploymentOpen }: ExperienceFormProps) {
+export default function ExperienceForm({ register, setValue, watch, errors, onEmploymentOpen,setTabIndex }: ExperienceFormProps) {
   const experience = watch("experience");
 
   const handleTagRemove = (index: number) => {
@@ -30,7 +32,8 @@ export default function ExperienceForm({ register, setValue, watch, errors, onEm
     updated.splice(index, 1);
     setValue("experience", updated, { shouldValidate: true });
   };
-
+  const goNext = () => setTabIndex((prev) => prev + 1);
+  const goBack = () => setTabIndex((prev) => Math.max(prev - 1, 0));
   return (
     <VStack spacing={4} align="stretch">
       <Text fontSize="lg" color="#2D3748" fontWeight="bold">Work Experience</Text>
@@ -77,6 +80,34 @@ export default function ExperienceForm({ register, setValue, watch, errors, onEm
         </HStack>
         <FormErrorMessage>{errors.experience?.message}</FormErrorMessage>
       </FormControl>
+      <HStack>
+        <Button
+          mt={4}
+          w={'full'}
+          bg="#309689"
+          color="white"
+          rounded="15px"
+          px={6}
+          py={6}
+          _hover={{ bg: "#28796f" }}
+          onClick={goBack}
+        >
+          Previous
+        </Button>
+        <Button
+          mt={4}
+          w={'full'}
+          bg="#309689"
+          color="white"
+          rounded="15px"
+          px={6}
+          py={6}
+          _hover={{ bg: "#28796f" }}
+          onClick={goNext}
+        >
+          Next
+        </Button>
+      </HStack>
     </VStack>
   );
 }
