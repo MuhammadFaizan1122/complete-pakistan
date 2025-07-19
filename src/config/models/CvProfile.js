@@ -41,6 +41,7 @@ const CvProfileSchema = new mongoose.Schema(
     experience: [],
     skills: { type: [String], required: true },
     attachments: { type: [String], default: [] },
+    type: { type: String, enum: ['others', 'default', 'summary'], default: 'default'},
   },
   { timestamps: true }
 );

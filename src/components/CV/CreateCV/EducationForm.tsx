@@ -17,7 +17,7 @@ import {
   InputGroup,
 } from "@chakra-ui/react";
 import { MdAdd } from "react-icons/md";
-import { Country, State } from "country-state-city";
+import { Country, State, City } from "country-state-city";
 
 interface EducationFormProps {
   register: any;
@@ -33,11 +33,13 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
   const [isAdding, setIsAdding] = useState(false);
   const [countries, setCountries] = useState(Country.getAllCountries());
   const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const [educationData, setEducationData] = useState({
     level: "",
     institute: "",
     country: "",
     state: "",
+    city: "",
     startDate: "",
     endDate: "",
     details: "",
@@ -47,6 +49,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
     institute: "",
     country: "",
     state: "",
+    city: "",
     startDate: "",
     endDate: "",
   });
@@ -64,6 +67,10 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
     setEducationData({ ...educationData, [field]: value });
     setFormErrors((prev) => ({ ...prev, [field]: "" }));
   };
+  const handleInputChange2 = (field: string, value: string) => {
+    setEducationData({ ...educationData, [field]: value });
+    setFormErrors((prev) => ({ ...prev, [field]: "" }));
+  };
 
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const countryCode = e.target.value;
@@ -73,6 +80,17 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
     handleInputChange("country", countryCode);
     handleInputChange("state", "");
   };
+  const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const stateCode = e.target.value;
+    const selectedState = states.find((s) => s.name === stateCode);
+
+    if (selectedState) {
+      const cityList = City.getCitiesOfState(selectedState.countryCode, selectedState.isoCode);
+      setCities(cityList);
+      handleInputChange("state", stateCode);
+      handleInputChange("city", "");
+    }
+  };
 
   const validateForm = () => {
     let isValid = true;
@@ -81,6 +99,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
       institute: "",
       country: "",
       state: "",
+      city: "",
       startDate: "",
       endDate: "",
     };
@@ -99,6 +118,10 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
     }
     if (!educationData.state) {
       newErrors.state = "State is required";
+      isValid = false;
+    }
+    if (!educationData.city) {
+      newErrors.city = "City is required";
       isValid = false;
     }
     if (!educationData.startDate) {
@@ -122,6 +145,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
       institute: "",
       country: "",
       state: "",
+      city: "",
       startDate: "",
       endDate: "",
       details: "",
@@ -136,6 +160,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
       institute: "",
       country: "",
       state: "",
+      city: "",
       startDate: "",
       endDate: "",
       details: "",
@@ -145,6 +170,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
       institute: "",
       country: "",
       state: "",
+      city: "",
       startDate: "",
       endDate: "",
     });
@@ -312,7 +338,10 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
               <Select
                 placeholder="State"
                 value={educationData.state}
-                onChange={(e) => handleInputChange("state", e.target.value)}
+                onChange={(e) => {
+                  handleStateChange(e);
+                  setEducationData({ ...educationData, state: e.target.value });
+                }}
                 w="full"
                 h="50px"
                 border="1px solid"
@@ -339,7 +368,39 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
               <FormErrorMessage>{formErrors.state}</FormErrorMessage>
             </FormControl>
           </HStack>
-
+          <FormControl isRequired isInvalid={!!formErrors.city}>
+            <FormLabel fontSize="16px" color="gray.700" fontWeight="normal" mb={2}>
+              City
+            </FormLabel>
+            <Select
+              placeholder="City"
+              value={educationData.city}
+              onChange={(e) => handleInputChange2("city", e.target.value)}
+              w="full"
+              h="50px"
+              border="1px solid"
+              borderColor="gray.300"
+              borderRadius="15px"
+              bg="white"
+              outline="1px solid"
+              outlineColor="gray.300"
+              _focus={{
+                ring: 2,
+                ringColor: "#309689",
+                borderColor: "transparent",
+                outline: "none",
+              }}
+              _active={{ outline: "none" }}
+              transition="all 0.2s"
+            >
+              {cities.map((s) => (
+                <option key={s.isoCode} value={s.name}>
+                  {s.name}
+                </option>
+              ))}
+            </Select>
+            <FormErrorMessage>{formErrors.state}</FormErrorMessage>
+          </FormControl>
           <HStack spacing={4}>
             <FormControl isRequired isInvalid={!!formErrors.startDate}>
               <FormLabel fontSize="16px" color="gray.700" fontWeight="normal" mb={2}>

@@ -28,12 +28,10 @@ import JobDetailsForm from "./JobDetailsForm";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema } from "./Schema";
-import EmploymentPopup from "./EmploymentPopup";
-import EducationPopup from "./EducationPopup";
-import SkillPopup from "./SkillPopup";
 import { handleCreateCV } from "../../../handlers/CV/create-cv";
 import { handleUpload } from "../../../handlers/contentUploading/contentUploading";
 import FileUpload from './FileUploading'
+
 export default function CreateCVPage() {
     const router = useRouter();
     const { data: session, status } = useSession();
@@ -396,28 +394,6 @@ export default function CreateCVPage() {
                         <Preview formData={formValues} imgPreview={imgPreview} watch={watch} />
                     </Box>
                 </Flex>
-                {/* @ts-ignore  */}
-                <EmploymentPopup
-                    isOpen={isEmploymentOpen}
-                    onClose={onEmploymentClose}
-                    formData={formValues}
-                    setFormData={setValue}
-                />
-                {/* @ts-ignore  */}
-                <EducationPopup
-                    isOpen={isEducationOpen}
-                    onClose={onEducationClose}
-                    formData={formValues}
-                    setFormData={setValue}
-                />
-                <SkillPopup
-                    isOpen={isSkillOpen}
-                    onClose={onSkillClose}
-                    formData={formValues}
-                    setFormData={setValue}
-                    // @ts-ignore  
-                    handleTagAdd={(value: string) => setValue("skills", [...formValues.skills, value.trim()])}
-                />
             </VStack>
         </form>
     );

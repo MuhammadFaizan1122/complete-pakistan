@@ -17,7 +17,7 @@ import {
   InputGroup,
 } from "@chakra-ui/react";
 import { MdAdd } from "react-icons/md";
-import { Country, State } from "country-state-city";
+import { City, Country, State } from "country-state-city";
 
 interface ExperienceFormProps {
   register: any;
@@ -33,11 +33,13 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
   const [isAdding, setIsAdding] = useState(false);
   const [countries, setCountries] = useState(Country.getAllCountries());
   const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const [employmentData, setEmploymentData] = useState({
     designation: "",
     company: "",
     country: "",
     state: "",
+    city: "",
     startDate: "",
     endDate: "",
     description: "",
@@ -47,6 +49,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
     company: "",
     country: "",
     state: "",
+    city: "",
     startDate: "",
     endDate: "",
   });
@@ -73,7 +76,17 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
     handleInputChange("country", countryCode);
     handleInputChange("state", "");
   };
+  const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const stateCode = e.target.value;
+    const selectedState = states.find((s) => s.name === stateCode);
 
+    if (selectedState) {
+      const cityList = City.getCitiesOfState(selectedState.countryCode, selectedState.isoCode);
+      setCities(cityList);
+      handleInputChange("state", stateCode);
+      handleInputChange("city", "");
+    }
+  };
   const validateForm = () => {
     let isValid = true;
     const newErrors = {
@@ -81,6 +94,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
       company: "",
       country: "",
       state: "",
+      city: "",
       startDate: "",
       endDate: "",
     };
@@ -99,6 +113,10 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
     }
     if (!employmentData.state) {
       newErrors.state = "State is required";
+      isValid = false;
+    }
+    if (!employmentData.city) {
+      newErrors.city = "City is required";
       isValid = false;
     }
     if (!employmentData.startDate) {
@@ -122,6 +140,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
       company: "",
       country: "",
       state: "",
+      city: "",
       startDate: "",
       endDate: "",
       description: "",
@@ -136,6 +155,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
       company: "",
       country: "",
       state: "",
+      city: "",
       startDate: "",
       endDate: "",
       description: "",
@@ -145,6 +165,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
       company: "",
       country: "",
       state: "",
+      city: "",
       startDate: "",
       endDate: "",
     });
@@ -309,7 +330,10 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
               <Select
                 placeholder="State"
                 value={employmentData.state}
-                onChange={(e) => handleInputChange("state", e.target.value)}
+                onChange={(e) => {
+                  handleStateChange(e);
+                  setEmploymentData({ ...employmentData, state: e.target.value });
+                }}
                 w="full"
                 h="50px"
                 border="1px solid"
@@ -336,7 +360,39 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
               <FormErrorMessage>{formErrors.state}</FormErrorMessage>
             </FormControl>
           </HStack>
-
+          <FormControl isRequired isInvalid={!!formErrors.city}>
+            <FormLabel fontSize="16px" color="gray.700" fontWeight="normal" mb={2}>
+              City
+            </FormLabel>
+            <Select
+              placeholder="City"
+              value={employmentData.city}
+              onChange={(e) => handleInputChange("city", e.target.value)}
+              w="full"
+              h="50px"
+              border="1px solid"
+              borderColor="gray.300"
+              borderRadius="15px"
+              bg="white"
+              outline="1px solid"
+              outlineColor="gray.300"
+              _focus={{
+                ring: 2,
+                ringColor: "#309689",
+                borderColor: "transparent",
+                outline: "none",
+              }}
+              _active={{ outline: "none" }}
+              transition="all 0.2s"
+            >
+              {cities.map((s) => (
+                <option key={s.isoCode} value={s.name}>
+                  {s.name}
+                </option>
+              ))}
+            </Select>
+            <FormErrorMessage>{formErrors.city}</FormErrorMessage>
+          </FormControl>
           <HStack spacing={4}>
             <FormControl isRequired isInvalid={!!formErrors.startDate}>
               <FormLabel fontSize="16px" color="gray.700" fontWeight="normal" mb={2}>

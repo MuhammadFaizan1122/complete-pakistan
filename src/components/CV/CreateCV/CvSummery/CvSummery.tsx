@@ -61,9 +61,11 @@ const SummaryForm = () => {
         defaultValues: {
             name: "",
             fatherName: "",
-            birthYear: 0,
+            birthYear: undefined,
             birthMonth: "",
             passport: "",
+            passportExpiryMonth: "",
+            passportExpiryYear: undefined,
             cnic: "",
             city: "",
             whatsapp: "",
@@ -81,12 +83,12 @@ const SummaryForm = () => {
             saudiExp: "",
             uaeExp: "",
             gulfExp: "",
-            passportExpiryMonth: "",
-            passportExpiryYear: 0,
+            cvImage: null,
+            passportCopy: null,
         },
         mode: "onChange",
     });
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
@@ -108,30 +110,74 @@ const SummaryForm = () => {
         reader.readAsDataURL(file);
     };
 
-    const onSubmit = (data: any) => {
-        console.log("Submitted Data:", data);
-        toast({
-            title: "Submitted",
-            description: "Summary submitted successfully!",
-            status: "success",
-            duration: 4000,
-            isClosable: true,
-        });
-    };
+    const onSubmit = async (data: any) => {
+        if (!session) {
+            router.push("/auth/signin");
+            return;
+        }
+        setIsSubmitting(true);
+        try {
+            const formData = new FormData();
+            Object.keys(data).forEach((key) => {
+                if (key === "cvImage" || key === "passportCopy") return;
+                if (Array.isArray(data[key])) {
+                    formData.append(key, JSON.stringify(data[key]));
+                } else {
+                    formData.append(key, data[key]);
+                }
+            });
+            if (data.cvImage && data.cvImage[0]) {
+                formData.append("cvImage", data.cvImage[0]);
+            }
+            if (data.passportCopy && data.passportCopy[0]) {
+                formData.append("passportCopy", data.passportCopy[0]);
+            }
+            if (session?.user) {
+                // @ts-ignore
+                formData.append("userId", session.user.id || session.user.email);
+            }
+            console.log('formData==>', data)
+            // const response = await fetch("/api/submit-summary", {
+            //     method: "POST",
+            //     body: formData,
+            // });
 
+            // if (!response.ok) {
+            //     throw new Error("Failed to submit form");
+            // }
+
+            toast({
+                title: "Submitted",
+                description: "Summary submitted successfully!",
+                status: "success",
+                duration: 4000,
+                isClosable: true,
+            });
+
+            // reset();
+            // setImgPreview("");
+            // router.push("/success");
+        } catch (error) {
+            console.error("Submission error:", error);
+            toast({
+                title: "Error",
+                description: "Failed to submit summary. Please try again.",
+                status: "error",
+                duration: 4000,
+                isClosable: true,
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <VStack spacing={4} align="stretch" maxW={'1440px'} mx={'auto'} >
                 <Text ml={{ base: 2, sm: 0 }} fontSize="xl" fontWeight="bold">Summary Form</Text>
 
-                <HStack flexWrap={{ base: 'wrap', sm: 'nowrap' }}
-                    spacing={{ base: 2, sm: 4, md: 6 }}
-                    align="flex-start"
-                    justify="center"
-                    px={{ base: 2, sm: 0 }}
-                >
-                    <FormControl>
-                        <FormLabel>Upload Your Picture</FormLabel>
+                <HStack flexWrap={{ base: 'wrap', sm: 'nowrap' }} spacing={{ base: 2, sm: 4, md: 6 }} align="flex-start" justify="center" px={{ base: 2, sm: 0 }}>
+                    <FormControl isInvalid={!!errors.cvImage}>
+                        <FormLabel>Upload Your Picture (White Background Only)</FormLabel>
                         <Input
                             rounded="15px"
                             p={4}
@@ -144,10 +190,14 @@ const SummaryForm = () => {
                             _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
                             _active={{ outline: "none" }}
                             transition="all 0.2s"
-                            type="file" accept="image/*" onChange={handleImageChange} />
+                            type="file"
+                            accept="image/*"
+                            {...register("cvImage", { required: true })}
+                            onChange={handleImageChange}
+                        />
+                        <FormErrorMessage>{errors.cvImage?.message}</FormErrorMessage>
                     </FormControl>
-
-                    <FormControl>
+                    <FormControl isInvalid={!!errors.passportCopy}>
                         <FormLabel>Upload Passport Copy</FormLabel>
                         <Input
                             rounded="15px"
@@ -161,7 +211,11 @@ const SummaryForm = () => {
                             _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
                             _active={{ outline: "none" }}
                             transition="all 0.2s"
-                            type="file" accept="application/pdf,image/*" />
+                            type="file"
+                            accept="application/pdf,image/*"
+                            {...register("passportCopy", { required: true })}
+                        />
+                        <FormErrorMessage>{errors.passportCopy?.message}</FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!!errors.name}>
                         <FormLabel>Name</FormLabel>
@@ -178,7 +232,8 @@ const SummaryForm = () => {
                             _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
                             _active={{ outline: "none" }}
                             transition="all 0.2s"
-                            {...register("name", { required: true })} />
+                            {...register("name", { required: true })}
+                        />
                         <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
                     </FormControl>
                 </HStack>
