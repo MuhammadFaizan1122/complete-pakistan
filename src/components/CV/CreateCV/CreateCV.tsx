@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "force-dynamic";
 import React, { useEffect, useRef, useState } from "react";
 import {
     Box,
@@ -41,22 +42,6 @@ export default function CreateCVPage({type}) {
     const [cvImage, setCvImage] = useState<File | null>(null);
     const [resetUploads, setResetUploads] = useState(false);
     const [tabIndex, setTabIndex] = useState(0);
-    const {
-        isOpen: isEmploymentOpen,
-        onOpen: onEmploymentOpen,
-        onClose: onEmploymentClose,
-    } = useDisclosure();
-    const {
-        isOpen: isEducationOpen,
-        onOpen: onEducationOpen,
-        onClose: onEducationClose,
-    } = useDisclosure();
-    const {
-        isOpen: isSkillOpen,
-        onOpen: onSkillOpen,
-        onClose: onSkillClose,
-    } = useDisclosure();
-
     const {
         register,
         handleSubmit,

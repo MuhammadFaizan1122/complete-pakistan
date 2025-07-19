@@ -4,6 +4,7 @@ import { Box, Text, Flex, useColorModeValue } from '@chakra-ui/react';
 import CreateCVPage from '../CreateCV/CreateCV';
 import SummaryForm from '../CreateCV/CvSummery/CvSummery';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 const CVRoot = () => {
   const [selectedView, setSelectedView] = useState(null);
@@ -11,6 +12,7 @@ const CVRoot = () => {
   const borderColor = useColorModeValue('gray.200', 'gray.600');
   const hoverBorderColor = '#309689';
   const router = useRouter();
+      const { data: session, status } = useSession();
   
   useEffect(() => {
     if (status === "unauthenticated") {
