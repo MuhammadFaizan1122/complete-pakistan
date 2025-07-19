@@ -32,7 +32,7 @@ import { handleCreateCV } from "../../../handlers/CV/create-cv";
 import { handleUpload } from "../../../handlers/contentUploading/contentUploading";
 import FileUpload from './FileUploading'
 
-export default function CreateCVPage() {
+export default function CreateCVPage({type}) {
     const router = useRouter();
     const { data: session, status } = useSession();
     const toast = useToast();
@@ -149,6 +149,7 @@ export default function CreateCVPage() {
             const finalPayload = {
                 ...data,
                 photo: cvImageUrl,
+                type,
                 attachments: uploadedAttachmentUrls,
                 // @ts-ignore
                 userId: session?.user.id,

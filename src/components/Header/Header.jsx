@@ -55,14 +55,20 @@ export default function Header() {
         { href: '/jobs', label: 'Jobs Visa' },
         { href: '#', label: 'Protector' },
         { href: '#', label: 'Interview' },
-        { href: '/about-us', label: 'About Us' },
-        { href: '/contact-us', label: 'Contact Us' },
+        { href: '#', label: 'GAMCA' },
     ];
 
     const makeCvLinks = [
         { href: '/create-cv', label: 'Create CV' },
-        { href: '/cv-directory', label: 'Create Other CV' },
+        { href: '/create-others-cv', label: 'Create Other CV' },
         { href: '/cv-directory', label: 'CV Directory' },
+    ];
+    const gamcaLinks = [
+        { href: '/#', label: 'GAMCA approved medical centers' },
+        { href: '/#', label: 'Medical Issues & Solution' },
+        { href: '/#', label: 'Medical Expiry Today' },
+        { href: '/#', label: 'Medical Expiry within 7 days' },
+        { href: '/#', label: 'Medical Expiry within 30 days' },
     ];
     const recruitmentLinks = [
         { href: '/dashboard', label: 'Overseas Employement Promoters - OEP' },
@@ -86,6 +92,42 @@ export default function Header() {
                     display={{ base: 'none', md: 'flex' }}
                 >
                     {navLinks.map((link, i) => {
+                        if (link.label === 'GAMCA') {
+                            return (
+                                <Popover trigger="hover" placement="bottom-start" key={i}>
+                                    <PopoverTrigger>
+                                        <Text
+                                            fontWeight={pathname.startsWith('/create') ? 'semibold' : 'normal'}
+                                            color={pathname.startsWith('/create') ? '#309689' : ''}
+                                            cursor="pointer"
+                                            _hover={{ color: '#309689' }}
+                                        >
+                                            GAMCA
+                                        </Text>
+                                    </PopoverTrigger>
+                                    <PopoverContent w="fit-content">
+                                        <PopoverBody p={2}>
+                                            {gamcaLinks.map((subLink, j) => (
+                                                <abbr key={j} title={subLink.label} style={{ textDecoration: 'none' }}>
+                                                    <Box
+
+                                                        as={Link}
+                                                        href={status === 'authenticated' ? subLink.href : '/auth/login'}
+                                                        display="block"
+                                                        px={3}
+                                                        py={2}
+                                                        borderRadius="md"
+                                                        _hover={{ bg: 'gray.100' }}
+                                                    >
+                                                        {subLink.label}
+                                                    </Box>
+                                                </abbr>
+                                            ))}
+                                        </PopoverBody>
+                                    </PopoverContent>
+                                </Popover>
+                            )
+                        }
                         if (link.label === 'Make CV') {
                             return (
                                 <Popover trigger="hover" placement="bottom-start" key={i}>

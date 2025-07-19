@@ -43,6 +43,12 @@ export async function POST(req) {
             experience,
             skills,
             attachments,
+            passportCopy,
+            technicalEducation,
+            pakistaniDrivingLicense,
+            gulfDrivingLicense,
+            licenseType,
+            type
         } = body;
 
         if (!userId) {
@@ -93,6 +99,12 @@ export async function POST(req) {
             experience: parsedExperience,
             skills: parsedSkills,
             attachments: parsedAttachments,
+            passportCopy: passportCopy ? passportCopy: '',
+            technicalEducation: technicalEducation ? technicalEducation: '',
+            pakistaniDrivingLicense: pakistaniDrivingLicense ? pakistaniDrivingLicense: '',
+            gulfDrivingLicense: gulfDrivingLicense ? gulfDrivingLicense: '',
+            licenseType: licenseType ? licenseType: '',
+            type
         });
 
         return NextResponse.json({ message: 'CV created successfully', data: newCv }, { status: 201 });

@@ -32,6 +32,10 @@ export const validationSchema = yup.object({
       : schema.notRequired();
   }),
   objective: yup.string().notRequired(),
+  technicalEducation: yup.string().notRequired(),
+  pakistaniDrivingLicense: yup.string().notRequired(),
+  gulfDrivingLicense: yup.string().notRequired(),
+  licenseType: yup.string().notRequired(),
   village: yup.string().required("Village/town is required"),
   gender: yup.string().required("Gender is required"),
   passportIssue: yup.string().required("Passport issue date is required"),

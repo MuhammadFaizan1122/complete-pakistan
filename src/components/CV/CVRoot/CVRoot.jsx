@@ -1,20 +1,27 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Text, Flex, useColorModeValue } from '@chakra-ui/react';
 import CreateCVPage from '../CreateCV/CreateCV';
 import SummaryForm from '../CreateCV/CvSummery/CvSummery';
+import { useRouter } from 'next/navigation';
 
 const CVRoot = () => {
   const [selectedView, setSelectedView] = useState(null);
   const boxBg = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.600');
   const hoverBorderColor = '#309689';
-
+  const router = useRouter();
+  
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/");
+    }
+  }, [status, router]);
   if (selectedView === 'create') {
-    return <CreateCVPage />;
+    return <CreateCVPage type="default" />;
   }
   if (selectedView === 'summary') {
-    return <SummaryForm />;
+    return <SummaryForm type="summary" />;
   }
 
   return (

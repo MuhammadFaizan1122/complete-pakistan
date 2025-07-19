@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { Country, State } from 'country-state-city';
 
-const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => {
+const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData, setIsAdding }) => {
   const [countries, setCountries] = useState(Country.getAllCountries());
   const [states, setStates] = useState([]);
 
@@ -59,6 +59,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
       endDate: '',
       details: ''
     });
+    setIsAdding(false)
     onClose();
   };
 
@@ -122,6 +123,8 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
         endDate: '',
         details: ''
       });
+      setIsAdding(false)
+
       console.log('Education updated:', [...currentEducation, employmentData]);
       console.log('Calling onClose');
       onClose();
