@@ -4,7 +4,7 @@ const CvProfileSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     photo: { type: String, required: false },
-    passportCopy: { type: String , required: false},
+    passportCopy: { type: String, required: false },
     name: { type: String, required: true },
     fatherName: { type: String, required: true },
     cnic: { type: String, required: true },
@@ -13,35 +13,35 @@ const CvProfileSchema = new mongoose.Schema(
     madicalDate: { type: Date },
     livingcity: { type: String },
     village: { type: String },
-    gender: { type: String }, // ✅ made optional
+    gender: { type: String },
     passport: { type: String, required: true },
-    passportIssue: { type: Date }, // ✅ made optional
+    passportIssue: { type: Date },
     passportExpiry: { type: Date, required: true },
     languages: { type: [String], required: true },
-    countriesVisited: { type: [String], default: [] }, // ✅ already optional
-    email: { type: String }, // ✅ made optional
+    countriesVisited: { type: [String], default: [] },
+    email: { type: String },
     phone: { type: String, required: true },
     whatsapp: { type: String },
-    otherNumber: { type: String }, // ✅ made optional
+    otherNumber: { type: String },
     backupNumber: { type: String },
-    backupEmail: { type: String }, // ✅ made optional
-    country: { type: String }, // ✅ made optional
-    state: { type: String }, // ✅ made optional
+    backupEmail: { type: String },
+    country: { type: String },
+    state: { type: String },
     city: { type: String, required: true },
-    localAddress: { type: String }, // ✅ made optional
+    localAddress: { type: String },
     jobTitle: { type: String, required: true },
     industry: { type: String, required: true },
-    category: { type: String }, // ✅ made optional
-    subcategory: { type: String }, // ✅ made optional
-    jobDetails: { type: String }, // ✅ made optional
+    category: { type: String },
+    subcategory: { type: String },
+    jobDetails: { type: String },
     technicalEducation: { type: String },
     pakistaniDrivingLicense: { type: String },
     gulfDrivingLicense: { type: String },
     licenseType: { type: String },
-    education: [], // assumed optional
-    experience: [], // ✅ already optional
-    skills: { type: [String] }, // ✅ made optional
-    attachments: { type: [String], default: [] }, // ✅ already optional
+    education: [],
+    experience: [],
+    skills: { type: [String] },
+    attachments: { type: [String], default: [] }, 
     type: { type: String, enum: ['others', 'default', 'summary'], default: 'default' },
   },
   { timestamps: true }

@@ -66,9 +66,10 @@ export default function Header() {
     const gamcaLinks = [
         { href: '/gamca/approved-medical-centers', label: 'GAMCA approved medical centers' },
         { href: '/gamca/issues-and-solutions', label: 'Medical Issues & Solution' },
-        { href: '/#', label: 'Medical Expiry Today' },
-        { href: '/#', label: 'Medical Expiry within 7 days' },
-        { href: '/#', label: 'Medical Expiry within 30 days' },
+        { href: '/gamca/medical-expiry-today', label: 'Medical Expiry Today' },
+        { href: '/gamca/medical-expiry-within-7-days', label: 'Medical Expiry within 7 days' },
+        { href: '/gamca/medical-expiry-within-15-days', label: 'Medical Expiry within 15 days' },
+        { href: '/gamca/medical-expiry-within-30-days', label: 'Medical Expiry within 30 days' },
     ];
     const recruitmentLinks = [
         { href: '/dashboard', label: 'Overseas Employement Promoters - OEP' },
