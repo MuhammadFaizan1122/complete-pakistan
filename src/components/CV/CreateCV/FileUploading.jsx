@@ -1,9 +1,9 @@
 'use client'
 import { useState, useRef, useEffect } from 'react';
-import { 
-  Box, HStack, Button, Modal, ModalOverlay, ModalContent, ModalHeader, 
-  ModalBody, ModalFooter, Input, Text, Flex, Tag, TagLabel, TagCloseButton, 
-  Image, useDisclosure, useToast, 
+import {
+  Box, HStack, Button, Modal, ModalOverlay, ModalContent, ModalHeader,
+  ModalBody, ModalFooter, Input, Text, Flex, Tag, TagLabel, TagCloseButton,
+  Image, useDisclosure, useToast,
   FormLabel
 } from '@chakra-ui/react';
 import { MdAdd } from 'react-icons/md';
@@ -133,8 +133,8 @@ const FileUpload = ({ setFormData, resetTrigger }) => {
 
   return (
     <Box>
-              <FormLabel className="text-[#2D3748] pl-1 mt-2">Upload Documentss</FormLabel>
-        
+      <FormLabel className="text-[#2D3748] pl-1 mt-2">Upload Documentss</FormLabel>
+
       <HStack
         border="1px solid"
         borderColor="gray.300"
@@ -193,12 +193,12 @@ const FileUpload = ({ setFormData, resetTrigger }) => {
                 cursor="pointer"
                 onClick={() => fileInputRef.current.click()}
               >
-                <Image 
-                  src={'/Images/Icons/iwa_upload.png'} 
-                  alt="icon" 
-                  width={50} 
-                  height={50} 
-                  className="!h-[50px] !w-[50px] mx-auto" 
+                <Image
+                  src={'/Images/Icons/iwa_upload.png'}
+                  alt="icon"
+                  width={50}
+                  height={50}
+                  className="!h-[50px] !w-[50px] mx-auto"
                 />
                 <Text mt={2} color="gray.600">Drag and drop files here or click to upload</Text>
                 <Input

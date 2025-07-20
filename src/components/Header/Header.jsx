@@ -64,8 +64,8 @@ export default function Header() {
         { href: '/cv-directory', label: 'CV Directory' },
     ];
     const gamcaLinks = [
-        { href: '/#', label: 'GAMCA approved medical centers' },
-        { href: '/#', label: 'Medical Issues & Solution' },
+        { href: '/gamca/approved-medical-centers', label: 'GAMCA approved medical centers' },
+        { href: '/gamca/issues-and-solutions', label: 'Medical Issues & Solution' },
         { href: '/#', label: 'Medical Expiry Today' },
         { href: '/#', label: 'Medical Expiry within 7 days' },
         { href: '/#', label: 'Medical Expiry within 30 days' },
