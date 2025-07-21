@@ -23,10 +23,9 @@ import { handleFetchMadicals } from "../../../handlers/gamca/gamca-madical";
 import Link from "next/link";
 import { HeroSection } from "./HeroSection";
 import { City, Country, State } from "country-state-city";
-import StyledSelect from "../../../components/CV/CvDirectory/StyledSelect";
-import { FaWhatsapp, FaWhatsappSquare } from "react-icons/fa";
+import StyledSelect from "../../CV/CvDirectory/StyledSelect";
 
-export default function GamcaMedicalList() {
+export default function MedicalAppointments() {
   const [medicals, setMedicals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -150,7 +149,7 @@ export default function GamcaMedicalList() {
               ))}
             </StyledSelect>
           </Flex>
-          <SimpleGrid columns={{ base: 1, sm: 2, md: 3}} spacing={6}>
+          <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing={6}>
             {filteredMedicals.map((medical) => (
               <Card
                 key={medical._id}
@@ -162,16 +161,9 @@ export default function GamcaMedicalList() {
                 _hover={{ shadow: "2xl", transform: "translateY(-5px)" }}
                 transition="all 0.3s ease"
               >
-                <CardBody p={0} >
-                  <Box className="h-52"
-                    bgImage={medical.bannerImageUrl || "/Images/placeholder.png"}
-                    bgSize="cover"
-                    bgPosition="center"
-                    roundedTop="2xl">
-
-                  </Box>
-                  <VStack align="start" spacing={3} p={6}>
-                    <Heading size="lg" color="#1A3C34" fontWeight="bold">
+                <CardBody p={6}>
+                  <VStack align="start" spacing={3}>
+                    <Heading size="md" color="#1A3C34" fontWeight="bold">
                       {medical.name}
                     </Heading>
                     <Flex gap={2}>
@@ -185,21 +177,21 @@ export default function GamcaMedicalList() {
 
                     <Divider borderColor="gray.200" />
 
-                    <Stack spacing={2} fontSize="md" color="gray.700">
+                    <Stack spacing={2} fontSize="sm" color="gray.700">
                       <HStack>
                         <Icon as={FiMail} />
-                        <Text color="blue.400">{medical.email}</Text>
+                        <Text>{medical.email}</Text>
                       </HStack>
 
                       <HStack>
                         <Icon as={FiPhone} />
-                        <Text color="blue.400">{medical.phone}</Text>
+                        <Text>{medical.phone}</Text>
                       </HStack>
 
                       {medical.whatsapp && (
                         <HStack>
-                          <Icon as={FaWhatsapp} />
-                          <Text color="green.400">{medical.whatsapp}</Text>
+                          <Icon as={FiPhone} />
+                          <Text>WhatsApp: {medical.whatsapp}</Text>
                         </HStack>
                       )}
 
@@ -238,25 +230,6 @@ export default function GamcaMedicalList() {
 
                           <Icon as={FiMapPin} mr={2} />
                           View on Google Maps
-                        </Button>
-                      }
-                      {
-                        medical?.facebookPageLink &&
-                        <Button
-                          as={Link}
-                          href={medical.facebookPageLink}
-                          target='_blank'
-                          bg="#309689"
-                          w="full"
-                          color="white"
-                          borderRadius="xl"
-                          py={{ base: 4, md: 6 }}
-                          fontSize={{ base: "sm", md: "md" }}
-                          _hover={{ bg: "white", color: "black", border: "1px solid black" }}
-                        >
-
-                          <Icon as={FiMapPin} mr={2} />
-                          Visit Facebook Page
                         </Button>
                       }
                     </Stack>

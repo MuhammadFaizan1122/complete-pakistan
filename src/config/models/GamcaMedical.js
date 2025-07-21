@@ -9,7 +9,12 @@ const gamcaMedicalSchema = new mongoose.Schema(
     city: { type: String, required: true },
     address: { type: String, required: true },
     phone: { type: String, required: true },
-    whatsapp: { type: String }, // optional
+    whatsapp: { type: String },
+    workingDays: { type: String, required: true },
+    workingHours: { type: String, required: true },
+    googleMapLink: { type: String },
+    facebookPageLink: { type: String },
+    bannerImageUrl: { type: String },
   },
   { timestamps: true }
 );
