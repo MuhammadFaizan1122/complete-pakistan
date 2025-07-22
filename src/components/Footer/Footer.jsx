@@ -9,6 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -18,7 +19,7 @@ export default function Footer() {
       alignItems="center"
       minH={{ base: "auto", md: "450px" }}
       py={{ base: 8, md: 12 }}
-      bg="white"
+      boxShadow="0px 4px 20px rgba(0, 0, 0, 0.1)"
     >
       <Container maxW="1440px" px={{ base: 4, md: 0 }}>
         <Flex
@@ -47,8 +48,12 @@ export default function Footer() {
             <Heading size="md" mb={{ base: 3, md: 2 }} fontSize={{ base: "lg", md: "xl" }}>
               Company
             </Heading>
-            <Text mb={2} cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
+            <Text as={Link} href={'/about-us'} className="!mb-4" mb={6} cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
               About Us
+            </Text>
+            <br />
+            <Text as={Link} href={'/contact-us'} mb={2} className="!mb-4" cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
+              Contact Us
             </Text>
             <Text mb={2} cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
               Our Team
