@@ -21,16 +21,23 @@ import {
 } from '@chakra-ui/react';
 import { MdReportProblem, MdCheckCircle } from 'react-icons/md';
 import { handleGetAllIssues } from '../../../handlers/gamca/gamca-issues';
+import { HeroSection } from '../MedicalCenters/HeroSection';
 
 export default function GamcaIssuesList() {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sliderImages, setSliderImages] = useState([]);
+  const [news, setNews] = useState([]);
 
   useEffect(() => {
     const fetchIssues = async () => {
       try {
         const data = await handleGetAllIssues();
+        const response = await fetch(`/api/slider?page=GAMCAIssues&Solutions`);
+        const sliderData = await response.json();
+        setSliderImages(sliderData?.data?.sliderImgs || []);
+        setNews(sliderData?.data?.news || []);
         if (data.success) {
           setIssues(data.data);
           setError(null);
@@ -82,13 +89,16 @@ export default function GamcaIssuesList() {
   }
 
   return (
-    <Box maxW="1000px" mx="auto" py={12} px={{ base: 4, md: 8 }} minH="100vh">
+    <>
+    <HeroSection sliderImages={sliderImages} news={news} />
+    <Box maxW="1440px" mx="auto" py={12} px={{ base: 4, md: 8 }} minH="100vh">
+
       <VStack spacing={10} align="stretch">
         <Heading
-          fontSize={{ base: "2xl", md: "3xl" }}
+          fontSize={{ base: "2xl", md: "4xl" }}
           textAlign="center"
           fontWeight="extrabold"
-          bgGradient="linear(to-r, #309689, #1A3C34)"
+          bgGradient="linear(to-r, #309689, #309689)"
           bgClip="text"
         >
           GAMCA Issues & Their Solutions
@@ -140,5 +150,6 @@ export default function GamcaIssuesList() {
         )}
       </VStack>
     </Box>
+    </>
   );
 }

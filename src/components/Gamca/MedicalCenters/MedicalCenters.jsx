@@ -25,6 +25,7 @@ import { HeroSection } from "./HeroSection";
 import { City, Country, State } from "country-state-city";
 import StyledSelect from "../../../components/CV/CvDirectory/StyledSelect";
 import { FaWhatsapp, FaWhatsappSquare } from "react-icons/fa";
+import { IoShareSocialOutline  } from "react-icons/io5";
 
 export default function GamcaMedicalList() {
   const [medicals, setMedicals] = useState([]);
@@ -261,8 +262,8 @@ export default function GamcaMedicalList() {
                           _hover={{ bg: "white", color: "black", border: "1px solid black" }}
                         >
 
-                          <Icon as={FiMapPin} mr={2} />
-                          Visit Facebook Page
+                          <Icon as={IoShareSocialOutline} mr={2} fontSize={'22px'} />
+                          Visit Social Page
                         </Button>
                       }
                     </Stack>

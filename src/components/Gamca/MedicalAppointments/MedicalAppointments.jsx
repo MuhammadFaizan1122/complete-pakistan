@@ -21,7 +21,7 @@ import {
 import { FiMapPin, FiPhone, FiMail, FiClock } from "react-icons/fi";
 import { handleFetchMadicals } from "../../../handlers/gamca/gamca-madical";
 import Link from "next/link";
-import { HeroSection } from "./HeroSection";
+import { HeroSection } from "../MedicalCenters/HeroSection";
 import { City, Country, State } from "country-state-city";
 import StyledSelect from "../../CV/CvDirectory/StyledSelect";
 
@@ -36,11 +36,18 @@ export default function MedicalAppointments() {
   const [location, setLocation] = useState('');
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
+  const [sliderImages, setSliderImages] = useState([]);
+  const [news, setNews] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       const data = await handleFetchMadicals();
+      const response = await fetch(`/api/slider?page=GAMCAMedicalAppointments`);
+      const sliderData = await response.json();
+      setSliderImages(sliderData?.data?.sliderImgs || []);
+      setNews(sliderData?.data?.news || []);
+
       if (data.success === true) {
         setMedicals(data.data);
         setError(null);
@@ -112,12 +119,7 @@ export default function MedicalAppointments() {
 
   return (
     <>
-      <HeroSection />
-      <Box w={'full'} p={2}>
-        <Box bg={'red.500'} w={'full'} p={2} height={'50px'} rounded={'lg'} color='white' textAlign={'center'}>
-          <Text fontWeight={'semibold'} fontSize={'22px'}>Latest News: New GAMCA requirements effective from January 2025</Text>
-        </Box>
-      </Box>
+      <HeroSection sliderImages={sliderImages} news={news} />
       <Box py={{ base: 4, md: 8 }} maxW="1400px" mx="auto" minH="100vh">
         <VStack spacing={10} align="stretch">
           <Heading
@@ -128,7 +130,7 @@ export default function MedicalAppointments() {
             bgGradient="linear(to-r, #309689, #309689)"
             bgClip="text"
           >
-            GAMCA Approved Medical Centers in Pakistan
+            GAMCA Medical Appointments in Pakistan
           </Heading>
           <Flex align="center" gap={2}>
             <StyledSelect placeholder="Location" value={location} onChange={handleCountryChange}>
@@ -149,7 +151,7 @@ export default function MedicalAppointments() {
               ))}
             </StyledSelect>
           </Flex>
-          <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing={6}>
+          <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6}>
             {filteredMedicals.map((medical) => (
               <Card
                 key={medical._id}
