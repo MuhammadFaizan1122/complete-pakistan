@@ -85,12 +85,11 @@ export function HeroSection({ sliderImages, news }) {
                 <Box w="full" bg="gray.300" height="50px" overflow="hidden">
                     <Box w={'full'} py={0} textAlign={'left'} maxW={'1420px'} mx={'auto'}>
                         <Swiper
-                            modules={[Autoplay, EffectFade, Pagination]}
+                            modules={[Autoplay]}
                             spaceBetween={10}
                             slidesPerView={1}
                             loop
-                            effect="fade"
-                            pagination={{ clickable: true }}
+                            effect="slide"
                             autoplay={{ delay: 3000, disableOnInteraction: false }}
                             style={{ height: '100%' }}
                         >
