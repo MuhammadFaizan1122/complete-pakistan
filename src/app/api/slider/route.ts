@@ -13,6 +13,7 @@ export async function GET(request: any) {
 
     try {
         await connectDB();
+        // @ts-ignore
         const sliderContent = await SliderContent.findOne({ page });
         if (!sliderContent) {
             return NextResponse.json({ data: { page, sliderImgs: [], news: [] } }, { status: 200 });
@@ -42,6 +43,7 @@ export async function POST(request: any) {
         // @ts-ignore'
         if (newsItem) update.$push = { ...update.$push, news: newsItem };
 
+        // @ts-ignore
         const sliderContent = await SliderContent.findOneAndUpdate(
             { page },
             update,

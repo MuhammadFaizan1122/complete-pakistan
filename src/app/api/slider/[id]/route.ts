@@ -8,7 +8,7 @@ export async function DELETE(request, { params }) {
   const { searchParams } = new URL(request.url);
   const page = searchParams.get('page');
   const type = searchParams.get('type');
-  const content = searchParams.get('content'); 
+  const content = searchParams.get('content');
 
   if (!page || !type || !content) {
     return NextResponse.json({ error: 'Page, type, and content are required' }, { status: 400 });
@@ -17,6 +17,7 @@ export async function DELETE(request, { params }) {
   try {
     await connectDB();
     const update = type === 'sliderImg' ? { $pull: { sliderImgs: content } } : { $pull: { news: content } };
+    // @ts-ignore
     const sliderContent = await SliderContent.findOneAndUpdate(
       { page },
       update,
