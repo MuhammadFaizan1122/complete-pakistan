@@ -23,10 +23,6 @@ import {
     Input,
     Textarea,
 } from '@chakra-ui/react';
-import {
-    FaBookmark, FaRegBookmark, FaBuilding, FaClock, FaMapMarkerAlt,
-    FaUsers, FaBriefcase, FaGraduationCap, FaDollarSign, FaCheck
-} from 'react-icons/fa';
 import { MdWorkOutline, MdLocationOn, MdAccessTime } from 'react-icons/md';
 import { BiTime, BiMoney } from 'react-icons/bi';
 import Image from 'next/image';

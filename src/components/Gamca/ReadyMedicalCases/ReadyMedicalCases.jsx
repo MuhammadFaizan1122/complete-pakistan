@@ -4,8 +4,6 @@ import {
   Box,
   Grid,
   Card,
-  CardBody,
-  Heading,
   Text,
   VStack,
   HStack,
@@ -15,24 +13,24 @@ import {
   Spinner,
   Center,
   useToast,
-  Select,
   Input,
   Stack,
   IconButton,
   Flex,
   Icon,
 } from "@chakra-ui/react";
-// import { RiTeamFill, RiLayoutGridLine, RiLayoutListLine } from "react-icons/ri";
 import { RiTeamFill, RiLayoutGridLine } from "react-icons/ri";
 import { CgLayoutList } from "react-icons/cg";
-import { handleGetCV } from "../../../handlers/CV/create-cv";
 import { HeroSection } from "./HeroSection";
-import { MdCreditCard, MdEvent, MdLocationOn, MdOutlineMail, MdOutlineRemoveRedEye, MdPhone } from "react-icons/md";
-import { UploadIcon, ViewIcon } from "lucide-react";
+import { MdCreditCard, MdEvent, MdLocationOn, MdOutlineMail, MdOutlineRemoveRedEye, MdPhone, MdOpenInNew, MdDownload } from "react-icons/md";
+import { UploadIcon } from "lucide-react";
 import StyledSelect from "../../../components/CV/CvDirectory/StyledSelect";
 import { handleFetchMedicalCases } from "../../../handlers/gamca/gamca-madical-cases";
+import { useParams } from 'next/navigation';
+import Link from "next/link";
 
 export default function ReadyMedicalCases() {
+  const params = useParams();
   const [candidates, setCandidates] = useState([]);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -69,7 +67,7 @@ export default function ReadyMedicalCases() {
       try {
         setLoading(true);
         const response = await handleFetchMedicalCases();
-        console.log('response', response)
+        console.log('Candidates Response:', response);
         if (response.status === 200) {
           setCandidates(response.data);
           setFilteredCandidates(response.data);
@@ -77,6 +75,7 @@ export default function ReadyMedicalCases() {
           throw new Error(response?.message || "Failed to fetch candidates");
         }
       } catch (error) {
+        console.error('Fetch Error:', error);
         toast({
           title: "Error",
           description: error.message || "Something went wrong while fetching candidates.",
@@ -160,7 +159,6 @@ export default function ReadyMedicalCases() {
                   borderColor="gray.300"
                   w="full"
                   h="50px"
-                  // border="1px solid"
                   borderRadius="15px"
                   outline="1px solid"
                   outlineColor="gray.300"
@@ -212,7 +210,6 @@ export default function ReadyMedicalCases() {
               </Box>
               <Box>
                 <label className="m-0 mb-2 p-0">Medical Expiry</label>
-
                 <StyledSelect value={medicalExpiry} onChange={(e) => setMedicalExpiry(e.target.value)} bg="white" borderColor="gray.300">
                   <option>All</option>
                   <option>30</option>
@@ -221,8 +218,8 @@ export default function ReadyMedicalCases() {
                 </StyledSelect>
               </Box>
             </Grid>
-
           </Box>
+
           <Flex alignItems={'center'} justify={'space-between'}>
             <Text fontSize="sm" color="gray.600">{filteredCandidates.length} results found</Text>
             <HStack spacing={2} ml="auto">
@@ -236,17 +233,17 @@ export default function ReadyMedicalCases() {
               <IconButton
                 aria-label="List View"
                 icon={<CgLayoutList className="text-[34px]" />}
-                // colorScheme={!isGridView ? "teal" : "gray"}
                 bg={!isGridView ? "#309689" : "gray.300"}
                 color={!isGridView ? "white" : "#309689"}
                 onClick={() => setIsGridView(false)}
               />
             </HStack>
           </Flex>
+
           {isGridView ? (
             <Grid
-              templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }}
-              gap={6}
+              templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" }}
+              gap={8}
             >
               {filteredCandidates.length === 0 ? (
                 <Center py={12}>
@@ -257,110 +254,153 @@ export default function ReadyMedicalCases() {
               ) : (
                 filteredCandidates.map((candidate, index) => {
                   const { totalYears } = calculateTotalExperience(candidate.experience || []);
-                  const medicalDate = candidate.medicalDate ? new Date(candidate.medicalDate) : null;
+                  const medicalDate = candidate.madicalDate ? new Date(candidate.madicalDate) : null;
                   const now = new Date();
-                  const daysDiff = medicalDate ? Math.floor((now - medicalDate) / (1000 * 60 * 60 * 24)) : 0;
-                  const daysLeft = medicalDate ? 60 - daysDiff : 0;
-
+                  const cleanNow = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                  const cleanMedicalDate = medicalDate
+                    ? new Date(medicalDate.getFullYear(), medicalDate.getMonth(), medicalDate.getDate())
+                    : null;
+                  const daysDiff = cleanMedicalDate
+                    ? Math.floor((cleanNow - cleanMedicalDate) / (1000 * 60 * 60 * 24))
+                    : 0;
+                  const daysLeft = cleanMedicalDate ? 60 - daysDiff : 0;
                   const isFit = daysDiff <= 60;
-                  console.log('medicalDate', candidate.medicalDate)
+
                   return (
                     <Card
                       key={index}
                       bg="white"
-                      borderRadius="20px"
-                      overflow="hidden"
-                      shadow="lg"
-                      _hover={{
-                        shadow: "xl",
-                        transform: "translateY(-6px)",
-                        bgGradient: "linear(to-b, white, #F7FAFC)",
-                      }}
-                      transition="all 0.3s"
-                      border="1px"
+                      borderRadius="15px"
+                      shadow="md"
+                      border="1px solid"
                       borderColor="gray.100"
+                      p={4}
                     >
-                      <CardBody p={6}>
-                        <VStack spacing={3} align="center">
-                          <Box position="relative">
-                            <Avatar
-                              size="xl"
-                              name={candidate?.name}
-                              src={candidate?.avatar}
-                              borderRadius="full"
-                            />
-                            {candidate?.gulfExp && (
-                              <Badge position="absolute" top="0" right="0" colorScheme="green">
-                                Gulf Exp
-                              </Badge>
-                            )}
-                          </Box>
-                          <VStack spacing={0} textAlign="center">
-                            <Text fontWeight="bold" fontSize="lg" color="#1A3C34">
-                              {candidate?.name}
-                            </Text>
-                            <Text fontSize="sm" color="gray.600">
-                              {candidate?.role}
-                            </Text>
-                          </VStack>
-                          <VStack spacing={2} align="start" w="full" fontSize="sm" color="gray.700">
-                            <HStack>
-                              <Text>📍</Text>
-                              <Text>{candidate?.city}</Text>
-                            </HStack>
-                            <HStack>
-                              <Text>⏳</Text>
-                              <Text>{totalYears} years</Text>
-                            </HStack>
-                            <HStack>
-                              <Text>🆔</Text>
-                              <Text>Passport: {candidate?.passport}</Text>
-                            </HStack>
-                            {candidate?.license && (
-                              <HStack>
-                                <Text>🚗</Text>
-                                <Text>{candidate?.license}</Text>
-                              </HStack>
-                            )}
-                            <HStack>
-                              <Text>🌍</Text>
-                              <Text>{candidate?.country}</Text>
-                            </HStack>
-                            <HStack>
-                              <Text>📅</Text>
-                              <Text>Medical: {medicalDate?.toLocaleDateString()}</Text>
-                            </HStack>
-                            <HStack>
-                              <Badge colorScheme={isFit ? "green" : "yellow"}>
-                                {isFit ? "Fit" : "Unfit"}
-                              </Badge>
-                              <Badge colorScheme={candidate?.visaStatus === "issued" ? "green" : "gray"}>
-                                {candidate?.visaStatus || "Visa Not Issued"}
-                              </Badge>
-                            </HStack>
-                            {daysLeft > 0 && (
-                              <Text fontSize="xs" color="red.500">
-                                {daysLeft} days left
-                              </Text>
-                            )}
-                          </VStack>
-                          <HStack pt={2}>
-                            <Button size="sm" variant="outline" colorScheme="green">
-                              View
-                            </Button>
-                            <Button size="sm" variant="outline" colorScheme="green">
-                              Recommend
-                            </Button>
-                            <Button size="sm" colorScheme="yellow">
-                              Matches
-                            </Button>
-                            <Button size="sm" variant="outline" bg={!isGridView ? "#309689" : "gray.100"}
-                              color={!isGridView ? "white" : "#309689"}>
-                              View Medical Report
-                            </Button>
+                      <Flex justify="space-between" flexWrap="wrap" gap={4}>
+                        <Box gap={4} mb={4}>
+                          <Flex justify={'space-between'} >
+                            <Box mr={2}>
+                              <Avatar name={candidate?.name} src={candidate?.avatar} size="lg" />
+                            </Box>
+                            <Box minW="150px" textAlign="left">
+                              <VStack spacing={2} mt={1} align="start">
+                                <Text fontSize={'lg'} fontWeight={'bold'}>{candidate?.name}</Text>
+                                <Badge colorScheme="blue" borderRadius="full" px={2}>
+                                  {candidate?.designation || 'Role'}
+                                </Badge>
+                                <Badge colorScheme={isFit ? 'green' : 'red'} borderRadius="full" px={2}>
+                                  {isFit ? 'FIT' : 'UNFIT'}
+                                </Badge>
+                              </VStack>
+                            </Box>
+                          </Flex>
+                        </Box>
+                      </Flex>
+
+                      <Flex justify="space-between" gap={4} w={'100%'}>
+                        <Box w={"50%"} >
+                          <HStack spacing={2} mb={2} fontSize="sm" color="gray.600">
+                            <Icon fontSize={'18px'} as={MdCreditCard} />
+                            <Text fontSize={'md'} className="truncate">Passport: {candidate?.passport}</Text>
                           </HStack>
-                        </VStack>
-                      </CardBody>
+                          <HStack spacing={2} mb={2} fontSize="md" color="gray.600">
+                            <Icon fontSize={'18px'} as={MdPhone} />
+                            <Text fontSize={'md'} className="truncate">{candidate?.phone}</Text>
+                            <Badge colorScheme="green" fontSize="0.7rem">
+                              Verified
+                            </Badge>
+                          </HStack>
+                          <HStack spacing={2} mb={2} fontSize="sm" color="gray.600">
+                            <Icon fontSize={'18px'} as={MdEvent} />
+                            <Text fontSize="md" className="truncate">
+                              Medical:{' '}
+                              {candidate?.madicalDate
+                                ? new Date(candidate.madicalDate).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric',
+                                })
+                                : 'Not Available'}
+                            </Text>
+                          </HStack>
+                          <Badge mt={1} colorScheme="orange" px={2} py={0.5} borderRadius="full">
+                            {candidate?.visaStatus || "Visa Applied"}
+                          </Badge>
+                        </Box>
+                        <Box textAlign="right" flex="1" w={"50%"}>
+                          <HStack justify="flex-end" mb={2}>
+                            <Icon as={MdLocationOn} color="gray.600" />
+                            <Text fontSize="sm" color="gray.700" className="truncate">
+                              {candidate?.fromCity} ➔ {candidate?.country}
+                            </Text>
+                          </HStack>
+                          <Text fontSize="sm" color="gray.600" mb={1} className="truncate">
+                            <Icon as={MdOutlineMail} color="gray.600" fontSize={'20px'} mr={2} />
+                            {candidate?.email}
+                          </Text>
+                          {daysLeft > 0 && (
+                            <Badge colorScheme="blackAlpha" borderRadius="full" px={3} py={1} mt={2}>
+                              {daysLeft} days left
+                            </Badge>
+                          )}
+                        </Box>
+                      </Flex>
+
+                      <Stack direction="column" spacing={2} mt={4}>
+                        <Button
+                          as={Link}
+                          href={candidate?.medicalReportUrl || '#'}
+                          target="_blank"
+                          size="lg"
+                          leftIcon={<MdOutlineRemoveRedEye />}
+                          variant="ghost"
+                          p={4}
+                          color={"#309689"}
+                          border={'2px solid #309689'}
+                          borderRadius={'15px'}
+                          // onClick={() => handleViewMedicalReport(candidate?.medicalReportUrl)}
+                          isDisabled={!candidate?.medicalReportUrl}
+                        >
+                          View Medical Report
+                        </Button>
+                        <Button
+                          size="lg"
+                          leftIcon={<UploadIcon />}
+                          variant="ghost"
+                          p={4}
+                          color={"#309689"}
+                          border={'2px solid #309689'}
+                          borderRadius={'15px'}
+                        >
+                          Upload Visa Copy
+                        </Button>
+                      </Stack>
+
+                      <HStack spacing={3} mt={4}>
+                        <Button
+                          size="lg"
+                          flex="1"
+                          p={4}
+                          _hover={{ color: "#fff" }}
+                          color={"#fff"}
+                          bg={'#309689'}
+                          border={'2px solid #309689'}
+                          borderRadius={'15px'}
+                        >
+                          Match
+                        </Button>
+                        <Button
+                          size="lg"
+                          flex="1"
+                          p={4}
+                          color={"#309689"}
+                          bg={'#fff'}
+                          border={'2px solid #309689'}
+                          borderRadius={'15px'}
+                        >
+                          Recommend
+                        </Button>
+                      </HStack>
                     </Card>
                   );
                 })
@@ -377,20 +417,16 @@ export default function ReadyMedicalCases() {
               ) : (
                 filteredCandidates.map((candidate, index) => {
                   const { totalYears } = calculateTotalExperience(candidate.experience || []);
-                  const medicalDate = candidate.medicalDate ? new Date(candidate.medicalDate) : null;
+                  const medicalDate = candidate.madicalDate ? new Date(candidate.madicalDate) : null;
                   const now = new Date();
-
                   const cleanNow = new Date(now.getFullYear(), now.getMonth(), now.getDate());
                   const cleanMedicalDate = medicalDate
                     ? new Date(medicalDate.getFullYear(), medicalDate.getMonth(), medicalDate.getDate())
                     : null;
-
                   const daysDiff = cleanMedicalDate
                     ? Math.floor((cleanNow - cleanMedicalDate) / (1000 * 60 * 60 * 24))
                     : 0;
-
                   const daysLeft = cleanMedicalDate ? 60 - daysDiff : 0;
-
                   const isFit = daysDiff <= 60;
 
                   return (
@@ -404,7 +440,6 @@ export default function ReadyMedicalCases() {
                       p={6}
                     >
                       <Flex justify="space-between" flexWrap="wrap" gap={4}>
-                        {/* Left Section */}
                         <Flex gap={4}>
                           <Flex justify={'space-between'} >
                             <Box mr={2}>
@@ -412,6 +447,7 @@ export default function ReadyMedicalCases() {
                             </Box>
                             <Box minW="150px" textAlign="left">
                               <VStack spacing={2} mt={1} align="start">
+                                <Text fontSize={'md'} fontWeight={'bold'}>{candidate?.name}</Text>
                                 <Badge colorScheme="blue" borderRadius="full" px={2}>
                                   {candidate?.designation || 'Role'}
                                 </Badge>
@@ -420,15 +456,12 @@ export default function ReadyMedicalCases() {
                                 </Badge>
                               </VStack>
                             </Box>
-
                           </Flex>
                           <Box>
-
                             <HStack spacing={2} mb={2} fontSize="sm" color="gray.600">
                               <Icon fontSize={'18px'} as={MdCreditCard} />
                               <Text fontSize={'md'}>Passport: {candidate?.passport}</Text>
                             </HStack>
-
                             <HStack spacing={2} mb={2} fontSize="md" color="gray.600">
                               <Icon fontSize={'18px'} as={MdPhone} />
                               <Text fontSize={'md'}>{candidate?.phone}</Text>
@@ -436,30 +469,24 @@ export default function ReadyMedicalCases() {
                                 Verified
                               </Badge>
                             </HStack>
-
                             <HStack spacing={2} mb={2} fontSize="sm" color="gray.600">
                               <Icon fontSize={'18px'} as={MdEvent} />
                               <Text fontSize="md">
                                 Medical:{' '}
-                                {candidate?.medicalDate
-                                  ? new Date(candidate.medicalDate).toLocaleDateString('en-US', {
+                                {candidate?.madicalDate
+                                  ? new Date(candidate.madicalDate).toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: 'long',
                                     day: 'numeric',
                                   })
                                   : 'Not Available'}
                               </Text>
-
-
                             </HStack>
-
                             <Badge mt={1} colorScheme="orange" px={2} py={0.5} borderRadius="full">
                               {candidate?.visaStatus || "Visa Applied"}
                             </Badge>
                           </Box>
                         </Flex>
-
-                        {/* Right Section */}
                         <Box textAlign="right" flex="1" maxW="300px">
                           <HStack justify="flex-end" mb={2}>
                             <Icon as={MdLocationOn} color="gray.600" />
@@ -467,33 +494,38 @@ export default function ReadyMedicalCases() {
                               {candidate?.fromCity} ➔ {candidate?.country}
                             </Text>
                           </HStack>
-
                           <Text fontSize="sm" color="gray.600" mb={1}>
                             <Icon as={MdOutlineMail} color="gray.600" fontSize={'20px'} mr={2} />
                             {candidate?.email}
                           </Text>
-
                           {daysLeft > 0 && (
                             <Badge colorScheme="blackAlpha" borderRadius="full" px={3} py={1} mt={2}>
                               {daysLeft} days left
                             </Badge>
                           )}
-
-
                         </Box>
                       </Flex>
                       <Stack direction="column" spacing={2} mt={4}>
-                        <Button size="lg" leftIcon={<MdOutlineRemoveRedEye />} variant="ghost"
-                          // bg={!isGridView ? "#309689" : "gray.100"}
+                        <Button
+                          as={Link}
+                          href={candidate?.medicalReportUrl || '#'}
+                          target="_blank"
+                          size="lg"
+                          leftIcon={<MdOutlineRemoveRedEye />}
+                          variant="ghost"
                           p={4}
                           color={"#309689"}
                           border={'2px solid #309689'}
                           borderRadius={'15px'}
+                          // onClick={() => handleViewMedicalReport(candidate?.medicalReportUrl)}
+                          isDisabled={!candidate?.medicalReportUrl}
                         >
                           View Medical Report
                         </Button>
-                        <Button size="lg" leftIcon={<UploadIcon />} variant="ghost"
-                          // bg={!isGridView ? "#309689" : "gray.100"}
+                        <Button
+                          size="lg"
+                          leftIcon={<UploadIcon />}
+                          variant="ghost"
                           p={4}
                           color={"#309689"}
                           border={'2px solid #309689'}
@@ -501,15 +533,13 @@ export default function ReadyMedicalCases() {
                         >
                           Upload Visa Copy
                         </Button>
-                        {/* <Button size="sm" leftIcon={<UploadIcon />} variant="ghost" colorScheme="gray">
-                              Upload Visa Copy
-                            </Button> */}
                       </Stack>
                       <HStack spacing={3} mt={4}>
                         <Button
                           size="lg"
                           flex="1"
                           p={4}
+                          _hover={{ color: "#fff" }}
                           color={"#fff"}
                           bg={'#309689'}
                           border={'2px solid #309689'}
@@ -524,7 +554,8 @@ export default function ReadyMedicalCases() {
                           color={"#309689"}
                           bg={'#fff'}
                           border={'2px solid #309689'}
-                          borderRadius={'15px'}>
+                          borderRadius={'15px'}
+                        >
                           Recommend
                         </Button>
                       </HStack>

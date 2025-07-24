@@ -37,11 +37,17 @@ export default function GamcaMedicalList() {
   const [location, setLocation] = useState('');
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
-
+  const [sliderImages, setSliderImages] = useState([]);
+  const [news, setNews] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       const data = await handleFetchMadicals();
+      const response = await fetch(`/api/slider?page=GAMCAApprovedMedicals`);
+      const sliderData = await response.json();
+      setSliderImages(sliderData?.data?.sliderImgs || []);
+      setNews(sliderData?.data?.news || []);
+
       if (data.success === true) {
         setMedicals(data.data);
         setError(null);
@@ -113,12 +119,12 @@ export default function GamcaMedicalList() {
 
   return (
     <>
-      <HeroSection />
-      <Box w={'full'} p={2}>
-        <Box bg={'red.500'} w={'full'} p={2} height={'50px'} rounded={'lg'} color='white' textAlign={'center'}>
-          <Text fontWeight={'semibold'} fontSize={'22px'}>Latest News: New GAMCA requirements effective from January 2025</Text>
+      <HeroSection sliderImages={sliderImages} news={news} />
+      {/* <Box w={'full'} bg={'gray.200'} height={'50px'} >
+        <Box w={'full'} py={2} textAlign={'left'} maxW={'1400px'} mx={'auto'}>
+          <Text fontWeight={'semibold'} color={'#309689'} fontSize={'22px'}>Latest News / <span className="text-[18px] text-black"> New GAMCA requirements effective from January 2025</span></Text>
         </Box>
-      </Box>
+      </Box> */}
       <Box py={{ base: 4, md: 8 }} maxW="1400px" mx="auto" minH="100vh">
         <VStack spacing={10} align="stretch">
           <Heading
@@ -150,7 +156,7 @@ export default function GamcaMedicalList() {
               ))}
             </StyledSelect>
           </Flex>
-          <SimpleGrid columns={{ base: 1, sm: 2, md: 3}} spacing={6}>
+          <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6}>
             {filteredMedicals.map((medical) => (
               <Card
                 key={medical._id}
@@ -185,7 +191,7 @@ export default function GamcaMedicalList() {
 
                     <Divider borderColor="gray.200" />
 
-                    <Stack spacing={2} fontSize="md" color="gray.700">
+                    <Stack spacing={2} fontSize="md" color="gray.700" w={'full'}>
                       <HStack>
                         <Icon as={FiMail} />
                         <Text color="blue.400">{medical.email}</Text>
