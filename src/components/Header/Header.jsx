@@ -97,8 +97,8 @@ export default function Header() {
                                 <Popover trigger="hover" placement="bottom-start" key={i}>
                                     <PopoverTrigger>
                                         <Text
-                                            fontWeight={pathname.startsWith('/create') ? 'semibold' : 'normal'}
-                                            color={pathname.startsWith('/create') ? '#309689' : ''}
+                                            fontWeight={pathname.startsWith('/gamca') ? 'semibold' : 'normal'}
+                                            color={pathname.startsWith('/gamca') ? '#309689' : ''}
                                             cursor="pointer"
                                             _hover={{ color: '#309689' }}
                                         >

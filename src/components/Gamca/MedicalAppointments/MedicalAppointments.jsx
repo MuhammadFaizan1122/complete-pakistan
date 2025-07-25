@@ -19,11 +19,13 @@ import {
   Flex
 } from "@chakra-ui/react";
 import { FiMapPin, FiPhone, FiMail, FiClock } from "react-icons/fi";
-import { handleFetchMadicals } from "../../../handlers/gamca/gamca-madical";
+import { handleFetchMadicals } from "../../../handlers/gamca/gamca-madical-appointments";
 import Link from "next/link";
 import { HeroSection } from "../MedicalCenters/HeroSection";
 import { City, Country, State } from "country-state-city";
 import StyledSelect from "../../CV/CvDirectory/StyledSelect";
+import { FaWhatsapp } from "react-icons/fa";
+import { IoShareSocialOutline } from "react-icons/io5";
 
 export default function MedicalAppointments() {
   const [medicals, setMedicals] = useState([]);
@@ -163,9 +165,16 @@ export default function MedicalAppointments() {
                 _hover={{ shadow: "2xl", transform: "translateY(-5px)" }}
                 transition="all 0.3s ease"
               >
-                <CardBody p={6}>
-                  <VStack align="start" spacing={3}>
-                    <Heading size="md" color="#1A3C34" fontWeight="bold">
+                <CardBody p={0} >
+                  <Box className="h-52"
+                    bgImage={medical.bannerImageUrl || "/Images/placeholder.png"}
+                    bgSize="cover"
+                    bgPosition="center"
+                    roundedTop="2xl">
+
+                  </Box>
+                  <VStack align="start" spacing={3} p={6}>
+                    <Heading size="lg" color="#1A3C34" fontWeight="bold">
                       {medical.name}
                     </Heading>
                     <Flex gap={2}>
@@ -179,21 +188,21 @@ export default function MedicalAppointments() {
 
                     <Divider borderColor="gray.200" />
 
-                    <Stack spacing={2} fontSize="sm" color="gray.700">
+                    <Stack spacing={2} fontSize="md" color="gray.700" w={'full'}>
                       <HStack>
                         <Icon as={FiMail} />
-                        <Text>{medical.email}</Text>
+                        <Text color="blue.400">{medical.email}</Text>
                       </HStack>
 
                       <HStack>
                         <Icon as={FiPhone} />
-                        <Text>{medical.phone}</Text>
+                        <Text color="blue.400">{medical.phone}</Text>
                       </HStack>
 
                       {medical.whatsapp && (
                         <HStack>
-                          <Icon as={FiPhone} />
-                          <Text>WhatsApp: {medical.whatsapp}</Text>
+                          <Icon as={FaWhatsapp} />
+                          <Text color="green.400">{medical.whatsapp}</Text>
                         </HStack>
                       )}
 
@@ -232,6 +241,25 @@ export default function MedicalAppointments() {
 
                           <Icon as={FiMapPin} mr={2} />
                           View on Google Maps
+                        </Button>
+                      }
+                      {
+                        medical?.facebookPageLink &&
+                        <Button
+                          as={Link}
+                          href={medical.facebookPageLink}
+                          target='_blank'
+                          bg="#309689"
+                          w="full"
+                          color="white"
+                          borderRadius="xl"
+                          py={{ base: 4, md: 6 }}
+                          fontSize={{ base: "sm", md: "md" }}
+                          _hover={{ bg: "white", color: "black", border: "1px solid black" }}
+                        >
+
+                          <Icon as={IoShareSocialOutline} mr={2} fontSize={'22px'} />
+                          Visit Social Page
                         </Button>
                       }
                     </Stack>

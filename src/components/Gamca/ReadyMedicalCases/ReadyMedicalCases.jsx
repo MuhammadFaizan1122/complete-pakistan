@@ -19,29 +19,34 @@ import {
   Flex,
   Icon,
 } from "@chakra-ui/react";
-import { RiTeamFill, RiLayoutGridLine } from "react-icons/ri";
+import { RiLayoutGridLine } from "react-icons/ri";
 import { CgLayoutList } from "react-icons/cg";
-import { HeroSection } from "./HeroSection";
-import { MdCreditCard, MdEvent, MdLocationOn, MdOutlineMail, MdOutlineRemoveRedEye, MdPhone, MdOpenInNew, MdDownload } from "react-icons/md";
+import { MdCreditCard, MdEvent, MdLocationOn, MdOutlineMail, MdOutlineRemoveRedEye, MdPhone } from "react-icons/md";
 import { UploadIcon } from "lucide-react";
 import StyledSelect from "../../../components/CV/CvDirectory/StyledSelect";
 import { handleFetchMedicalCases } from "../../../handlers/gamca/gamca-madical-cases";
-import { useParams } from 'next/navigation';
 import Link from "next/link";
+import { City, Country, State } from "country-state-city";
+import { HeroSection } from "../MedicalCenters/HeroSection";
 
 export default function ReadyMedicalCases() {
-  const params = useParams();
   const [candidates, setCandidates] = useState([]);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [city, setCity] = useState("All Cities");
   const [tradeJob, setTradeJob] = useState("All Trades");
-  const [travelCountry, setTravelCountry] = useState("All Countries");
   const [status, setStatus] = useState("All Status");
   const [medicalExpiry, setMedicalExpiry] = useState("All");
   const [isGridView, setIsGridView] = useState(false);
   const toast = useToast();
+  const [countries, setCountries] = useState(Country.getAllCountries());
+  const [travelCountry, setTravelCountry] = useState("All Countries");
+  const [travelState, setTravelState] = useState("All States");
+  const [city, setCity] = useState("All Cities");
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [sliderImages, setSliderImages] = useState([]);
+  const [news, setNews] = useState([]);
 
   const calculateTotalExperience = (experienceArray) => {
     let totalYears = 0, totalMonths = 0;
@@ -67,7 +72,10 @@ export default function ReadyMedicalCases() {
       try {
         setLoading(true);
         const response = await handleFetchMedicalCases();
-        console.log('Candidates Response:', response);
+        const response2 = await fetch(`/api/slider?page=GAMCAReadyMedicalCases`);
+        const sliderData = await response2.json();
+        setSliderImages(sliderData?.data?.sliderImgs || []);
+        setNews(sliderData?.data?.news || []);
         if (response.status === 200) {
           setCandidates(response.data);
           setFilteredCandidates(response.data);
@@ -109,6 +117,9 @@ export default function ReadyMedicalCases() {
     if (travelCountry !== "All Countries") {
       filtered = filtered.filter(candidate => candidate.country === travelCountry);
     }
+    if (travelState !== "All States") {
+      filtered = filtered.filter(candidate => candidate.state === travelState);
+    }
     if (status !== "All Status") {
       filtered = filtered.filter(candidate => {
         const medicalDate = candidate.madicalDate ? new Date(candidate.madicalDate) : null;
@@ -131,7 +142,41 @@ export default function ReadyMedicalCases() {
     }
 
     setFilteredCandidates(filtered);
-  }, [searchTerm, city, tradeJob, travelCountry, status, medicalExpiry, candidates]);
+  }, [searchTerm, city, tradeJob, travelCountry, travelState, status, medicalExpiry, candidates]);
+
+  const handleCountryChange = (e) => {
+    const countryName = e.target.value;
+    setTravelCountry(countryName);
+    setTravelState("All States");
+    setCity("All Cities");
+    if (countryName === "All Countries") {
+      setStates([]);
+      setCities([]);
+    } else {
+      const selectedCountry = countries.find((c) => c.name === countryName);
+      const stateList = State.getStatesOfCountry(selectedCountry?.isoCode || "");
+      setStates(stateList);
+      setCities([]);
+    }
+  };
+
+  const handleStateChange = (e) => {
+    const stateName = e.target.value;
+    setTravelState(stateName);
+    setCity("All Cities");
+    if (stateName === "All States") {
+      setCities([]);
+    } else {
+      const selectedCountry = countries.find((c) => c.name === travelCountry);
+      const selectedState = states.find((s) => s.name === stateName);
+      if (selectedCountry && selectedState) {
+        const cityList = City.getCitiesOfState(selectedCountry.isoCode, selectedState.isoCode);
+        setCities(cityList);
+      } else {
+        setCities([]);
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -143,12 +188,12 @@ export default function ReadyMedicalCases() {
 
   return (
     <>
-      <HeroSection />
+      <HeroSection sliderImages={sliderImages} news={news} />
       <Box py={{ base: 4, md: 8 }} maxW="1400px" mx="auto" minH="100vh">
         <VStack spacing={4} align="stretch">
           <Text fontSize={'24px'} fontWeight="bold" color="#1A3C34">Search & Filter</Text>
           <Box py={0} borderRadius="md" mb={6}>
-            <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(6, 1fr)" }} gap={4}>
+            <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={4}>
               <Box>
                 <label fontSize="sm" color="gray.600">Search</label>
                 <Input
@@ -173,12 +218,34 @@ export default function ReadyMedicalCases() {
                 />
               </Box>
               <Box>
+                <label className="m-0 mb-2 p-0">Travel Country</label>
+                <StyledSelect value={travelCountry} onChange={(e) => { handleCountryChange(e), setTravelCountry(e.target.value) }} bg="white" borderColor="gray.300">
+                  {countries.map((c) => (
+                    <option key={c.isoCode} value={c.name}>
+                      {c.name}
+                    </option>
+                  ))}
+                </StyledSelect>
+              </Box>
+              <Box>
+                <label className="m-0 mb-2 p-0">State</label>
+                <StyledSelect value={travelState} onChange={(e) => { handleStateChange(e), setTravelState(e.target.value) }} bg="white" borderColor="gray.300">
+                  {states.map((c) => (
+                    <option key={c.isoCode} value={c.name}>
+                      {c.name}
+                    </option>
+                  ))}
+                </StyledSelect>
+              </Box>
+              <Box>
                 <label className="m-0 mb-2 p-0">City</label>
                 <StyledSelect value={city} onChange={(e) => setCity(e.target.value)} bg="white" borderColor="gray.300">
                   <option>All Cities</option>
-                  <option>Karachi</option>
-                  <option>Lahore</option>
-                  <option>Islamabad</option>
+                  {cities.map((s) => (
+                    <option key={s.isoCode} value={s.name}>
+                      {s.name}
+                    </option>
+                  ))}
                 </StyledSelect>
               </Box>
               <Box>
@@ -188,15 +255,6 @@ export default function ReadyMedicalCases() {
                   <option>Electrician</option>
                   <option>Plumber</option>
                   <option>Carpenter</option>
-                </StyledSelect>
-              </Box>
-              <Box>
-                <label className="m-0 mb-2 p-0">Travel Country</label>
-                <StyledSelect value={travelCountry} onChange={(e) => setTravelCountry(e.target.value)} bg="white" borderColor="gray.300">
-                  <option>All Countries</option>
-                  <option>Saudi Arabia</option>
-                  <option>UAE</option>
-                  <option>Qatar</option>
                 </StyledSelect>
               </Box>
               <Box>
