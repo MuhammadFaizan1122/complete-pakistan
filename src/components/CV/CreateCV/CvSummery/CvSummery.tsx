@@ -44,7 +44,7 @@ const licenseTypes = [
     "OTHERS",
 ];
 const languages = [
-    "ENGLISH", "URDU", "PUNJABI", "SIRAIKI", "BALOCHI", "HINDI", "PUSHTO",
+    "ENGLISH", "URDU", "PUNJABI", "SIRAIKI", "BALOCHI", "SINDHI", "PUSHTO",
     "TURKISH", "MEMON", "KATHIAWAR", "MARWARI", "BENGALI", "OTHERS",
 ];
 
