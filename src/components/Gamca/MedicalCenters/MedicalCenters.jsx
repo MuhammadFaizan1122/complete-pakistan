@@ -25,7 +25,7 @@ import { HeroSection } from "./HeroSection";
 import { City, Country, State } from "country-state-city";
 import StyledSelect from "../../../components/CV/CvDirectory/StyledSelect";
 import { FaWhatsapp, FaWhatsappSquare } from "react-icons/fa";
-import { IoShareSocialOutline  } from "react-icons/io5";
+import { IoShareSocialOutline } from "react-icons/io5";
 
 export default function GamcaMedicalList() {
   const [medicals, setMedicals] = useState([]);
@@ -121,12 +121,7 @@ export default function GamcaMedicalList() {
   return (
     <>
       <HeroSection sliderImages={sliderImages} news={news} />
-      {/* <Box w={'full'} bg={'gray.200'} height={'50px'} >
-        <Box w={'full'} py={2} textAlign={'left'} maxW={'1400px'} mx={'auto'}>
-          <Text fontWeight={'semibold'} color={'#309689'} fontSize={'22px'}>Latest News / <span className="text-[18px] text-black"> New GAMCA requirements effective from January 2025</span></Text>
-        </Box>
-      </Box> */}
-      <Box py={{ base: 4, md: 8 }} maxW="1400px" mx="auto" minH="100vh">
+      <Box py={{ base: 4, md: 8 }} px={{ base: 2, sm: 0 }} maxW="1400px" mx="auto" minH="100vh">
         <VStack spacing={10} align="stretch">
           <Heading
             fontSize={{ base: "2xl", md: "3xl" }}
@@ -138,7 +133,7 @@ export default function GamcaMedicalList() {
           >
             GAMCA Approved Medical Centers in Pakistan
           </Heading>
-          <Flex align="center" gap={2}>
+          <Flex align="center" gap={2} flexDirection={{ base: 'column', md: "row" }}>
             <StyledSelect placeholder="Location" value={location} onChange={handleCountryChange}>
               {countries.map((c) => (
                 <option key={c.isoCode} value={c.name}>{c.name}</option>

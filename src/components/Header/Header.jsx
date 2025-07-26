@@ -36,6 +36,8 @@ export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const [cvMenuOpen, setCvMenuOpen] = useState(false);
     const [recruitmentOpen, setRecruitmentOpen] = useState(false);
+    const [gamcaOpen, setgamcaOpen] = useState(false);
+    const [othersOpen, setothersOpen] = useState(false);
     const [makeCvOpen, setMakeCvOpen] = useState(false)
     const [recruitmentOpen2, setRecruitmentOpen2] = useState(false)
 
@@ -54,8 +56,9 @@ export default function Header() {
         { href: '#', label: 'Recruitment' },
         { href: '/jobs', label: 'Jobs Visa' },
         { href: '#', label: 'Protector' },
-        { href: '#', label: 'Interview' },
+        { href: '/interviews', label: 'Interview' },
         { href: '#', label: 'GAMCA' },
+        { href: '#', label: 'More' },
     ];
 
     const makeCvLinks = [
@@ -76,15 +79,19 @@ export default function Header() {
         { href: '/dashboard', label: 'Verified Trade Partners' },
         { href: '/dashboard', label: 'Consultancies' },
     ];
-    console.log('session', session)
+    const othersLinks = [
+        { href: '#', label: 'Ticketing' },
+        { href: '#', label: 'Fraud Alert' },
+        { href: '#', label: 'Travel & Tour' },
+        { href: '#', label: 'Help Center' },
+    ];
 
     return (
         <Box bg="white" boxShadow="sm" py={4}>
             <Container maxW="1440px" display="flex" justifyContent="space-between" alignItems="center">
                 <Link href={'/'}>
-                    <Image width={150} height={50} src="/Images/logo.png" alt="CompletePakistan Logo" />
+                    <Image width={150} height={50} src="/Images/header-logo.png" alt="CompletePakistan Logo" />
                 </Link>
-
                 {/* Desktop Navigation */}
                 <Flex
                     gap={{ base: 4, md: 10 }}
@@ -127,8 +134,7 @@ export default function Header() {
                                     </PopoverContent>
                                 </Popover>
                             )
-                        }
-                        if (link.label === 'Make CV') {
+                        } else if (link.label === 'Make CV') {
                             return (
                                 <Popover trigger="hover" placement="bottom-start" key={i}>
                                     <PopoverTrigger>
@@ -163,9 +169,7 @@ export default function Header() {
                                     </PopoverContent>
                                 </Popover>
                             )
-                        }
-
-                        if (link.label === 'Recruitment') {
+                        } else if (link.label === 'Recruitment') {
                             return (
                                 <Popover trigger="hover" placement="bottom-start" key={i}>
                                     <PopoverTrigger>
@@ -179,6 +183,38 @@ export default function Header() {
                                     <PopoverContent w="fit-content">
                                         <PopoverBody p={2}>
                                             {recruitmentLinks.map((subLink, j) => (
+                                                <abbr key={j} title={subLink.label} style={{ textDecoration: 'none' }}>
+                                                    <Box
+                                                        as={Link}
+                                                        href={subLink.href}
+                                                        display="block"
+                                                        px={3}
+                                                        py={2}
+                                                        borderRadius="md"
+                                                        _hover={{ bg: 'gray.100' }}
+                                                    >
+                                                        {subLink.label}
+                                                    </Box>
+                                                </abbr>
+                                            ))}
+                                        </PopoverBody>
+                                    </PopoverContent>
+                                </Popover>
+                            )
+                        } else if (link.label === 'More') {
+                            return (
+                                <Popover trigger="hover" placement="bottom-start" key={i}>
+                                    <PopoverTrigger>
+                                        <Text
+                                            cursor="pointer"
+                                            _hover={{ color: '#309689' }}
+                                        >
+                                            More
+                                        </Text>
+                                    </PopoverTrigger>
+                                    <PopoverContent w="fit-content">
+                                        <PopoverBody p={2}>
+                                            {othersLinks.map((subLink, j) => (
                                                 <abbr key={j} title={subLink.label} style={{ textDecoration: 'none' }}>
                                                     <Box
                                                         as={Link}
@@ -352,6 +388,72 @@ export default function Header() {
                                             <Collapse in={recruitmentOpen} animateOpacity>
                                                 <VStack pl={4} pt={2} align="start">
                                                     {recruitmentLinks.map((sub, j) => (
+                                                        <Link key={j} href={sub.href} onClick={onClose}>
+                                                            <Text
+                                                                _hover={{ color: "#309689" }}
+                                                                className={`duration-300 truncate ${pathname === sub.href ? 'text-[#309689] font-semibold' : ""}`}
+                                                            >
+                                                                {sub.label}
+                                                            </Text>
+                                                        </Link>
+                                                    ))}
+                                                </VStack>
+                                            </Collapse>
+                                        </Box>
+                                    );
+                                } else if (link.label === "GAMCA") {
+                                    return (
+                                        <Box key={i} width="full">
+                                            <Flex
+                                                justify="space-between"
+                                                align="center"
+                                                onClick={() => setgamcaOpen(!gamcaOpen)}
+                                                cursor="pointer"
+                                                _hover={{ color: "#309689" }}
+                                            >
+                                                <Text
+                                                    className={`duration-300 ${pathname.includes("/gamca") || pathname === "/gamca" ? 'text-[#309689] font-semibold' : ""}`}
+                                                >
+                                                    GAMCA
+                                                </Text>
+
+                                            </Flex>
+                                            <Collapse in={gamcaOpen} animateOpacity>
+                                                <VStack pl={4} pt={2} align="start">
+                                                    {gamcaLinks.map((sub, j) => (
+                                                        <Link key={j} href={sub.href} onClick={onClose}>
+                                                            <Text
+                                                                _hover={{ color: "#309689" }}
+                                                                className={`duration-300 truncate ${pathname === sub.href ? 'text-[#309689] font-semibold' : ""}`}
+                                                            >
+                                                                {sub.label}
+                                                            </Text>
+                                                        </Link>
+                                                    ))}
+                                                </VStack>
+                                            </Collapse>
+                                        </Box>
+                                    );
+                                }else if (link.label === "More") {
+                                    return (
+                                        <Box key={i} width="full">
+                                            <Flex
+                                                justify="space-between"
+                                                align="center"
+                                                onClick={() => setothersOpen(!othersOpen)}
+                                                cursor="pointer"
+                                                _hover={{ color: "#309689" }}
+                                            >
+                                                <Text
+                                                    className={`duration-300 ${pathname.includes("/others") || pathname === "/cv-directory" ? 'text-[#309689] font-semibold' : ""}`}
+                                                >
+                                                    More
+                                                </Text>
+
+                                            </Flex>
+                                            <Collapse in={othersOpen} animateOpacity>
+                                                <VStack pl={4} pt={2} align="start">
+                                                    {othersLinks.map((sub, j) => (
                                                         <Link key={j} href={sub.href} onClick={onClose}>
                                                             <Text
                                                                 _hover={{ color: "#309689" }}

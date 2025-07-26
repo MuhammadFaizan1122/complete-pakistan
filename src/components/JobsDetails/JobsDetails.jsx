@@ -33,7 +33,8 @@ import {
     FiMessageSquare
 } from 'react-icons/fi'
 import { useParams } from 'next/navigation';
-import { getTimeAgo } from '../Jobs/Jobs';
+import { getTimeAgo } from '../Jobs/JobCard';
+import { FaCheck } from 'react-icons/fa';
 
 const Jobs = () => {
     const params = useParams()
@@ -268,7 +269,7 @@ const Jobs = () => {
                                 px={{ base: '8px', md: '10px' }}
                                 py={'2px'}
                             >
-                                {getTimeAgo(job.createdAt)}
+                                {getTimeAgo(job?.createdAt)}
                             </Text>
                             <Image
                                 src={`/Images/Icons/bookmark.png`}

@@ -37,7 +37,7 @@ const SideMenu = ({ toggleSidebar, setIsSidebarOpen, isSidebarOpen, setActiveTab
                 top={0}
                 left={0}
                 zIndex={10}
-                h={{ base: '100vh', md: 'auto' }}
+                h={{ base: '100vh', md: '100%' }}
                 transform={{ base: isSidebarOpen ? 'translateX(0)' : 'translateX(-100%)', md: 'none' }}
                 transition="transform 0.3s ease-in-out"
                 display={{ base: isSidebarOpen ? 'block' : 'none', md: 'none' }}
@@ -93,7 +93,7 @@ const SideMenu = ({ toggleSidebar, setIsSidebarOpen, isSidebarOpen, setActiveTab
             </Box>
 
             {/* Sidebar for Desktop */}
-            <Box w="250px" bg="white" borderRight="1px" borderColor="gray.200" p={4} display={{ base: 'none', md: 'block' }}>
+            <Box w="250px" bg="white" borderRight="1px" borderColor="gray.200" p={4} display={{ base: 'none', md: 'flex' }} minH="100%">
                 <VStack align="stretch" spacing={2}>
                     {sidebarItems.map((item, index) => (
                         <Button

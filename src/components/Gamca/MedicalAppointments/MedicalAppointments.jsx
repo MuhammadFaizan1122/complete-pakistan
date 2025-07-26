@@ -122,7 +122,7 @@ export default function MedicalAppointments() {
   return (
     <>
       <HeroSection sliderImages={sliderImages} news={news} />
-      <Box py={{ base: 4, md: 8 }} maxW="1400px" mx="auto" minH="100vh">
+      <Box py={{ base: 4, md: 8 }} px={{ base: 2, sm: 0 }} maxW="1400px" mx="auto" minH="100vh">
         <VStack spacing={10} align="stretch">
           <Heading
             fontSize={{ base: "2xl", md: "3xl" }}
@@ -134,7 +134,7 @@ export default function MedicalAppointments() {
           >
             GAMCA Medical Appointments in Pakistan
           </Heading>
-          <Flex align="center" gap={2}>
+          <Flex align="center" gap={2} flexDirection={{ base: 'column', md: "row" }}>
             <StyledSelect placeholder="Location" value={location} onChange={handleCountryChange}>
               {countries.map((c) => (
                 <option key={c.isoCode} value={c.name}>{c.name}</option>

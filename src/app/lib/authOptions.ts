@@ -1,7 +1,8 @@
-// lib/authOptions.ts
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import connectDB from "../../config/mongoose";
+import User from "../../config/models/User";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -44,29 +45,55 @@ export const authOptions: NextAuthOptions = {
     ],
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
-        async jwt({ token, user }) {
+        async jwt({ token, user, account }) {
             if (user) {
-                token.id = user.id;
-                token.token = (user as any).token;
                 token.email = user.email;
                 token.name = user.name;
-                // @ts-ignore
-                token.role = user.role;
-                // @ts-ignore
-                token.type = user.type;
+
+                // ✅ Case 1: Credentials login - user already has id and token
+                if ((user as any).id && (user as any).token) {
+                    token.id = (user as any).id;
+                    token.token = (user as any).token;
+                    token.role = (user as any).role;
+                    token.type = (user as any).type;
+                }
+
+                // ✅ Case 2: Google login - fetch user from DB
+                if (account?.provider === "google") {
+                    await connectDB();
+                    // @ts-ignore
+                    let dbUser = await User.findOne({ email: user.email }).lean();
+
+                    // ✅ Optionally create user if not exists
+                    if (!dbUser) {
+                        // @ts-ignore
+                        const newUser = await User.create({
+                            name: user.name,
+                            email: user.email,
+                            role: "user", // default role
+                            type: "google",
+                        });
+                        dbUser = newUser.toObject();
+                    }
+
+                    token.id = dbUser._id.toString();
+                    token.role = dbUser.role;
+                    token.type = dbUser.type;
+                    token.token = "oauth"; // optional: distinguish login type
+                }
             }
+
             return token;
         },
+
         async session({ session, token }) {
             if (token) {
                 (session.user as any).id = token.id;
                 (session.user as any).token = token.token;
                 session.user.email = token.email;
                 session.user.name = token.name;
-                // @ts-ignore
-                session.user.role = token.role;
-                // @ts-ignore
-                session.user.type = token.type;
+                (session.user as any).role = token.role;
+                (session.user as any).type = token.type;
             }
             return session;
         },
