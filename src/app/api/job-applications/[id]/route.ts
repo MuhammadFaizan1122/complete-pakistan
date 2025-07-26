@@ -3,27 +3,35 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '../../../../config/mongoose';
 import JobApplication from '../../../../config/models/JobApplication';
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(
+  req: NextRequest,
+) {
+    const { pathname, searchParams } = new URL(req.url);
+    const id = pathname.split('/').pop();
+
   try {
     await connectDB();
 
     // @ts-ignore
-    const application = await JobApplication.findById(params.id)
-      .populate('applicant_user_id', 'name email')
-      .populate('job_id', 'jobTitle companyName');
+    const application = await JobApplication.findById(id)
+      .populate("applicant_user_id", "name email")
+      .populate("job_id", "jobTitle companyName");
 
     if (!application) {
-      return NextResponse.json({ message: 'Application not found' }, { status: 404 });
+      return NextResponse.json({ message: "Application not found" }, { status: 404 });
     }
 
     return NextResponse.json({ data: application }, { status: 200 });
   } catch (error) {
-    console.error('Get Application Error:', error);
-    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    console.error("Get Application Error:", error);
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest) {
+    const { pathname, searchParams } = new URL(req.url);
+    const id = pathname.split('/').pop();
+  
   try {
     await connectDB();
     const { status } = await req.json();
@@ -34,7 +42,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
     // @ts-ignore
     const updated = await JobApplication.findByIdAndUpdate(
-      params.id,
+      id,
       { status },
       { new: true }
     );
@@ -50,7 +58,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest) {
+      const { pathname, searchParams } = new URL(req.url);
+    const id = pathname.split('/').pop();
+
   try {
     await connectDB();
     // @ts-ignore
