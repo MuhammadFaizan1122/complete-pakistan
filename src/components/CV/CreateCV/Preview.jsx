@@ -126,7 +126,10 @@ const Preview = ({ formData, imgPreview, watch }) => {
                         <>
                             <SlCalender className="w-[15px] h-[15px]" />
                             <Text ml={2}>
-                                <Text>DOB: {new Date(watch('dob')).toDateString()}</Text>
+                                <Text>DOB:
+                                    {/* {new Date(watch('dob')).toDateString()} */}
+                                    {formData.dob ? new Date(formData.dob).toLocaleDateString() : 'N/A'}
+                                </Text>
                             </Text>
                         </>
                     }
@@ -138,7 +141,10 @@ const Preview = ({ formData, imgPreview, watch }) => {
                         formData.madicalDate &&
                         <>
                             <SlCalender className="w-[15px] h-[15px]" />
-                            <Text ml={2}>Medical: {new Date(watch('madicalDate')).toDateString()}</Text>
+                            <Text ml={2}>Medical:
+                                {/* {new Date(watch('madicalDate')).toDateString()} */}
+                                {formData.madicalDate ? new Date(formData.madicalDate).toLocaleDateString() : 'N/A'}
+                            </Text>
                         </>
                     }
                 </Flex>

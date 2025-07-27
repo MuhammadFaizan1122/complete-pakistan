@@ -64,11 +64,36 @@ export async function POST(req: NextRequest) {
   }
 }
 
+// export async function GET(req: NextRequest) {
+//   try {
+//     await connectDB();
+
+//     // Optionally filter by applicant or job
+//     const { searchParams } = new URL(req.url);
+//     const applicantId = searchParams.get('applicant_user_id');
+//     const jobId = searchParams.get('job_id');
+
+//     const query: any = {};
+//     if (applicantId) query.applicant_user_id = applicantId;
+//     if (jobId) query.job_id = jobId;
+
+//     // @ts-ignore
+//     const applications = await JobApplication.find(query)
+//       .populate('applicant_user_id', 'name email')
+//       .populate('job_id', 'jobTitle companyName');
+
+//     return NextResponse.json({ data: applications }, { status: 200 });
+//   } catch (error) {
+//     console.error('Fetch Applications Error:', error);
+//     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+//   }
+// }
+
+
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
 
-    // Optionally filter by applicant or job
     const { searchParams } = new URL(req.url);
     const applicantId = searchParams.get('applicant_user_id');
     const jobId = searchParams.get('job_id');
@@ -81,10 +106,25 @@ export async function GET(req: NextRequest) {
     const applications = await JobApplication.find(query)
       .populate('applicant_user_id', 'name email')
       .populate('job_id', 'jobTitle companyName');
+    console.log('applications==>', applications)
+    const enrichedApplications = await Promise.all(
+      applications.map(async (app) => {
+        // @ts-ignore
+        const cv = await CvProfile.findOne({ userId: app.applicant_user_id._id });
 
-    return NextResponse.json({ data: applications }, { status: 200 });
+        return {
+          ...app.toObject(),
+          cvProfile: cv || null,
+        };
+      })
+    );
+
+    return NextResponse.json({ data: enrichedApplications }, { status: 200 });
   } catch (error) {
     console.error('Fetch Applications Error:', error);
-    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json(
+      { message: 'Internal Server Error' },
+      { status: 500 }
+    );
   }
 }

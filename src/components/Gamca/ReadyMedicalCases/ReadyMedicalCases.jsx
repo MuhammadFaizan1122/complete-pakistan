@@ -29,6 +29,24 @@ import Link from "next/link";
 import { City, Country, State } from "country-state-city";
 import { HeroSection } from "../MedicalCenters/HeroSection";
 
+export const calculateTotalExperience = (experienceArray) => {
+  let totalYears = 0, totalMonths = 0;
+  experienceArray.forEach(exp => {
+    const start = new Date(exp.startDate);
+    const end = new Date(exp.endDate);
+    let years = end.getFullYear() - start.getFullYear();
+    const monthDiff = end.getMonth() - start.getMonth();
+    const dayDiff = end.getDate() - start.getDate();
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) years--;
+    totalYears += years;
+    totalMonths += monthDiff;
+    if (dayDiff < 0) totalMonths--;
+    if (totalMonths < 0) totalMonths += 12;
+    totalYears += Math.floor(totalMonths / 12);
+    totalMonths = totalMonths % 12;
+  });
+  return { totalYears, totalMonths };
+};
 export default function ReadyMedicalCases() {
   const [candidates, setCandidates] = useState([]);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
@@ -48,24 +66,6 @@ export default function ReadyMedicalCases() {
   const [sliderImages, setSliderImages] = useState([]);
   const [news, setNews] = useState([]);
 
-  const calculateTotalExperience = (experienceArray) => {
-    let totalYears = 0, totalMonths = 0;
-    experienceArray.forEach(exp => {
-      const start = new Date(exp.startDate);
-      const end = new Date(exp.endDate);
-      let years = end.getFullYear() - start.getFullYear();
-      const monthDiff = end.getMonth() - start.getMonth();
-      const dayDiff = end.getDate() - start.getDate();
-      if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) years--;
-      totalYears += years;
-      totalMonths += monthDiff;
-      if (dayDiff < 0) totalMonths--;
-      if (totalMonths < 0) totalMonths += 12;
-      totalYears += Math.floor(totalMonths / 12);
-      totalMonths = totalMonths % 12;
-    });
-    return { totalYears, totalMonths };
-  };
 
   useEffect(() => {
     const fetchCandidates = async () => {

@@ -27,13 +27,14 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { getUserDashboardData } from '../../handlers/user-dashboard/userDashboard';
 import DashboardContent from './DashboardContent'
+import ApplicantList from './Applicants/ApplicantList';
+
 export default function TrainingDashboard() {
     const [activeTab, setActiveTab] = useState('Dashboard');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const { data: session, status } = useSession();
     const router = useRouter()
     const [dashboardData, setDashboardData] = useState(null);
-    console.log('dashboardData', dashboardData)
 
     useEffect(() => {
         if (status === 'unauthenticated') {
@@ -49,90 +50,6 @@ export default function TrainingDashboard() {
 
         fetchDashboard();
     }, [session]);
-
-    const candidates = [
-        {
-            name: 'Miles, Esther',
-            role: 'Electrician with 5 year of experience in UAE',
-            matches: 2,
-            avatar: '/Images/candidate-1.png',
-            verified: true
-        },
-        {
-            name: 'Darlene Robertson',
-            role: 'Electrician with 5 year of experience in UAE',
-            matches: 2,
-            avatar: '/Images/candidate-2.png',
-            verified: true
-        },
-        {
-            name: 'Robert Fox',
-            role: 'Electrician with 5 year of experience in UAE',
-            matches: 2,
-            avatar: '/Images/candidate-3.png',
-            verified: true
-        },
-        {
-            name: 'Bessie Cooper',
-            role: 'Electrician with 5 year of experience in UAE',
-            matches: 2,
-            avatar: '/Images/candidate-4.png',
-            verified: true
-        },
-        {
-            name: 'Kathryn Murphy',
-            role: 'Electrician with 5 year of experience in UAE',
-            matches: 2,
-            avatar: '/Images/candidate-5.png',
-            verified: true
-        },
-        {
-            name: 'Jane Cooper',
-            role: 'Electrician with 5 year of experience in UAE',
-            matches: 2,
-            avatar: '/Images/candidate-1.png',
-            verified: true
-        }
-    ];
-
-    const tradeCenters = [
-        {
-            name: 'TEVTTA Karachi',
-            description: 'Electrician with 5 year of experience in UAE',
-            matches: 20,
-            verified: true
-        },
-        {
-            name: 'National Skills Cent...',
-            description: 'Government approved training facility for constructions trades',
-            matches: 20,
-            verified: true
-        },
-        {
-            name: 'National Skills Cent...',
-            description: 'Electrician with 5 year of experience in UAE',
-            matches: 20,
-            verified: true
-        },
-        {
-            name: 'TEVTTA Karachi',
-            description: 'Electrician with 5 year of experience in UAE',
-            matches: 20,
-            verified: true
-        },
-        {
-            name: 'National Skills Cent...',
-            description: 'Government approved training facility for constructions trades',
-            matches: 20,
-            verified: true
-        },
-        {
-            name: 'National Skills Cent...',
-            description: 'Electrician with 5 year of experience in UAE',
-            matches: 20,
-            verified: true
-        }
-    ];
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -150,6 +67,12 @@ export default function TrainingDashboard() {
                 return (
                     <Box p={4}>
                         <JobCreationPage />
+                    </Box>
+                );
+            case 'Applicants':
+                return (
+                    <Box p={4}>
+                        <ApplicantList />
                     </Box>
                 );
             case 'Companies':
