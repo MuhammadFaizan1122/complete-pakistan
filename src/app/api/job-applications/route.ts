@@ -1,4 +1,3 @@
-// app/api/job-applications/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '../../../config/mongoose';
 import JobApplication from '../../../config/models/JobApplication';
@@ -16,7 +15,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Applicant user ID and job ID are required." }, { status: 400 });
     }
 
-    // ✅ Validate ObjectId format
     const isValidUserId = mongoose.Types.ObjectId.isValid(applicant_user_id);
     const isValidJobId = mongoose.Types.ObjectId.isValid(job_id);
 
@@ -27,7 +25,6 @@ export async function POST(req: NextRequest) {
     const userObjectId = new mongoose.Types.ObjectId(applicant_user_id);
     const jobObjectId = new mongoose.Types.ObjectId(job_id);
 
-    // ✅ Check if user has a CV
     // @ts-ignore
     const existingCV = await CvProfile.findOne({ userId: userObjectId });
 
@@ -38,7 +35,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ✅ Check for duplicate application
     // @ts-ignore
     const alreadyApplied = await JobApplication.findOne({
       applicant_user_id: userObjectId,
@@ -49,7 +45,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "You have already applied for this job." }, { status: 400 });
     }
 
-    // ✅ Create new job application
     // @ts-ignore
     const application = await JobApplication.create({
       applicant_user_id: userObjectId,
@@ -97,7 +92,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const applicantId = searchParams.get('applicant_user_id');
     const jobId = searchParams.get('job_id');
-
+    console.log('searchParams', applicantId, jobId)
     const query: any = {};
     if (applicantId) query.applicant_user_id = applicantId;
     if (jobId) query.job_id = jobId;

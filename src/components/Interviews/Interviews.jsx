@@ -40,37 +40,31 @@ import { MdAccessTime, MdCreditCard, MdEvent, MdLocationOn, MdOutlineBrokenImage
 import { UploadIcon } from "lucide-react";
 import { SlCalender } from "react-icons/sl";
 import { BiGroup } from "react-icons/bi";
+import { handleGetJobApplications } from "../../handlers/JobApplicants/JobApplicants";
 
 export default function Interviews() {
   const [medicals, setMedicals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [countries, setCountries] = useState(Country.getAllCountries());
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
-
-  const [location, setLocation] = useState('');
-  const [state, setState] = useState('');
   const [city, setCity] = useState('');
   const [sliderImages, setSliderImages] = useState([]);
   const [news, setNews] = useState([]);
-
   const [isGridView, setIsGridView] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const data = await handleFetchMedicalCases();
+      const data = await handleGetJobApplications();
       const response = await fetch(`/api/slider?page=Interviews`);
       const sliderData = await response.json();
       setSliderImages(sliderData?.data?.sliderImgs || []);
       setNews(sliderData?.data?.news || []);
-
-      if (data.success === true) {
-        setMedicals(data.data);
+      console.log('data', data)
+      if (data.status === 200) {
+        setMedicals(data.data.data);
         setError(null);
       } else {
-        setError("Failed to fetch medical records");
+        setError("Failed to fetch Interview records");
       }
       setLoading(false);
     };
@@ -91,12 +85,12 @@ export default function Interviews() {
         <VStack spacing={6}>
           <Text fontSize="xl" color="red.500" fontWeight="medium">{error}</Text>
           <Button
-            bgGradient="linear(to-r, #309689, #1A3C34)"
+            bgGradient="linear(to-r, #309689, #309689)"
             color="white"
             rounded="full"
             px={8}
             py={6}
-            _hover={{ bgGradient: "linear(to-r, #28796f, #162f2a)", transform: "scale(1.05)" }}
+            _hover={{ bgGradient: "linear(to-r, #309689, #309689)", transform: "scale(1.05)" }}
             transition="all 0.3s"
             onClick={() => window.location.reload()}
           >
@@ -106,33 +100,10 @@ export default function Interviews() {
       </Center>
     );
   }
-  const handleCountryChange = (e) => {
-    const countryName = e.target.value;
-    setLocation(countryName);
-    const selectedCountry = countries.find((c) => c.name === countryName);
-    const stateList = State.getStatesOfCountry(selectedCountry?.isoCode || "");
-    setStates(stateList);
-    setState('');
-    setCity('');
-  };
-
-  const handleStateChange = (e) => {
-    const stateName = e.target.value;
-    setState(stateName);
-    const selectedState = states.find((s) => s.name === stateName);
-
-    if (selectedState) {
-      const cityList = City.getCitiesOfState(selectedState.countryCode, selectedState.isoCode);
-      setCities(cityList);
-      setCity('');
-    }
-  };
   const filteredMedicals = medicals.filter((medical) => {
-    const matchesCountry = location ? medical.country?.toLowerCase() === location.toLowerCase() : true;
-    const matchesState = state ? medical.state?.toLowerCase() === state.toLowerCase() : true;
     const matchesCity = city ? medical.city?.toLowerCase() === city.toLowerCase() : true;
 
-    return matchesCountry && matchesState && matchesCity;
+    return matchesCity;
   });
 
   return (
@@ -205,17 +176,19 @@ export default function Interviews() {
                             <Avatar name={candidate?.name} src={candidate?.avatar} size="lg" mr={4} />
                             <Box minW="150px" textAlign="left" flex="1">
                               <VStack spacing={1} align="start">
-                                <Text fontSize="lg" fontWeight="bold">{candidate?.name}</Text>
+                                <Text fontSize="lg" textTransform={'capitalize'} fontWeight="bold">{candidate?.job_id.companyName}</Text>
                                 <Text fontSize="sm" color="blue.500" fontWeight="semibold">
-                                  {candidate?.designation || 'Role'}
+                                  {candidate?.job_id.jobTitle || 'Role'}
                                 </Text>
-                                <Text fontSize="xs" color="gray.500" fontWeight="semibold" noOfLines={1}>
-                                  ABC Agency - License #AC2984753
+                                <Text fontSize="xs" textTransform={'capitalize'} color="gray.500" fontWeight="semibold" noOfLines={1}>
+                                  {candidate?.job_id.companyName} - License #{candidate.license}
                                 </Text>
                               </VStack>
                             </Box>
                             <Box>
-                              <Badge colorScheme="green" fontSize="0.7rem">Verified</Badge>
+                              <Badge colorScheme={isFit ? "green" : "red"} fontSize="0.7rem">
+                                {isFit ? "Medical Valid" : "Medical Expired"}
+                              </Badge>
                             </Box>
                           </Flex>
                         </Box>
@@ -224,68 +197,116 @@ export default function Interviews() {
                       <Flex flexDirection={'row'} gap={0} mt={4}>
                         <Box w={{ base: "50%" }}>
                           <HStack spacing={2} mb={2} fontSize="sm" color="gray.600">
-                            <Icon fontSize="18px" as={MdCreditCard} />
-                            <Text fontSize="md" isTruncated>Passport: {candidate?.passport}</Text>
+                            <Icon fontSize="18px" as={MdLocationOn} />
+                            <Text fontSize="md" isTruncated>Location: {candidate?.address + ', ' + candidate?.city}</Text>
                           </HStack>
 
                           <HStack spacing={2} mb={2} fontSize="md" color="gray.600">
-                            <Icon fontSize="18px" as={MdPhone} />
-                            <Text fontSize="md" isTruncated>{candidate?.phone}</Text>
+                            <Icon fontSize="18px" as={MdAccessTime} />
+                            <Text fontSize="md" isTruncated>Timings: {candidate?.interview_timings}</Text>
                           </HStack>
 
-                          <Text fontSize="md" mt={2} fontWeight="semibold">Requirements</Text>
-                          <Wrap mt={1}>
-                            <Badge colorScheme="blackAlpha" px={2} py={0.5} borderRadius="full">Trade Test</Badge>
-                            <Badge colorScheme="orange" px={2} py={0.5} borderRadius="full">Medical</Badge>
-                            <Badge colorScheme="orange" px={2} py={0.5} borderRadius="full">Passport</Badge>
-                          </Wrap>
+                          {candidate?.must_have?.length > 0 && (
+                            <>
+                              <Text fontSize="md" mt={2} fontWeight="semibold">Requirements</Text>
+                              <Wrap mt={1}>
+                                {candidate.must_have.map((item, i) => (
+                                  <Badge key={i} colorScheme="blackAlpha" px={2} py={0.5} borderRadius="full">
+                                    {item}
+                                  </Badge>
+                                ))}
+                              </Wrap>
+                            </>
+                          )}
 
                           <HStack spacing={2} mt={4}>
-                            <Badge colorScheme="blackAlpha" borderRadius="full" px={3} py={1}>
-                              {daysLeft} days left
-                            </Badge>
-                            <Badge colorScheme="orange" borderRadius="full" px={3} py={1}>
-                              {daysLeft} days left
-                            </Badge>
+                            {candidate.benefits != '' && (
+                              <Badge colorScheme="blackAlpha" borderRadius="full" px={3} py={1}>
+                                {candidate.benefits}
+                              </Badge>
+                            )}
+                            {candidate.interview_type != '' && (
+                              <Badge colorScheme="orange" borderRadius="full" px={3} py={1}>
+                                {candidate.interview_type} Interview
+                              </Badge>
+                            )}
                           </HStack>
                         </Box>
 
                         <Box w={{ base: "50%" }} textAlign="left" pl={2}>
-                          <Text fontSize="sm" color="gray.700" isTruncated>
-                            <Icon as={SlCalender} color="gray.600" mr={2} />
-                            {candidate?.fromCity} ➔ {candidate?.country}
-                          </Text>
-                          <Text fontSize="sm" color="gray.600" isTruncated>
-                            <Icon as={BiGroup} color="gray.600" fontSize="20px" mr={2} />
-                            {candidate?.email}
-                          </Text>
+                          <HStack justify="flex-start" mb={2}>
+                            <Icon as={SlCalender} color="gray.600" />
+                            <Text fontSize="sm" color="gray.700">
+                              {candidate?.createdAt ? new Date(candidate?.createdAt).toLocaleDateString() : 'N/A'}
+                            </Text>
+                          </HStack>
+
+                          {candidate.requirements.length > 0 &&
+                            candidate.requirements.map((req, i) => {
+                              return (
+                                <Text key={i} fontSize="sm" color="gray.600" mb={1} isTruncated>
+                                  <Icon as={BiGroup} color="gray.600" fontSize={'20px'} mr={2} />
+                                  {req}
+                                </Text>
+                              )
+                            })
+                          }
                         </Box>
                       </Flex>
 
                       <SimpleGrid columns={{ base: 2 }} spacing={3} mt={6} w="full">
-                        <StyledButton
-                          title={'Map'}
-                          icon={<Icon mr={2} fontSize={'20px'} as={MdLocationOn} />}
-                        />
-                        <StyledButton
-                          title={'Contact'}
-                          icon={<Icon mr={2} fontSize={'20px'} as={MdOutlinePhone} />}
-                        />
-                        <StyledButton
-                          title={'Form'}
-                          icon={<Icon mr={2} fontSize={'20px'} as={MdOutlineFileDownload} />}
-                        />
-                        <StyledButton
-                          title={'Notice'}
-                          icon={<Icon mr={2} fontSize={'20px'} as={MdOutlineBrokenImage} />}
-                        />
-                        <StyledButton
-                          title={'Details'}
-                          icon={<Icon mr={2} fontSize={'20px'} as={MdOutlineRemoveRedEye} />}
-                        />
+                        {candidate?.map_link && (
+                          <StyledButton
+                            as={Link}
+                            href={candidate.map_link}
+                            target="_blank"
+                            title="Map"
+                            icon={<Icon mr={2} fontSize="20px" as={MdLocationOn} />}
+                          />
+                        )}
+
+                        {candidate?.contact && (
+                          <StyledButton
+                            title="Contact"
+                            icon={<Icon mr={2} fontSize="20px" as={MdOutlinePhone} />}
+                            as={Link}
+                            href={`https://wa.me/${candidate.contact}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          />
+                        )}
+
+                        {candidate?.form && (
+                          <StyledButton
+                            title="Form"
+                            icon={<Icon mr={2} fontSize="20px" as={MdOutlineFileDownload} />}
+                            as={Link}
+                            href={candidate.form}
+                            target="_blank"
+                          />
+                        )}
+
+                        {candidate?.notice && (
+                          <StyledButton
+                            title="Notice"
+                            icon={<Icon mr={2} fontSize="20px" as={MdOutlineBrokenImage} />}
+                            as={Link}
+                            href={candidate.notice}
+                            target="_blank"
+                          />
+                        )}
+
+                        {candidate?.detail && (
+                          <StyledButton
+                            title="Details"
+                            icon={<Icon mr={2} fontSize="20px" as={MdOutlineRemoveRedEye} />}
+                            as={Link}
+                            href={candidate.detail}
+                            target="_blank"
+                          />
+                        )}
                       </SimpleGrid>
                     </Card>
-
                   );
                 })
               )}
@@ -331,12 +352,12 @@ export default function Interviews() {
                             </Box>
                             <Box textAlign="left">
                               <VStack spacing={2} mt={1} align="start" ml={4}>
-                                <Text fontSize={'md'} fontWeight={'bold'}>{candidate?.name}</Text>
+                                <Text fontSize={'xl'} textTransform={'capitalize'} fontWeight={'bold'}>{candidate?.job_id.companyName}</Text>
                                 <Text color="blue.500" fontWeight={'semibold'}>
-                                  {candidate?.designation || 'Role'}
+                                  {candidate?.job_id.jobTitle || 'Role'}
                                 </Text>
-                                <Text fontSize={'xs'} color="gray.500" fontWeight={'semibold'} p={0} m={0} className={'truncate'}>
-                                  ABC Agency - License #AC2984753
+                                <Text fontSize={'xs'} textTransform={'capitalize'} color="gray.500" fontWeight={'semibold'} p={0} m={0} className={'truncate'}>
+                                  {candidate?.job_id.companyName} - License #{candidate.license}
                                 </Text>
                               </VStack>
                             </Box>
@@ -345,70 +366,119 @@ export default function Interviews() {
                         <Box w={'33%'}>
                           <HStack spacing={2} mb={2} fontSize="sm" color="gray.600">
                             <Icon fontSize={'18px'} as={MdLocationOn} />
-                            <Text fontSize={'md'}>Location: {candidate?.passport}</Text>
+                            <Text fontSize={'md'}>Location: {candidate?.address + ', ' + candidate?.city}</Text>
                           </HStack>
                           <HStack spacing={2} mb={2} fontSize="md" color="gray.600">
                             <Icon fontSize={'18px'} as={MdAccessTime} />
-                            <Text fontSize={'md'}>Timings:  {candidate?.phone}</Text>
-                            <Badge colorScheme="green" fontSize="0.7rem">
-                              Verified
-                            </Badge>
+                            <Text fontSize={'md'}>Timings:  {candidate?.interview_timings}</Text>
+
                           </HStack>
                           <HStack spacing={2} mb={2} fontSize="sm" color="gray.600">
-                            <Badge colorScheme="blackAlpha" borderRadius="full" px={3} py={1} mt={2}>
-                              {daysLeft} days left
-                            </Badge>
-                            <Badge colorScheme="orange" borderRadius="full" px={3} py={1} mt={2}>
-                              {daysLeft} days left
-                            </Badge>
+                            {candidate.benefits != '' &&
+                              <Badge colorScheme="blackAlpha" borderRadius="full" px={3} py={1} mt={2}>
+                                {candidate.benefits}
+                              </Badge>
+                            }
+                            {candidate.interview_type != '' &&
+                              <Badge colorScheme="orange" borderRadius="full" px={3} py={1} mt={2}>
+                                {candidate.interview_type} Interview
+                              </Badge>
+                            }
                           </HStack>
-                          <Text fontSize={'md'}>Requiremnts</Text>
-                          <Badge mt={1} colorScheme="blackAlpha" px={2} mr={2} py={0.5} borderRadius="full">
-                            Trade Test
-                          </Badge>
-                          <Badge mt={1} colorScheme="orange" px={2} mr={2} py={0.5} borderRadius="full">
-                            Medical
-                          </Badge>
-                          <Badge mt={1} colorScheme="orange" px={2} mr={2} py={0.5} borderRadius="full">
-                            Passport
-                          </Badge>
+                          {candidate?.must_have?.length > 0 && (
+                            <Box mt={2}>
+                              <Text fontSize="md" fontWeight="semibold" mb={1}>
+                                Requirements
+                              </Text>
+                              <Wrap>
+                                {candidate.must_have.map((item, i) => (
+                                  <Badge
+                                    key={i}
+                                    colorScheme="blackAlpha"
+                                    px={2}
+                                    py={0.5}
+                                    borderRadius="full"
+                                  >
+                                    {item}
+                                  </Badge>
+                                ))}
+                              </Wrap>
+                            </Box>
+                          )}
                         </Box>
                         <Box w={'33%'}>
                           <HStack justify="flex-start" mb={2}>
                             <Icon as={SlCalender} color="gray.600" />
                             <Text fontSize="sm" color="gray.700">
-                              {candidate?.fromCity} ➔ {candidate?.country}
+                              {candidate?.createdAt ? new Date(candidate?.createdAt).toLocaleDateString() : 'N/A'}
                             </Text>
                           </HStack>
-                          <Text fontSize="sm" color="gray.600" mb={1}>
-                            <Icon as={BiGroup} color="gray.600" fontSize={'20px'} mr={2} />
-                            {candidate?.email}
-                          </Text>
+                          {candidate.requirements.length > 0 &&
+                            candidate.requirements.map((req, i) => {
+                              return (
+                                <Text key={i} fontSize="sm" color="gray.600" mb={1}>
+                                  <Icon as={BiGroup} color="gray.600" fontSize={'20px'} mr={2} />
+                                  {req}
+                                </Text>
+
+                              )
+                            })
+                          }
                         </Box>
                       </Flex>
                       <Box w={'100%'} display="flex" justifyContent="flex-end">
                         <Box mt={4} w={{ base: '100%', md: '60%' }} display="flex" justifyContent="flex-end" >
                           <HStack spacing={3} w={'full'}>
-                            <StyledButton
-                              title={'Map'}
-                              icon={<Icon mr={2} fontSize={'20px'} as={MdLocationOn} />}
-                            />
-                            <StyledButton
-                              title={'Contact'}
-                              icon={<Icon mr={2} fontSize={'20px'} as={MdOutlinePhone} />}
-                            />
-                            <StyledButton
-                              title={'Form'}
-                              icon={<Icon mr={2} fontSize={'20px'} as={MdOutlineFileDownload} />}
-                            />
-                            <StyledButton
-                              title={'Notice'}
-                              icon={<Icon mr={2} fontSize={'20px'} as={MdOutlineBrokenImage} />}
-                            />
-                            <StyledButton
-                              title={'Details'}
-                              icon={<Icon mr={2} fontSize={'20px'} as={MdOutlineRemoveRedEye} />}
-                            />
+                            {candidate?.map_link && (
+                              <StyledButton
+                                as={Link}
+                                href={candidate.map_link}
+                                target="_blank"
+                                title="Map"
+                                icon={<Icon mr={2} fontSize="20px" as={MdLocationOn} />}
+                              />
+                            )}
+
+                            {candidate?.contact && (
+                              <StyledButton
+                                title="Contact"
+                                icon={<Icon mr={2} fontSize="20px" as={MdOutlinePhone} />}
+                                as={Link}
+                                href={`https://wa.me/${candidate.contact}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              />
+                            )}
+
+                            {candidate?.form && (
+                              <StyledButton
+                                title="Form"
+                                icon={<Icon mr={2} fontSize="20px" as={MdOutlineFileDownload} />}
+                                as={Link}
+                                href={candidate.form}
+                                target="_blank"
+                              />
+                            )}
+
+                            {candidate?.notice && (
+                              <StyledButton
+                                title="Notice"
+                                icon={<Icon mr={2} fontSize="20px" as={MdOutlineBrokenImage} />}
+                                as={Link}
+                                href={candidate.notice}
+                                target="_blank"
+                              />
+                            )}
+
+                            {candidate?.detail && (
+                              <StyledButton
+                                title="Details"
+                                icon={<Icon mr={2} fontSize="20px" as={MdOutlineRemoveRedEye} />}
+                                as={Link}
+                                href={candidate.detail}
+                                target="_blank"
+                              />
+                            )}
                           </HStack>
                         </Box>
                       </Box>

@@ -37,17 +37,25 @@ export const handleGetJobApplicationById = async (id) => {
 };
 
 // ✅ Update Application Status
-export const handleUpdateJobApplicationStatus = async (id, status) => {
+export const handleCreateOrUpdateJobApplication = async (id, data) => {
   try {
-    const res = await axios.put(`${API_BASE}/${id}`, { status });
+    const method = id ? 'PUT' : 'POST';
+    const url = id ? `${API_BASE}/${id}` : API_BASE;
+    const res = await axios({
+      method,
+      url,
+      data,
+      headers: { 'Content-Type': 'application/json' },
+    });
     return res;
   } catch (error) {
-    console.error("Update Job Application error:", error);
+    console.error(`${id ? 'Update' : 'Create'} Job Application error:`, error);
     return error.response;
   }
 };
 
-// ✅ Delete Application
+
+// Delete a job application
 export const handleDeleteJobApplication = async (id) => {
   try {
     const res = await axios.delete(`${API_BASE}/${id}`);

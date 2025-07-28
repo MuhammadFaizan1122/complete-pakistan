@@ -6,8 +6,8 @@ import JobApplication from '../../../../config/models/JobApplication';
 export async function GET(
   req: NextRequest,
 ) {
-    const { pathname, searchParams } = new URL(req.url);
-    const id = pathname.split('/').pop();
+  const { pathname, searchParams } = new URL(req.url);
+  const id = pathname.split('/').pop();
 
   try {
     await connectDB();
@@ -27,23 +27,41 @@ export async function GET(
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
-
 export async function PUT(req: NextRequest) {
-    const { pathname, searchParams } = new URL(req.url);
-    const id = pathname.split('/').pop();
-  
+  const { pathname } = new URL(req.url);
+  const id = pathname.split('/').pop();
+
   try {
     await connectDB();
-    const { status } = await req.json();
+    const data = await req.json();
 
-    if (!['pending', 'shortlisted', 'rejected'].includes(status)) {
+    // Validate status
+    if (data.status && !['pending', 'shortlisted', 'rejected'].includes(data.status)) {
       return NextResponse.json({ message: 'Invalid status' }, { status: 400 });
     }
+
+    // Validate interview_type
+    if (data.interview_type && !['onsite', 'online'].includes(data.interview_type)) {
+      return NextResponse.json({ message: 'Invalid interview type' }, { status: 400 });
+    }
+
+    // Validate license (12-16 digits if provided)
+    if (data.license && !/^\d{12,16}$/.test(data.license)) {
+      return NextResponse.json({ message: 'License must be 12-16 digits' }, { status: 400 });
+    }
+
+    // Ensure array fields are properly formatted
+    const formattedData = {
+      ...data,
+      must_have: Array.isArray(data.must_have) ? data.must_have : [],
+      benefits: Array.isArray(data.benefits) ? data.benefits : [],
+      requirements: Array.isArray(data.requirements) ? data.requirements : [],
+    };
 
     // @ts-ignore
     const updated = await JobApplication.findByIdAndUpdate(
       id,
-      { status },
+      { $set: formattedData },
       { new: true }
     );
 
@@ -51,7 +69,7 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ message: 'Application not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ message: 'Status updated', data: updated }, { status: 200 });
+    return NextResponse.json({ message: 'Application updated', data: updated }, { status: 200 });
   } catch (error) {
     console.error('Update Application Error:', error);
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
@@ -59,13 +77,13 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-      const { pathname, searchParams } = new URL(req.url);
-    const id = pathname.split('/').pop();
+  const { pathname } = new URL(req.url);
+  const id = pathname.split('/').pop();
 
   try {
     await connectDB();
     // @ts-ignore
-    const deleted = await JobApplication.findByIdAndDelete(params.id);
+    const deleted = await JobApplication.findByIdAndDelete(id);
 
     if (!deleted) {
       return NextResponse.json({ message: 'Application not found' }, { status: 404 });
