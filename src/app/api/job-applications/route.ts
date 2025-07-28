@@ -92,11 +92,13 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const applicantId = searchParams.get('applicant_user_id');
     const jobId = searchParams.get('job_id');
+    const status = searchParams.get('status');
+
     console.log('searchParams', applicantId, jobId)
     const query: any = {};
     if (applicantId) query.applicant_user_id = applicantId;
     if (jobId) query.job_id = jobId;
-
+    if (status) query.status = status;
     // @ts-ignore
     const applications = await JobApplication.find(query)
       .populate('applicant_user_id', 'name email')

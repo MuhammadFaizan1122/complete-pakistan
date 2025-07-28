@@ -54,7 +54,7 @@ export default function Interviews() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const data = await handleGetJobApplications();
+      const data = await handleGetJobApplications({ status: 'shortlisted' });
       const response = await fetch(`/api/slider?page=Interviews`);
       const sliderData = await response.json();
       setSliderImages(sliderData?.data?.sliderImgs || []);
