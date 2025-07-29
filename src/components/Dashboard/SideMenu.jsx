@@ -14,12 +14,12 @@ const SideMenu = ({ toggleSidebar, setIsSidebarOpen, isSidebarOpen, setActiveTab
 
     const sidebarItems = [
         { icon: '/Images/Icons/home.png', label: 'Dashboard' },
+        { icon: '/Images/Icons/dashboard-icon-2.png', label: 'Companies' },
         { icon: '/Images/Icons/dashboard-icon-1.png', label: 'Visa' },
         { icon: '/Images/Icons/dashboard-icon-8.png', label: 'Applicants' },
-        { icon: '/Images/Icons/dashboard-icon-2.png', label: 'Companies' },
+        { icon: '/Images/Icons/dashboard-icon-5.png', label: 'Interview' },
         { icon: '/Images/Icons/dashboard-icon-3.png', label: 'Protector' },
         { icon: '/Images/Icons/dashboard-icon-4.png', label: 'CVs' },
-        { icon: '/Images/Icons/dashboard-icon-5.png', label: 'Interview' },
         { icon: '/Images/Icons/dashboard-icon-6.png', label: 'Self Selection' },
         { icon: '/Images/Icons/dashboard-icon-7.png', label: 'Our Team' },
         { icon: '/Images/Icons/dashboard-icon-8.png', label: 'Accounts' },

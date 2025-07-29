@@ -75,7 +75,7 @@ export default function Header() {
     ];
     const recruitmentLinks = [
         { href: '/dashboard', label: 'Overseas Employement Promoters - OEP' },
-        { href: '/dashboard', label: 'Trade Test & Trade Center - TTC' },
+        { href: '/dashboard', label: 'Trade Test & Traning Center - TTC' },
         { href: '/dashboard', label: 'Verified Trade Partners' },
         { href: '/dashboard', label: 'Consultancies' },
     ];
@@ -269,6 +269,11 @@ export default function Header() {
                                         Dashboard
                                     </MenuItem>
                                 )}
+                                {session.user?.role !== 'company' && (
+                                    <MenuItem as={Link} href="/auth/company-registration">
+                                        Register Your Agenct
+                                    </MenuItem>
+                                )}
                                 <MenuItem as={Link} href="/profile">
                                     Profile
                                 </MenuItem>
@@ -284,14 +289,14 @@ export default function Header() {
                             </Button>
                             <Button
                                 as={Link}
-                                href={'/auth/signup'}
+                                href={'/auth/comapny-registration'}
                                 bg={'#309689'}
                                 color={'#fff'}
                                 rounded={'8px'}
                                 border="1px"
                                 _hover={{ color: "#000", bg: '#fff', borderColor: "#000" }}
                             >
-                                Register
+                                Register Agency
                             </Button>
                         </>
                     )}
@@ -434,7 +439,7 @@ export default function Header() {
                                             </Collapse>
                                         </Box>
                                     );
-                                }else if (link.label === "More") {
+                                } else if (link.label === "More") {
                                     return (
                                         <Box key={i} width="full">
                                             <Flex

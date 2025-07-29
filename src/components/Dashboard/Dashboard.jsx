@@ -23,6 +23,7 @@ import {
 import JobCreationPage from './Visa';
 import SideMenu from './SideMenu';
 import Team from './Team';
+import CompanyPage from './Company/CompanyPage';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { getUserDashboardData } from '../../handlers/user-dashboard/userDashboard';
@@ -78,17 +79,7 @@ export default function TrainingDashboard() {
             case 'Companies':
                 return (
                     <Box p={4}>
-                        <Text fontSize={{ base: '2xl', md: '32px' }} fontWeight="bold" color="black" mb={4}>
-                            Partner Companies
-                        </Text>
-                        <Card rounded="lg">
-                            <CardBody>
-                                <VStack align="start" spacing={4}>
-                                    <Text fontSize="lg">List of partner companies and collaboration details.</Text>
-                                    <Button bg="#309689" color="#fff" >View Companies</Button>
-                                </VStack>
-                            </CardBody>
-                        </Card>
+                        <CompanyPage />
                     </Box>
                 );
             case 'Protector':

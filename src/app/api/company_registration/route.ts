@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from "../../../config/mongoose";
 import CompanyAccount from '../../../config/models/CompanyAccount';
-import { companySignupSchema } from '../../../utils/validation';
-
 import bcrypt from 'bcryptjs';
 
-export async function POST(req: NextRequest) {
+export async function POST(req) {
     try {
         await connectDB();
 
@@ -24,16 +22,30 @@ export async function POST(req: NextRequest) {
             contactPersonIdBack,
             agencyCoverPhoto,
             password,
-            confirmPassword
+            confirmPassword,
+            licenceNo,
+            proprietorName,
+            licenceTitle,
+            licenceStatus,
+            licenceExpiry,
+            headOffice,
+            branchOffice,
+            ptcl,
+            whatsappNo,
+            websiteUrl,
         } = body;
+
+        if (password !== confirmPassword) {
+            return NextResponse.json({ message: 'Passwords do not match' }, { status: 400 });
+        }
         // @ts-ignore
         const existing = await CompanyAccount.findOne({ agencyEmail });
         if (existing) {
             return NextResponse.json({ message: 'Company already exists' }, { status: 409 });
         }
-        // await companySignupSchema.validate(body, { abortEarly: false });
 
         const hashedPassword = await bcrypt.hash(password, 10);
+
         // @ts-ignore
         const account = await CompanyAccount.create({
             agencyName,
@@ -48,12 +60,22 @@ export async function POST(req: NextRequest) {
             contactPersonIdBack,
             agencyCoverPhoto,
             password: hashedPassword,
-            status: 'pending'
+            status: 'pending',
+            licenceNo,
+            proprietorName,
+            licenceTitle,
+            licenceStatus,
+            licenceExpiry,
+            headOffice,
+            branchOffice,
+            ptcl,
+            whatsappNo,
+            websiteUrl,
         });
 
         return NextResponse.json({
             message: 'Account submitted for review. It may take 2 to 3 working days',
-            account
+            account,
         }, { status: 201 });
 
     } catch (error) {

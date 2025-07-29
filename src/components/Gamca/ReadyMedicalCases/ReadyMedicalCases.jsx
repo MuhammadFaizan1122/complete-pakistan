@@ -28,6 +28,7 @@ import { handleFetchMedicalCases } from "../../../handlers/gamca/gamca-madical-c
 import Link from "next/link";
 import { City, Country, State } from "country-state-city";
 import { HeroSection } from "../MedicalCenters/HeroSection";
+import { GamcaTokenDisplay } from "../MedicalCenters/GamceTokenDisplay";
 
 export const calculateTotalExperience = (experienceArray) => {
   let totalYears = 0, totalMonths = 0;
@@ -297,6 +298,7 @@ export default function ReadyMedicalCases() {
               />
             </HStack>
           </Flex>
+          <GamcaTokenDisplay />
 
           {isGridView ? (
             <Grid

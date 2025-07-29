@@ -22,6 +22,7 @@ import {
 import { MdReportProblem, MdCheckCircle } from 'react-icons/md';
 import { handleGetAllIssues } from '../../../handlers/gamca/gamca-issues';
 import { HeroSection } from '../MedicalCenters/HeroSection';
+import { GamcaTokenDisplay } from '../MedicalCenters/GamceTokenDisplay';
 
 export default function GamcaIssuesList() {
   const [issues, setIssues] = useState([]);
@@ -103,6 +104,7 @@ export default function GamcaIssuesList() {
         >
           GAMCA Issues & Their Solutions
         </Heading>
+          <GamcaTokenDisplay />
 
         {issues.length === 0 ? (
           <Center py={20}>

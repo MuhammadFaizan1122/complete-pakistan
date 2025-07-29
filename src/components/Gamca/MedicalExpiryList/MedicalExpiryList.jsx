@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { RiTeamFill } from "react-icons/ri";
 import { handleGetCV } from "../../../handlers/CV/create-cv";
+import { GamcaTokenDisplay } from "../MedicalCenters/GamceTokenDisplay";
 
 
 export default function MedicalExpiryList({ expiryDays, title }) {
@@ -135,6 +136,8 @@ export default function MedicalExpiryList({ expiryDays, title }) {
             </Badge>
           </Heading>
         </HStack>
+                  <GamcaTokenDisplay />
+        
         <Grid
           templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }}
           gap={6}

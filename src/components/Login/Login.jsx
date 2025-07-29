@@ -26,7 +26,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { handleLogin } from "../../handlers/auth/login";
 
 // Validation schema
@@ -194,6 +194,7 @@ export const LoginPage = () => {
 };
 
 export const AuthLayout = ({ children }) => {
+    const pathname = usePathname()
     return (
         <Flex minH="100vh" align="center" justify="center" bg={'#BADDD9'} >
             <Box
@@ -202,7 +203,7 @@ export const AuthLayout = ({ children }) => {
                 py={10}
                 rounded="2xl"
                 shadow="lg"
-                w={{ base: '90%', sm: '600px' }}
+                w={{ base: '90%', sm: pathname === '/auth/login' ? "600px" : "800px" }}
             >
                 {children}
             </Box>

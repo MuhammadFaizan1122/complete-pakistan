@@ -1,7 +1,6 @@
 import "./globals.css";
 import Layout from "../components/Layout/Layout";
 import SessionWrapper from "../components/SessionWrapper/SessionWrapper";
-import SocialSidebar from "../components/socialSidebar/socialSidebar";
 
 export const metadata = {
   title: "Complete Pakistan",
@@ -15,7 +14,6 @@ export default function RootLayout({ children }) {
         <body>
           <Layout>
             {children}
-            <SocialSidebar />
           </Layout>
         </body>
       </html>

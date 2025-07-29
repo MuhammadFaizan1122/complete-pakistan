@@ -22,6 +22,7 @@ import { FiMapPin, FiPhone, FiMail, FiClock } from "react-icons/fi";
 import { handleFetchMadicals } from "../../../handlers/gamca/gamca-madical";
 import Link from "next/link";
 import { HeroSection } from "./HeroSection";
+import { GamcaTokenDisplay } from "./GamceTokenDisplay";
 import { City, Country, State } from "country-state-city";
 import StyledSelect from "../../../components/CV/CvDirectory/StyledSelect";
 import { FaWhatsapp, FaWhatsappSquare } from "react-icons/fa";
@@ -152,6 +153,7 @@ export default function GamcaMedicalList() {
               ))}
             </StyledSelect>
           </Flex>
+          <GamcaTokenDisplay />
           <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6}>
             {filteredMedicals.map((medical) => (
               <Card

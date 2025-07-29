@@ -3,19 +3,47 @@
 import {
     Box, Button, Input, Modal, ModalOverlay, ModalContent,
     ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
-    useDisclosure, useToast, VStack, Text, HStack, FormLabel,
+    useDisclosure, useToast, VStack, Table, Thead, Tbody,
+    Tr, Th, Td, TableContainer, FormLabel,
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { handleCreateMember, handleGetMembers } from '../../handlers/members/members';
 import { useSession } from 'next-auth/react';
 
+// Sample data for initial display
+const sampleMembers = [
+    {
+        _id: '1',
+        name: 'John Doe',
+        fatherName: 'James Doe',
+        phoneNumber: '123-456-7890',
+        employeeId: 'EMP001',
+        joiningDate: '2024-01-15',
+    },
+    {
+        _id: '2',
+        name: 'Jane Smith',
+        fatherName: 'Robert Smith',
+        phoneNumber: '987-654-3210',
+        employeeId: 'EMP002',
+        joiningDate: '2024-03-22',
+    },
+    {
+        _id: '3',
+        name: 'Alice Johnson',
+        fatherName: 'Michael Johnson',
+        phoneNumber: '555-555-5555',
+        employeeId: 'EMP003',
+        joiningDate: '2024-06-10',
+    },
+];
 
 export default function MemberPage() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { data: session } = useSession();
     const toast = useToast();
 
-    const [members, setMembers] = useState([]);
+    const [members, setMembers] = useState(sampleMembers);
     const [form, setForm] = useState({
         name: '',
         fatherName: '',
@@ -27,7 +55,7 @@ export default function MemberPage() {
     const fetchMembers = async () => {
         if (!session?.user?.id) return;
         const res = await handleGetMembers(session.user.id);
-        setMembers(res);
+        setMembers(res || sampleMembers);
     };
 
     useEffect(() => {
@@ -80,32 +108,36 @@ export default function MemberPage() {
         bg: 'white',
         borderColor: 'gray.300',
         focusBorderColor: '#309689',
+        _hover: { borderColor: '#309689' },
     };
 
     return (
-        <Box p={6}>
+        <Box p={6} bg="gray.50" minH="100vh">
             <Button
                 onClick={onOpen}
                 bg="#309689"
                 color="white"
                 _hover={{ bg: '#247a70' }}
-                rounded="10px"
-                px={6}
-                py={5}
+                rounded="12px"
+                px={8}
+                py={6}
                 fontWeight="semibold"
-                mb={6}
+                mb={8}
+                size="lg"
             >
-                + Add Member
+                + Add New Member
             </Button>
 
             {/* Modal Form */}
             <Modal isOpen={isOpen} onClose={onClose} isCentered size="lg">
-                <ModalOverlay />
-                <ModalContent rounded="16px">
-                    <ModalHeader color="#309689">Add New Member</ModalHeader>
-                    <ModalCloseButton />
+                <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
+                <ModalContent rounded="16px" p={4}>
+                    <ModalHeader color="#309689" fontSize="2xl" fontWeight="bold">
+                        Add New Member
+                    </ModalHeader>
+                    <ModalCloseButton size="lg" />
                     <ModalBody>
-                        <VStack spacing={4}>
+                        <VStack spacing={5}>
                             {[
                                 { name: 'name', label: 'Name' },
                                 { name: 'fatherName', label: 'Father Name' },
@@ -114,13 +146,16 @@ export default function MemberPage() {
                                 { name: 'employeeId', label: 'Employee ID' },
                             ].map(({ name, label, type = 'text' }) => (
                                 <Box w="100%" key={name}>
-                                    <FormLabel>{label}</FormLabel>
+                                    <FormLabel fontWeight="medium" color="gray.700">
+                                        {label}
+                                    </FormLabel>
                                     <Input
                                         type={type}
                                         name={name}
                                         value={form[name]}
                                         onChange={handleChange}
                                         {...inputStyle}
+                                        size="lg"
                                     />
                                 </Box>
                             ))}
@@ -132,56 +167,68 @@ export default function MemberPage() {
                             bg="#309689"
                             color="white"
                             _hover={{ bg: '#247a70' }}
-                            rounded="10px"
-                            px={6}
+                            rounded="12px"
+                            px={8}
+                            size="lg"
                             mr={3}
                         >
                             Save Member
                         </Button>
-                        <Button onClick={onClose} variant="ghost" rounded="10px">
+                        <Button
+                            onClick={onClose}
+                            variant="outline"
+                            rounded="12px"
+                            size="lg"
+                            borderColor="gray.300"
+                            _hover={{ bg: 'gray.100' }}
+                        >
                             Cancel
                         </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
 
-            {/* Member List */}
-            <VStack align="start" spacing={4} mt={6}>
-                {members.length === 0 ? (
-                    <Text color="gray.500">No members added yet.</Text>
-                ) : (
-                    members.map((m) => (
-                        <Box
-                            key={m._id}
-                            borderWidth="1px"
-                            borderColor="gray.200"
-                            p={4}
-                            rounded="12px"
-                            w="100%"
-                            bg="white"
-                            shadow="sm"
-                        >
-                            <HStack spacing={6} flexWrap="wrap">
-                                <Text fontWeight="semibold" color="#309689">
-                                    {m.name}
-                                </Text>
-                                <Text fontSize="sm" color="gray.600">
-                                    Father: {m.fatherName}
-                                </Text>
-                                <Text fontSize="sm" color="gray.600">
-                                    Phone: {m.phoneNumber}
-                                </Text>
-                                <Text fontSize="sm" color="gray.600">
-                                    Employee ID: {m.employeeId}
-                                </Text>
-                                <Text fontSize="sm" color="gray.600">
-                                    Joined: {new Date(m.joiningDate).toLocaleDateString()}
-                                </Text>
-                            </HStack>
-                        </Box>
-                    ))
-                )}
-            </VStack>
+            {/* Member Table */}
+            <TableContainer
+                bg="white"
+                rounded="12px"
+                shadow="md"
+                borderWidth="1px"
+                borderColor="gray.200"
+            >
+                <Table variant="simple">
+                    <Thead bg="gray.100">
+                        <Tr>
+                            <Th color="#309689" fontSize="md" py={4}>Name</Th>
+                            <Th color="#309689" fontSize="md" py={4}>Father Name</Th>
+                            <Th color="#309689" fontSize="md" py={4}>Phone</Th>
+                            <Th color="#309689" fontSize="md" py={4}>Employee ID</Th>
+                            <Th color="#309689" fontSize="md" py={4}>Joining Date</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {members.length === 0 ? (
+                            <Tr>
+                                <Td colSpan={5} textAlign="center" py={8} color="gray.500">
+                                    No members added yet.
+                                </Td>
+                            </Tr>
+                        ) : (
+                            members.map((m) => (
+                                <Tr key={m._id} _hover={{ bg: 'gray.50' }}>
+                                    <Td fontWeight="medium" color="#309689">{m.name}</Td>
+                                    <Td color="gray.600">{m.fatherName}</Td>
+                                    <Td color="gray.600">{m.phoneNumber}</Td>
+                                    <Td color="gray.600">{m.employeeId}</Td>
+                                    <Td color="gray.600">
+                                        {new Date(m.joiningDate).toLocaleDateString()}
+                                    </Td>
+                                </Tr>
+                            ))
+                        )}
+                    </Tbody>
+                </Table>
+            </TableContainer>
         </Box>
     );
 }
