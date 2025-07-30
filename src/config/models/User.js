@@ -1,4 +1,3 @@
-// config/models/User.ts
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
@@ -8,6 +7,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     role: { type: String, enum: ['user', 'company'], default: 'user' },
     type: { type: String, enum: ['individual', 'OEP', 'TTC', 'VTP', 'consultancies'], default: 'individual' },
+    isBlocked: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
