@@ -21,3 +21,14 @@ export const handleGetCV = async () => {
 };
 
 
+export const handleGetCVbyUser = async (userId) => {
+    try {
+        const res = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_BASEURL_2}/cv/create?userId=${userId.userId}`
+        );
+        return res;
+    } catch (error) {
+        console.error("Get CV error:", error);
+        return error.response;
+    }
+};

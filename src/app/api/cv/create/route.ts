@@ -1,6 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '../../../../config/mongoose';
 import CvProfile from '../../../../config/models/CvProfile';
+import mongoose from 'mongoose';
+
+export async function GET(req) {
+    try {
+        await connectDB();
+
+        const { searchParams } = new URL(req.url);
+        const userId = searchParams.get('userId');
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return NextResponse.json({ message: 'Invalid user ID' }, { status: 400 });
+        }
+        // @ts-ignore
+        const cv = await CvProfile.find({ userId });
+
+        if (!cv) {
+            return NextResponse.json({ message: 'CV not found' }, { status: 404 });
+        }
+
+        return NextResponse.json({ data: cv }, { status: 200 });
+    } catch (error) {
+        console.error('CV Fetch Error:', error);
+        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    }
+}
+
 
 export async function POST(req) {
     try {
@@ -99,11 +125,11 @@ export async function POST(req) {
             experience: parsedExperience,
             skills: parsedSkills,
             attachments: parsedAttachments,
-            passportCopy: passportCopy ? passportCopy: '',
-            technicalEducation: technicalEducation ? technicalEducation: '',
-            pakistaniDrivingLicense: pakistaniDrivingLicense ? pakistaniDrivingLicense: '',
-            gulfDrivingLicense: gulfDrivingLicense ? gulfDrivingLicense: '',
-            licenseType: licenseType ? licenseType: '',
+            passportCopy: passportCopy ? passportCopy : '',
+            technicalEducation: technicalEducation ? technicalEducation : '',
+            pakistaniDrivingLicense: pakistaniDrivingLicense ? pakistaniDrivingLicense : '',
+            gulfDrivingLicense: gulfDrivingLicense ? gulfDrivingLicense : '',
+            licenseType: licenseType ? licenseType : '',
             type
         });
 

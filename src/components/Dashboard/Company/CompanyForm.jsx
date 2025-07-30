@@ -23,11 +23,12 @@ const countryCurrencyMap = {
     'default': 'USD'
 };
 
-export function CompanyForm({ form, setForm, errors, handleChange, handleBenefitsChange, isEdit = false, onSave, onCancel }) {
+export function CompanyForm({ form, setForm, errors, handleChange, handleBenefitsChange, isEdit = false, onSave, onCancel, isLoading, isSetLoading }) {
     const [countries, setCountries] = useState(Country.getAllCountries());
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [previewLogo, setPreviewLogo] = useState(null);
+    console.log('loading', isLoading)
     useEffect(() => {
         if (form.country) {
             const selectedCountry = countries.find((c) => c.name === form.country);
@@ -263,8 +264,9 @@ export function CompanyForm({ form, setForm, errors, handleChange, handleBenefit
                     px={8}
                     size="lg"
                     mr={3}
+                    isDisabled={isLoading}
                 >
-                    {isEdit ? 'Update Company' : 'Save Company'}
+                    {isLoading ? "Loading..." : isEdit ? 'Update Company' : 'Save Company'}
                 </Button>
                 <Button
                     onClick={onCancel}

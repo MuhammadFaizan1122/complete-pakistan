@@ -1,20 +1,23 @@
 'use client'
 import {
     Box, Text, VStack, HStack, Grid, Avatar, Button, Badge, Card, useToast, Spinner,
-    Select, Checkbox
+    Select, Checkbox,
+    Center
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { handleGetCV } from '../../../handlers/CV/create-cv'
+import { handleGetCV, handleGetCVbyUser } from '../../../handlers/CV/create-cv'
 import { RiTeamFill } from 'react-icons/ri'
 import { Country } from 'country-state-city'
-import StyledSelect from './StyledSelect'
+import StyledSelect from '../../../components/CV/CvDirectory/StyledSelect'
+import { useSession } from 'next-auth/react'
 
-const CvDirectory = () => {
+const CVs = () => {
     const [cvs, setCvs] = useState([]);
     const [filteredCVList, setFilteredCVList] = useState([]);
     const [countries, setCountries] = useState(Country.getAllCountries());
     const [loading, setLoading] = useState(true);
     const toast = useToast();
+    const { data: session } = useSession()
     const [filteredCVs, setFilteredCVs] = useState({
         today: [],
         yesterday: [],
@@ -29,10 +32,10 @@ const CvDirectory = () => {
     const [skills, setSkills] = useState('');
     const [ageLimit, setAgeLimit] = useState('');
     const [gulfExpOnly, setGulfExpOnly] = useState(false);
-    
+
     const handleCVs = async () => {
         try {
-            const response = await handleGetCV();
+            const response = await handleGetCVbyUser({ userId: session?.user?.id });
             if (response.status === 200) {
                 setCvs(response.data.data);
                 setFilteredCVList(response.data.data);
@@ -173,7 +176,7 @@ const CvDirectory = () => {
     };
 
     return (
-        <Box flex={1} maxW={'1440px'} mx={'auto'} p={4}>
+        <Box flex={1} maxW={'1440px'} mx={'auto'} p={0}>
             <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)", lg: "repeat(6, 1fr)" }} gap={4} mb={6}>
                 {[
                     { label: "Total CVs", value: cvs.length },
@@ -189,7 +192,7 @@ const CvDirectory = () => {
                     </Box>
                 ))}
             </Grid>
-            <Box bg="white" py={4} borderRadius="md" boxShadow="sm" mb={6}>
+            <Box bg="white" p={4} borderRadius="md" boxShadow="sm" mb={6}>
                 <Grid templateColumns={{ base: "1fr", md: "repeat(4, 1fr)" }} gap={4}>
                     <StyledSelect placeholder="All Industries" value={industry} onChange={(e) => setIndustry(e.target.value)}>
                         <option value="Construction">Construction</option>
@@ -256,14 +259,16 @@ const CvDirectory = () => {
             </HStack>
 
             <HStack >
-                <Text display={'flex'} alignItems={'center'} as={'h2'} fontSize={'24px'} fontWeight={'bold'}><RiTeamFill className='mr-2' /> CV Directory <Badge px={2} py={1} fontSize={'14px'}>{cvs.length} CVs</Badge></Text>
+                <Text display={'flex'} alignItems={'center'} as={'h2'} fontSize={'24px'} fontWeight={'bold'}><RiTeamFill className='mr-2' /> All CV's <Badge px={2} py={1} fontSize={'14px'}>{cvs.length} CVs</Badge></Text>
                 <span></span>
             </HStack>
-            <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={6}>
-                {loading ? (
-                    <Spinner />
-                ) : (
-                    filteredCVList.map((candidate, index) => {
+            {loading ? (
+                <Center minH="50vh">
+                    <Spinner size="xl" color="#309689" thickness="4px" />
+                </Center>
+            ) : (
+                <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={6}>
+                    {filteredCVList.map((candidate, index) => {
                         const { totalYears } = calculateTotalExperience(candidate.experience || []);
                         return (
                             <Card key={index} bg="white" borderRadius="20px" overflow="hidden" shadow="md">
@@ -299,11 +304,11 @@ const CvDirectory = () => {
                                 </VStack>
                             </Card>
                         );
-                    })
-                )}
-            </Grid>
+                    })}
+                </Grid>
+            )}
         </Box >
     );
 }
 
-export default CvDirectory;
+export default CVs;

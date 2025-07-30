@@ -143,7 +143,22 @@ export function AuthorizedTradeForm({
                         min={1}
                     />
                 </Box>
-
+                {/* Currency */}
+                <Box w="100%">
+                    <FormLabel>Currency</FormLabel>
+                    <Select
+                        value={trade.currency}
+                        onChange={(e) => handleChange(e, index, 'currency')}
+                        {...inputStyle}
+                        size="lg"
+                    >
+                        {uniqueCurrencies.map((currency) => (
+                            <option key={currency.code} value={currency.code}>
+                                {currency.code} - {currency.name}
+                            </option>
+                        ))}
+                    </Select>
+                </Box>
                 {/* Salary */}
                 <Box w="100%">
                     <FormLabel>Salary</FormLabel>
@@ -202,22 +217,7 @@ export function AuthorizedTradeForm({
                         </option>
                     </Select>
                 </Box>
-                {/* Currency */}
-                <Box w="100%">
-                    <FormLabel>Currency</FormLabel>
-                    <Select
-                        value={trade.currency}
-                        onChange={(e) => handleChange(e, index, 'currency')}
-                        {...inputStyle}
-                        size="lg"
-                    >
-                        {uniqueCurrencies.map((currency) => (
-                            <option key={currency.code} value={currency.code}>
-                                {currency.code} - {currency.name}
-                            </option>
-                        ))}
-                    </Select>
-                </Box>
+
 
                 {/* Benefits as tags */}
                 <Box w="100%">

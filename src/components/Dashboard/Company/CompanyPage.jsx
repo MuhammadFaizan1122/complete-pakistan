@@ -3,7 +3,10 @@ import {
     Box, Button, Modal, ModalOverlay, ModalContent,
     ModalHeader, ModalBody, ModalCloseButton,
     useDisclosure, useToast, Table, Thead, Tbody,
-    Tr, Th, Td, TableContainer, IconButton, Text, SimpleGrid
+    Tr, Th, Td, TableContainer, IconButton, Text, SimpleGrid,
+    Flex,
+    Center,
+    Spinner
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
@@ -13,14 +16,19 @@ import { CompanyForm } from './CompanyForm';
 import { ViewCompanyModal } from './ViewCompanyModal';
 import { handleCreateCompany, handleGetCompanies, handleUpdateCompany, handleDeleteCompany } from '../../../handlers/companies/companies';
 import { handleUpload } from '../../../handlers/contentUploading/contentUploading';
+import StyledInput from '../../CV/StyledInput';
 
-// Main Company Page Component
 export default function CompanyPage() {
     const { isOpen: isCreateOpen, onOpen: onCreateOpen, onClose: onCreateClose } = useDisclosure();
     const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure();
     const { isOpen: isViewOpen, onOpen: onViewOpen, onClose: onViewClose } = useDisclosure();
     const { data: session } = useSession();
     const toast = useToast();
+    const [loading, setLoading] = useState(false)
+    const [fetching, setFetching] = useState(false)
+    const [searchTerm, setSearchTerm] = useState('');
+    const [page, setPage] = useState(1);
+    const [itemsPerPage] = useState(15);
 
     const [companies, setCompanies] = useState([]);
     const [form, setForm] = useState({
@@ -43,14 +51,16 @@ export default function CompanyPage() {
             NAVTAC: '',
         }],
     });
-    // console.log('form', form)
+
     const [errors, setErrors] = useState({});
     const [selectedCompany, setSelectedCompany] = useState(null);
 
     const fetchCompanies = async () => {
         if (!session?.user?.id) return;
+        setFetching(true)
         const res = await handleGetCompanies(session.user.id);
         setCompanies(res || companies);
+        setFetching(false)
     };
 
     useEffect(() => {
@@ -110,6 +120,7 @@ export default function CompanyPage() {
             });
             return;
         }
+        setLoading(true)
         let uploadedLogoUrl = '';
         if (form.logo && typeof form.logo === 'object') {
             const uploadRes = await handleUpload(form.logo);
@@ -133,6 +144,7 @@ export default function CompanyPage() {
                 duration: 3000,
                 isClosable: true,
             });
+            setLoading(false)
             return;
         }
 
@@ -142,7 +154,7 @@ export default function CompanyPage() {
             duration: 3000,
             isClosable: true,
         });
-
+        setLoading(false)
         onCreateClose();
         fetchCompanies();
         resetForm();
@@ -254,6 +266,7 @@ export default function CompanyPage() {
             return;
         }
 
+        setLoading(true)
         const payload = {
             ...form,
             userId: session?.user?.id,
@@ -270,6 +283,7 @@ export default function CompanyPage() {
                 duration: 3000,
                 isClosable: true,
             });
+            setLoading(false)
             return;
         }
 
@@ -280,6 +294,7 @@ export default function CompanyPage() {
             isClosable: true,
         });
 
+        setLoading(false)
         onEditClose();
         fetchCompanies();
         resetForm();
@@ -342,23 +357,47 @@ export default function CompanyPage() {
         resetForm();
         onCreateOpen();
     };
+    const filteredCompanies = companies.filter((c) =>
+        c?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        c?.city?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        c?.country?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        String(c?.permission_number || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        String(c?.idNumber || '').toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
+    const totalPages = Math.ceil(filteredCompanies.length / itemsPerPage);
+    const paginatedCompanies = filteredCompanies.slice(
+        (page - 1) * itemsPerPage,
+        page * itemsPerPage
+    );
+    useEffect(() => {
+        setPage(1);
+    }, [searchTerm]);
     return (
         <Box p={{ base: 4, md: 6 }} bg="gray.50" minH="100vh">
-            <Button
-                onClick={handleOpenCreateModal}
-                bg="#309689"
-                color="white"
-                _hover={{ bg: '#247a70' }}
-                rounded="12px"
-                px={{ base: 6, md: 8 }}
-                py={{ base: 4, md: 6 }}
-                fontWeight="semibold"
-                mb={8}
-                size="lg"
-            >
-                + Add New Company
-            </Button>
+            <Flex justifyContent={'space-between'}>
+                <Button
+                    onClick={handleOpenCreateModal}
+                    bg="#309689"
+                    color="white"
+                    _hover={{ bg: '#247a70' }}
+                    rounded="12px"
+                    px={{ base: 6, md: 8 }}
+                    py={{ base: 4, md: 6 }}
+                    fontWeight="semibold"
+                    mb={8}
+                    size="lg"
+                >
+                    + Add New Company
+                </Button>
+                <Box mb={6}>
+                    <StyledInput
+                        placeholder="Search companies..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </Box>
+            </Flex>
 
             {/* Create Company Modal */}
             <Modal isOpen={isCreateOpen} onClose={onCreateClose} isCentered size={{ base: 'full', md: '3xl' }}>
@@ -377,6 +416,8 @@ export default function CompanyPage() {
                             handleBenefitsChange={handleBenefitsChange}
                             onSave={handleCreate}
                             onCancel={onCreateClose}
+                            isLoading={loading}
+                            isSetLoading={setLoading}
                         />
                     </ModalBody>
                 </ModalContent>
@@ -400,6 +441,8 @@ export default function CompanyPage() {
                             isEdit={true}
                             onSave={handleUpdate}
                             onCancel={onEditClose}
+                            isLoading={loading}
+                            isSetLoading={setLoading}
                         />
                     </ModalBody>
                 </ModalContent>
@@ -420,74 +463,124 @@ export default function CompanyPage() {
                 borderWidth="1px"
                 borderColor="gray.200"
                 overflowX="auto"
+                maxW="100%"
             >
-                <Table variant="simple" size={{ base: 'sm', md: 'md' }}>
-                    <Thead bg="gray.100">
-                        <Tr>
-                            <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Name</Th>
-                            <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>City</Th>
-                            <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Country</Th>
-                            <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Permission Number</Th>
-                            <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>ID Number</Th>
-                            <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Trades</Th>
-                            <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Actions</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {companies.length === 0 ? (
+                <Box minW="900px">
+                    <Table variant="simple" size={{ base: 'sm', md: 'md' }}>
+                        <Thead bg="gray.100">
                             <Tr>
-                                <Td colSpan={7} textAlign="center" py={8} color="gray.500">
-                                    No companies added yet.
-                                </Td>
+                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Name</Th>
+                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>City</Th>
+                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Country</Th>
+                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Permission Number</Th>
+                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>ID Number</Th>
+                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Trades</Th>
+                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Date</Th>
+                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Actions</Th>
                             </Tr>
-                        ) : (
-                            companies.map((c) => (
-                                <Tr key={c._id} _hover={{ bg: 'gray.50' }}>
-                                    <Td fontWeight="bold" color="#309689" fontSize={{ base: 'sm', md: 'md' }}>{c.name}</Td>
-                                    <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.city}</Td>
-                                    <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.country}</Td>
-                                    <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.permission_number}</Td>
-                                    <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.idNumber}</Td>
-                                    <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>
-                                        {c.visaAuthorizedTrade.map((trade, index) => (
-                                            <Box key={index} mb={2}>
-                                                {trade.authorized_trade} ({trade.salary} {trade.currency}, Qty: {trade.quantity})
-                                            </Box>
-                                        ))}
-                                    </Td>
-                                    <Td>
-                                        <IconButton
-                                            icon={<FaEdit />}
-                                            aria-label="Edit Company"
-                                            onClick={() => handleEdit(c)}
-                                            colorScheme="teal"
-                                            variant="outline"
-                                            size="sm"
-                                            mr={2}
-                                        />
-                                        <IconButton
-                                            icon={<FaRegEye />}
-                                            aria-label="View Company"
-                                            onClick={() => handleView(c)}
-                                            colorScheme="blue"
-                                            variant="outline"
-                                            size="sm"
-                                            mr={2}
-                                        />
-                                        <IconButton
-                                            icon={<HiOutlineDuplicate />}
-                                            aria-label="Duplicate Company"
-                                            onClick={() => handleDuplicate(c)}
-                                            colorScheme="yellow"
-                                            variant="outline"
-                                            size="sm"
-                                        />
+                        </Thead>
+                        <Tbody>
+                            {fetching ?
+                                <Tr>
+                                    <Td colSpan={7} textAlign="center" py={8} color="gray.500">
+                                        <Center h="300px">
+                                            <Spinner size="lg" color="teal.500" />
+                                        </Center>
                                     </Td>
                                 </Tr>
-                            ))
-                        )}
-                    </Tbody>
-                </Table>
+                                : paginatedCompanies.length === 0 ? (
+                                    <Tr>
+                                        <Td colSpan={7} textAlign="center" py={8} color="gray.500">
+                                            No companies added yet.
+                                        </Td>
+                                    </Tr>
+                                ) : (
+                                    paginatedCompanies.map((c) => (
+                                        <Tr key={c._id} _hover={{ bg: 'gray.50' }}>
+                                            <Td fontWeight="bold" color="#309689" fontSize={{ base: 'sm', md: 'md' }}>{c.name}</Td>
+                                            <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.city}</Td>
+                                            <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.country}</Td>
+                                            <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.permission_number}</Td>
+                                            <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.idNumber}</Td>
+                                            <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }} maxW="220px">
+                                                <Box
+                                                    display="-webkit-box"
+                                                    overflow="hidden"
+                                                    sx={{
+                                                        WebkitLineClamp: 3,
+                                                        WebkitBoxOrient: 'vertical',
+                                                    }}
+                                                    whiteSpace="normal"
+                                                    textOverflow="ellipsis"
+                                                >
+                                                    {c.visaAuthorizedTrade.map((trade, index) => (
+                                                        <Box key={index} mb={1}>
+                                                            {trade.authorized_trade} ({trade.salary} {trade.currency}, Qty: {trade.quantity})
+                                                        </Box>
+                                                    ))}
+                                                </Box>
+                                            </Td>
+
+                                            <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>
+                                                {c.createdAt ? new Date(c.createdAt).toLocaleDateString() : 'N/A'}
+                                            </Td>
+                                            <Td>
+                                                <IconButton
+                                                    icon={<FaEdit />}
+                                                    aria-label="Edit Company"
+                                                    onClick={() => handleEdit(c)}
+                                                    colorScheme="teal"
+                                                    variant="outline"
+                                                    size="sm"
+                                                    mr={2}
+                                                />
+                                                <IconButton
+                                                    icon={<FaRegEye />}
+                                                    aria-label="View Company"
+                                                    onClick={() => handleView(c)}
+                                                    colorScheme="blue"
+                                                    variant="outline"
+                                                    size="sm"
+                                                    mr={2}
+                                                />
+                                                <IconButton
+                                                    icon={<HiOutlineDuplicate />}
+                                                    aria-label="Duplicate Company"
+                                                    onClick={() => handleDuplicate(c)}
+                                                    colorScheme="yellow"
+                                                    variant="outline"
+                                                    size="sm"
+                                                />
+                                            </Td>
+                                        </Tr>
+                                    ))
+                                )}
+                        </Tbody>
+                    </Table>
+                    <Box w={'100%'} mx={'auto'} display={'flex'} justifyContent={'center'} mb={4}>
+                        <Box>
+                            <Box mt={6} display="flex" justifyContent="center" alignItems="center" gap={4}>
+                                <Button
+                                    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                                    isDisabled={page === 1}
+                                    size="sm"
+                                    colorScheme="gray"
+                                >
+                                    Previous
+                                </Button>
+                                <Text fontSize="md">Page {page} of {totalPages}</Text>
+                                <Button
+                                    onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+                                    isDisabled={page === totalPages}
+                                    size="sm"
+                                    colorScheme="gray"
+                                >
+                                    Next
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Box>
+                </Box>
             </TableContainer>
         </Box>
     );

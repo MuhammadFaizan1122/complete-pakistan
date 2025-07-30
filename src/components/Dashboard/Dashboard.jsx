@@ -29,6 +29,7 @@ import { useRouter } from 'next/navigation';
 import { getUserDashboardData } from '../../handlers/user-dashboard/userDashboard';
 import DashboardContent from './DashboardContent'
 import ApplicantList from './Applicants/ApplicantList';
+import CVs from './CVs/CVs';
 
 export default function TrainingDashboard() {
     const [activeTab, setActiveTab] = useState('Dashboard');
@@ -101,17 +102,7 @@ export default function TrainingDashboard() {
             case 'CVs':
                 return (
                     <Box p={4}>
-                        <Text fontSize={{ base: '2xl', md: '32px' }} fontWeight="bold" color="black" mb={4}>
-                            CV Database
-                        </Text>
-                        <Card rounded="lg">
-                            <CardBody>
-                                <VStack align="start" spacing={4}>
-                                    <Text fontSize="lg">Browse and manage candidate CVs.</Text>
-                                    <Button bg="#309689" color="#fff" >View CVs</Button>
-                                </VStack>
-                            </CardBody>
-                        </Card>
+                        <CVs />
                     </Box>
                 );
             case 'Interview':

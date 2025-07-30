@@ -74,11 +74,11 @@ export default function Header() {
 
     ];
     const recruitmentLinks = [
-        { href: '/dashboard', label: 'Overseas Employement Promoters - OEP' },
-        { href: '/dashboard', label: 'Trade Test & Traning Center - TTC' },
-        { href: '/dashboard', label: 'Verified Trade Partners' },
-        { href: '/dashboard', label: 'Consultant Directory' },
-        { href: '/dashboard', label: 'Gulf Companies Directory' },
+        { href: '/recruitment/oep', label: 'Overseas Employement Promoters - OEP' },
+        { href: '/recruitment/ttc', label: 'Trade Test & Traning Center - TTC' },
+        { href: '/recruitment/vtp', label: 'Verified Trade Partners' },
+        { href: '/recruitment/consultancies', label: 'Consultant Directory' },
+        { href: '/recruitment/gulf-companies', label: 'Gulf Companies Directory' },
     ];
     const othersLinks = [
         { href: '#', label: 'Ticketing' },
@@ -290,7 +290,7 @@ export default function Header() {
                             </Button>
                             <Button
                                 as={Link}
-                                href={'/auth/comapny-registration'}
+                                href={'/auth/company-registration'}
                                 bg={'#309689'}
                                 color={'#fff'}
                                 rounded={'8px'}

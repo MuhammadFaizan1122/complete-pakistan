@@ -12,7 +12,7 @@ export async function GET(req) {
             return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
         }
         // @ts-ignore
-        const companies = await Company.find({ userId });
+        const companies = await Company.find({ userId }).sort({ createdAt: -1 });
         return NextResponse.json({ data: companies }, { status: 200 });
     } catch (error) {
         console.error('Error fetching companies:', error);
