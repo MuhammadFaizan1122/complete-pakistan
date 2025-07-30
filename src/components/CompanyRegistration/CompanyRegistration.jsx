@@ -167,8 +167,6 @@ const CompanyRegisterPage = () => {
                             >
                                 <option value="OEP">OEP</option>
                                 <option value="TTC">TTC</option>
-                                <option value="VTP">VTP</option>
-                                <option value="consultancies">Consultancies</option>
                             </StyledSelect>
                             <FormErrorMessage>{errors.type?.message}</FormErrorMessage>
                         </FormControl>

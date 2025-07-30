@@ -77,7 +77,8 @@ export default function Header() {
         { href: '/dashboard', label: 'Overseas Employement Promoters - OEP' },
         { href: '/dashboard', label: 'Trade Test & Traning Center - TTC' },
         { href: '/dashboard', label: 'Verified Trade Partners' },
-        { href: '/dashboard', label: 'Consultancies' },
+        { href: '/dashboard', label: 'Consultant Directory' },
+        { href: '/dashboard', label: 'Gulf Companies Directory' },
     ];
     const othersLinks = [
         { href: '#', label: 'Ticketing' },
@@ -271,7 +272,7 @@ export default function Header() {
                                 )}
                                 {session.user?.role !== 'company' && (
                                     <MenuItem as={Link} href="/auth/company-registration">
-                                        Register Your Agenct
+                                        Company Registration
                                     </MenuItem>
                                 )}
                                 <MenuItem as={Link} href="/profile">

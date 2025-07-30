@@ -3,17 +3,16 @@ import {
     Box, Button, Modal, ModalOverlay, ModalContent,
     ModalHeader, ModalBody, ModalCloseButton,
     useDisclosure, useToast, Table, Thead, Tbody,
-    Tr, Th, Td, TableContainer,
-    IconButton
+    Tr, Th, Td, TableContainer, IconButton, Text, SimpleGrid
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { handleCreateCompany, handleGetCompanies, handleUpdateCompany } from '../../../handlers/companies/companies';
-import { FaRegEye, FaEdit } from 'react-icons/fa';
+import { HiOutlineDuplicate  } from 'react-icons/hi';
+import { FaRegEye, FaEdit, FaTrash } from 'react-icons/fa';
 import { CompanyForm } from './CompanyForm';
 import { ViewCompanyModal } from './ViewCompanyModal';
-
-
+import { handleCreateCompany, handleGetCompanies, handleUpdateCompany, handleDeleteCompany } from '../../../handlers/companies/companies';
+import { handleUpload } from '../../../handlers/contentUploading/contentUploading';
 
 // Main Company Page Component
 export default function CompanyPage() {
@@ -28,22 +27,23 @@ export default function CompanyPage() {
         name: '',
         city: '',
         country: '',
-        visaNumber: '',
+        permission_number: '',
         idNumber: '',
+        visaNumber: '',
         visaAuthorizedTrade: [{
-            permission_status: 'pending',
-            visaNumber: '',
             salary: '',
             currency: 'USD',
-            type: '',
+            authorized_trade: '',
+            required_trade: '',
+            quantity: 1,
             dutyTimings: '8 hours/day',
             overtime: 'yes',
             benefits: ['Medical Insurance'],
             contractPeriod: '2 years',
             NAVTAC: '',
         }],
-        requiredTrade: [],
     });
+    // console.log('form', form)
     const [errors, setErrors] = useState({});
     const [selectedCompany, setSelectedCompany] = useState(null);
 
@@ -62,14 +62,14 @@ export default function CompanyPage() {
         if (!form.name) newErrors.name = 'Name is required';
         if (!form.city) newErrors.city = 'City is required';
         if (!form.country) newErrors.country = 'Country is required';
-        if (!form.visaNumber) newErrors.visaNumber = 'Visa Number is required';
+        if (!form.permission_number) newErrors.permission_number = 'Permission Number is required';
         if (!form.idNumber) newErrors.idNumber = 'ID Number is required';
-        if (form.requiredTrade.length === 0) newErrors.requiredTrade = 'At least one required trade is needed';
 
         form.visaAuthorizedTrade.forEach((trade, index) => {
-            if (!trade.visaNumber) newErrors[`visaAuthorizedTrade_${index}_visaNumber`] = 'Visa Number is required';
             if (!trade.salary) newErrors[`visaAuthorizedTrade_${index}_salary`] = 'Salary is required';
-            if (!trade.type) newErrors[`visaAuthorizedTrade_${index}_type`] = 'Trade Type is required';
+            if (!trade.authorized_trade) newErrors[`visaAuthorizedTrade_${index}_authorized_trade`] = 'Authorized Trade is required';
+            if (!trade.required_trade) newErrors[`visaAuthorizedTrade_${index}_required_trade`] = 'Required Trade is required';
+            if (!trade.quantity || trade.quantity < 1) newErrors[`visaAuthorizedTrade_${index}_quantity`] = 'Quantity must be at least 1';
             if (!trade.NAVTAC) newErrors[`visaAuthorizedTrade_${index}_NAVTAC`] = 'NAVTAC is required';
         });
 
@@ -82,11 +82,11 @@ export default function CompanyPage() {
             setForm({
                 ...form,
                 visaAuthorizedTrade: form.visaAuthorizedTrade.map((trade, i) =>
-                    i === index ? { ...trade, [field]: e.target.value } : trade
+                    i === index ? { ...trade, [field]: field === 'quantity' ? parseInt(e.target.value) || '' : e.target.value } : trade
                 ),
             });
         } else {
-            setForm({ ...form, [e.target.name]: e.target.value });
+            setForm({ ...form, [e.target.name]: e.target.name === 'permission_number' ? parseInt(e.target.value) || '' : e.target.value });
         }
     };
 
@@ -97,10 +97,6 @@ export default function CompanyPage() {
                 i === index ? { ...trade, benefits: values } : trade
             ),
         });
-    };
-
-    const handleRequiredTradeChange = (values) => {
-        setForm({ ...form, requiredTrade: values });
     };
 
     const handleCreate = async () => {
@@ -114,12 +110,19 @@ export default function CompanyPage() {
             });
             return;
         }
+        let uploadedLogoUrl = '';
+        if (form.logo && typeof form.logo === 'object') {
+            const uploadRes = await handleUpload(form.logo);
+            console.log('payload', uploadRes)
+            uploadedLogoUrl = uploadRes?.data?.url || '';
+        }
 
         const payload = {
             ...form,
             userId: session?.user?.id,
+            logo: uploadedLogoUrl,
         };
-
+        console.log('payload', payload)
         const res = await handleCreateCompany(payload);
 
         if (res?.error) {
@@ -149,12 +152,17 @@ export default function CompanyPage() {
         setSelectedCompany(company);
         setForm({
             ...company,
-            visaAuthorizedTrade: company.visaAuthorizedTrade.length > 0 ? company.visaAuthorizedTrade : [{
-                permission_status: 'pending',
-                visaNumber: '',
+            visaAuthorizedTrade: company.visaAuthorizedTrade.length > 0 ? company.visaAuthorizedTrade.map(trade => ({
+                ...trade,
+                authorized_trade: trade.authorized_trade || '',
+                required_trade: trade.required_trade || '',
+                quantity: trade.quantity || 1,
+            })) : [{
                 salary: '',
                 currency: 'USD',
-                type: '',
+                authorized_trade: '',
+                required_trade: '',
+                quantity: 1,
                 dutyTimings: '8 hours/day',
                 overtime: 'yes',
                 benefits: ['Medical Insurance'],
@@ -208,6 +216,30 @@ export default function CompanyPage() {
         resetForm();
     };
 
+    const handleDelete = async (id) => {
+        const res = await handleDeleteCompany(id);
+
+        if (res?.error) {
+            toast({
+                title: 'Error',
+                description: res.error,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
+
+        toast({
+            title: 'Company Deleted',
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        });
+
+        fetchCompanies();
+    };
+
     const handleView = (company) => {
         setSelectedCompany(company);
         onViewOpen();
@@ -218,28 +250,28 @@ export default function CompanyPage() {
             name: '',
             city: '',
             country: '',
-            visaNumber: '',
+            permission_number: '',
             idNumber: '',
             visaAuthorizedTrade: [{
-                permission_status: 'pending',
-                visaNumber: '',
                 salary: '',
                 currency: 'USD',
-                type: '',
+                authorized_trade: '',
+                required_trade: '',
+                quantity: 1,
                 dutyTimings: '8 hours/day',
                 overtime: 'yes',
                 benefits: ['Medical Insurance'],
                 contractPeriod: '2 years',
                 NAVTAC: '',
             }],
-            requiredTrade: [],
         });
         setErrors({});
         setSelectedCompany(null);
     };
+
     const handleOpenCreateModal = () => {
-        resetForm();       
-        onCreateOpen();    
+        resetForm();
+        onCreateOpen();
     };
 
     return (
@@ -274,7 +306,6 @@ export default function CompanyPage() {
                             errors={errors}
                             handleChange={handleChange}
                             handleBenefitsChange={handleBenefitsChange}
-                            handleRequiredTradeChange={handleRequiredTradeChange}
                             onSave={handleCreate}
                             onCancel={onCreateClose}
                         />
@@ -297,7 +328,6 @@ export default function CompanyPage() {
                             errors={errors}
                             handleChange={handleChange}
                             handleBenefitsChange={handleBenefitsChange}
-                            handleRequiredTradeChange={handleRequiredTradeChange}
                             isEdit={true}
                             onSave={handleUpdate}
                             onCancel={onEditClose}
@@ -328,17 +358,16 @@ export default function CompanyPage() {
                             <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Name</Th>
                             <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>City</Th>
                             <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Country</Th>
-                            <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Visa Number</Th>
+                            <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Permission Number</Th>
                             <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>ID Number</Th>
                             <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Trades</Th>
-                            <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Required Trades</Th>
                             <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Actions</Th>
                         </Tr>
                     </Thead>
                     <Tbody>
                         {companies.length === 0 ? (
                             <Tr>
-                                <Td colSpan={8} textAlign="center" py={8} color="gray.500">
+                                <Td colSpan={7} textAlign="center" py={8} color="gray.500">
                                     No companies added yet.
                                 </Td>
                             </Tr>
@@ -348,16 +377,15 @@ export default function CompanyPage() {
                                     <Td fontWeight="bold" color="#309689" fontSize={{ base: 'sm', md: 'md' }}>{c.name}</Td>
                                     <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.city}</Td>
                                     <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.country}</Td>
-                                    <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.visaNumber}</Td>
+                                    <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.permission_number}</Td>
                                     <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.idNumber}</Td>
                                     <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>
                                         {c.visaAuthorizedTrade.map((trade, index) => (
                                             <Box key={index} mb={2}>
-                                                {trade.type} ({trade.salary} {trade.currency})
+                                                {trade.authorized_trade} ({trade.salary} {trade.currency}, Qty: {trade.quantity})
                                             </Box>
                                         ))}
                                     </Td>
-                                    <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.requiredTrade.join(', ')}</Td>
                                     <Td>
                                         <IconButton
                                             icon={<FaEdit />}
@@ -373,6 +401,15 @@ export default function CompanyPage() {
                                             aria-label="View Company"
                                             onClick={() => handleView(c)}
                                             colorScheme="blue"
+                                            variant="outline"
+                                            size="sm"
+                                            mr={2}
+                                        />
+                                        <IconButton
+                                            icon={<HiOutlineDuplicate />}
+                                            aria-label="Delete Company"
+                                            // onClick={() => handleDelete(c._id)}
+                                            colorScheme="yellow"
                                             variant="outline"
                                             size="sm"
                                         />

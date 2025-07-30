@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
 const VisaAuthorizedTradeSchema = new mongoose.Schema({
-    permission_status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
-    visaNumber: { type: String, required: true },
     salary: { type: Number, required: true },
-    currency: { type: String, enum: ['USD', 'AED', 'EUR'], default: 'USD' },
-    type: { type: String, required: true },
+    currency: { type: String, default: 'USD' },
+    authorized_trade: { type: String, required: true },
+    quantity: { type: Number, required: true, default: 1 },
+    required_trade: { type: String, required: true },
     dutyTimings: { type: String, default: '8 hours/day' },
     overtime: { type: String, default: 'yes' },
     benefits: { type: [String], default: ['Medical Insurance'] },
@@ -15,13 +15,15 @@ const VisaAuthorizedTradeSchema = new mongoose.Schema({
 
 const CompanySchema = new mongoose.Schema(
     {
+        permission_number: { type: Number, required: true },
+        logo: { type: String },
         name: { type: String, required: true },
         city: { type: String, required: true },
         country: { type: String, required: true },
         visaNumber: { type: String, required: true },
         idNumber: { type: String, required: true },
         visaAuthorizedTrade: { type: [VisaAuthorizedTradeSchema], required: true },
-        requiredTrade: { type: [String], required: true },
+        rating: { type: Number },
         userId: { type: String, required: true },
     },
     { timestamps: true }

@@ -3,16 +3,12 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   Card,
-  CardBody,
-  Heading,
   Text,
   VStack,
   Spinner,
   Center,
   Button,
   SimpleGrid,
-  Stack,
-  Divider,
   Badge,
   Icon,
   HStack,
@@ -22,22 +18,14 @@ import {
   Grid,
   Wrap
 } from "@chakra-ui/react";
-import { FiMapPin, FiPhone, FiMail, FiClock } from "react-icons/fi";
-import { handleFetchMadicals } from "../../handlers/gamca/gamca-madical";
 import Link from "next/link";
-import { City, Country, State } from "country-state-city";
-import StyledSelect from "../../components/CV/CvDirectory/StyledSelect";
 import FilterAndSearch from "./FilterAndSearch";
-import { FaWhatsapp, FaWhatsappSquare } from "react-icons/fa";
-import { IoShareSocialOutline } from "react-icons/io5";
 import { HeroSection } from "../Gamca/MedicalCenters/HeroSection";
 import StyledButton from "../../utils/StyledButton";
 import { RiLayoutGridLine } from "react-icons/ri";
 import { CgLayoutList } from "react-icons/cg";
-import { handleFetchMedicalCases } from "../../handlers/gamca/gamca-madical-cases";
 import { calculateTotalExperience } from "../Gamca/ReadyMedicalCases/ReadyMedicalCases";
-import { MdAccessTime, MdCreditCard, MdEvent, MdLocationOn, MdOutlineBrokenImage, MdOutlineFileDownload, MdOutlineMail, MdOutlinePhone, MdOutlineRemoveRedEye, MdPhone } from "react-icons/md";
-import { UploadIcon } from "lucide-react";
+import { MdAccessTime, MdLocationOn, MdOutlineBrokenImage, MdOutlineFileDownload,  MdOutlinePhone, MdOutlineRemoveRedEye } from "react-icons/md";
 import { SlCalender } from "react-icons/sl";
 import { BiGroup } from "react-icons/bi";
 import { handleGetJobApplications } from "../../handlers/JobApplicants/JobApplicants";

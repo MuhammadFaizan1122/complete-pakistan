@@ -1,10 +1,11 @@
 'use client';
 import {
     Box, Button, Modal, ModalOverlay, ModalContent,
-    ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
-    Text, SimpleGrid
+    ModalHeader, ModalBody, ModalFooter, ModalCloseButton,
+    Text, SimpleGrid,
+    Center,
+    Image
 } from '@chakra-ui/react';
-
 
 export function ViewCompanyModal({ isOpen, onClose, company }) {
     return (
@@ -15,7 +16,19 @@ export function ViewCompanyModal({ isOpen, onClose, company }) {
                     Company Details
                 </ModalHeader>
                 <ModalCloseButton size="lg" />
-                <ModalBody>
+                <ModalBody maxH={'700px'} overflowY={'scroll'}>
+                    {company?.logo && (
+                        <Center mb={5}>
+                            <Image
+                                src={company.logo}
+                                alt="Company Logo"
+                                boxSize="120px"
+                                objectFit="contain"
+                                borderRadius="md"
+                                border="1px solid #ccc"
+                            />
+                        </Center>
+                    )}
                     <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
                         <Box>
                             <Text fontWeight="medium" color="gray.700">Company Name</Text>
@@ -30,16 +43,12 @@ export function ViewCompanyModal({ isOpen, onClose, company }) {
                             <Text color="gray.600">{company?.country}</Text>
                         </Box>
                         <Box>
-                            <Text fontWeight="medium" color="gray.700">Visa Number</Text>
-                            <Text color="gray.600">{company?.visaNumber}</Text>
+                            <Text fontWeight="medium" color="gray.700">Permission Number</Text>
+                            <Text color="gray.600">{company?.permission_number}</Text>
                         </Box>
                         <Box>
                             <Text fontWeight="medium" color="gray.700">ID Number</Text>
                             <Text color="gray.600">{company?.idNumber}</Text>
-                        </Box>
-                        <Box>
-                            <Text fontWeight="medium" color="gray.700">Required Trades</Text>
-                            <Text color="gray.600">{company?.requiredTrade?.join(', ')}</Text>
                         </Box>
                     </SimpleGrid>
                     <Box mt={5}>
@@ -48,12 +57,16 @@ export function ViewCompanyModal({ isOpen, onClose, company }) {
                             <Box key={index} p={3} bg="gray.50" rounded="8px" mb={3}>
                                 <SimpleGrid columns={{ base: 1, md: 2 }} spacing={3}>
                                     <Box>
-                                        <Text fontWeight="medium" color="gray.700">Trade Type</Text>
-                                        <Text color="gray.600">{trade.type}</Text>
+                                        <Text fontWeight="medium" color="gray.700">Authorized Trade</Text>
+                                        <Text color="gray.600">{trade.authorized_trade}</Text>
                                     </Box>
                                     <Box>
-                                        <Text fontWeight="medium" color="gray.700">Visa Number</Text>
-                                        <Text color="gray.600">{trade.visaNumber}</Text>
+                                        <Text fontWeight="medium" color="gray.700">Required Trade</Text>
+                                        <Text color="gray.600">{trade.required_trade}</Text>
+                                    </Box>
+                                    <Box>
+                                        <Text fontWeight="medium" color="gray.700">Quantity</Text>
+                                        <Text color="gray.600">{trade.quantity}</Text>
                                     </Box>
                                     <Box>
                                         <Text fontWeight="medium" color="gray.700">Salary</Text>

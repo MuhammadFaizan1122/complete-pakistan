@@ -39,7 +39,7 @@ export default function TrainingDashboard() {
 
     useEffect(() => {
         if (status === 'unauthenticated') {
-            router.push('/login');
+            router.push('/auth/login');
         }
     }, [status])
     useEffect(() => {
