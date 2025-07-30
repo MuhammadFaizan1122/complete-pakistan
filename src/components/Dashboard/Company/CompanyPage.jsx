@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { HiOutlineDuplicate  } from 'react-icons/hi';
+import { HiOutlineDuplicate } from 'react-icons/hi';
 import { FaRegEye, FaEdit, FaTrash } from 'react-icons/fa';
 import { CompanyForm } from './CompanyForm';
 import { ViewCompanyModal } from './ViewCompanyModal';
@@ -144,6 +144,75 @@ export default function CompanyPage() {
         });
 
         onCreateClose();
+        fetchCompanies();
+        resetForm();
+    };
+    const handleDuplicate = async (company) => {
+        const duplicatedForm = {
+            ...company,
+            _id: undefined,
+            name: `${company.name} (Copy)`,
+            logo: company.logo || '',
+            visaAuthorizedTrade: company.visaAuthorizedTrade.length > 0
+                ? company.visaAuthorizedTrade.map(trade => ({
+                    ...trade,
+                    authorized_trade: trade.authorized_trade || '',
+                    required_trade: trade.required_trade || '',
+                    quantity: trade.quantity || 1,
+                }))
+                : [{
+                    salary: '',
+                    currency: 'USD',
+                    authorized_trade: '',
+                    required_trade: '',
+                    quantity: 1,
+                    dutyTimings: '8 hours/day',
+                    overtime: 'yes',
+                    benefits: ['Medical Insurance'],
+                    contractPeriod: '2 years',
+                    NAVTAC: '',
+                }],
+        };
+        setForm(duplicatedForm);
+        if (!validateForm()) {
+            toast({
+                title: 'Validation Error',
+                description: 'Please ensure all required fields are valid for the duplicated company',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
+        let uploadedLogoUrl = duplicatedForm.logo;
+        if (duplicatedForm.logo && typeof duplicatedForm.logo === 'object') {
+            const uploadRes = await handleUpload(duplicatedForm.logo);
+            uploadedLogoUrl = uploadRes?.data?.url || '';
+        }
+        const payload = {
+            ...duplicatedForm,
+            userId: session?.user?.id,
+            logo: uploadedLogoUrl,
+            _id: undefined,
+        };
+        const res = await handleCreateCompany(payload);
+        if (res?.error) {
+            toast({
+                title: 'Error',
+                description: res.error,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
+        toast({
+            title: 'Company Duplicated',
+            description: 'The company has been successfully duplicated.',
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        });
         fetchCompanies();
         resetForm();
     };
@@ -407,8 +476,8 @@ export default function CompanyPage() {
                                         />
                                         <IconButton
                                             icon={<HiOutlineDuplicate />}
-                                            aria-label="Delete Company"
-                                            // onClick={() => handleDelete(c._id)}
+                                            aria-label="Duplicate Company"
+                                            onClick={() => handleDuplicate(c)}
                                             colorScheme="yellow"
                                             variant="outline"
                                             size="sm"
