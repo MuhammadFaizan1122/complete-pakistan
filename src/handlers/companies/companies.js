@@ -1,5 +1,14 @@
 import axios from 'axios';
-
+// get all companies
+export const handleGetAllGulfCompanies = async (userId) => {
+    try {
+        const response = await axios.get(`/api/companies/get-all`);
+        return response;
+    } catch (error) {
+        console.error('Error fetching companies:', error.response?.data?.error || error.message);
+        return [];
+    }
+};
 export const handleGetCompanies = async (userId) => {
     try {
         const response = await axios.get(`/api/companies?userId=${userId}`);
