@@ -40,7 +40,6 @@ export default function CreateProfessionalProfile() {
             setCurrentStep(3);
         } else {
             alert('Form completed! Data saved.');
-            console.log('Final Form Data:', formData);
         }
     };
 

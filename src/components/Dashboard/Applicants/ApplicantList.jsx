@@ -19,7 +19,6 @@ const ApplicantList = () => {
   useEffect(() => {
     const fetchApplicants = async () => {
       const res = await handleGetJobApplications();
-      console.log('Fetched Applicants:', res);
       if (res?.data) setApplicants(res.data.data);
       setLoading(false);
     };

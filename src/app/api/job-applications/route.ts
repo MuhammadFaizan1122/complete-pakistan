@@ -94,7 +94,6 @@ export async function GET(req: NextRequest) {
     const jobId = searchParams.get('job_id');
     const status = searchParams.get('status');
 
-    console.log('searchParams', applicantId, jobId)
     const query: any = {};
     if (applicantId) query.applicant_user_id = applicantId;
     if (jobId) query.job_id = jobId;
@@ -103,7 +102,6 @@ export async function GET(req: NextRequest) {
     const applications = await JobApplication.find(query)
       .populate('applicant_user_id', 'name email')
       .populate('job_id', 'jobTitle companyName');
-    console.log('applications==>', applications)
     const enrichedApplications = await Promise.all(
       applications.map(async (app) => {
         // @ts-ignore

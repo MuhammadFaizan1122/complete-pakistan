@@ -63,7 +63,6 @@ export default function SetNewPassword() {
     }, [status, router]);
   const onSubmit = async (data) => {
     try {
-      console.log("New password data:", data);
       toast({ title: "Password reset successfully", status: "success", isClosable: true });
       router.push("/login");
     } catch (error) {

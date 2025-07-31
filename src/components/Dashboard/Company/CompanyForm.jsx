@@ -28,7 +28,6 @@ export function CompanyForm({ form, setForm, errors, handleChange, handleBenefit
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [previewLogo, setPreviewLogo] = useState(null);
-    console.log('loading', isLoading)
     useEffect(() => {
         if (form.country) {
             const selectedCountry = countries.find((c) => c.name === form.country);

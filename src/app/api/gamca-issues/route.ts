@@ -10,7 +10,6 @@ export async function GET(req: NextRequest) {
         const id = req.nextUrl.searchParams.get('id');
 
         if (id) {
-            console.log('id==>', id)
             // @ts-ignore
             const single = await GamcaIssue.findById(id);
             return NextResponse.json({ success: true, data: single });

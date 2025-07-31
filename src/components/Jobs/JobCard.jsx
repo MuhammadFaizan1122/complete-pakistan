@@ -44,7 +44,6 @@ const JobCard = memo(({ job }) => {
     const userId = session?.user?.id;
     const toast = useToast();
     const [isApplying, setIsApplying] = useState(false);
-console.log('session', session)
     const handleApply = async () => {
         if (!userId) {
             toast({

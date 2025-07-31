@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// ✅ Create GAMCA Entry
+// Create GAMCA Entry
 export const handleCreateMadical = async (payload) => {
   try {
     const res = await axios.post(`/api/gamca-madical-appointments`, payload);
@@ -11,7 +11,7 @@ export const handleCreateMadical = async (payload) => {
   }
 };
 
-// ✅ Get All or Filter by Email
+// Get All or Filter by Email
 export const handleFetchMadicals = async (id = '') => {
   try {
     const url = id ? `/api/gamca-madical-appointments?id=${id}` : `/api/gamca-madical-appointments`;
@@ -23,7 +23,7 @@ export const handleFetchMadicals = async (id = '') => {
   }
 };
 
-// ✅ Update by ID
+// Update by ID
 export const handleUpdateMadical = async (id, payload) => {
   try {
     const res = await axios.patch(`/api/gamca-madical-appointments?id=${id}`, payload);
@@ -34,11 +34,10 @@ export const handleUpdateMadical = async (id, payload) => {
   }
 };
 
-// ✅ Delete by ID
+// Delete by ID
 export const handleDeleteMadical = async (id) => {
   try {
     const res = await axios.delete(`/api/gamca-madical-appointments?id=${id}`);
-    console.log('working')
     return res.data;
   } catch (error) {
     console.error('Delete Gamca error:', error);

@@ -73,7 +73,6 @@ const SignupPage = () => {
             const payload = { name: data.fullName, email: data.email, password: data.password, password_confirmation: data.confirmPassword }
             const response = await handleRegister(payload)
             if (response.status !== 201) {
-                console.log('response', response)
                 // toast.error(response)
                 toast({
                     title: 'Error',
@@ -93,7 +92,6 @@ const SignupPage = () => {
                 });
                 router.push("/auth/login");
             }
-            console.log("response:", response);
         } catch (error) {
             console.error("Signup error:", error);
         }

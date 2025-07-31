@@ -48,7 +48,6 @@ export default function GulfCompanies() {
         const fetchCompanies = async () => {
             try {
                 const data = await handleGetAllGulfCompanies();
-                console.log('data', data);
                 const response = await fetch(`/api/slider?page=gulfCompanies`);
                 const sliderData = await response.json();
                 setSliderImages(sliderData?.data?.sliderImgs || []);

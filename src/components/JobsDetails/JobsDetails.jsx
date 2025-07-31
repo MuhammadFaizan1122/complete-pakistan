@@ -247,11 +247,6 @@ const Jobs = () => {
         } else {
             console.warn('Job not found with ID:', params.id);
         }
-
-        // Debug logs
-        console.log('Matched Job:', matchedJob);
-        console.log('All Jobs:', storedJobs);
-        console.log('Params:', params);
     }, [params?.id]);
 
     return (

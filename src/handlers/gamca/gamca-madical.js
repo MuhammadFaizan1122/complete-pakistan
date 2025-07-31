@@ -40,7 +40,6 @@ export const handleUpdateMadical = async (id, payload) => {
 export const handleDeleteMadical = async (id) => {
   try {
     const res = await axios.delete(`/api/gamca-madical?id=${id}`);
-    console.log('working')
     return res.data;
   } catch (error) {
     console.error('Delete Gamca error:', error);

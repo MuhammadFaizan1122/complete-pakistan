@@ -104,7 +104,6 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData, setIs
   };
 
   const handleDone = () => {
-    console.log('handleDone called with employmentData:', employmentData);
     try {
       if (!validateForm()) {
         console.log('Validation failed');
@@ -124,9 +123,6 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData, setIs
         details: ''
       });
       setIsAdding(false)
-
-      console.log('Education updated:', [...currentEducation, employmentData]);
-      console.log('Calling onClose');
       onClose();
     } catch (error) {
       console.error('Error in handleDone:', error);

@@ -142,10 +142,8 @@ const ApplicantSelectionModal = ({ isOpen, onClose, applicant }) => {
                 notice: noticeUrl,
             };
 
-            console.log('Form data:', finalPayload);
             const response = await handleCreateOrUpdateJobApplication(applicant._id, finalPayload);
             if (response.status === 201 || response.status === 200) {
-                console.log('Application saved:', response.data);
                 onClose();
             } else {
                 console.error('Error saving application:', response.data);

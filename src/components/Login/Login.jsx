@@ -73,7 +73,6 @@ export const LoginPage = () => {
                     duration: 4000,
                     isClosable: true,
                 });
-                console.log('response', response)
             }
             if (response.status === 200) {
                 toast({
@@ -83,8 +82,6 @@ export const LoginPage = () => {
                     duration: 4000,
                     isClosable: true,
                 });
-                // toast.error(response.data.message)
-                console.log('response', response)
             }
         } catch (error) {
             console.error("Login error:", error);

@@ -24,7 +24,6 @@ const DashboardContent = () => {
     const { data: session, status } = useSession();
     const router = useRouter()
     const [dashboardData, setDashboardData] = useState(null);
-    console.log('dashboardData', dashboardData)
 const candidates = [
         {
             name: 'Miles, Esther',

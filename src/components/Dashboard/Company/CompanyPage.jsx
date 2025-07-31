@@ -124,7 +124,6 @@ export default function CompanyPage() {
         let uploadedLogoUrl = '';
         if (form.logo && typeof form.logo === 'object') {
             const uploadRes = await handleUpload(form.logo);
-            console.log('payload', uploadRes)
             uploadedLogoUrl = uploadRes?.data?.url || '';
         }
 
@@ -133,7 +132,6 @@ export default function CompanyPage() {
             userId: session?.user?.id,
             logo: uploadedLogoUrl,
         };
-        console.log('payload', payload)
         const res = await handleCreateCompany(payload);
 
         if (res?.error) {

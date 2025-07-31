@@ -138,7 +138,6 @@ const SummaryForm = ({ type }) => {
     };
 
     const onSubmit = async (data: any) => {
-        console.log('working', data)
         if (!session) {
             router.push("/auth/signin");
             return;
@@ -177,7 +176,6 @@ const SummaryForm = ({ type }) => {
                 // @ts-ignore
                 userId: session?.user.id,
             };
-            console.log('formData==>', data)
             const response = await handleCreateCV(finalPayload);
             if (response?.status === 201) {
                 toast({

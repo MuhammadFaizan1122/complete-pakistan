@@ -154,7 +154,6 @@ export async function DELETE(req: NextRequest) {
     await connectDB();
     const userId = req.nextUrl.searchParams.get('id');
 
-    console.log('params==>', userId);
     // @ts-ignore
     const deleted = await GamcaMedicalAppointments.findByIdAndDelete(userId);
 

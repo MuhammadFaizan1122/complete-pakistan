@@ -52,7 +52,6 @@ export default function ContactUs() {
 
   const onSubmit = async (data) => {
     // Simulate form submission (replace with actual API call)
-    console.log("Form submitted:", data);
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate async request
     alert("Message sent successfully!");
   };

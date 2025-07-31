@@ -47,7 +47,6 @@ export default function Interviews() {
       const sliderData = await response.json();
       setSliderImages(sliderData?.data?.sliderImgs || []);
       setNews(sliderData?.data?.news || []);
-      console.log('data', data)
       if (data.status === 200) {
         setMedicals(data.data.data);
         setError(null);
