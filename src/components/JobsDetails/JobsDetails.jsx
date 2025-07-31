@@ -148,7 +148,7 @@ const Jobs = () => {
             <CardBody p={6}>
                 <Flex direction="column" gap={4}>
                     <Flex justify="space-between" align="center">
-                        <Box bg={'#3096891A'} px={3} py={1} borderRadius="md">
+                        <Box bg={'#0a74501A'} px={3} py={1} borderRadius="md">
                             <Text fontSize="16px" color="gray.500">
                                 {job.timeAgo}
                             </Text>
@@ -217,7 +217,7 @@ const Jobs = () => {
                         </HStack>
 
                         <Button
-                            bg={'#309689'}
+                            bg={'#0a7450'}
                             color={'white'}
                             size="md"
                             px={6}
@@ -257,14 +257,14 @@ const Jobs = () => {
     return (
         <Box >
             <HeroSection />
-            <Box bg={'#3096891A'} minH="100vh">
+            <Box bg={'#0a74501A'} minH="100vh">
                 <Container maxW={{ base: '100%', sm: 'container.sm', md: 'container.md', lg: '1440px' }} py={{ base: 10, md: 20 }}>
                     <Box bg={'transparent'} mb={6}>
                         <Flex justify="space-between" align="center" mb={6} flexWrap="wrap" gap={4}>
                             <Text
                                 fontSize={{ base: 'sm', md: 'md' }}
-                                bg={'#3096891A'}
-                                color="#309689"
+                                bg={'#0a74501A'}
+                                color="#0a7450"
                                 rounded={'12px'}
                                 px={{ base: '8px', md: '10px' }}
                                 py={'2px'}
@@ -357,9 +357,9 @@ const Jobs = () => {
                                 </HStack>
                             </Flex>
                             <Button
-                                bg="#309689"
+                                bg="#0a7450"
                                 color="white"
-                                _hover={{ bg: '#309689' }}
+                                _hover={{ bg: '#0a7450' }}
                                 px={{ base: 6, md: 8 }}
                                 py={{ base: 4, md: 6 }}
                                 borderRadius="xl"
@@ -390,7 +390,7 @@ const Jobs = () => {
                                 <VStack spacing={4} align="start">
                                     {job.keyResponsibilities?.map((responsibility, index) => (
                                         <HStack key={index} spacing={3} align="start">
-                                            <Icon as={FaCheck} w={{ base: 3, md: 4 }} h={{ base: 3, md: 4 }} color="#309689" mt={1} flexShrink={0} />
+                                            <Icon as={FaCheck} w={{ base: 3, md: 4 }} h={{ base: 3, md: 4 }} color="#0a7450" mt={1} flexShrink={0} />
                                             <Text fontSize={{ base: '14px', md: '16px' }} color="gray.600">{responsibility}</Text>
                                         </HStack>
                                     ))}
@@ -408,7 +408,7 @@ const Jobs = () => {
                                         "Tortor amet porta proin in. Orci imperdiet nisl dignissim pellentesque morbi vitae"
                                     ].map((skill, index) => (
                                         <HStack key={index} spacing={3} align="start">
-                                            <Icon as={FaCheck} w={{ base: 3, md: 4 }} h={{ base: 3, md: 4 }} color="#309689" mt={1} flexShrink={0} />
+                                            <Icon as={FaCheck} w={{ base: 3, md: 4 }} h={{ base: 3, md: 4 }} color="#0a7450" mt={1} flexShrink={0} />
                                             <Text fontSize={{ base: '14px', md: '16px' }} color="gray.600">{skill}</Text>
                                         </HStack>
                                     ))}
@@ -424,8 +424,8 @@ const Jobs = () => {
                                             <Text
                                                 key={index}
                                                 fontSize={{ base: 'sm', md: 'md' }}
-                                                bg={'#3096891A'}
-                                                color="#309689"
+                                                bg={'#0a74501A'}
+                                                color="#0a7450"
                                                 rounded={'12px'}
                                                 px={{ base: '8px', md: '10px' }}
                                                 py={'2px'}
@@ -537,7 +537,7 @@ const Jobs = () => {
                                 >
                                     <Circle
                                         size={{ base: '24px', md: '32px' }}
-                                        bg="#309689"
+                                        bg="#0a7450"
                                         color="white"
                                         position="absolute"
                                         top="50%"
@@ -667,12 +667,12 @@ const Jobs = () => {
                                         />
                                     </Box>
                                     <Button
-                                        bg="#309689"
+                                        bg="#0a7450"
                                         color="white"
                                         size="lg"
                                         borderRadius="lg"
-                                        _hover={{ bg: '#309689' }}
-                                        _active={{ bg: '#309689' }}
+                                        _hover={{ bg: '#0a7450' }}
+                                        _active={{ bg: '#0a7450' }}
                                         mt={2}
                                         fontSize={{ base: 'sm', md: 'md' }}
                                     >

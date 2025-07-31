@@ -5,7 +5,7 @@ import React from 'react';
 const StyledButton = ({ title, ...rest }) => {
     return (
         <Button
-            bg="#309689"
+            bg="#0a7450"
             w="full"
             color="white"
             borderRadius="15px"

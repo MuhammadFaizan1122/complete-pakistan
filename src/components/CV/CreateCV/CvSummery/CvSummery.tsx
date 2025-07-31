@@ -351,7 +351,7 @@ const SummaryForm = ({ type }) => {
                                 outlineColor="gray.300"
                                 _focus={{
                                     ring: 2,
-                                    ringColor: "#309689",
+                                    ringColor: "#0a7450",
                                     borderColor: "transparent",
                                     outline: "none"
                                 }}
@@ -387,7 +387,7 @@ const SummaryForm = ({ type }) => {
                                 {education.map((edu: any, idx: number) => (
                                     <Tag
                                         key={idx}
-                                        bg="#309689"
+                                        bg="#0a7450"
                                         color="white"
                                         m={1}
                                         rounded="8px"
@@ -434,7 +434,7 @@ const SummaryForm = ({ type }) => {
                                 outlineColor="gray.300"
                                 _focus={{
                                     ring: 2,
-                                    ringColor: "#309689",
+                                    ringColor: "#0a7450",
                                     borderColor: "transparent",
                                     outline: "none"
                                 }}
@@ -458,7 +458,7 @@ const SummaryForm = ({ type }) => {
                                 outlineColor="gray.300"
                                 _focus={{
                                     ring: 2,
-                                    ringColor: "#309689",
+                                    ringColor: "#0a7450",
                                     borderColor: "transparent",
                                     outline: "none"
                                 }}
@@ -483,7 +483,7 @@ const SummaryForm = ({ type }) => {
                                 outlineColor="gray.300"
                                 _focus={{
                                     ring: 2,
-                                    ringColor: "#309689",
+                                    ringColor: "#0a7450",
                                     borderColor: "transparent",
                                     outline: "none"
                                 }}
@@ -513,7 +513,7 @@ const SummaryForm = ({ type }) => {
                                 bg="white"
                                 outline="1px solid"
                                 outlineColor="gray.300"
-                                _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                                _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                                 _active={{ outline: "none" }}
                                 transition="all 0.2s"
                                 {...register("technicalEducation")}
@@ -535,7 +535,7 @@ const SummaryForm = ({ type }) => {
 
                     <Button type="submit"
                         mt={4}
-                        bg="#309689"
+                        bg="#0a7450"
                         color="white"
                         rounded="15px"
                         px={6}

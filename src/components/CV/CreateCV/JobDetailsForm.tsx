@@ -57,7 +57,7 @@ export default function JobDetailsForm({
           bg="white"
           outline="1px solid"
           outlineColor="gray.300"
-          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+          _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
           _active={{ outline: "none" }}
           transition="all 0.2s"
           {...register("jobTitle")}
@@ -75,7 +75,7 @@ export default function JobDetailsForm({
           bg="white"
           outline="1px solid"
           outlineColor="gray.300"
-          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+          _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
           _active={{ outline: "none" }}
           transition="all 0.2s"
           {...register("industry")}
@@ -101,7 +101,7 @@ export default function JobDetailsForm({
           bg="white"
           outline="1px solid"
           outlineColor="gray.300"
-          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+          _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
           _active={{ outline: "none" }}
           transition="all 0.2s"
           {...register("category")}
@@ -127,7 +127,7 @@ export default function JobDetailsForm({
           bg="white"
           outline="1px solid"
           outlineColor="gray.300"
-          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+          _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
           _active={{ outline: "none" }}
           transition="all 0.2s"
           {...register("subcategory")}
@@ -154,7 +154,7 @@ export default function JobDetailsForm({
           bg="white"
           outline="1px solid"
           outlineColor="gray.300"
-          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+          _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
           _active={{ outline: "none" }}
           transition="all 0.2s"
           {...register("jobDetails")}
@@ -165,7 +165,7 @@ export default function JobDetailsForm({
         <Button
           mt={4}
           w={'full'}
-          bg="#309689"
+          bg="#0a7450"
           color="white"
           rounded="15px"
           px={6}
@@ -178,7 +178,7 @@ export default function JobDetailsForm({
         <Button
           mt={4}
           w={'full'}
-          bg="#309689"
+          bg="#0a7450"
           color="white"
           rounded="15px"
           px={6}

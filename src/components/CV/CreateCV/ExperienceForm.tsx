@@ -194,7 +194,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
           {experience.map((exp: any, idx: number) => (
             <Tag
               key={idx}
-              bg="#309689"
+              bg="#0a7450"
               color="white"
               m={1}
               rounded="8px"
@@ -246,7 +246,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
                 outlineColor="gray.300"
                 _focus={{
                   ring: 2,
-                  ringColor: "#309689",
+                  ringColor: "#0a7450",
                   borderColor: "transparent",
                   outline: "none",
                 }}
@@ -274,7 +274,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
                 outlineColor="gray.300"
                 _focus={{
                   ring: 2,
-                  ringColor: "#309689",
+                  ringColor: "#0a7450",
                   borderColor: "transparent",
                   outline: "none",
                 }}
@@ -307,7 +307,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
                 outlineColor="gray.300"
                 _focus={{
                   ring: 2,
-                  ringColor: "#309689",
+                  ringColor: "#0a7450",
                   borderColor: "transparent",
                   outline: "none",
                 }}
@@ -344,7 +344,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
                 outlineColor="gray.300"
                 _focus={{
                   ring: 2,
-                  ringColor: "#309689",
+                  ringColor: "#0a7450",
                   borderColor: "transparent",
                   outline: "none",
                 }}
@@ -378,7 +378,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
               outlineColor="gray.300"
               _focus={{
                 ring: 2,
-                ringColor: "#309689",
+                ringColor: "#0a7450",
                 borderColor: "transparent",
                 outline: "none",
               }}
@@ -417,7 +417,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
                   max={new Date().toISOString().split("T")[0]}
                   _focus={{
                     ring: 2,
-                    ringColor: "#309689",
+                    ringColor: "#0a7450",
                     borderColor: "transparent",
                     outline: "none",
                   }}
@@ -450,7 +450,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
                   outlineColor="gray.300"
                   _focus={{
                     ring: 2,
-                    ringColor: "#309689",
+                    ringColor: "#0a7450",
                     borderColor: "transparent",
                     outline: "none",
                   }}
@@ -483,7 +483,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
               outlineColor="gray.300"
               _focus={{
                 ring: 2,
-                ringColor: "#309689",
+                ringColor: "#0a7450",
                 borderColor: "transparent",
                 outline: "none",
               }}
@@ -509,7 +509,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
             </Button>
             <Button
               onClick={handleDone}
-              bg="#309689"
+              bg="#0a7450"
               color="white"
               fontSize="16px"
               fontWeight="bold"
@@ -529,7 +529,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
         <Button
           mt={4}
           w="full"
-          bg="#309689"
+          bg="#0a7450"
           color="white"
           rounded="15px"
           px={6}
@@ -542,7 +542,7 @@ export default function ExperienceForm({ register, setValue, watch, errors, setT
         <Button
           mt={4}
           w="full"
-          bg="#309689"
+          bg="#0a7450"
           color="white"
           rounded="15px"
           px={6}

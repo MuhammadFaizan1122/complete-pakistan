@@ -79,7 +79,7 @@ export default function BrowseByCategory() {
                   {cat.label}
                 </Text>
                 <Box
-                  bg="#3096891A"
+                  bg="#0a74501A"
                   rounded="8px"
                   px={{ base: "8px", md: "12px" }}
                   py="8px"
@@ -90,7 +90,7 @@ export default function BrowseByCategory() {
                   <Text
                     fontSize={{ base: "12px", sm: "14px", md: "16px" }}
                     mt={{ base: -0.5, md: -1 }}
-                    color="#309689"
+                    color="#0a7450"
                   >
                     {cat.jobs} jobs
                   </Text>

@@ -119,7 +119,7 @@ const SignupPage = () => {
                             py={6}
                             _focus={{
                                 ring: 2,
-                                ringColor: "#309689",
+                                ringColor: "#0a7450",
                                 borderColor: "transparent",
                                 outline: "none"
                             }}
@@ -138,7 +138,7 @@ const SignupPage = () => {
                             {...register("email")}
                             _focus={{
                                 ring: 2,
-                                ringColor: "#309689",
+                                ringColor: "#0a7450",
                                 borderColor: "transparent",
                                 outline: "none"
                             }}
@@ -157,7 +157,7 @@ const SignupPage = () => {
                                 {...register("password")}
                                 _focus={{
                                     ring: 2,
-                                    ringColor: "#309689",
+                                    ringColor: "#0a7450",
                                     borderColor: "transparent",
                                     outline: "none"
                                 }}
@@ -185,7 +185,7 @@ const SignupPage = () => {
                                 {...register("confirmPassword")}
                                 _focus={{
                                     ring: 2,
-                                    ringColor: "#309689",
+                                    ringColor: "#0a7450",
                                     borderColor: "transparent",
                                     outline: "none"
                                 }}
@@ -203,7 +203,7 @@ const SignupPage = () => {
                     </FormControl>
 
                     <Button
-                        bg={'#309689'}
+                        bg={'#0a7450'}
                         color={'#fff'}
                         rounded={'14px'}
                         size="lg"
@@ -216,13 +216,13 @@ const SignupPage = () => {
                     <Text fontSize="sm" textAlign="center">
                         Already have an account?{' '}
                         <NextLink href="/auth/login" passHref>
-                            <Link color="#309689">Login</Link>
+                            <Link color="#0a7450">Login</Link>
                         </NextLink>
                     </Text>
                     <Text fontSize="sm" textAlign="center">
                         Wanna continue as a company?{' '}
                         <NextLink href="/auth/company-registration" passHref>
-                            <Link color="#309689">Register company</Link>
+                            <Link color="#0a7450">Register company</Link>
                         </NextLink>
                     </Text>
                 </Stack>

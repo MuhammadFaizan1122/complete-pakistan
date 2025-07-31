@@ -182,7 +182,7 @@ export default function ReadyMedicalCases() {
   if (loading) {
     return (
       <Center minH="100vh">
-        <Spinner size="xl" color="#309689" thickness="4px" />
+        <Spinner size="xl" color="#0a7450" thickness="4px" />
       </Center>
     );
   }
@@ -210,7 +210,7 @@ export default function ReadyMedicalCases() {
                   outlineColor="gray.300"
                   _focus={{
                     ring: 2,
-                    ringColor: "#309689",
+                    ringColor: "#0a7450",
                     borderColor: "transparent",
                     outline: "none",
                   }}
@@ -285,15 +285,15 @@ export default function ReadyMedicalCases() {
               <IconButton
                 aria-label="Grid View"
                 icon={<RiLayoutGridLine className="text-[22px]" />}
-                bg={isGridView ? "#309689" : "gray.300"}
-                color={isGridView ? "white" : "#309689"}
+                bg={isGridView ? "#0a7450" : "gray.300"}
+                color={isGridView ? "white" : "#0a7450"}
                 onClick={() => setIsGridView(true)}
               />
               <IconButton
                 aria-label="List View"
                 icon={<CgLayoutList className="text-[34px]" />}
-                bg={!isGridView ? "#309689" : "gray.300"}
-                color={!isGridView ? "white" : "#309689"}
+                bg={!isGridView ? "#0a7450" : "gray.300"}
+                color={!isGridView ? "white" : "#0a7450"}
                 onClick={() => setIsGridView(false)}
               />
             </HStack>
@@ -415,8 +415,8 @@ export default function ReadyMedicalCases() {
                           leftIcon={<MdOutlineRemoveRedEye />}
                           variant="ghost"
                           p={4}
-                          color={"#309689"}
-                          border={'2px solid #309689'}
+                          color={"#0a7450"}
+                          border={'2px solid #0a7450'}
                           borderRadius={'15px'}
                           // onClick={() => handleViewMedicalReport(candidate?.medicalReportUrl)}
                           isDisabled={!candidate?.medicalReportUrl}
@@ -428,8 +428,8 @@ export default function ReadyMedicalCases() {
                           leftIcon={<UploadIcon />}
                           variant="ghost"
                           p={4}
-                          color={"#309689"}
-                          border={'2px solid #309689'}
+                          color={"#0a7450"}
+                          border={'2px solid #0a7450'}
                           borderRadius={'15px'}
                         >
                           Upload Visa Copy
@@ -443,8 +443,8 @@ export default function ReadyMedicalCases() {
                           p={4}
                           _hover={{ color: "#fff" }}
                           color={"#fff"}
-                          bg={'#309689'}
-                          border={'2px solid #309689'}
+                          bg={'#0a7450'}
+                          border={'2px solid #0a7450'}
                           borderRadius={'15px'}
                         >
                           Match
@@ -453,9 +453,9 @@ export default function ReadyMedicalCases() {
                           size="lg"
                           flex="1"
                           p={4}
-                          color={"#309689"}
+                          color={"#0a7450"}
                           bg={'#fff'}
-                          border={'2px solid #309689'}
+                          border={'2px solid #0a7450'}
                           borderRadius={'15px'}
                         >
                           Recommend
@@ -574,8 +574,8 @@ export default function ReadyMedicalCases() {
                           leftIcon={<MdOutlineRemoveRedEye />}
                           variant="ghost"
                           p={4}
-                          color={"#309689"}
-                          border={'2px solid #309689'}
+                          color={"#0a7450"}
+                          border={'2px solid #0a7450'}
                           borderRadius={'15px'}
                           // onClick={() => handleViewMedicalReport(candidate?.medicalReportUrl)}
                           isDisabled={!candidate?.medicalReportUrl}
@@ -587,8 +587,8 @@ export default function ReadyMedicalCases() {
                           leftIcon={<UploadIcon />}
                           variant="ghost"
                           p={4}
-                          color={"#309689"}
-                          border={'2px solid #309689'}
+                          color={"#0a7450"}
+                          border={'2px solid #0a7450'}
                           borderRadius={'15px'}
                         >
                           Upload Visa Copy
@@ -601,8 +601,8 @@ export default function ReadyMedicalCases() {
                           p={4}
                           _hover={{ color: "#fff" }}
                           color={"#fff"}
-                          bg={'#309689'}
-                          border={'2px solid #309689'}
+                          bg={'#0a7450'}
+                          border={'2px solid #0a7450'}
                           borderRadius={'15px'}
                         >
                           Match
@@ -611,9 +611,9 @@ export default function ReadyMedicalCases() {
                           size="lg"
                           flex="1"
                           p={4}
-                          color={"#309689"}
+                          color={"#0a7450"}
                           bg={'#fff'}
-                          border={'2px solid #309689'}
+                          border={'2px solid #0a7450'}
                           borderRadius={'15px'}
                         >
                           Recommend

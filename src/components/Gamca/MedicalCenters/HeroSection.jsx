@@ -144,7 +144,7 @@ export function HeroSection({ sliderImages, news }) {
                   href={button.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  bg="#309689"
+                  bg="#0a7450"
                   w={{ base: "full", md: "200px" }}
                   color="white"
                   border="1px solid transparent"
@@ -162,7 +162,7 @@ export function HeroSection({ sliderImages, news }) {
       </Box>
 
       {news.length > 0 && (
-        <Box w="full" bg="#309689" height={{ base: "auto", md: "50px" }} overflow="hidden">
+        <Box w="full" bg="#0a7450" height={{ base: "auto", md: "50px" }} overflow="hidden">
           <Box w="full" py={{ base: 2, sm: 0 }} textAlign="left" maxW={{ base: "100%", md: "1420px" }} mx="auto">
             <Swiper
               modules={[Autoplay]}

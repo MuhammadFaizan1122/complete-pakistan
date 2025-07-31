@@ -112,7 +112,7 @@ export default function SkillsForm({ downloadPDF, register, setValue, watch, err
           {skills.map((skill: string, idx: number) => (
             <Tag
               key={idx}
-              bg="#309689"
+              bg="#0a7450"
               color="white"
               m={1}
               rounded="8px"
@@ -164,7 +164,7 @@ export default function SkillsForm({ downloadPDF, register, setValue, watch, err
                 _active={{ bg: "gray.200" }}
                 _focus={{
                   ring: 2,
-                  ringColor: "#309689",
+                  ringColor: "#0a7450",
                   borderColor: "transparent",
                   outline: "none",
                 }}
@@ -221,7 +221,7 @@ export default function SkillsForm({ downloadPDF, register, setValue, watch, err
             </Button>
             <Button
               onClick={handleDone}
-              bg="#309689"
+              bg="#0a7450"
               color="white"
               fontSize="16px"
               fontWeight="bold"
@@ -241,7 +241,7 @@ export default function SkillsForm({ downloadPDF, register, setValue, watch, err
         <Button
           mt={4}
           w="full"
-          bg="#309689"
+          bg="#0a7450"
           color="white"
           rounded="15px"
           px={6}
@@ -254,7 +254,7 @@ export default function SkillsForm({ downloadPDF, register, setValue, watch, err
         <Button
           type="submit"
           mt={4}
-          bg="#309689"
+          bg="#0a7450"
           color="white"
           w="full"
           rounded="15px"
@@ -267,7 +267,7 @@ export default function SkillsForm({ downloadPDF, register, setValue, watch, err
         <Button
           onClick={downloadPDF}
           mt={4}
-          bg="#309689"
+          bg="#0a7450"
           w="full"
           color="white"
           rounded="15px"
@@ -279,7 +279,7 @@ export default function SkillsForm({ downloadPDF, register, setValue, watch, err
         </Button>
         <Button
           mt={4}
-          bg="#309689"
+          bg="#0a7450"
           w="full"
           color="white"
           rounded="15px"

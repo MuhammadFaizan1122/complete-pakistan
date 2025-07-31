@@ -378,7 +378,7 @@ export default function CompanyPage() {
             <Flex justifyContent={'space-between'}>
                 <Button
                     onClick={handleOpenCreateModal}
-                    bg="#309689"
+                    bg="#0a7450"
                     color="white"
                     _hover={{ bg: '#247a70' }}
                     rounded="12px"
@@ -403,7 +403,7 @@ export default function CompanyPage() {
             <Modal isOpen={isCreateOpen} onClose={onCreateClose} isCentered size={{ base: 'full', md: '3xl' }}>
                 <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
                 <ModalContent rounded="16px" p={{ base: 2, md: 4 }}>
-                    <ModalHeader color="#309689" fontSize="2xl" fontWeight="bold">
+                    <ModalHeader color="#0a7450" fontSize="2xl" fontWeight="bold">
                         Add New Company
                     </ModalHeader>
                     <ModalCloseButton size="lg" />
@@ -427,7 +427,7 @@ export default function CompanyPage() {
             <Modal isOpen={isEditOpen} onClose={onEditClose} isCentered size={{ base: 'full', md: '3xl' }}>
                 <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
                 <ModalContent rounded="16px" p={{ base: 2, md: 4 }}>
-                    <ModalHeader color="#309689" fontSize="2xl" fontWeight="bold">
+                    <ModalHeader color="#0a7450" fontSize="2xl" fontWeight="bold">
                         Edit Company
                     </ModalHeader>
                     <ModalCloseButton size="lg" />
@@ -469,14 +469,14 @@ export default function CompanyPage() {
                     <Table variant="simple" size={{ base: 'sm', md: 'md' }}>
                         <Thead bg="gray.100">
                             <Tr>
-                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Name</Th>
-                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>City</Th>
-                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Country</Th>
-                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Permission Number</Th>
-                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>ID Number</Th>
-                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Trades</Th>
-                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Date</Th>
-                                <Th color="#309689" fontSize={{ base: 'sm', md: 'md' }} py={4}>Actions</Th>
+                                <Th color="#0a7450" fontSize={{ base: 'sm', md: 'md' }} py={4}>Name</Th>
+                                <Th color="#0a7450" fontSize={{ base: 'sm', md: 'md' }} py={4}>City</Th>
+                                <Th color="#0a7450" fontSize={{ base: 'sm', md: 'md' }} py={4}>Country</Th>
+                                <Th color="#0a7450" fontSize={{ base: 'sm', md: 'md' }} py={4}>Permission Number</Th>
+                                <Th color="#0a7450" fontSize={{ base: 'sm', md: 'md' }} py={4}>ID Number</Th>
+                                <Th color="#0a7450" fontSize={{ base: 'sm', md: 'md' }} py={4}>Trades</Th>
+                                <Th color="#0a7450" fontSize={{ base: 'sm', md: 'md' }} py={4}>Date</Th>
+                                <Th color="#0a7450" fontSize={{ base: 'sm', md: 'md' }} py={4}>Actions</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
@@ -497,7 +497,7 @@ export default function CompanyPage() {
                                 ) : (
                                     paginatedCompanies.map((c) => (
                                         <Tr key={c._id} _hover={{ bg: 'gray.50' }}>
-                                            <Td fontWeight="bold" color="#309689" fontSize={{ base: 'sm', md: 'md' }}>{c.name}</Td>
+                                            <Td fontWeight="bold" color="#0a7450" fontSize={{ base: 'sm', md: 'md' }}>{c.name}</Td>
                                             <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.city}</Td>
                                             <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.country}</Td>
                                             <Td color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>{c.permission_number}</Td>

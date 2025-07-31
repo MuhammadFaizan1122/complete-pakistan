@@ -101,8 +101,8 @@ export default function ContactUs() {
                   borderColor="gray.300"
                   fontSize={{ base: "sm", md: "md" }}
                   _focus={{
-                    borderColor: "#309689",
-                    boxShadow: "0 0 0 1px #309689",
+                    borderColor: "#0a7450",
+                    boxShadow: "0 0 0 1px #0a7450",
                   }}
                 />
                 <FormErrorMessage fontSize="xs">{errors.name?.message}</FormErrorMessage>
@@ -119,8 +119,8 @@ export default function ContactUs() {
                   borderColor="gray.300"
                   fontSize={{ base: "sm", md: "md" }}
                   _focus={{
-                    borderColor: "#309689",
-                    boxShadow: "0 0 0 1px #309689",
+                    borderColor: "#0a7450",
+                    boxShadow: "0 0 0 1px #0a7450",
                   }}
                 />
                 <FormErrorMessage fontSize="xs">{errors.email?.message}</FormErrorMessage>
@@ -137,14 +137,14 @@ export default function ContactUs() {
                   fontSize={{ base: "sm", md: "md" }}
                   rows={5}
                   _focus={{
-                    borderColor: "#309689",
-                    boxShadow: "0 0 0 1px #309689",
+                    borderColor: "#0a7450",
+                    boxShadow: "0 0 0 1px #0a7450",
                   }}
                 />
                 <FormErrorMessage fontSize="xs">{errors.message?.message}</FormErrorMessage>
               </FormControl>
               <Button
-                bg="#309689"
+                bg="#0a7450"
                 color="white"
                 rounded="xl"
                 px={{ base: 6, md: 8 }}
@@ -161,7 +161,7 @@ export default function ContactUs() {
 
           {/* Contact Details */}
           <Box
-            bg="#30968926"
+            bg="#0a745026"
             p={{ base: 4, md: 6 }}
             rounded="20px"
             shadow="md"
@@ -173,7 +173,7 @@ export default function ContactUs() {
                   <Box
                     w={{ base: "40px", sm: "48px", md: "60px" }}
                     h={{ base: "40px", sm: "48px", md: "60px" }}
-                    bg="#309689"
+                    bg="#0a7450"
                     rounded="full"
                     display="flex"
                     alignItems="center"
@@ -218,7 +218,7 @@ export default function ContactUs() {
                       as="a"
                       href={social.link}
                       target="_blank"
-                      bg="#309689"
+                      bg="#0a7450"
                       color="white"
                       rounded="full"
                       p={2}
@@ -277,7 +277,7 @@ export default function ContactUs() {
 
         {/* CTA Section */}
         <Box
-          bg="#309689"
+          bg="#0a7450"
           rounded="20px"
           shadow="md"
           p={{ base: 4, md: 6 }}
@@ -301,7 +301,7 @@ export default function ContactUs() {
             </Text>
             <Button
               bg="white"
-              color="#309689"
+              color="#0a7450"
               rounded="xl"
               px={{ base: 6, md: 8 }}
               py={{ base: 3, md: 4 }}

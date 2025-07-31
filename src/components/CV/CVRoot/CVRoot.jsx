@@ -10,7 +10,7 @@ const CVRoot = () => {
   const [selectedView, setSelectedView] = useState(null);
   const boxBg = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.600');
-  const hoverBorderColor = '#309689';
+  const hoverBorderColor = '#0a7450';
   const router = useRouter();
       const { data: session, status } = useSession();
   

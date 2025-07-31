@@ -110,7 +110,7 @@ export const LoginPage = () => {
                             py={6}
                             _focus={{
                                 ring: 2,
-                                ringColor: "#309689",
+                                ringColor: "#0a7450",
                                 borderColor: "transparent",
                                 outline: "none"
                             }}
@@ -129,7 +129,7 @@ export const LoginPage = () => {
                                 py={6}
                                 _focus={{
                                     ring: 2,
-                                    ringColor: "#309689",
+                                    ringColor: "#0a7450",
                                     borderColor: "transparent",
                                     outline: "none"
                                 }}
@@ -148,13 +148,13 @@ export const LoginPage = () => {
                     </FormControl>
                     <Flex justify="space-between" align="center">
                         <NextLink href="/auth/forgot-password" passHref>
-                            <Link color="#309689" fontSize="sm" href="/forgot-password">
+                            <Link color="#0a7450" fontSize="sm" href="/forgot-password">
                                 Forgot password?
                             </Link>
                         </NextLink>
                     </Flex>
                     <Button
-                        bg={'#309689'}
+                        bg={'#0a7450'}
                         color={'#fff'}
                         size="lg"
                         w="full"
@@ -166,7 +166,7 @@ export const LoginPage = () => {
                     </Button>
                     <Button
                         onClick={() => signIn('google')}
-                        bg={'#309689'}
+                        bg={'#0a7450'}
                         color={'#fff'}
                         size="lg"
                         w="full"
@@ -178,13 +178,13 @@ export const LoginPage = () => {
                     <Text fontSize="sm" textAlign="center">
                         Don't have an account?{' '}
                         <NextLink href="/auth/signup" passHref>
-                            <Link color="#309689">Sign up</Link>
+                            <Link color="#0a7450">Sign up</Link>
                         </NextLink>
                     </Text>
                     <Text fontSize="sm" textAlign="center">
                         Want to create company account?{' '}
                         <NextLink href="/auth/company-registration" passHref>
-                            <Link color="#309689">Create Account</Link>
+                            <Link color="#0a7450">Create Account</Link>
                         </NextLink>
                     </Text>
                 </Stack>

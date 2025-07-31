@@ -62,7 +62,7 @@ export default function Interviews() {
   if (loading) {
     return (
       <Center minH="100vh" bg="gray.50">
-        <Spinner size="xl" color="#309689" thickness="4px" />
+        <Spinner size="xl" color="#0a7450" thickness="4px" />
       </Center>
     );
   }
@@ -73,12 +73,12 @@ export default function Interviews() {
         <VStack spacing={6}>
           <Text fontSize="xl" color="red.500" fontWeight="medium">{error}</Text>
           <Button
-            bgGradient="linear(to-r, #309689, #309689)"
+            bgGradient="linear(to-r, #0a7450, #0a7450)"
             color="white"
             rounded="full"
             px={8}
             py={6}
-            _hover={{ bgGradient: "linear(to-r, #309689, #309689)", transform: "scale(1.05)" }}
+            _hover={{ bgGradient: "linear(to-r, #0a7450, #0a7450)", transform: "scale(1.05)" }}
             transition="all 0.3s"
             onClick={() => window.location.reload()}
           >
@@ -109,15 +109,15 @@ export default function Interviews() {
               <IconButton
                 aria-label="Grid View"
                 icon={<RiLayoutGridLine className="text-[22px]" />}
-                bg={isGridView ? "#309689" : "gray.300"}
-                color={isGridView ? "white" : "#309689"}
+                bg={isGridView ? "#0a7450" : "gray.300"}
+                color={isGridView ? "white" : "#0a7450"}
                 onClick={() => setIsGridView(true)}
               />
               <IconButton
                 aria-label="List View"
                 icon={<CgLayoutList className="text-[34px]" />}
-                bg={!isGridView ? "#309689" : "gray.300"}
-                color={!isGridView ? "white" : "#309689"}
+                bg={!isGridView ? "#0a7450" : "gray.300"}
+                color={!isGridView ? "white" : "#0a7450"}
                 onClick={() => setIsGridView(false)}
               />
             </HStack>

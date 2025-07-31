@@ -122,33 +122,33 @@ console.log('session', session)
 
                     <HStack w={'100%'}>
                         <VStack align="flex-start" spacing={2} w={'50%'}>
-                            <Text fontSize="lg" fontWeight="bold" color={'#309689'}>Job Details</Text>
+                            <Text fontSize="lg" fontWeight="bold" color={'#0a7450'}>Job Details</Text>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Skills:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Skills:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.selectedSkills.join(', ')}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Education:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Education:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.education}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Location:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Location:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.country}, {job.state}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>License:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>License:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.license}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Duty Hours:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Duty Hours:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.dutyHours}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Overtime:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Overtime:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.overtime}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Interview Date:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Interview Date:</Text>
                                 <Text fontSize="sm" color="gray.600">
                                     {job?.interviewDate ? new Date(job.interviewDate).toLocaleDateString() : 'N/A'}
                                 </Text>
@@ -156,29 +156,29 @@ console.log('session', session)
                         </VStack>
 
                         <VStack align="flex-start" spacing={2} w={'50%'}>
-                            <Text fontSize="lg" fontWeight="bold" color={'#309689'}>Company Benefits</Text>
+                            <Text fontSize="lg" fontWeight="bold" color={'#0a7450'}>Company Benefits</Text>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Duration:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Duration:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.duration}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Accommodation:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Accommodation:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.accommodation}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Medical Insurance:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Medical Insurance:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.medicalInsurance}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Transportation:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Transportation:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.transportation}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Return Ticket:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Return Ticket:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.returnTicket}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>First Departure:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>First Departure:</Text>
                                 <Text fontSize="sm" color="gray.600">
                                     {job?.firstDeparture ? new Date(job.firstDeparture).toLocaleDateString() : 'N/A'}
                                 </Text>
@@ -188,33 +188,33 @@ console.log('session', session)
                     </HStack>
                     <HStack w={'100%'}>
                         <VStack align="flex-start" spacing={2} w={'50%'}>
-                            <Text fontSize="lg" fontWeight="bold" color={'#309689'}>Interview Details</Text>
+                            <Text fontSize="lg" fontWeight="bold" color={'#0a7450'}>Interview Details</Text>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Venue:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Venue:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.interviewVenue}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Location:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Location:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.interviewLocation}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Address:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Address:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.interviewAddress}</Text>
                             </HStack>
                         </VStack>
 
                         <VStack align="flex-start" spacing={2} w={'50%'}>
-                            <Text fontSize="lg" fontWeight="bold" color={'#309689'}>Visa Details</Text>
+                            <Text fontSize="lg" fontWeight="bold" color={'#0a7450'}>Visa Details</Text>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Visa Number:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Visa Number:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.visaNumber}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>NAVTT:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>NAVTT:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.navttc}</Text>
                             </HStack>
                             <HStack spacing={2}>
-                                <Text fontSize="sm" color="#309689" fontWeight={'semibold'}>Visa Category:</Text>
+                                <Text fontSize="sm" color="#0a7450" fontWeight={'semibold'}>Visa Category:</Text>
                                 <Text fontSize="sm" color="gray.600">{job.visaCategory}</Text>
                             </HStack>
                         </VStack>
@@ -237,7 +237,7 @@ console.log('session', session)
                     <Flex justify="space-between" mt={4} gap={4}>
 
                         <Button
-                            bg="#309689"
+                            bg="#0a7450"
                             w="full"
                             color="white"
                             borderRadius="xl"
@@ -248,7 +248,7 @@ console.log('session', session)
                             Share Via Email
                         </Button>
                         <Button
-                            bg="#309689"
+                            bg="#0a7450"
                             w="full"
                             color="white"
                             borderRadius="xl"
@@ -259,7 +259,7 @@ console.log('session', session)
                             Share Via Whatsapp
                         </Button>
                         <Button
-                            bg="#309689"
+                            bg="#0a7450"
                             w="full"
                             color="white"
                             borderRadius="xl"
@@ -273,7 +273,7 @@ console.log('session', session)
                         </Button>
 
                         <Button
-                            bg="#309689"
+                            bg="#0a7450"
                             w="full"
                             color="white"
                             borderRadius="xl"

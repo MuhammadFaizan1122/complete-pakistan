@@ -37,7 +37,7 @@ export function GamcaTokenDisplay() {
     <>
       <Box textAlign="center" py={4}>
         <Button
-          bg="#309689"
+          bg="#0a7450"
           color="white"
           border="1px solid transparent"
           borderRadius="xl"
@@ -62,7 +62,7 @@ export function GamcaTokenDisplay() {
           overflow="hidden"
         >
           <ModalHeader
-            bg="#309689"
+            bg="#0a7450"
             color="white"
             fontWeight="bold"
             fontSize="2xl"

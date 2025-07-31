@@ -10,8 +10,8 @@ const inputStyle = {
     rounded: '12px',
     bg: 'white',
     borderColor: 'gray.300',
-    focusBorderColor: '#309689',
-    _hover: { borderColor: '#309689' },
+    focusBorderColor: '#0a7450',
+    _hover: { borderColor: '#0a7450' },
 };
 
 const countryCurrencyMap = {
@@ -257,7 +257,7 @@ export function CompanyForm({ form, setForm, errors, handleChange, handleBenefit
             <ModalFooter>
                 <Button
                     onClick={onSave}
-                    bg="#309689"
+                    bg="#0a7450"
                     color="white"
                     _hover={{ bg: '#247a70' }}
                     rounded="12px"

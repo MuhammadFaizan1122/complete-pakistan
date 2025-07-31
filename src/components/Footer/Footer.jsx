@@ -111,7 +111,7 @@ export default function Footer() {
               fontSize={{ base: "sm", md: "md" }}
             />
             <Button
-              bg="#309689"
+              bg="#0a7450"
               w="full"
               color="white"
               borderRadius="xl"

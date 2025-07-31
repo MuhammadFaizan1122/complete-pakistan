@@ -233,14 +233,14 @@ export default function CreateCVPage({type}) {
                                 sx={{
                                     "&::-webkit-scrollbar": { height: "4px" },
                                     "&::-webkit-scrollbar-track": { bg: "#EEEEEE4D" },
-                                    "&::-webkit-scrollbar-thumb": { bg: "#309689" },
+                                    "&::-webkit-scrollbar-thumb": { bg: "#0a7450" },
                                 }}
                             >
                                 <Tab
                                     fontSize="sm"
                                     px={3}
                                     py={2}
-                                    _selected={{ borderBottom: "2px solid", borderColor: "#309689", color: "#309689", fontWeight: "bold" }}
+                                    _selected={{ borderBottom: "2px solid", borderColor: "#0a7450", color: "#0a7450", fontWeight: "bold" }}
                                 >
                                     Personal
                                 </Tab>
@@ -248,7 +248,7 @@ export default function CreateCVPage({type}) {
                                     fontSize="sm"
                                     px={3}
                                     py={2}
-                                    _selected={{ borderBottom: "2px solid", borderColor: "#309689", color: "#309689", fontWeight: "bold" }}
+                                    _selected={{ borderBottom: "2px solid", borderColor: "#0a7450", color: "#0a7450", fontWeight: "bold" }}
                                 >
                                     Contact
                                 </Tab>
@@ -256,7 +256,7 @@ export default function CreateCVPage({type}) {
                                     fontSize="sm"
                                     px={3}
                                     py={2}
-                                    _selected={{ borderBottom: "2px solid", borderColor: "#309689", color: "#309689", fontWeight: "bold" }}
+                                    _selected={{ borderBottom: "2px solid", borderColor: "#0a7450", color: "#0a7450", fontWeight: "bold" }}
                                 >
                                     Job Details
                                 </Tab>
@@ -264,7 +264,7 @@ export default function CreateCVPage({type}) {
                                     fontSize="sm"
                                     px={3}
                                     py={2}
-                                    _selected={{ borderBottom: "2px solid", borderColor: "#309689", color: "#309689", fontWeight: "bold" }}
+                                    _selected={{ borderBottom: "2px solid", borderColor: "#0a7450", color: "#0a7450", fontWeight: "bold" }}
                                 >
                                     Education
                                 </Tab>
@@ -272,7 +272,7 @@ export default function CreateCVPage({type}) {
                                     fontSize="sm"
                                     px={3}
                                     py={2}
-                                    _selected={{ borderBottom: "2px solid", borderColor: "#309689", color: "#309689", fontWeight: "bold" }}
+                                    _selected={{ borderBottom: "2px solid", borderColor: "#0a7450", color: "#0a7450", fontWeight: "bold" }}
                                 >
                                     Experience
                                 </Tab>
@@ -280,7 +280,7 @@ export default function CreateCVPage({type}) {
                                     fontSize="sm"
                                     px={3}
                                     py={2}
-                                    _selected={{ borderBottom: "2px solid", borderColor: "#309689", color: "#309689", fontWeight: "bold" }}
+                                    _selected={{ borderBottom: "2px solid", borderColor: "#0a7450", color: "#0a7450", fontWeight: "bold" }}
                                 >
                                     Skills
                                 </Tab>

@@ -106,9 +106,9 @@ export default function Header() {
                                     <PopoverTrigger>
                                         <Text
                                             fontWeight={pathname.startsWith('/gamca') ? 'semibold' : 'normal'}
-                                            color={pathname.startsWith('/gamca') ? '#309689' : ''}
+                                            color={pathname.startsWith('/gamca') ? '#0a7450' : ''}
                                             cursor="pointer"
-                                            _hover={{ color: '#309689' }}
+                                            _hover={{ color: '#0a7450' }}
                                         >
                                             GAMCA
                                         </Text>
@@ -141,9 +141,9 @@ export default function Header() {
                                     <PopoverTrigger>
                                         <Text
                                             fontWeight={pathname.startsWith('/create') ? 'semibold' : 'normal'}
-                                            color={pathname.startsWith('/create') ? '#309689' : ''}
+                                            color={pathname.startsWith('/create') ? '#0a7450' : ''}
                                             cursor="pointer"
-                                            _hover={{ color: '#309689' }}
+                                            _hover={{ color: '#0a7450' }}
                                         >
                                             Make CV
                                         </Text>
@@ -176,7 +176,7 @@ export default function Header() {
                                     <PopoverTrigger>
                                         <Text
                                             cursor="pointer"
-                                            _hover={{ color: '#309689' }}
+                                            _hover={{ color: '#0a7450' }}
                                         >
                                             Recruitment
                                         </Text>
@@ -208,7 +208,7 @@ export default function Header() {
                                     <PopoverTrigger>
                                         <Text
                                             cursor="pointer"
-                                            _hover={{ color: '#309689' }}
+                                            _hover={{ color: '#0a7450' }}
                                         >
                                             More
                                         </Text>
@@ -240,10 +240,10 @@ export default function Header() {
                         return (
                             <Link key={i} href={link.href}>
                                 <Text
-                                    _hover={{ color: '#309689' }}
+                                    _hover={{ color: '#0a7450' }}
                                     cursor="pointer"
                                     fontWeight={pathname === link.href ? 'semibold' : 'normal'}
-                                    color={pathname === link.href ? '#309689' : ''}
+                                    color={pathname === link.href ? '#0a7450' : ''}
                                     transition="color 0.3s"
                                 >
                                     {link.label}
@@ -291,7 +291,7 @@ export default function Header() {
                             <Button
                                 as={Link}
                                 href={'/auth/company-registration'}
-                                bg={'#309689'}
+                                bg={'#0a7450'}
                                 color={'#fff'}
                                 rounded={'8px'}
                                 border="1px"
@@ -332,9 +332,9 @@ export default function Header() {
                                 &&
                                 <Link href={'/profile'} onClick={onClose}>
                                     <Text
-                                        _hover={{ color: '#309689' }}
+                                        _hover={{ color: '#0a7450' }}
                                         cursor="pointer"
-                                        className={`duration-300 ${pathname === '/profile' ? 'text-[#309689] font-semibold' : ""}`}
+                                        className={`duration-300 ${pathname === '/profile' ? 'text-[#0a7450] font-semibold' : ""}`}
                                     >
                                         Profile
                                     </Text>
@@ -349,10 +349,10 @@ export default function Header() {
                                                 align="center"
                                                 onClick={() => setCvMenuOpen(!cvMenuOpen)}
                                                 cursor="pointer"
-                                                _hover={{ color: "#309689" }}
+                                                _hover={{ color: "#0a7450" }}
                                             >
                                                 <Text
-                                                    className={`duration-300 ${pathname.startsWith("/create") || pathname === "/cv-directory" ? 'text-[#309689] font-semibold' : ""}`}
+                                                    className={`duration-300 ${pathname.startsWith("/create") || pathname === "/cv-directory" ? 'text-[#0a7450] font-semibold' : ""}`}
                                                 >
                                                     Make CV
                                                 </Text>
@@ -363,8 +363,8 @@ export default function Header() {
                                                     {makeCvLinks.map((sub, j) => (
                                                         <Link key={j} href={sub.href} onClick={onClose}>
                                                             <Text
-                                                                _hover={{ color: "#309689" }}
-                                                                className={`duration-300 ${pathname === sub.href ? 'text-[#309689] font-semibold' : ""}`}
+                                                                _hover={{ color: "#0a7450" }}
+                                                                className={`duration-300 ${pathname === sub.href ? 'text-[#0a7450] font-semibold' : ""}`}
                                                             >
                                                                 {sub.label}
                                                             </Text>
@@ -382,10 +382,10 @@ export default function Header() {
                                                 align="center"
                                                 onClick={() => setRecruitmentOpen(!recruitmentOpen)}
                                                 cursor="pointer"
-                                                _hover={{ color: "#309689" }}
+                                                _hover={{ color: "#0a7450" }}
                                             >
                                                 <Text
-                                                    className={`duration-300 ${pathname.includes("/create") || pathname === "/cv-directory" ? 'text-[#309689] font-semibold' : ""}`}
+                                                    className={`duration-300 ${pathname.includes("/create") || pathname === "/cv-directory" ? 'text-[#0a7450] font-semibold' : ""}`}
                                                 >
                                                     Recruitment
                                                 </Text>
@@ -396,8 +396,8 @@ export default function Header() {
                                                     {recruitmentLinks.map((sub, j) => (
                                                         <Link key={j} href={sub.href} onClick={onClose}>
                                                             <Text
-                                                                _hover={{ color: "#309689" }}
-                                                                className={`duration-300 truncate ${pathname === sub.href ? 'text-[#309689] font-semibold' : ""}`}
+                                                                _hover={{ color: "#0a7450" }}
+                                                                className={`duration-300 truncate ${pathname === sub.href ? 'text-[#0a7450] font-semibold' : ""}`}
                                                             >
                                                                 {sub.label}
                                                             </Text>
@@ -415,10 +415,10 @@ export default function Header() {
                                                 align="center"
                                                 onClick={() => setgamcaOpen(!gamcaOpen)}
                                                 cursor="pointer"
-                                                _hover={{ color: "#309689" }}
+                                                _hover={{ color: "#0a7450" }}
                                             >
                                                 <Text
-                                                    className={`duration-300 ${pathname.includes("/gamca") || pathname === "/gamca" ? 'text-[#309689] font-semibold' : ""}`}
+                                                    className={`duration-300 ${pathname.includes("/gamca") || pathname === "/gamca" ? 'text-[#0a7450] font-semibold' : ""}`}
                                                 >
                                                     GAMCA
                                                 </Text>
@@ -429,8 +429,8 @@ export default function Header() {
                                                     {gamcaLinks.map((sub, j) => (
                                                         <Link key={j} href={sub.href} onClick={onClose}>
                                                             <Text
-                                                                _hover={{ color: "#309689" }}
-                                                                className={`duration-300 truncate ${pathname === sub.href ? 'text-[#309689] font-semibold' : ""}`}
+                                                                _hover={{ color: "#0a7450" }}
+                                                                className={`duration-300 truncate ${pathname === sub.href ? 'text-[#0a7450] font-semibold' : ""}`}
                                                             >
                                                                 {sub.label}
                                                             </Text>
@@ -448,10 +448,10 @@ export default function Header() {
                                                 align="center"
                                                 onClick={() => setothersOpen(!othersOpen)}
                                                 cursor="pointer"
-                                                _hover={{ color: "#309689" }}
+                                                _hover={{ color: "#0a7450" }}
                                             >
                                                 <Text
-                                                    className={`duration-300 ${pathname.includes("/others") || pathname === "/cv-directory" ? 'text-[#309689] font-semibold' : ""}`}
+                                                    className={`duration-300 ${pathname.includes("/others") || pathname === "/cv-directory" ? 'text-[#0a7450] font-semibold' : ""}`}
                                                 >
                                                     More
                                                 </Text>
@@ -462,8 +462,8 @@ export default function Header() {
                                                     {othersLinks.map((sub, j) => (
                                                         <Link key={j} href={sub.href} onClick={onClose}>
                                                             <Text
-                                                                _hover={{ color: "#309689" }}
-                                                                className={`duration-300 truncate ${pathname === sub.href ? 'text-[#309689] font-semibold' : ""}`}
+                                                                _hover={{ color: "#0a7450" }}
+                                                                className={`duration-300 truncate ${pathname === sub.href ? 'text-[#0a7450] font-semibold' : ""}`}
                                                             >
                                                                 {sub.label}
                                                             </Text>
@@ -477,9 +477,9 @@ export default function Header() {
                                 return (
                                     <Link key={i} href={link.href} onClick={onClose}>
                                         <Text
-                                            _hover={{ color: '#309689' }}
+                                            _hover={{ color: '#0a7450' }}
                                             cursor="pointer"
-                                            className={`duration-300 ${pathname === link.href ? 'text-[#309689] font-semibold' : ""}`}
+                                            className={`duration-300 ${pathname === link.href ? 'text-[#0a7450] font-semibold' : ""}`}
                                         >
                                             {link.label}
                                         </Text>
@@ -501,7 +501,7 @@ export default function Header() {
                                     <Button
                                         as={Link}
                                         href={'/auth/signup'}
-                                        bg={'#309689'}
+                                        bg={'#0a7450'}
                                         color={'#fff'}
                                         border="1px"
                                         width="full"
@@ -514,7 +514,7 @@ export default function Header() {
                                 </>
                             ) :
                                 <Button
-                                    bg={'#309689'}
+                                    bg={'#0a7450'}
                                     color={'#fff'}
                                     border="1px"
                                     width="full"

@@ -165,7 +165,7 @@ export default function PersonalInfoForm({
             bg="white"
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             resize="vertical"
@@ -188,7 +188,7 @@ export default function PersonalInfoForm({
             bg="white"
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             {...register("name")}
@@ -207,7 +207,7 @@ export default function PersonalInfoForm({
             bg="white"
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             {...register("fatherName")}
@@ -236,7 +236,7 @@ export default function PersonalInfoForm({
             outlineColor="gray.300"
             _focus={{
               ring: 2,
-              ringColor: "#309689",
+              ringColor: "#0a7450",
               borderColor: "transparent",
               outline: "none",
             }}
@@ -265,7 +265,7 @@ export default function PersonalInfoForm({
             outlineColor="gray.300"
             _focus={{
               ring: 2,
-              ringColor: "#309689",
+              ringColor: "#0a7450",
               borderColor: "transparent",
               outline: "none",
             }}
@@ -284,7 +284,7 @@ export default function PersonalInfoForm({
             py={6}
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             type="date"
@@ -299,7 +299,7 @@ export default function PersonalInfoForm({
             outline="1px solid"
             rounded="15px"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             h={'50px'}
@@ -335,7 +335,7 @@ export default function PersonalInfoForm({
             bg="white"
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             {...register("village")}
@@ -349,7 +349,7 @@ export default function PersonalInfoForm({
             outline="1px solid"
             rounded="15px"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             h={'50px'}
@@ -370,7 +370,7 @@ export default function PersonalInfoForm({
             py={6}
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             type="date" {...register("passportIssue")} />
@@ -384,7 +384,7 @@ export default function PersonalInfoForm({
             py={6}
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             type="date" {...register("passportExpiry")} />
@@ -401,7 +401,7 @@ export default function PersonalInfoForm({
             placeholder="Enter Driving Licence (If you have)"
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             type="text"
@@ -437,7 +437,7 @@ export default function PersonalInfoForm({
               py={6}
               outline="1px solid"
               outlineColor="gray.300"
-              _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+              _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
               _active={{ outline: "none" }}
               transition="all 0.2s"
               type="date"
@@ -471,7 +471,7 @@ export default function PersonalInfoForm({
           py={6}
           outline="1px solid"
           outlineColor="gray.300"
-          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+          _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
           _active={{ outline: "none" }}
           transition="all 0.2s"
           mt={2} placeholder="Other languages (Comma Separated)"
@@ -502,7 +502,7 @@ export default function PersonalInfoForm({
           py={6}
           outline="1px solid"
           outlineColor="gray.300"
-          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+          _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
           _active={{ outline: "none" }}
           transition="all 0.2s"
           mt={2} placeholder="Other Countries (Comma Separated)"
@@ -519,7 +519,7 @@ export default function PersonalInfoForm({
           rounded="15px"
           outlineColor="gray.300"
           {...register("yearsOfExperience")}
-          _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+          _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
           _active={{ outline: "none" }}
           transition="all 0.2s"
           h={'50px'}
@@ -536,7 +536,7 @@ export default function PersonalInfoForm({
         <Button
           mt={4}
           w={'full'}
-          bg="#309689"
+          bg="#0a7450"
           color="white"
           rounded="15px"
           px={6}

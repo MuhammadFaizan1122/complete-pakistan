@@ -158,7 +158,7 @@ const RecentJobs = () => {
         >
             <CardBody p={6}>
                 <VStack spacing={4} align="stretch">
-                    <Box bg={'#3096891A'} px={3} py={1} borderRadius="md" w={'110px'} mx={'auto'} textAlign={'center'}>
+                    <Box bg={'#0a74501A'} px={3} py={1} borderRadius="md" w={'110px'} mx={'auto'} textAlign={'center'}>
                         <Text fontSize="16px" color="black">
                             {job.timeAgo}
                         </Text>
@@ -236,7 +236,7 @@ const RecentJobs = () => {
 
                     {/* Job Details Button */}
                     <Button
-                        bg={'#309689'}
+                        bg={'#0a7450'}
                         color={'white'}
                         size="md"
                         w="120px"
@@ -264,7 +264,7 @@ const RecentJobs = () => {
             <CardBody p={6}>
                 <Flex direction="column" gap={4}>
                     <Flex justify="space-between" align="center">
-                        <Box bg={'#3096891A'} px={3} py={1} borderRadius="md">
+                        <Box bg={'#0a74501A'} px={3} py={1} borderRadius="md">
                             <Text fontSize="16px" color="gray.500">
                                 {job.timeAgo}
                             </Text>
@@ -333,7 +333,7 @@ const RecentJobs = () => {
                         </HStack>
 
                         <Button
-                            bg={'#309689'}
+                            bg={'#0a7450'}
                             color={'white'}
                             size="md"
                             px={6}
@@ -351,7 +351,7 @@ const RecentJobs = () => {
     return (
         <Box>
             <HeroSection />
-            <Box bg={'#3096891A'} minH="100vh" py={8}>
+            <Box bg={'#0a74501A'} minH="100vh" py={8}>
                 <Container maxW="1440px">
                     <VStack spacing={6} align="stretch">
                         <Box>
@@ -415,7 +415,7 @@ const RecentJobs = () => {
                                     size="sm"
                                     aria-label="Previous page"
                                 />
-                                <Button size="sm" bg={'#309689'}
+                                <Button size="sm" bg={'#0a7450'}
                                     color={'white'} variant="solid">01</Button>
                                 <Button size="sm" variant="ghost">02</Button>
                                 <Button size="sm" variant="ghost">03</Button>

@@ -110,7 +110,7 @@ export default function MedicalExpiryList({ expiryDays, title }) {
   if (loading) {
     return (
       <Center minH="100vh">
-        <Spinner size="xl" color="#309689" thickness="4px" />
+        <Spinner size="xl" color="#0a7450" thickness="4px" />
       </Center>
     );
   }
@@ -123,8 +123,8 @@ export default function MedicalExpiryList({ expiryDays, title }) {
             fontSize={{ base: "2xl", md: "3xl" }}
             color="#1A3C34"
             fontWeight="bold"
-            // bgGradient="linear(to-r, #309689, #1A3C34)"
-            bg={'#309689'}
+            // bgGradient="linear(to-r, #0a7450, #1A3C34)"
+            bg={'#0a7450'}
             bgClip="text"
             // display="flex"
             // alignItems="center"

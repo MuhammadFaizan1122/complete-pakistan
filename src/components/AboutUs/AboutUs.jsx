@@ -114,7 +114,7 @@ export default function AboutUs() {
                         {aboutData.values.map((value, idx) => (
                             <Box
                                 key={idx}
-                                bg="#30968926"
+                                bg="#0a745026"
                                 p={{ base: 4, md: 6 }}
                                 h={{ base: "auto", sm: "320px", md: "360px" }}
                                 w={{ base: "100%", sm: "90%", md: "306px" }}
@@ -215,7 +215,7 @@ export default function AboutUs() {
                                     </Text>
                                     <Text
                                         fontSize={{ base: "sm", sm: "md", md: "16px" }}
-                                        color="#309689"
+                                        color="#0a7450"
                                         mb={{ base: 1, md: 2 }}
                                     >
                                         {member.role}
@@ -245,7 +245,7 @@ export default function AboutUs() {
                         {aboutData.impact.stats.map((stat, idx) => (
                             <Box
                                 key={idx}
-                                bg="#309689"
+                                bg="#0a7450"
                                 p={{ base: 4, md: 6 }}
                                 rounded="xl"
                                 shadow="md"
@@ -295,7 +295,7 @@ export default function AboutUs() {
                             Be part of a community that connects talent with opportunity. Sign up now to explore jobs, connect with agencies, or list your openings.
                         </Text>
                         <Button
-                            bg="#309689"
+                            bg="#0a7450"
                             color="white"
                             rounded="xl"
                             px={{ base: 6, md: 8 }}

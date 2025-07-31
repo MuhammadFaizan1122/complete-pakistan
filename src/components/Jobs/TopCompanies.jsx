@@ -31,7 +31,7 @@ const features = [
 
 export default function TopCompanies() {
   return (
-    <Box px={4} py={16} bg={'#3096891A'}>
+    <Box px={4} py={16} bg={'#0a74501A'}>
       <Box maxW={'1440px'} mx={'auto'}  >
         <VStack spacing={3} textAlign="center" mb={12}>
           <Text fontSize={{ base: "2xl", md: "50px" }} fontWeight="bold">
@@ -73,7 +73,7 @@ export default function TopCompanies() {
               <Text fontSize={{ base: "md", md: "16px" }} color="black">
                 {feature.description}
               </Text>
-              <Box bg={'#3096891A'} px={2} py={1} borderRadius="md" mt={4}>
+              <Box bg={'#0a74501A'} px={2} py={1} borderRadius="md" mt={4}>
                 <Text fontSize="14px" color="gray.500">
                   18 Jobs Posted
                 </Text>

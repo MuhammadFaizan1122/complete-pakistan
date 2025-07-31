@@ -79,7 +79,7 @@ const VerifyOtpPage = () => {
             <FormErrorMessage>{errors.otp?.message}</FormErrorMessage>
           </FormControl>
           <Button
-            bg={'#309689'}
+            bg={'#0a7450'}
             color={'#fff'}
             rounded={'14px'}
             size="lg"
@@ -91,14 +91,14 @@ const VerifyOtpPage = () => {
           </Button>
           <Text fontSize="sm" textAlign="center">
             Didn't receive the code?{' '}
-            <Link color="#309689" onClick={handleResendOtp}>
+            <Link color="#0a7450" onClick={handleResendOtp}>
               Resend OTP
             </Link>
           </Text>
           <Text fontSize="sm" textAlign="center">
             Back to{' '}
             <NextLink href="/login" passHref>
-              <Link color="#309689">Login</Link>
+              <Link color="#0a7450">Login</Link>
             </NextLink>
           </Text>
         </Stack>

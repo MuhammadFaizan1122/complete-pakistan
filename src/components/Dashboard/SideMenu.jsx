@@ -75,7 +75,7 @@ const SideMenu = ({ toggleSidebar, setIsSidebarOpen, isSidebarOpen, setActiveTab
                                 </Box>
                             }
                             variant={item.label === activeTab ? 'solid' : 'ghost'}
-                            bg={item.label === activeTab ? '#309689' : ''}
+                            bg={item.label === activeTab ? '#0a7450' : ''}
                             color={item.label === activeTab ? 'white' : 'gray.700'}
                             justifyContent="flex-start"
                             rounded="8px"
@@ -105,7 +105,7 @@ const SideMenu = ({ toggleSidebar, setIsSidebarOpen, isSidebarOpen, setActiveTab
                                 </Box>
                             }
                             variant={item.label === activeTab ? "solid" : "ghost"}
-                            bg={item.label === activeTab ? "#309689" : ""}
+                            bg={item.label === activeTab ? "#0a7450" : ""}
                             color={item.label === activeTab ? "white" : "gray.700"}
                             justifyContent="flex-start"
                             rounded="8px"

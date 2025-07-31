@@ -78,7 +78,7 @@ const ForgotPasswordPage = () => {
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
           </FormControl>
           <Button
-            bg={'#309689'}
+            bg={'#0a7450'}
             color={'#fff'}
             rounded={'14px'}
             size="lg"
@@ -91,7 +91,7 @@ const ForgotPasswordPage = () => {
           <Text fontSize="sm" textAlign="center">
             Back to{' '}
             <NextLink href="/login" passHref>
-              <Link color="#309689">Login</Link>
+              <Link color="#0a7450">Login</Link>
             </NextLink>
           </Text>
         </Stack>

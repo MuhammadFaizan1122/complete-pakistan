@@ -199,7 +199,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
           {education.map((edu: any, idx: number) => (
             <Tag
               key={idx}
-              bg="#309689"
+              bg="#0a7450"
               color="white"
               m={1}
               rounded="8px"
@@ -249,7 +249,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
                 outlineColor="gray.300"
                 _focus={{
                   ring: 2,
-                  ringColor: "#309689",
+                  ringColor: "#0a7450",
                   borderColor: "transparent",
                   outline: "none",
                 }}
@@ -283,7 +283,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
                 outlineColor="gray.300"
                 _focus={{
                   ring: 2,
-                  ringColor: "#309689",
+                  ringColor: "#0a7450",
                   borderColor: "transparent",
                   outline: "none",
                 }}
@@ -315,7 +315,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
                 outlineColor="gray.300"
                 _focus={{
                   ring: 2,
-                  ringColor: "#309689",
+                  ringColor: "#0a7450",
                   borderColor: "transparent",
                   outline: "none",
                 }}
@@ -352,7 +352,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
                 outlineColor="gray.300"
                 _focus={{
                   ring: 2,
-                  ringColor: "#309689",
+                  ringColor: "#0a7450",
                   borderColor: "transparent",
                   outline: "none",
                 }}
@@ -386,7 +386,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
               outlineColor="gray.300"
               _focus={{
                 ring: 2,
-                ringColor: "#309689",
+                ringColor: "#0a7450",
                 borderColor: "transparent",
                 outline: "none",
               }}
@@ -425,7 +425,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
                   max={new Date().toISOString().split("T")[0]}
                   _focus={{
                     ring: 2,
-                    ringColor: "#309689",
+                    ringColor: "#0a7450",
                     borderColor: "transparent",
                     outline: "none",
                   }}
@@ -458,7 +458,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
                   outlineColor="gray.300"
                   _focus={{
                     ring: 2,
-                    ringColor: "#309689",
+                    ringColor: "#0a7450",
                     borderColor: "transparent",
                     outline: "none",
                   }}
@@ -491,7 +491,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
               outlineColor="gray.300"
               _focus={{
                 ring: 2,
-                ringColor: "#309689",
+                ringColor: "#0a7450",
                 borderColor: "transparent",
                 outline: "none",
               }}
@@ -517,7 +517,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
             </Button>
             <Button
               onClick={handleDone}
-              bg="#309689"
+              bg="#0a7450"
               color="white"
               fontSize="16px"
               fontWeight="bold"
@@ -537,7 +537,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
         <Button
           mt={4}
           w="full"
-          bg="#309689"
+          bg="#0a7450"
           color="white"
           rounded="15px"
           px={6}
@@ -550,7 +550,7 @@ export default function EducationForm({ register, setValue, watch, errors, setTa
         <Button
           mt={4}
           w="full"
-          bg="#309689"
+          bg="#0a7450"
           color="white"
           rounded="15px"
           px={6}

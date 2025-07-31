@@ -231,7 +231,7 @@ const FilterSection = ({
             size={{ base: 'sm', md: 'md' }}
           >
             <RangeSliderTrack bg="gray.200">
-              <RangeSliderFilledTrack bg="#309689" />
+              <RangeSliderFilledTrack bg="#0a7450" />
             </RangeSliderTrack>
             <RangeSliderThumb boxSize={4} index={0} />
             <RangeSliderThumb boxSize={4} index={1} />
@@ -245,7 +245,7 @@ const FilterSection = ({
             </Text>
           </Flex>
           <Button
-            bg={'#309689'}
+            bg={'#0a7450'}
             color={'white'}
             size={{ base: 'sm', md: 'md' }}
             w="full"
@@ -366,7 +366,7 @@ const FilterSection = ({
               <Button
                 size={{ base: 'xs', md: 'sm' }}
                 variant={selectedTags.includes(tag) ? "solid" : "outline"}
-                bg={'#309689'}
+                bg={'#0a7450'}
                 color={'white'}
                 onClick={() => selectedTags.includes(tag) ? handleTagRemove(tag) : handleTagAdd(tag)}
               >
@@ -381,7 +381,7 @@ const FilterSection = ({
             <Wrap spacing={1}>
               {selectedTags.map((tag) => (
                 <WrapItem key={tag}>
-                  <Tag size="md" bg={'#309689'} color={'white'} variant="solid">
+                  <Tag size="md" bg={'#0a7450'} color={'white'} variant="solid">
                     <TagLabel>{tag}</TagLabel>
                     <TagCloseButton onClick={() => handleTagRemove(tag)} />
                   </Tag>

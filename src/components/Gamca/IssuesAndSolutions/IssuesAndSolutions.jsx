@@ -62,7 +62,7 @@ export default function GamcaIssuesList() {
   if (loading) {
     return (
       <Center minH="100vh">
-        <Spinner size="xl" color="#309689" thickness="4px" />
+        <Spinner size="xl" color="#0a7450" thickness="4px" />
       </Center>
     );
   }
@@ -73,7 +73,7 @@ export default function GamcaIssuesList() {
         <VStack spacing={6}>
           <Text fontSize="xl" color="red.500" fontWeight="medium">{error}</Text>
           <Button
-            bgGradient="linear(to-r, #309689, #1A3C34)"
+            bgGradient="linear(to-r, #0a7450, #1A3C34)"
             color="white"
             rounded="full"
             px={8}
@@ -99,7 +99,7 @@ export default function GamcaIssuesList() {
           fontSize={{ base: "2xl", md: "4xl" }}
           textAlign="center"
           fontWeight="extrabold"
-          bgGradient="linear(to-r, #309689, #309689)"
+          bgGradient="linear(to-r, #0a7450, #0a7450)"
           bgClip="text"
         >
           GAMCA Issues & Their Solutions

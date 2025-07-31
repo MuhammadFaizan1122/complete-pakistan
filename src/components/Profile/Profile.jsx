@@ -155,7 +155,7 @@ export default function CreateProfessionalProfile() {
                                             onChange={handleInputChange}
                                             placeholder="Enter your name"
                                             borderRadius="15px"
-                                            focusBorderColor="#309689"
+                                            focusBorderColor="#0a7450"
                                             px={4}
                                             py={6}
                                         />
@@ -170,7 +170,7 @@ export default function CreateProfessionalProfile() {
                                             onChange={handleInputChange}
                                             placeholder="00000-0000000-0"
                                             borderRadius="15px"
-                                            focusBorderColor="#309689"
+                                            focusBorderColor="#0a7450"
                                             px={4}
                                             py={6}
                                         />
@@ -185,7 +185,7 @@ export default function CreateProfessionalProfile() {
                                             onChange={handleInputChange}
                                             placeholder="Enter passport number"
                                             borderRadius="15px"
-                                            focusBorderColor="#309689"
+                                            focusBorderColor="#0a7450"
                                             px={4}
                                             py={6}
                                         />
@@ -201,7 +201,7 @@ export default function CreateProfessionalProfile() {
                                             placeholder="dd/mm/yyyy"
                                             borderRadius="15px"
                                             type='date'
-                                            focusBorderColor="#309689"
+                                            focusBorderColor="#0a7450"
                                             px={4}
                                             py={6}
                                             pr="2.5rem"
@@ -218,7 +218,7 @@ export default function CreateProfessionalProfile() {
                                             onChange={handleInputChange}
                                             placeholder="Enter your email address"
                                             borderRadius="15px"
-                                            focusBorderColor="#309689"
+                                            focusBorderColor="#0a7450"
                                             px={4}
                                             py={6}
                                         />
@@ -252,7 +252,7 @@ export default function CreateProfessionalProfile() {
                                                 borderColor="gray.300"
                                                 px={4}
                                                 py={6}
-                                                focusBorderColor="#309689"
+                                                focusBorderColor="#0a7450"
                                             />
                                         </Flex>
                                     </FormControl>
@@ -266,7 +266,7 @@ export default function CreateProfessionalProfile() {
                                             onChange={handleInputChange}
                                             placeholder="Enter your city"
                                             borderRadius="15px"
-                                            focusBorderColor="#309689"
+                                            focusBorderColor="#0a7450"
                                             px={4}
                                             py={6}
                                         />
@@ -281,7 +281,7 @@ export default function CreateProfessionalProfile() {
                                             onChange={handleInputChange}
                                             placeholder="Enter complete address"
                                             borderRadius="15px"
-                                            focusBorderColor="#309689"
+                                            focusBorderColor="#0a7450"
                                             px={4}
                                             py={6}
                                         />
@@ -322,7 +322,7 @@ export default function CreateProfessionalProfile() {
                                             borderRadius="15px"
                                             h="50px"
 
-                                            focusBorderColor="#309689"
+                                            focusBorderColor="#0a7450"
                                             icon={
                                                 <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                                             }
@@ -346,7 +346,7 @@ export default function CreateProfessionalProfile() {
                                             borderRadius="15px"
                                             h="50px"
 
-                                            focusBorderColor="#309689"
+                                            focusBorderColor="#0a7450"
                                             icon={
                                                 <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                                             }
@@ -367,7 +367,7 @@ export default function CreateProfessionalProfile() {
                                             placeholder="Select"
                                             borderRadius="15px"
                                             h="50px"
-                                            focusBorderColor="#309689"
+                                            focusBorderColor="#0a7450"
                                             icon={
                                                 <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                                             }
@@ -387,7 +387,7 @@ export default function CreateProfessionalProfile() {
                                             placeholder="Select"
                                             borderRadius="15px"
                                             h="50px"
-                                            focusBorderColor="#309689"
+                                            focusBorderColor="#0a7450"
                                             icon={
                                                 <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                                             }
@@ -408,7 +408,7 @@ export default function CreateProfessionalProfile() {
                                             borderRadius="15px"
                                             px={4}
                                             py={6}
-                                            focusBorderColor="#309689"
+                                            focusBorderColor="#0a7450"
                                         />
                                     </FormControl>
                                 </Grid>
@@ -426,7 +426,7 @@ export default function CreateProfessionalProfile() {
                                             borderRadius="15px"
                                             px={4}
                                             py={3}
-                                            focusBorderColor="#309689"
+                                            focusBorderColor="#0a7450"
                                             placeholder="Write a brief description"
                                         />
                                     </FormControl>
@@ -525,7 +525,7 @@ export default function CreateProfessionalProfile() {
                                                 <Box
                                                     display="flex"
                                                     alignItems="center"
-                                                    bg="#309689"
+                                                    bg="#0a7450"
                                                     color="white"
                                                     px={3}
                                                     py={1}
@@ -590,7 +590,7 @@ export default function CreateProfessionalProfile() {
                                                 <Box
                                                     display="flex"
                                                     alignItems="center"
-                                                    bg="#309689"
+                                                    bg="#0a7450"
                                                     color="white"
                                                     px={3}
                                                     py={1}
@@ -648,8 +648,8 @@ export default function CreateProfessionalProfile() {
                         h="50px"
                         px={8}
                         py={3}
-                        bg="#309689"
-                        _hover={{ bg: "#309689" }}
+                        bg="#0a7450"
+                        _hover={{ bg: "#0a7450" }}
                         color="white"
                         borderRadius="12px"
                         fontWeight="medium"

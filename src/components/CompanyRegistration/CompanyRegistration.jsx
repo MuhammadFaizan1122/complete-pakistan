@@ -410,7 +410,7 @@ const CompanyRegisterPage = () => {
                         <Text fontSize="sm" textAlign="center" mt={2}>
                             Already have an account?{' '}
                             <NextLink href="/auth/login" passHref>
-                                <Link color="#309689">Login</Link>
+                                <Link color="#0a7450">Login</Link>
                             </NextLink>
                         </Text>
                     </Box>

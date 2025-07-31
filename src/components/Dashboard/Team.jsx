@@ -107,15 +107,15 @@ export default function MemberPage() {
         rounded: '12px',
         bg: 'white',
         borderColor: 'gray.300',
-        focusBorderColor: '#309689',
-        _hover: { borderColor: '#309689' },
+        focusBorderColor: '#0a7450',
+        _hover: { borderColor: '#0a7450' },
     };
 
     return (
         <Box p={6} bg="gray.50" minH="100vh">
             <Button
                 onClick={onOpen}
-                bg="#309689"
+                bg="#0a7450"
                 color="white"
                 _hover={{ bg: '#247a70' }}
                 rounded="12px"
@@ -132,7 +132,7 @@ export default function MemberPage() {
             <Modal isOpen={isOpen} onClose={onClose} isCentered size="lg">
                 <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
                 <ModalContent rounded="16px" p={4}>
-                    <ModalHeader color="#309689" fontSize="2xl" fontWeight="bold">
+                    <ModalHeader color="#0a7450" fontSize="2xl" fontWeight="bold">
                         Add New Member
                     </ModalHeader>
                     <ModalCloseButton size="lg" />
@@ -164,7 +164,7 @@ export default function MemberPage() {
                     <ModalFooter>
                         <Button
                             onClick={handleSave}
-                            bg="#309689"
+                            bg="#0a7450"
                             color="white"
                             _hover={{ bg: '#247a70' }}
                             rounded="12px"
@@ -199,11 +199,11 @@ export default function MemberPage() {
                 <Table variant="simple">
                     <Thead bg="gray.100">
                         <Tr>
-                            <Th color="#309689" fontSize="md" py={4}>Name</Th>
-                            <Th color="#309689" fontSize="md" py={4}>Father Name</Th>
-                            <Th color="#309689" fontSize="md" py={4}>Phone</Th>
-                            <Th color="#309689" fontSize="md" py={4}>Employee ID</Th>
-                            <Th color="#309689" fontSize="md" py={4}>Joining Date</Th>
+                            <Th color="#0a7450" fontSize="md" py={4}>Name</Th>
+                            <Th color="#0a7450" fontSize="md" py={4}>Father Name</Th>
+                            <Th color="#0a7450" fontSize="md" py={4}>Phone</Th>
+                            <Th color="#0a7450" fontSize="md" py={4}>Employee ID</Th>
+                            <Th color="#0a7450" fontSize="md" py={4}>Joining Date</Th>
                         </Tr>
                     </Thead>
                     <Tbody>
@@ -216,7 +216,7 @@ export default function MemberPage() {
                         ) : (
                             members.map((m) => (
                                 <Tr key={m._id} _hover={{ bg: 'gray.50' }}>
-                                    <Td fontWeight="medium" color="#309689">{m.name}</Td>
+                                    <Td fontWeight="medium" color="#0a7450">{m.name}</Td>
                                     <Td color="gray.600">{m.fatherName}</Td>
                                     <Td color="gray.600">{m.phoneNumber}</Td>
                                     <Td color="gray.600">{m.employeeId}</Td>

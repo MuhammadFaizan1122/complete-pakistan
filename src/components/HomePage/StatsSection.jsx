@@ -60,7 +60,7 @@ export function StatsSection() {
             minW={{ base: '100px', md: '140px' }}
           >
             <Box
-              bg="#309689"
+              bg="#0a7450"
               borderRadius="full"
               display="flex"
               alignItems="center"

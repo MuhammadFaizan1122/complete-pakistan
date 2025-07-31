@@ -35,7 +35,7 @@ export default function NotFound() {
                     <Button
                         as={Link}
                         href="/"
-                        bg="#309689"
+                        bg="#0a7450"
                         color="white"
                         rounded="xl"
                         px={{ base: 6, md: 8 }}

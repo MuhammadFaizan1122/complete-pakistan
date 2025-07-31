@@ -295,7 +295,7 @@ export default function JobCreationPage() {
                     </GridItem>
                 
                 <Button 
-                    bg={'#309689'} 
+                    bg={'#0a7450'} 
                     w={'full'} 
                     color="#fff" 
                     type="submit" 

@@ -50,7 +50,7 @@ export default function JobDetailsForm({
                         bg="white"
                         outline="1px solid"
                         outlineColor="gray.300"
-                        _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                        _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                     >
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
@@ -64,7 +64,7 @@ export default function JobDetailsForm({
                         border="1px solid"
                         borderColor="gray.300"
                         borderRadius="12px"
-                        _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                        _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                         value={formData.dutyHours}
                         onChange={(e) => setFormData({ ...formData, dutyHours: e.target.value })}
                     />
@@ -83,7 +83,7 @@ export default function JobDetailsForm({
                     bg="white"
                     outline="1px solid"
                     outlineColor="gray.300"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                 >
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
@@ -98,7 +98,7 @@ export default function JobDetailsForm({
                     border="1px solid"
                     borderColor="gray.300"
                     borderRadius="12px"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                     value={formData.duration}
                     onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
                 />
@@ -118,7 +118,7 @@ export default function JobDetailsForm({
                     bg="white"
                     outline="1px solid"
                     outlineColor="gray.300"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                 >
                     <option value="Provided">Provided</option>
                     <option value="Not Provided">Not Provided</option>
@@ -137,7 +137,7 @@ export default function JobDetailsForm({
                     bg="white"
                     outline="1px solid"
                     outlineColor="gray.300"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                 >
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
@@ -157,7 +157,7 @@ export default function JobDetailsForm({
                     bg="white"
                     outline="1px solid"
                     outlineColor="gray.300"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                 >
                     <option value="Provided">Provided</option>
                     <option value="Not Provided">Not Provided</option>
@@ -172,7 +172,7 @@ export default function JobDetailsForm({
                     border="1px solid"
                     borderColor="gray.300"
                     borderRadius="12px"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                     value={formData.returnTicket}
                     onChange={(e) => setFormData({ ...formData, returnTicket: e.target.value })}
                 />
@@ -187,7 +187,7 @@ export default function JobDetailsForm({
                     border="1px solid"
                     borderColor="gray.300"
                     borderRadius="12px"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                     type="date"
                     value={formData.firstDeparture}
                     onChange={(e) => setFormData({ ...formData, firstDeparture: e.target.value })}
@@ -202,7 +202,7 @@ export default function JobDetailsForm({
                     border="1px solid"
                     borderColor="gray.300"
                     borderRadius="12px"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                     type="date"
                     value={formData.interviewDate}
                     onChange={(e) => setFormData({ ...formData, interviewDate: e.target.value })}
@@ -218,7 +218,7 @@ export default function JobDetailsForm({
                     border="1px solid"
                     borderColor="gray.300"
                     borderRadius="12px"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                     value={formData.interviewVenue}
                     onChange={(e) => setFormData({ ...formData, interviewVenue: e.target.value })}
                 />
@@ -232,7 +232,7 @@ export default function JobDetailsForm({
                     border="1px solid"
                     borderColor="gray.300"
                     borderRadius="12px"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                     value={formData.interviewLocation}
                     onChange={(e) => setFormData({ ...formData, interviewLocation: e.target.value })}
                 />
@@ -247,7 +247,7 @@ export default function JobDetailsForm({
                     border="1px solid"
                     borderColor="gray.300"
                     borderRadius="12px"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                     value={formData.interviewAddress}
                     onChange={(e) => setFormData({ ...formData, interviewAddress: e.target.value })}
                 />
@@ -261,7 +261,7 @@ export default function JobDetailsForm({
                     border="1px solid"
                     borderColor="gray.300"
                     borderRadius="12px"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                     value={formData.visaNumber}
                     onChange={(e) => setFormData({ ...formData, visaNumber: e.target.value })}
                 />
@@ -280,7 +280,7 @@ export default function JobDetailsForm({
                     bg="white"
                     outline="1px solid"
                     outlineColor="gray.300"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                 >
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
@@ -295,7 +295,7 @@ export default function JobDetailsForm({
                     border="1px solid"
                     borderColor="gray.300"
                     borderRadius="12px"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                     value={formData.visaCategory}
                     onChange={(e) => setFormData({ ...formData, visaCategory: e.target.value })}
                 />
@@ -314,7 +314,7 @@ export default function JobDetailsForm({
                                 outline="1px solid"
                                 outlineColor="gray.300"
                                 borderRadius="12px"
-                                _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                                _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                                 onChange={(e) => {
                                     const updated = [...keyResponsibilities];
                                     updated[idx] = e.target.value;
@@ -365,7 +365,7 @@ export default function JobDetailsForm({
                             key={tag}
                             size="md"
                             variant={selectedTags.includes(tag) ? 'solid' : 'outline'}
-                            bg={'#309689'}
+                            bg={'#0a7450'}
                             color="#fff"
                             cursor="pointer"
                             onClick={() =>

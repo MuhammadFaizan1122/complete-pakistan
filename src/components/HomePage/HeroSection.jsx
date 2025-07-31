@@ -108,7 +108,7 @@ export function HeroSection() {
                     />
                     <Button
                         as={Flex}
-                        bg="#309689"
+                        bg="#0a7450"
                         color='#fff'
                         p={{ base: 4, md: 10 }}
                         borderRadius={{ base: 'lg', md: 'xl' }}

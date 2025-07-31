@@ -15,7 +15,7 @@ const StyledSelect = (props: SelectProps) => {
       outlineColor="gray.300"
       _focus={{
         ring: 2,
-        ringColor: "#309689",
+        ringColor: "#0a7450",
         borderColor: "transparent",
         outline: "none",
       }}

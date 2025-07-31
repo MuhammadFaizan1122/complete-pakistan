@@ -130,7 +130,7 @@ export default function SetNewPassword() {
             <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
           </FormControl>
           <Button
-            bg={'#309689'}
+            bg={'#0a7450'}
             color={'#fff'}
             rounded={'14px'}
             size="lg"

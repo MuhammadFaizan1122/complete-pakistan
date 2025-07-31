@@ -12,7 +12,7 @@ export function ViewCompanyModal({ isOpen, onClose, company }) {
         <Modal isOpen={isOpen} onClose={onClose} isCentered size={{ base: 'full', md: '3xl' }}>
             <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
             <ModalContent rounded="16px" p={{ base: 2, md: 4 }}>
-                <ModalHeader color="#309689" fontSize="2xl" fontWeight="bold">
+                <ModalHeader color="#0a7450" fontSize="2xl" fontWeight="bold">
                     Company Details
                 </ModalHeader>
                 <ModalCloseButton size="lg" />

@@ -80,7 +80,7 @@ export default function ContactInfoForm({ register, setValue, watch, errors, set
             bg="white"
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             {...register("email")}
@@ -256,7 +256,7 @@ export default function ContactInfoForm({ register, setValue, watch, errors, set
             bg="white"
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             {...register("backupEmail")}
@@ -290,7 +290,7 @@ export default function ContactInfoForm({ register, setValue, watch, errors, set
             bg="white"
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             {...register("country")}
@@ -311,7 +311,7 @@ export default function ContactInfoForm({ register, setValue, watch, errors, set
             bg="white"
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             {...register("state")}
@@ -337,7 +337,7 @@ export default function ContactInfoForm({ register, setValue, watch, errors, set
             bg="white"
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             {...register("city")}
@@ -360,7 +360,7 @@ export default function ContactInfoForm({ register, setValue, watch, errors, set
             bg="white"
             outline="1px solid"
             outlineColor="gray.300"
-            _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+            _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
             _active={{ outline: "none" }}
             transition="all 0.2s"
             {...register("localAddress")}
@@ -372,7 +372,7 @@ export default function ContactInfoForm({ register, setValue, watch, errors, set
         <Button
           mt={4}
           w={'full'}
-          bg="#309689"
+          bg="#0a7450"
           color="white"
           rounded="15px"
           px={6}
@@ -385,7 +385,7 @@ export default function ContactInfoForm({ register, setValue, watch, errors, set
         <Button
           mt={4}
           w={'full'}
-          bg="#309689"
+          bg="#0a7450"
           color="white"
           rounded="15px"
           px={6}

@@ -160,7 +160,7 @@ const Jobs = () => {
   return (
     <Box>
       <HeroSection />
-      <Box bg={'#3096891A'} minH="100vh">
+      <Box bg={'#0a74501A'} minH="100vh">
         <Container
           maxW={{ base: '100%', sm: 'container.sm', md: 'container.md', lg: '1440px' }}
           py={{ base: 4, md: 8 }}
@@ -234,7 +234,7 @@ const Jobs = () => {
             <Box display={{ base: 'block', lg: 'none' }} mb={{ base: 4, md: 6 }}>
               <Button
                 onClick={onOpen}
-                bg={'#309689'}
+                bg={'#0a7450'}
                 color={'white'}
                 leftIcon={<Text fontSize={{ base: 'sm', md: 'md' }}>⚙️</Text>}
                 size={{ base: 'sm', md: 'md' }}

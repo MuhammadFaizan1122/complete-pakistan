@@ -102,12 +102,12 @@ export default function ServiceSection() {
                 <List spacing={2} mb={4}>
                   {service.points.map((point, i) => (
                     <ListItem key={i} display="flex" alignItems="center">
-                      <ListIcon as={FaCheck} color="#309689" />
+                      <ListIcon as={FaCheck} color="#0a7450" />
                       {point}
                     </ListItem>
                   ))}
                 </List>
-                <Button bg={'#309689'} variant="solid" w="full" color={'#fff'}>
+                <Button bg={'#0a7450'} variant="solid" w="full" color={'#fff'}>
                   Learn More
                 </Button>
               </Box>

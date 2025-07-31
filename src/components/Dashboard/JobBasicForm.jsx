@@ -36,7 +36,7 @@ export default function JobBasicInfoForm({
                         border="1px solid"
                         borderColor="gray.300"
                         borderRadius="12px"
-                        _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                        _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                         placeholder="e.g., Corporate Solutions Executive"
                         value={formData.jobTitle}
                         onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
@@ -52,7 +52,7 @@ export default function JobBasicInfoForm({
                         border="1px solid"
                         borderColor="gray.300"
                         borderRadius="12px"
-                        _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                        _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                         placeholder="e.g., Lather and Sons"
                         value={formData.companyName}
                         onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
@@ -71,7 +71,7 @@ export default function JobBasicInfoForm({
                     bg="white"
                     outline="1px solid"
                     outlineColor="gray.300"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                     value={formData.jobType}
                     onChange={(e) => setFormData({ ...formData, jobType: e.target.value })}
                 >
@@ -94,7 +94,7 @@ export default function JobBasicInfoForm({
                         bg="white"
                         outline="1px solid"
                         outlineColor="gray.300"
-                        _focus={{ ring: 2, ringColor: '#309689', borderColor: 'transparent', outline: 'none' }}
+                        _focus={{ ring: 2, ringColor: '#0a7450', borderColor: 'transparent', outline: 'none' }}
                         _active={{ outline: 'none' }}
                         transition="all 0.2s"
                         value={formData.country}
@@ -113,7 +113,7 @@ export default function JobBasicInfoForm({
                         bg="white"
                         outline="1px solid"
                         outlineColor="gray.300"
-                        _focus={{ ring: 2, ringColor: '#309689', borderColor: 'transparent', outline: 'none' }}
+                        _focus={{ ring: 2, ringColor: '#0a7450', borderColor: 'transparent', outline: 'none' }}
                         _active={{ outline: 'none' }}
                         transition="all 0.2s"
                         value={formData.state}
@@ -136,7 +136,7 @@ export default function JobBasicInfoForm({
                         border="1px solid"
                         borderColor="gray.300"
                         borderRadius="12px"
-                        _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                        _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                         placeholder="Min"
                         type="number"
                         value={formData.salaryMin}
@@ -148,7 +148,7 @@ export default function JobBasicInfoForm({
                         border="1px solid"
                         borderColor="gray.300"
                         borderRadius="12px"
-                        _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                        _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                         placeholder="Max"
                         type="number"
                         value={formData.salaryMax}
@@ -173,7 +173,7 @@ export default function JobBasicInfoForm({
                         bg="white"
                         outline="1px solid"
                         outlineColor="gray.300"
-                        _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                        _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                         _active={{ outline: "none" }}
                         transition="all 0.2s"
                     >
@@ -193,7 +193,7 @@ export default function JobBasicInfoForm({
                         bg="white"
                         outline="1px solid"
                         outlineColor="gray.300"
-                        _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                        _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                         _active={{ outline: "none" }}
                         transition="all 0.2s"
                     >
@@ -215,7 +215,7 @@ export default function JobBasicInfoForm({
                     outline="1px solid"
                     outlineColor="gray.300"
                     borderRadius="12px"
-                    _focus={{ ring: 2, ringColor: "#309689", borderColor: "transparent", outline: "none" }}
+                    _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
                     placeholder="Enter full job description..."
                     rows={5}
                     value={formData.jobDescription}

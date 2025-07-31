@@ -149,7 +149,7 @@ const FileUpload = ({ setFormData, resetTrigger }) => {
         {uploadedDocs.map((file, idx) => (
           <Tag
             key={idx}
-            bg="#309689"
+            bg="#0a7450"
             color="white"
             m={1}
             rounded="8px"
@@ -229,9 +229,9 @@ const FileUpload = ({ setFormData, resetTrigger }) => {
                         justifyContent="space-between"
                       >
                         <Flex align="center" gap={2}>
-                          {isPDF && <FaFilePdf size={20} color="#309689" />}
-                          {isImage && <FaFileImage size={20} color="#309689" />}
-                          {!isPDF && !isImage && <FaFileImage size={20} color="#309689" />}
+                          {isPDF && <FaFilePdf size={20} color="#0a7450" />}
+                          {isImage && <FaFileImage size={20} color="#0a7450" />}
+                          {!isPDF && !isImage && <FaFileImage size={20} color="#0a7450" />}
                           <Box>
                             <Input
                               value={tempTitles[index] || ''}

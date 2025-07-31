@@ -153,7 +153,7 @@ const Preview = ({ formData, imgPreview, watch }) => {
                     <Text fontSize={'24px'} fontWeight="bold" mb={4}>Skills</Text>
                     <HStack wrap="wrap">
                         {formData.skills.map((skill, idx) => (
-                            <Tag key={idx} bg="#309689" color={'#fff'} p={2} textTransform={'capitalize'}>{skill}</Tag>
+                            <Tag key={idx} bg="#0a7450" color={'#fff'} p={2} textTransform={'capitalize'}>{skill}</Tag>
                         ))}
                     </HStack>
                 </Box>

@@ -50,7 +50,7 @@ export default function CoreFeatures() {
           {features.map((feature, idx) => (
             <Box
               key={idx}
-              bg="#30968926"
+              bg="#0a745026"
               p={{ base: 4, md: 6 }}
               h={{ base: "250px", sm: "320px", md: "360px" }}
               w={{ base: "100%", sm: "90%", md: "306px" }}

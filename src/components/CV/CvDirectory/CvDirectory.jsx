@@ -183,7 +183,7 @@ const CvDirectory = () => {
                     { label: "Gulf Experienced", value: filteredCVs.gulfExp.length },
                     { label: "Pakistan Experienced", value: filteredCVs.pakistani.length }
                 ].map((item, idx) => (
-                    <Box key={idx} p={{ base: 2, md: 4 }} bg="white" borderRadius="xl" boxShadow="lg" border={'10px'} borderColor={'red'} className='!border-t-4 !border-[#309689]'>
+                    <Box key={idx} p={{ base: 2, md: 4 }} bg="white" borderRadius="xl" boxShadow="lg" border={'10px'} borderColor={'red'} className='!border-t-4 !border-[#0a7450]'>
                         <Text fontSize="xl" fontWeight="bold">{item.value}</Text>
                         <Text fontSize="sm" color="gray.500">{item.label}</Text>
                     </Box>
@@ -239,7 +239,7 @@ const CvDirectory = () => {
                     <Checkbox isChecked={gulfExpOnly} onChange={(e) => setGulfExpOnly(e.target.checked)}>Gulf Exp</Checkbox>
                     <HStack justify="end" alignItems={'end'}>
                         <HStack>
-                            <Button bg={'#309689'} color={'#fff'} onClick={handleFilter} >Filter</Button>
+                            <Button bg={'#0a7450'} color={'#fff'} onClick={handleFilter} >Filter</Button>
                             <Button variant="outline">Export</Button>
                         </HStack>
                     </HStack>

@@ -12,8 +12,8 @@ const inputStyle = {
     rounded: '12px',
     bg: 'white',
     borderColor: 'gray.300',
-    focusBorderColor: '#309689',
-    _hover: { borderColor: '#309689' },
+    focusBorderColor: '#0a7450',
+    _hover: { borderColor: '#0a7450' },
 };
 
 const uniqueCurrencies = Array.from(

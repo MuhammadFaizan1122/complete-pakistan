@@ -42,7 +42,7 @@ const JobList = ({ loading, filteredJobs, viewMode, setViewMode, bookmarkedJobs,
 
             <VStack spacing={{ base: 3, md: 4 }} align="stretch">
                 {loading ? (
-                    <Spinner size="lg" color="#309689" mx={'auto'} />
+                    <Spinner size="lg" color="#0a7450" mx={'auto'} />
                 ) : filteredJobs.length === 0 ? (
                     <Text textAlign={'center'} my={{ base: 5, md: 10 }}>No jobs found.</Text>
                 ) : filteredJobs.map((job, index) => (
@@ -62,7 +62,7 @@ const JobList = ({ loading, filteredJobs, viewMode, setViewMode, bookmarkedJobs,
                         />
                         <Button
                             size={{ base: 'xs', md: 'sm' }}
-                            bg={'#309689'}
+                            bg={'#0a7450'}
                             color={'white'}
                             variant="solid"
                             fontSize={{ base: 'xs', md: 'sm' }}

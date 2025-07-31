@@ -122,7 +122,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
                     outlineColor="gray.300"
                     _focus={{
                       ring: 2,
-                      ringColor: "#309689",
+                      ringColor: "#0a7450",
                       borderColor: "transparent",
                       outline: "none"
                     }}
@@ -156,7 +156,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
                     outlineColor="gray.300"
                     _focus={{
                       ring: 2,
-                      ringColor: "#309689",
+                      ringColor: "#0a7450",
                       borderColor: "transparent",
                       outline: "none"
                     }}
@@ -191,7 +191,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
                     outlineColor="gray.300"
                     _focus={{
                       ring: 2,
-                      ringColor: "#309689",
+                      ringColor: "#0a7450",
                       borderColor: "transparent",
                       outline: "none"
                     }}
@@ -229,7 +229,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
                     outlineColor="gray.300"
                     _focus={{
                       ring: 2,
-                      ringColor: "#309689",
+                      ringColor: "#0a7450",
                       borderColor: "transparent",
                       outline: "none"
                     }}
@@ -275,7 +275,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
                       outlineColor="gray.300"
                       _focus={{
                         ring: 2,
-                        ringColor: "#309689",
+                        ringColor: "#0a7450",
                         borderColor: "transparent",
                         outline: "none"
                       }}
@@ -315,7 +315,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
                       outlineColor="gray.300"
                       _focus={{
                         ring: 2,
-                        ringColor: "#309689",
+                        ringColor: "#0a7450",
                         borderColor: "transparent",
                         outline: "none"
                       }}
@@ -354,7 +354,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
                   outlineColor="gray.300"
                   _focus={{
                     ring: 2,
-                    ringColor: "#309689",
+                    ringColor: "#0a7450",
                     borderColor: "transparent",
                     outline: "none"
                   }}
@@ -382,7 +382,7 @@ const EmploymentPopup = ({ isOpen, onOpen, onClose, formData, setFormData }) => 
                 </Button>
                 <Button
                   onClick={handleDone}
-                  bg="#309689"
+                  bg="#0a7450"
                   color="white"
                   fontSize="16px"
                   fontWeight="bold"

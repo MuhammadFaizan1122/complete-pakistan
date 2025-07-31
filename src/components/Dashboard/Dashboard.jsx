@@ -93,7 +93,7 @@ export default function TrainingDashboard() {
                             <CardBody>
                                 <VStack align="start" spacing={4}>
                                     <Text fontSize="lg">Manage protector services for employees.</Text>
-                                    <Button bg="#309689" color="#fff" >View Services</Button>
+                                    <Button bg="#0a7450" color="#fff" >View Services</Button>
                                 </VStack>
                             </CardBody>
                         </Card>
@@ -115,7 +115,7 @@ export default function TrainingDashboard() {
                             <CardBody>
                                 <VStack align="start" spacing={4}>
                                     <Text fontSize="lg">Schedule and track candidate interviews.</Text>
-                                    <Button bg="#309689" color="#fff" >View Interviews</Button>
+                                    <Button bg="#0a7450" color="#fff" >View Interviews</Button>
                                 </VStack>
                             </CardBody>
                         </Card>
@@ -131,7 +131,7 @@ export default function TrainingDashboard() {
                             <CardBody>
                                 <VStack align="start" spacing={4}>
                                     <Text fontSize="lg">Manage self-selection processes.</Text>
-                                    <Button bg="#309689" color="#fff" >View Selection</Button>
+                                    <Button bg="#0a7450" color="#fff" >View Selection</Button>
                                 </VStack>
                             </CardBody>
                         </Card>
@@ -151,7 +151,7 @@ export default function TrainingDashboard() {
                             <CardBody>
                                 <VStack align="start" spacing={4}>
                                     <Text fontSize="lg">Manage financial accounts and transactions.</Text>
-                                    <Button bg="#309689" color="#fff" >View Accounts</Button>
+                                    <Button bg="#0a7450" color="#fff" >View Accounts</Button>
                                 </VStack>
                             </CardBody>
                         </Card>
@@ -167,7 +167,7 @@ export default function TrainingDashboard() {
                             <CardBody>
                                 <VStack align="start" spacing={4}>
                                     <Text fontSize="lg">Access general agency information and resources.</Text>
-                                    <Button bg="#309689" color="#fff" >View Information</Button>
+                                    <Button bg="#0a7450" color="#fff" >View Information</Button>
                                 </VStack>
                             </CardBody>
                         </Card>

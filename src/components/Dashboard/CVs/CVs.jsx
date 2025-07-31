@@ -186,7 +186,7 @@ const CVs = () => {
                     { label: "Gulf Experienced", value: filteredCVs.gulfExp.length },
                     { label: "Pakistan Experienced", value: filteredCVs.pakistani.length }
                 ].map((item, idx) => (
-                    <Box key={idx} p={{ base: 2, md: 4 }} bg="white" borderRadius="xl" boxShadow="lg" border={'10px'} borderColor={'red'} className='!border-t-4 !border-[#309689]'>
+                    <Box key={idx} p={{ base: 2, md: 4 }} bg="white" borderRadius="xl" boxShadow="lg" border={'10px'} borderColor={'red'} className='!border-t-4 !border-[#0a7450]'>
                         <Text fontSize="xl" fontWeight="bold">{item.value}</Text>
                         <Text fontSize="sm" color="gray.500">{item.label}</Text>
                     </Box>
@@ -242,7 +242,7 @@ const CVs = () => {
                     <Checkbox isChecked={gulfExpOnly} onChange={(e) => setGulfExpOnly(e.target.checked)}>Gulf Exp</Checkbox>
                     <HStack justify="end" alignItems={'end'}>
                         <HStack>
-                            <Button bg={'#309689'} color={'#fff'} onClick={handleFilter} >Filter</Button>
+                            <Button bg={'#0a7450'} color={'#fff'} onClick={handleFilter} >Filter</Button>
                             <Button variant="outline">Export</Button>
                         </HStack>
                     </HStack>
@@ -264,7 +264,7 @@ const CVs = () => {
             </HStack>
             {loading ? (
                 <Center minH="50vh">
-                    <Spinner size="xl" color="#309689" thickness="4px" />
+                    <Spinner size="xl" color="#0a7450" thickness="4px" />
                 </Center>
             ) : (
                 <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={6}>

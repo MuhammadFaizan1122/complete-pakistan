@@ -64,7 +64,7 @@ export default function GamcaMedicalList() {
   if (loading) {
     return (
       <Center minH="100vh" bg="gray.50">
-        <Spinner size="xl" color="#309689" thickness="4px" />
+        <Spinner size="xl" color="#0a7450" thickness="4px" />
       </Center>
     );
   }
@@ -75,7 +75,7 @@ export default function GamcaMedicalList() {
         <VStack spacing={6}>
           <Text fontSize="xl" color="red.500" fontWeight="medium">{error}</Text>
           <Button
-            bgGradient="linear(to-r, #309689, #1A3C34)"
+            bgGradient="linear(to-r, #0a7450, #1A3C34)"
             color="white"
             rounded="full"
             px={8}
@@ -129,7 +129,7 @@ export default function GamcaMedicalList() {
             color="#1A3C34"
             textAlign="center"
             fontWeight="bold"
-            bgGradient="linear(to-r, #309689, #309689)"
+            bgGradient="linear(to-r, #0a7450, #0a7450)"
             bgClip="text"
           >
             GAMCA Approved Medical Centers in Pakistan
@@ -231,7 +231,7 @@ export default function GamcaMedicalList() {
                           as={Link}
                           href={medical.googleMapLink}
                           target='_blank'
-                          bg="#309689"
+                          bg="#0a7450"
                           w="full"
                           color="white"
                           borderRadius="xl"
@@ -250,7 +250,7 @@ export default function GamcaMedicalList() {
                           as={Link}
                           href={medical.facebookPageLink}
                           target='_blank'
-                          bg="#309689"
+                          bg="#0a7450"
                           w="full"
                           color="white"
                           borderRadius="xl"
