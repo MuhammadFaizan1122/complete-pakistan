@@ -1,8 +1,11 @@
 import React from 'react'
+import VTP from '../../../components/Recruitment/VTP/VTP'
 
 const page = () => {
     return (
-        <div>Under Development</div>
+        <div>
+            <VTP />
+        </div>
     )
 }
 
