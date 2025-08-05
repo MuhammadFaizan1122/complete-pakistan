@@ -38,8 +38,7 @@ export default function Header() {
     const [recruitmentOpen, setRecruitmentOpen] = useState(false);
     const [gamcaOpen, setgamcaOpen] = useState(false);
     const [othersOpen, setothersOpen] = useState(false);
-    const [makeCvOpen, setMakeCvOpen] = useState(false)
-    const [recruitmentOpen2, setRecruitmentOpen2] = useState(false)
+    const [jobsOpen, setjobsOpen] = useState(false);
 
     const onToggle = () => setIsOpen(!isOpen);
     const onClose = () => {
@@ -55,9 +54,9 @@ export default function Header() {
         { href: '#', label: 'Hajj & Umrah' },
         { href: '#', label: 'Recruitment' },
         { href: '/jobs', label: 'Jobs Visa' },
-        { href: '#', label: 'Protector' },
-        { href: '/interviews', label: 'Interview' },
+        // { href: '#', label: 'Protector' },
         { href: '#', label: 'GAMCA' },
+        { href: '/iqama', label: 'Iqama' },
         { href: '#', label: 'More' },
     ];
 
@@ -79,12 +78,17 @@ export default function Header() {
         { href: '/recruitment/vtp', label: 'Verified Trade Partners' },
         { href: '/recruitment/consultancies', label: 'Consultant Directory' },
         { href: '/recruitment/gulf-companies', label: 'Gulf Companies Directory' },
+        { href: '/', label: 'Protector' },
     ];
     const othersLinks = [
         { href: '#', label: 'Ticketing' },
         { href: '#', label: 'Fraud Alert' },
         { href: '#', label: 'Travel & Tour' },
-        { href: '#', label: 'Help Center' },
+        // { href: '#', label: 'Help Center' },
+    ];
+    const jobs = [
+        { href: 'jobs', label: 'Jobs' },
+        { href: 'interviews', label: 'Interviews' },
     ];
 
     return (
@@ -154,6 +158,40 @@ export default function Header() {
                                                 <abbr key={j} title={subLink.label} style={{ textDecoration: 'none' }}>
                                                     <Box
 
+                                                        as={Link}
+                                                        href={status === 'authenticated' ? subLink.href : '/auth/login'}
+                                                        display="block"
+                                                        px={3}
+                                                        py={2}
+                                                        borderRadius="md"
+                                                        _hover={{ bg: 'gray.100' }}
+                                                    >
+                                                        {subLink.label}
+                                                    </Box>
+                                                </abbr>
+                                            ))}
+                                        </PopoverBody>
+                                    </PopoverContent>
+                                </Popover>
+                            )
+                        } else if (link.label === 'Jobs Visa') {
+                            return (
+                                <Popover trigger="hover" placement="bottom-start" key={i}>
+                                    <PopoverTrigger>
+                                        <Text
+                                            fontWeight={pathname.startsWith('/create') ? 'semibold' : 'normal'}
+                                            color={pathname.startsWith('/create') ? '#0a7450' : ''}
+                                            cursor="pointer"
+                                            _hover={{ color: '#0a7450' }}
+                                        >
+                                            Jobs Visa
+                                        </Text>
+                                    </PopoverTrigger>
+                                    <PopoverContent w="fit-content">
+                                        <PopoverBody p={2}>
+                                            {jobs.map((subLink, j) => (
+                                                <abbr key={j} title={subLink.label} style={{ textDecoration: 'none' }}>
+                                                    <Box
                                                         as={Link}
                                                         href={status === 'authenticated' ? subLink.href : '/auth/login'}
                                                         display="block"
@@ -365,6 +403,39 @@ export default function Header() {
                                                             <Text
                                                                 _hover={{ color: "#0a7450" }}
                                                                 className={`duration-300 ${pathname === sub.href ? 'text-[#0a7450] font-semibold' : ""}`}
+                                                            >
+                                                                {sub.label}
+                                                            </Text>
+                                                        </Link>
+                                                    ))}
+                                                </VStack>
+                                            </Collapse>
+                                        </Box>
+                                    );
+                                } else if (link.label === "Jobs Visa") {
+                                    return (
+                                        <Box key={i} width="full">
+                                            <Flex
+                                                justify="space-between"
+                                                align="center"
+                                                onClick={() => setjobsOpen(!jobsOpen)}
+                                                cursor="pointer"
+                                                _hover={{ color: "#0a7450" }}
+                                            >
+                                                <Text
+                                                    className={`duration-300 ${pathname.includes("/jobs") || pathname === "/jobs" ? 'text-[#0a7450] font-semibold' : ""}`}
+                                                >
+                                                    Jobs Visa
+                                                </Text>
+
+                                            </Flex>
+                                            <Collapse in={jobsOpen} animateOpacity>
+                                                <VStack pl={4} pt={2} align="start">
+                                                    {jobs.map((sub, j) => (
+                                                        <Link key={j} href={sub.href} onClick={onClose}>
+                                                            <Text
+                                                                _hover={{ color: "#0a7450" }}
+                                                                className={`duration-300 truncate ${pathname === sub.href ? 'text-[#0a7450] font-semibold' : ""}`}
                                                             >
                                                                 {sub.label}
                                                             </Text>

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import CompanyCard from './CompanyCard';
 import { HeroSection } from '../../Gamca/MedicalCenters/HeroSection';
 import { Center, Heading, Spinner } from '@chakra-ui/react';
+import { handleGetVTPs } from '../../../handlers/recruitment/vtp';
 
 const allCompanies = [
     {
@@ -184,29 +185,33 @@ const ITEMS_PER_PAGE = 9;
 export default function VTP() {
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
+    const [tradePartners, setTradePartners] = useState([]);
     const [sliderImages, setSliderImages] = useState([]);
     const [news, setNews] = useState([]);
-
-    const totalPages = Math.ceil(allCompanies.length / ITEMS_PER_PAGE);
-    const paginatedData = allCompanies.slice(
+    const [error, setError] = useState('');
+    console.log('tradePartners', tradePartners)
+    const totalPages = Math.ceil(tradePartners.length / ITEMS_PER_PAGE);
+    const paginatedData = tradePartners.slice(
         (page - 1) * ITEMS_PER_PAGE,
         page * ITEMS_PER_PAGE
     );
+    console.log('paginatedData', paginatedData)
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            // const data = await handleFetchMadicals();
+            const data = await handleGetVTPs();
             const response = await fetch(`/api/slider?page=VTP`);
             const sliderData = await response.json();
             setSliderImages(sliderData?.data?.sliderImgs || []);
             setNews(sliderData?.data?.news || []);
 
-            // if (data.success === true) {
-            //     setMedicals(data.data);
-            //     setError(null);
-            // } else {
-            //     setError("Failed to fetch medical records");
-            // }
+            if (data.status === 200) {
+                console.log('data', data.data.data)
+                setTradePartners(data.data.data);
+                setError(null);
+            } else {
+                setError("Failed to fetch Trade Partners");
+            }
             setLoading(false);
         };
         fetchData();
