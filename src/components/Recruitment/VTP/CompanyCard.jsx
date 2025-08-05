@@ -34,7 +34,7 @@ export default function CompanyCard(item) {
       position="relative"
     >
       {/* Card Clickable Area */}
-      <Link href={`/recruitment/vtp/${item._id}`} passHref>
+      <Link href={`/recruitment/vtp/${item.vtpId}`} passHref>
         <Box
           as="a"
           position="absolute"
@@ -114,6 +114,7 @@ export default function CompanyCard(item) {
             color="#2563EB"
             variant="ghost"
             isExternal
+            target="_blank"
           />
         )}
         {item.socialMedia.twitter && (
@@ -126,6 +127,7 @@ export default function CompanyCard(item) {
             color="#60A5FA"
             variant="ghost"
             isExternal
+            target="_blank"
           />
         )}
         {item.socialMedia.instagram && (
@@ -138,6 +140,7 @@ export default function CompanyCard(item) {
             color="#DB2777"
             variant="ghost"
             isExternal
+            target="_blank"
           />
         )}
         {item.socialMedia.tiktok && (
@@ -150,6 +153,7 @@ export default function CompanyCard(item) {
             color="#1D4ED8"
             variant="ghost"
             isExternal
+            target="_blank"
           />
         )}
       </HStack>
