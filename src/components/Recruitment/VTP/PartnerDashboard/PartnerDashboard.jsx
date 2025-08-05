@@ -87,14 +87,14 @@ const PartnerDashboard = () => {
 
             </Flex>
 
-            <Tabs variant="enclosed" colorScheme="purple">
-                <TabList>
-                    <Tab>Overview</Tab>
-                    <Tab>Ready Medical</Tab>
-                    <Tab>Jobs</Tab>
-                    <Tab>CVs</Tab>
-                    <Tab>Notice</Tab>
-                    <Tab>Associate OEP & TTC</Tab>
+            <Tabs variant="enclosed-colored" colorScheme="purple" w="100%">
+                <TabList w="100%">
+                    <Tab flex="1">Overview</Tab>
+                    <Tab flex="1">Ready Medical</Tab>
+                    <Tab flex="1">Jobs</Tab>
+                    <Tab flex="1">CVs</Tab>
+                    <Tab flex="1">Notice</Tab>
+                    <Tab flex="1">Associate OEP & TTC</Tab>
                 </TabList>
                 <TabPanels>
                     <TabPanel px='0'>
