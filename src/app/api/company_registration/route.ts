@@ -3,6 +3,19 @@ import connectDB from "../../../config/mongoose";
 import CompanyAccount from '../../../config/models/CompanyAccount';
 import bcrypt from 'bcryptjs';
 
+
+export async function GET(req) {
+    try {
+        await connectDB();
+        // @ts-ignore
+        const companies = await CompanyAccount.find({ status: 'approved', type: { $in: ['OEP', 'TTC'] } }).sort({ createdAt: -1 });
+        return NextResponse.json({ data: companies, status: 200 });
+    } catch (error) {
+        console.error('Error fetching companies:', error);
+        return NextResponse.json({ error: 'Failed to fetch companies' }, { status: 500 });
+    }
+}
+
 export async function POST(req) {
     try {
         await connectDB();

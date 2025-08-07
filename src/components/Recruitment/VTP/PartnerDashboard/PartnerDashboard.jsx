@@ -7,6 +7,8 @@ import { RiWhatsappFill } from "react-icons/ri";
 import { handleGetVTPById } from "../../../../handlers/recruitment/vtp";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import Agencies from "./Agencies";
+import LikedCompaniesDisplay from "./LikedCompaniesDisplay";
 
 const PartnerDashboard = () => {
     const params = useParams()
@@ -98,66 +100,12 @@ const PartnerDashboard = () => {
                 </TabList>
                 <TabPanels>
                     <TabPanel px='0'>
-                        <Flex gap={4}>
-                            <Box flex="1" p="4" borderWidth="1px" borderRadius="md" w={{ base: '100%', md: '30%' }}>
-                                <Tabs variant="soft-rounded" colorScheme="purple">
-                                    <TabList>
-                                        <Tab>OEP</Tab>
-                                        <Tab>TTC</Tab>
-                                    </TabList>
-                                    <TabPanels>
-                                        <TabPanel>
-                                            {
-                                                [0, 1, 2, 3].map((item, index) => {
-                                                    return (
-                                                        <Box borderBottom={'1px solid gray'} key={index}>
-                                                            <Text>Working with: Global Recruitment Services</Text>
-                                                            <Text>Since: 3/15/2020</Text>
-                                                            <Text>Last login: 7/25/2023</Text>
-                                                        </Box>
-                                                    )
-                                                })
-                                            }
-                                        </TabPanel>
-                                        <TabPanel>
-                                            {
-                                                [0, 1, 2, 3].map((item, index) => {
-                                                    return (
-                                                        <Box borderBottom={'1px solid gray'} key={index}>
-                                                            <Text>Working with: Global Recruitment Services</Text>
-                                                            <Text>Since: 3/15/2020</Text>
-                                                            <Text>Last login: 7/25/2023</Text>
-                                                        </Box>
-                                                    )
-                                                })
-                                            }
-                                        </TabPanel>
-                                    </TabPanels>
-                                </Tabs>
-                            </Box>
-                            <Box flex="1" p="4" borderWidth="1px" borderRadius="md" w={{ base: '100%', md: '70%' }}>
-                                <Text className="text-purple-900 font-bold">Current</Text>
-                                <Text>#: PAK-2023-7890 Embassy, Islamabad</Text>
-                                <Text>Shrika Baytur - Saudi Arabia, Jeddah</Text>
-                                <Text className="text-purple-900 font-bold mt-2">Manpower Requirements</Text>
-                                <Flex justify="space-between">
-                                    <Text>Plumber</Text><Text>1500-2500 SAR</Text><Text>20</Text>
-                                    <Text>Electrician</Text><Text>1500-2500 SAR</Text><Text>30</Text>
-                                    <Text>Tile Fixer</Text><Text>1500-2500 SAR</Text><Text>20</Text>
-                                </Flex>
-                                <Flex justify="space-between" mt="2">
-                                    <Text>Construction Labour</Text><Text>1500-2500 SAR</Text><Text>20</Text>
-                                    <Text>Cleaner Labour</Text><Text>1500-2500 SAR</Text><Text>30</Text>
-                                    <Text>Helper Labour</Text><Text>1500-2500 SAR</Text><Text>20</Text>
-                                </Flex>
-                            </Box>
-                        </Flex>
-
+                        <LikedCompaniesDisplay />
                     </TabPanel>
                     <TabPanel>
                         <p>Ready Medical content here...</p>
                     </TabPanel>
-                    <TabPanel>
+                    <TabPanel className="!px-0">
                         <p>Jobs content here...</p>
                     </TabPanel>
                     <TabPanel>
@@ -166,8 +114,8 @@ const PartnerDashboard = () => {
                     <TabPanel>
                         <p>Medical content here...</p>
                     </TabPanel>
-                    <TabPanel>
-                        <p>Associate OEP & TTC content here...</p>
+                    <TabPanel px={0}>
+                        <Agencies />
                     </TabPanel>
                 </TabPanels>
             </Tabs>
