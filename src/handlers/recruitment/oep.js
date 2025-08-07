@@ -2,8 +2,9 @@ import axios from 'axios';
 
 export const handleGetOEPs = async () => {
   try {
-    const response = await axios.get('/api/recruitment/oep');
-    return response.data.data;
+    console.log('first')
+    // const response = await axios.get('/api/recruitment/oep');
+    // return response.data.data;
   } catch (error) {
     console.error('Error fetching OEPs:', error.response?.data?.error || error.message);
     return [];
@@ -12,8 +13,10 @@ export const handleGetOEPs = async () => {
 
 export const handleGetOEPById = async (id) => {
   try {
-    const response = await axios.get(`/api/recruitment/oep?id=${id}`);
-    return response.data.data;
+    console.log('first')
+
+    // const response = await axios.get(`/api/recruitment/oep?id=${id}`);
+    // return response.data.data;
   } catch (error) {
     console.error('Error fetching OEP by ID:', error.response?.data?.error || error.message);
     return { error: error.response?.data?.error || error.message };
@@ -22,8 +25,8 @@ export const handleGetOEPById = async (id) => {
 
 export const handleCreateOEP = async (payload) => {
   try {
-    const response = await axios.post('/api/recruitment/oep', payload);
-    return response.data.data;
+    // const response = await axios.post('/api/recruitment/oep', payload);
+    // return response.data.data;
   } catch (error) {
     console.error('Error creating OEP:', error.response?.data?.error || error.message);
     return { error: error.response?.data?.error || error.message };
@@ -32,8 +35,10 @@ export const handleCreateOEP = async (payload) => {
 
 export const handleUpdateOEP = async (payload) => {
   try {
-    const response = await axios.put('/api/recruitment/oep', payload);
-    return response.data.data;
+    console.log('first')
+
+    // const response = await axios.put('/api/recruitment/oep', payload);
+    // return response.data.data;
   } catch (error) {
     console.error('Error updating OEP:', error.response?.data?.error || error.message);
     return { error: error.response?.data?.error || error.message };
@@ -42,8 +47,10 @@ export const handleUpdateOEP = async (payload) => {
 
 export const handleDeleteOEP = async (id) => {
   try {
-    const response = await axios.delete(`/api/recruitment/oep?id=${id}`);
-    return response.data.data;
+    console.log('first')
+
+    // const response = await axios.delete(`/api/recruitment/oep?id=${id}`);
+    // return response.data.data;
   } catch (error) {
     console.error('Error deleting OEP:', error.response?.data?.error || error.message);
     return { error: error.response?.data?.error || error.message };
