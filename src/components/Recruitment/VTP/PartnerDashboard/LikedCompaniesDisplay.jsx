@@ -36,7 +36,7 @@ const LikedCompaniesDisplay = () => {
     return (
         <Flex gap={4}>
             <Box flex="1" p="4" borderWidth="1px" borderRadius="md" w={{ base: '100%', md: '30%' }}>
-                <Tabs variant="soft-rounded" colorScheme="purple">
+                <Tabs variant="soft-rounded" colorScheme="green">
                     <TabList>
                         <Tab>OEP</Tab>
                         <Tab>TTC</Tab>

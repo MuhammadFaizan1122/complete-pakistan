@@ -43,7 +43,7 @@ const PartnerDashboard = () => {
     }
     return (
         <Box className="bg-white p-6 rounded-lg mx-auto max-w-[1440px]">
-            <Flex align="center" justify="space-between" mb="6" bg={'purple.600'} p={6}>
+            <Flex align="center" justify="space-between" mb="6" bg={'#0a7450'} p={6}>
                 <Box>
                     <Flex>
                         <Box mr={4}>
@@ -89,7 +89,7 @@ const PartnerDashboard = () => {
 
             </Flex>
 
-            <Tabs variant="enclosed-colored" colorScheme="purple" w="100%">
+            <Tabs variant="enclosed-colored" colorScheme="green" w="100%">
                 <TabList w="100%">
                     <Tab flex="1">Overview</Tab>
                     <Tab flex="1">Ready Medical</Tab>
@@ -121,43 +121,43 @@ const PartnerDashboard = () => {
             </Tabs>
 
             <Box p="4" borderWidth="1px" borderRadius="md" mt="4">
-                <Text className="text-purple-900 font-bold">Location</Text>
+                <Text className="text-[#0a7450] font-bold">Location</Text>
                 <Text>Business Address: {agentData?.businessAddress + ", " + agentData?.address?.city + ", " + agentData?.address?.state + ", " + agentData?.address?.country}</Text>
                 <Text>Home Address: {agentData?.homeTownAddress + ", " + agentData?.address?.city + ", " + agentData?.address?.country}</Text>
             </Box>
 
             <Flex mt="4" justify="space-between">
-                <Box p="6" borderWidth="2px" borderRadius="md" borderColor="purple.500" textAlign="center" w="22%" bg="white" boxShadow="md">
-                    <FaCheckCircle color="purple" size="24px" className="mx-auto text-center" />
-                    <Text className="text-purple-900 font-bold mt-2">Ready Medical</Text>
+                <Box p="6" borderWidth="1px" borderRadius="md" borderColor="#0a7450" textAlign="center" w="22%" bg="white" boxShadow="md">
+                    <FaCheckCircle color="#0a7450" size="24px" className="mx-auto text-center" />
+                    <Text className="text-[#0a7450] font-bold mt-2">Ready Medical</Text>
                     <Text className="text-2xl font-bold mt-2">45</Text>
                 </Box>
-                <Box p="6" borderWidth="2px" borderRadius="md" borderColor="purple.500" textAlign="center" w="22%" bg="white" boxShadow="md">
-                    <FaFileAlt color="purple" size="24px" className="mx-auto text-center" />
-                    <Text className="text-purple-900 font-bold mt-2">CVs Data Showcase</Text>
+                <Box p="6" borderWidth="1px" borderRadius="md" borderColor="#0a7450" textAlign="center" w="22%" bg="white" boxShadow="md">
+                    <FaFileAlt color="#0a7450" size="24px" className="mx-auto text-center" />
+                    <Text className="text-[#0a7450] font-bold mt-2">CVs Data Showcase</Text>
                     <Text className="text-2xl font-bold mt-2">234</Text>
                 </Box>
-                <Box p="6" borderWidth="2px" borderRadius="md" borderColor="purple.500" textAlign="center" w="22%" bg="white" boxShadow="md">
-                    <FaBell color="purple" size="24px" className="mx-auto text-center" />
-                    <Text className="text-purple-900 font-bold mt-2">Notice</Text>
+                <Box p="6" borderWidth="1px" borderRadius="md" borderColor="#0a7450" textAlign="center" w="22%" bg="white" boxShadow="md">
+                    <FaBell color="#0a7450" size="24px" className="mx-auto text-center" />
+                    <Text className="text-[#0a7450] font-bold mt-2">Notice</Text>
                     <Text className="text-2xl font-bold mt-2">0</Text>
                 </Box>
-                <Box p="6" borderWidth="2px" borderRadius="md" borderColor="purple.500" textAlign="center" w="22%" bg="white" boxShadow="md">
-                    <FaPlus color="purple" size="24px" className="mx-auto text-center" />
-                    <Text className="text-purple-900 font-bold mt-2">Jobs</Text>
+                <Box p="6" borderWidth="1px" borderRadius="md" borderColor="#0a7450" textAlign="center" w="22%" bg="white" boxShadow="md">
+                    <FaPlus color="#0a7450" size="24px" className="mx-auto text-center" />
+                    <Text className="text-[#0a7450] font-bold mt-2">Jobs</Text>
                     <Text className="text-2xl font-bold mt-2">0</Text>
                 </Box>
             </Flex>
 
             <Box p="4" borderWidth="1px" borderRadius="md" mt="4" gap={4} >
-                <Text className="flex items-center text-purple-900 font-bold text-xl !mb-4"> <FaPhone className="mr-4 text-xl" /> Contact & Social</Text>
+                <Text className="flex items-center text-[#0a7450] font-bold text-xl !mb-4"> <FaPhone className="mr-4 text-xl" /> Contact & Social</Text>
                 <Flex justify={'space-between'}>
                     <Text className="flex items-center"><FaPhone className="mr-4" /> {agentData?.contactPersonPhone}</Text>
-                    <Text className="text-green-500 mt-2">Verified</Text>
+                    <Text className="text-black mt-2">Verified</Text>
                 </Flex>
                 <Flex justify={'space-between'}>
                     <Text className="flex items-center"><FaEnvelope className="mr-4" /> {agentData?.email}</Text>
-                    <Text className="text-green-500 mt-2">Verified</Text>
+                    <Text className="text-black mt-2">Verified</Text>
                 </Flex>
                 <Text className="flex items-center"><FaGlobe className="mr-4" /> {agentData.websiteUrl}</Text>
                 <Flex gap={4} my={4}>
