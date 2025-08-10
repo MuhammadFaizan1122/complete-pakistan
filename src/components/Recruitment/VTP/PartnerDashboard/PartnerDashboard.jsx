@@ -9,19 +9,18 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import Agencies from "./Agencies";
 import LikedCompaniesDisplay from "./LikedCompaniesDisplay";
+import CVTable from "./CV";
 
 const PartnerDashboard = () => {
     const params = useParams()
     const [loading, setLoading] = useState(true)
     const [agentData, setAgentData] = useState()
     const [error, setError] = useState()
-    console.log('agentData', agentData)
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             const data = await handleGetVTPById(params.id);
-            console.log('data', data)
             if (data.status === 200) {
                 setAgentData(data.data.data);
                 setError(null);
@@ -102,16 +101,16 @@ const PartnerDashboard = () => {
                     <TabPanel px='0'>
                         <LikedCompaniesDisplay />
                     </TabPanel>
-                    <TabPanel>
+                    <TabPanel px='0'>
                         <p>Ready Medical content here...</p>
                     </TabPanel>
                     <TabPanel className="!px-0">
                         <p>Jobs content here...</p>
                     </TabPanel>
-                    <TabPanel>
-                        <p>CVs content here...</p>
+                    <TabPanel px='0'>
+                        <CVTable />
                     </TabPanel>
-                    <TabPanel>
+                    <TabPanel px='0'>
                         <p>Medical content here...</p>
                     </TabPanel>
                     <TabPanel px={0}>
