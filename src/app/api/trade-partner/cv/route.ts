@@ -37,6 +37,33 @@ export async function GET(req: any) {
     }
 }
 
+
+// export async function GET(req: any) {
+//     try {
+//         await connectDB();
+//         const id = req.nextUrl.searchParams.get('id');
+
+//         if (id) {
+//             // @ts-ignore
+//             const cv = await CV.findById(id).populate('Navtac', 'name code');
+//             if (!cv) {
+//                 return NextResponse.json({ success: false, message: 'CV not found' }, { status: 404 });
+//             }
+//             return NextResponse.json({ success: true, data: cv });
+//         }
+
+//         // @ts-ignore
+//         const cvs = await CV.find()
+//             .populate('trade', 'name code') // only get name & code
+//             .sort({ createdAt: -1 });
+
+//         return NextResponse.json({ success: true, data: cvs });
+//     } catch (error) {
+//         console.error('GET CVs Error:', error);
+//         return NextResponse.json({ success: false, message: 'Server Error' }, { status: 500 });
+//     }
+// }
+
 export async function PATCH(req: any) {
     try {
         await connectDB();

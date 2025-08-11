@@ -12,9 +12,9 @@ export const handleCreateMedicalCase = async (payload) => {
 };
 
 // ✅ Get All or Filter by ID
-export const handleFetchMedicalCases = async (id = '') => {
+export const handleFetchMedicalCases = async (payload) => {
   try {
-    const url = id ? `/api/gamca-madical-cases?id=${id}` : `/api/gamca-madical-cases`;
+    const url = payload.id ? `/api/gamca-madical-cases?id=${payload.id}` : `/api/gamca-madical-cases?type=${payload.type}&userId=${payload.userId}`;
     const res = await axios.get(url);
     return res.data;
   } catch (error) {

@@ -28,6 +28,7 @@ const MedicalCaseSchema = new mongoose.Schema(
     country: { type: String, required: false },
     candidateImageUrl: { type: String, required: false },
     medicalReportUrl: { type: String, required: false },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }
 );

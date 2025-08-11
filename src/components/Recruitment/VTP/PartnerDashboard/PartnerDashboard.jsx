@@ -10,6 +10,7 @@ import Link from "next/link";
 import Agencies from "./Agencies";
 import LikedCompaniesDisplay from "./LikedCompaniesDisplay";
 import CVTable from "./CV";
+import ReadyMedicalCases from "../../../../components/Gamca/ReadyMedicalCases/ReadyMedicalCases";
 
 const PartnerDashboard = () => {
     const params = useParams()
@@ -102,7 +103,7 @@ const PartnerDashboard = () => {
                         <LikedCompaniesDisplay />
                     </TabPanel>
                     <TabPanel px='0'>
-                        <p>Ready Medical content here...</p>
+                        <ReadyMedicalCases type={'trade-partner'} />
                     </TabPanel>
                     <TabPanel className="!px-0">
                         <p>Jobs content here...</p>

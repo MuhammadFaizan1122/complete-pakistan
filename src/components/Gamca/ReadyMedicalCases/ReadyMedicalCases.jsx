@@ -29,6 +29,7 @@ import Link from "next/link";
 import { City, Country, State } from "country-state-city";
 import { HeroSection } from "../MedicalCenters/HeroSection";
 import { GamcaTokenDisplay } from "../MedicalCenters/GamceTokenDisplay";
+import { useParams } from "next/navigation";
 
 export const calculateTotalExperience = (experienceArray) => {
   let totalYears = 0, totalMonths = 0;
@@ -48,7 +49,7 @@ export const calculateTotalExperience = (experienceArray) => {
   });
   return { totalYears, totalMonths };
 };
-export default function ReadyMedicalCases() {
+export default function ReadyMedicalCases({ type }) {
   const [candidates, setCandidates] = useState([]);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -66,17 +67,20 @@ export default function ReadyMedicalCases() {
   const [cities, setCities] = useState([]);
   const [sliderImages, setSliderImages] = useState([]);
   const [news, setNews] = useState([]);
-
-
+  const params = useParams()
   useEffect(() => {
     const fetchCandidates = async () => {
       try {
         setLoading(true);
-        const response = await handleFetchMedicalCases();
-        const response2 = await fetch(`/api/slider?page=GAMCAReadyMedicalCases`);
-        const sliderData = await response2.json();
-        setSliderImages(sliderData?.data?.sliderImgs || []);
-        setNews(sliderData?.data?.news || []);
+        const response = await handleFetchMedicalCases({ type: type, userId: params.id });
+        console.log('response', response)
+        if (type !== 'trade-partner') {
+
+          const response2 = await fetch(`/api/slider?page=GAMCAReadyMedicalCases`);
+          const sliderData = await response2.json();
+          setSliderImages(sliderData?.data?.sliderImgs || []);
+          setNews(sliderData?.data?.news || []);
+        }
         if (response.status === 200) {
           setCandidates(response.data);
           setFilteredCandidates(response.data);
@@ -189,7 +193,10 @@ export default function ReadyMedicalCases() {
 
   return (
     <>
-      <HeroSection sliderImages={sliderImages} news={news} />
+      {
+        type !== 'trade-partner' &&
+        <HeroSection sliderImages={sliderImages} news={news} />
+      }
       <Box py={{ base: 4, md: 8 }} maxW="1400px" mx="auto" minH="100vh">
         <VStack spacing={4} align="stretch">
           <Text fontSize={'24px'} fontWeight="bold" color="#1A3C34">Search & Filter</Text>
@@ -298,7 +305,10 @@ export default function ReadyMedicalCases() {
               />
             </HStack>
           </Flex>
-          <GamcaTokenDisplay />
+          {
+            type !== 'trade-partner' &&
+            <GamcaTokenDisplay />
+          }
 
           {isGridView ? (
             <Grid

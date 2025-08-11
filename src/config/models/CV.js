@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 const cvSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    trade: { type: mongoose.Schema.Types.ObjectId, ref: 'Trade', required: true },
+    trade: { type: mongoose.Schema.Types.ObjectId, ref: 'Navtac', required: true },
     country: { type: String, required: true },
     state: { type: String, required: true },
     city: { type: String, required: true },

@@ -64,13 +64,27 @@ export async function GET(req: NextRequest) {
     await connectDB();
 
     const id = req.nextUrl.searchParams.get('id');
-
+    const type = req.nextUrl.searchParams.get('type');
+    const userId = req.nextUrl.searchParams.get('userId');
     if (id) {
       // @ts-ignore
       const data = await MedicalCase.findById(id);
       if (!data) {
-        return NextResponse.json({ success: false, message: 'Candidate medical case not found' }, { status: 404 });
+        return NextResponse.json({ success: false, message: 'Candidate medical case not found', status: 404 });
       }
+      return NextResponse.json({ success: true, data, status: 200 });
+    }
+    if (type === 'trade-partner') {
+      // @ts-ignore
+      const data = await MedicalCase.find({ userId: userId }).sort({ createdAt: -1 });
+
+      if (!data.length) {
+        return NextResponse.json(
+          { success: false, message: 'Candidate medical case not found' },
+          { status: 404 }
+        );
+      }
+
       return NextResponse.json({ success: true, data, status: 200 });
     }
 
@@ -80,7 +94,7 @@ export async function GET(req: NextRequest) {
 
   } catch (error) {
     console.error('Candidate Medical Case GET error:', error);
-    return NextResponse.json({ success: false, message: 'Server Error' }, { status: 500 });
+    return NextResponse.json({ success: false, message: 'Server Error', status: 500 });
   }
 }
 
