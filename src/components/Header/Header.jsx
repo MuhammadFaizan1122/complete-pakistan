@@ -53,7 +53,7 @@ export default function Header() {
         { href: '/create-cv', label: 'Make CV' },
         { href: '#', label: 'Hajj & Umrah' },
         { href: '#', label: 'Recruitment' },
-        { href: '/jobs', label: 'Jobs Visa' },
+        { href: '#', label: 'Jobs Visa' },
         // { href: '#', label: 'Protector' },
         { href: '#', label: 'GAMCA' },
         { href: '/iqama', label: 'Iqama' },
@@ -87,8 +87,8 @@ export default function Header() {
         // { href: '#', label: 'Help Center' },
     ];
     const jobs = [
-        { href: 'jobs', label: 'Jobs' },
-        { href: 'interviews', label: 'Interviews' },
+        { href: '/jobs', label: 'Jobs' },
+        { href: '/interviews', label: 'Interviews' },
     ];
 
     return (
