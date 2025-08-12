@@ -49,7 +49,7 @@ export const calculateTotalExperience = (experienceArray) => {
   });
   return { totalYears, totalMonths };
 };
-export default function ReadyMedicalCases({ type }) {
+export default function ReadyMedicalCases({ type, setTotalMedicalCases }) {
   const [candidates, setCandidates] = useState([]);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -73,13 +73,13 @@ export default function ReadyMedicalCases({ type }) {
       try {
         setLoading(true);
         const response = await handleFetchMedicalCases({ type: type, userId: params.id });
-        console.log('response', response)
         if (type !== 'trade-partner') {
-
           const response2 = await fetch(`/api/slider?page=GAMCAReadyMedicalCases`);
           const sliderData = await response2.json();
           setSliderImages(sliderData?.data?.sliderImgs || []);
           setNews(sliderData?.data?.news || []);
+        } else if (response.status === 200) {
+          setTotalMedicalCases(response.data.length)
         }
         if (response.status === 200) {
           setCandidates(response.data);

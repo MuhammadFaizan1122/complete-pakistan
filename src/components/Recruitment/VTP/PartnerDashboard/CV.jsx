@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
-export default function CVTable() {
+export default function CVTable({ setTotalCvs }) {
   const [cvs, setCvs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -28,7 +28,6 @@ export default function CVTable() {
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
 
-    // If birthday hasn’t occurred yet this year, subtract 1
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
@@ -43,7 +42,7 @@ export default function CVTable() {
         if (!res.ok) {
           throw new Error(data.message || "Failed to fetch CVs");
         }
-
+        setTotalCvs(data.data.length)
         setCvs(data.data || []);
       } catch (err) {
         setError(err.message);

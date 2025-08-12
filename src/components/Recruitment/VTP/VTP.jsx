@@ -189,13 +189,11 @@ export default function VTP() {
     const [sliderImages, setSliderImages] = useState([]);
     const [news, setNews] = useState([]);
     const [error, setError] = useState('');
-    console.log('tradePartners', tradePartners)
     const totalPages = Math.ceil(tradePartners.length / ITEMS_PER_PAGE);
     const paginatedData = tradePartners.slice(
         (page - 1) * ITEMS_PER_PAGE,
         page * ITEMS_PER_PAGE
     );
-    console.log('paginatedData', paginatedData)
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);

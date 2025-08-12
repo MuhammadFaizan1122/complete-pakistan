@@ -24,7 +24,7 @@ export async function GET(req: any) {
         const id = req.nextUrl.searchParams.get('id');
         if (id) {
             // @ts-ignore
-            const notice = await Notice.findById(id);
+            const notice = await Notice.findOne({ userId: id });
             if (!notice) {
                 return NextResponse.json({ success: false, message: 'Notice not found' }, { status: 404 });
             }

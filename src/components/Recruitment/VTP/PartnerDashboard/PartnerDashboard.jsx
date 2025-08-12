@@ -10,6 +10,7 @@ import Link from "next/link";
 import Agencies from "./Agencies";
 import LikedCompaniesDisplay from "./LikedCompaniesDisplay";
 import CVTable from "./CV";
+import Notice from "./Notice";
 import ReadyMedicalCases from "../../../../components/Gamca/ReadyMedicalCases/ReadyMedicalCases";
 
 const PartnerDashboard = () => {
@@ -17,7 +18,9 @@ const PartnerDashboard = () => {
     const [loading, setLoading] = useState(true)
     const [agentData, setAgentData] = useState()
     const [error, setError] = useState()
-
+    const [totalMedicalCases, setTotalMedicalCases] = useState(0)
+    const [totalCvs, setTotalCvs] = useState(0)
+    const [totalNotices, setTotalNotices] = useState(0)
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -103,16 +106,16 @@ const PartnerDashboard = () => {
                         <LikedCompaniesDisplay />
                     </TabPanel>
                     <TabPanel px='0'>
-                        <ReadyMedicalCases type={'trade-partner'} />
+                        <ReadyMedicalCases type={'trade-partner'} setTotalMedicalCases={setTotalMedicalCases} />
                     </TabPanel>
                     <TabPanel className="!px-0">
                         <p>Jobs content here...</p>
                     </TabPanel>
                     <TabPanel px='0'>
-                        <CVTable />
+                        <CVTable setTotalCvs={setTotalCvs} />
                     </TabPanel>
                     <TabPanel px='0'>
-                        <p>Medical content here...</p>
+                        <Notice setTotalNotices={setTotalNotices} />
                     </TabPanel>
                     <TabPanel px={0}>
                         <Agencies />
@@ -130,12 +133,12 @@ const PartnerDashboard = () => {
                 <Box p="6" borderWidth="1px" borderRadius="md" borderColor="#0a7450" textAlign="center" w="22%" bg="white" boxShadow="md">
                     <FaCheckCircle color="#0a7450" size="24px" className="mx-auto text-center" />
                     <Text className="text-[#0a7450] font-bold mt-2">Ready Medical</Text>
-                    <Text className="text-2xl font-bold mt-2">45</Text>
+                    <Text className="text-2xl font-bold mt-2">{totalMedicalCases}</Text>
                 </Box>
                 <Box p="6" borderWidth="1px" borderRadius="md" borderColor="#0a7450" textAlign="center" w="22%" bg="white" boxShadow="md">
                     <FaFileAlt color="#0a7450" size="24px" className="mx-auto text-center" />
                     <Text className="text-[#0a7450] font-bold mt-2">CVs Data Showcase</Text>
-                    <Text className="text-2xl font-bold mt-2">234</Text>
+                    <Text className="text-2xl font-bold mt-2">{totalCvs}</Text>
                 </Box>
                 <Box p="6" borderWidth="1px" borderRadius="md" borderColor="#0a7450" textAlign="center" w="22%" bg="white" boxShadow="md">
                     <FaBell color="#0a7450" size="24px" className="mx-auto text-center" />
