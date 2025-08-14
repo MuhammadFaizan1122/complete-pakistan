@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Flex, Text, Button, Spinner, Center } from '@chakra-ui/react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { handleGetAgencies } from '../../../../handlers/auth/companyRegistration';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 
-const Agencies = () => {
+const Agencies = ({ setOepData, setTtcData }) => {
     const [agencies, setAgencies] = useState([]);
-    const [likedStatus, setLikedStatus] = useState({});
     const { data: session } = useSession()
     const [loading, setLoading] = useState(true)
     const [loading2, setLoading2] = useState(false)
@@ -15,42 +13,47 @@ const Agencies = () => {
     useEffect(() => {
         const fetchAgencies = async () => {
             setLoading(true)
-            const res = await handleGetAgencies();
-            if (res.status === 200) {
-                const filteredAgencies = res.data.data.filter(
-                    company => company.type === 'OEP' || company.type === 'TTC'
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASEURL_2}/like?userId=${session.user.id}`, {
+                headers: { 'user-id': session.user.id }
+            });
+            if (response.status === 200) {
+                const oepAgencies = response.data.data.filter(
+                    company => company.liked === true && company.type === 'OEP'
                 );
-                setAgencies(filteredAgencies);
-                const initialLikedStatus = {};
-                filteredAgencies.forEach(agency => {
-                    initialLikedStatus[agency._id] = false;
-                });
-                setLikedStatus(initialLikedStatus);
+                const ttcAgencies = response.data.data.filter(
+                    company => company.liked === true && company.type === 'TTC'
+                );
+                setOepData(oepAgencies)
+                setTtcData(ttcAgencies)
+                setAgencies(response.data.data);
                 setLoading(false)
             }
         };
         fetchAgencies();
-    }, []);
+    }, [session]);
     const handleLike = async (companyId) => {
         try {
-            setLoading2(true)
+            setLoading2(true);
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASEURL_2}/like`, {
                 companyId,
                 userId: session.user.id
             }, {
                 headers: { 'user-id': session.user.id }
             });
+
             if (response.status === 201 || response.status === 200) {
-                setLikedStatus(prev => ({
-                    ...prev,
-                    [companyId]: !prev[companyId]
-                }));
-                console.log(response.data.message);
+                setAgencies(prev =>
+                    prev.map(agency =>
+                        agency._id === companyId
+                            ? { ...agency, liked: !agency.liked }
+                            : agency
+                    )
+                );
             }
         } catch (error) {
             console.error('Error liking company:', error);
         } finally {
-            setLoading2(false)
+            setLoading2(false);
         }
     };
 
@@ -88,15 +91,15 @@ const Agencies = () => {
                                 </Text>
                             </Box>
                             {loading2 ? <Spinner size={'sm'} colorScheme='gray' />
-                                : likedStatus[agency._id] ? (
+                                : agency.liked ? (
+                                    <AiFillHeart color="red" size={24} cursor={'pointer'} onClick={() => handleLike(agency._id)} />
+                                ) :
                                     <AiOutlineHeart
                                         color="gray"
                                         size={24}
                                         cursor={'pointer'}
                                         onClick={() => handleLike(agency._id)}
-                                    />
-                                ) :
-                                    <AiFillHeart color="red" size={24} cursor={'pointer'} onClick={() => handleLike(agency._id)} />}
+                                    />}
                         </Flex>
                     </Box>
                 ))}

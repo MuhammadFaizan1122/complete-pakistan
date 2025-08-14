@@ -8,41 +8,32 @@ import Jobs from '../../../config/models/Jobs';
 export async function GET(req) {
     try {
         await connectDB();
-        const userId = req.headers.get('user-id'); // Assuming user-id is passed in headers
+        const { searchParams } = new URL(req.url);
+        const userId = searchParams.get("userId");
 
         if (!userId) {
-            return NextResponse.json({ error: 'userId is required' }, { status: 400 });
+            return NextResponse.json({ error: "userId is required" }, { status: 400 });
         }
 
-        // Step 1: Fetch liked companies by this user
-        const likes = await LikeLog.find({ userId, status: 'liked' }).select('companyId');
-        const likedCompanyIds = likes.map(like => like.companyId);
-
-        if (likedCompanyIds.length === 0) {
-            return NextResponse.json({ data: { companies: { oep: [], ttc: [] } } }, { status: 200 });
-        }
-
-        // Step 2: Fetch companies with status 'approved' and their jobs
+        // Get all liked companyIds for this user
         // @ts-ignore
-        const companies = await CompanyAccount.find({
-            _id: { $in: likedCompanyIds },
-            status: 'approved'
-        }).lean();
+        const likes = await LikeLog.find({ userId, status: "liked" }).select("companyId");
+        const likedIds = likes.map(like => like.companyId.toString());
 
-        // Group companies by type and fetch jobs
-        const result = { companies: { oep: [], ttc: [] } };
-        for (const company of companies) {
-            // @ts-ignore
-            const jobs = await Jobs.find({ userId: company._id.toString() }).lean();
-            const companyWithJobs = { ...company, jobs };
-            if (company.type === 'OEP') result.companies.oep.push(companyWithJobs);
-            else if (company.type === 'TTC') result.companies.ttc.push(companyWithJobs);
-        }
+        // Get all agencies
+        // @ts-ignore
+        const agencies = await CompanyAccount.find({ status: "approved", type: { $in: ['OEP', 'TTC'] } }).lean();
 
-        return NextResponse.json({ data: result }, { status: 200 });
+        // Add "liked" flag
+        const agenciesWithLikeFlag = agencies.map(agency => ({
+            ...agency,
+            liked: likedIds.includes(agency._id.toString())
+        }));
+
+        return NextResponse.json({ data: agenciesWithLikeFlag }, { status: 200 });
     } catch (error) {
-        console.error('Error fetching liked companies with jobs:', error);
-        return NextResponse.json({ error: 'Failed to fetch liked companies with jobs' }, { status: 500 });
+        console.error("Error fetching agencies:", error);
+        return NextResponse.json({ error: "Failed to fetch agencies" }, { status: 500 });
     }
 }
 
@@ -55,8 +46,10 @@ export async function POST(req) {
             return NextResponse.json({ error: 'companyId and userId are required' }, { status: 400 });
         }
 
+        // @ts-ignore
         const existingLike = await LikeLog.findOne({ companyId, userId, status: 'liked' });
         if (existingLike) {
+            // @ts-ignore
             await LikeLog.findByIdAndDelete(existingLike._id);
             return NextResponse.json({ message: 'Like removed successfully' }, { status: 200 });
         }

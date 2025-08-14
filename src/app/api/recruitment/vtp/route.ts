@@ -10,10 +10,11 @@ export async function GET(req: NextRequest) {
         await connectDB();
         const { searchParams } = new URL(req.url);
         const id = searchParams.get('id');
+        const userId = searchParams.get('userId');
 
         if (id) {
             // @ts-ignore
-            const provider = await VTP.findById(id).select('-cnic -password').lean();
+            const provider = await VTP.find({ userId: userId }).select('-cnic -password').lean();
             if (!provider) {
                 return NextResponse.json({ error: 'Provider not found' }, { status: 404 });
             }

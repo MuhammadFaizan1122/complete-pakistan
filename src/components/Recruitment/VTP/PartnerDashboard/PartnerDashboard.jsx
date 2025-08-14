@@ -12,6 +12,7 @@ import LikedCompaniesDisplay from "./LikedCompaniesDisplay";
 import CVTable from "./CV";
 import Notice from "./Notice";
 import ReadyMedicalCases from "../../../../components/Gamca/ReadyMedicalCases/ReadyMedicalCases";
+import Jobs from "../../../../components/Jobs/Jobs";
 
 const PartnerDashboard = () => {
     const params = useParams()
@@ -21,12 +22,15 @@ const PartnerDashboard = () => {
     const [totalMedicalCases, setTotalMedicalCases] = useState(0)
     const [totalCvs, setTotalCvs] = useState(0)
     const [totalNotices, setTotalNotices] = useState(0)
+    const [totalJobs, setTotalJobs] = useState(0)
+    const [oepData, setOepData] = useState([])
+    const [ttcData, setTtcData] = useState([])
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             const data = await handleGetVTPById(params.id);
             if (data.status === 200) {
-                setAgentData(data.data.data);
+                setAgentData(data.data.data[0]);
                 setError(null);
             }
             else {
@@ -103,13 +107,13 @@ const PartnerDashboard = () => {
                 </TabList>
                 <TabPanels>
                     <TabPanel px='0'>
-                        <LikedCompaniesDisplay />
+                        <LikedCompaniesDisplay oepData={oepData} ttcData={ttcData} />
                     </TabPanel>
                     <TabPanel px='0'>
                         <ReadyMedicalCases type={'trade-partner'} setTotalMedicalCases={setTotalMedicalCases} />
                     </TabPanel>
                     <TabPanel className="!px-0">
-                        <p>Jobs content here...</p>
+                        <Jobs type={'trade-partner'} setTotalJobs={setTotalJobs} />
                     </TabPanel>
                     <TabPanel px='0'>
                         <CVTable setTotalCvs={setTotalCvs} />
@@ -118,7 +122,7 @@ const PartnerDashboard = () => {
                         <Notice setTotalNotices={setTotalNotices} />
                     </TabPanel>
                     <TabPanel px={0}>
-                        <Agencies />
+                        <Agencies setOepData={setOepData} setTtcData={setTtcData} />
                     </TabPanel>
                 </TabPanels>
             </Tabs>
@@ -143,12 +147,12 @@ const PartnerDashboard = () => {
                 <Box p="6" borderWidth="1px" borderRadius="md" borderColor="#0a7450" textAlign="center" w="22%" bg="white" boxShadow="md">
                     <FaBell color="#0a7450" size="24px" className="mx-auto text-center" />
                     <Text className="text-[#0a7450] font-bold mt-2">Notice</Text>
-                    <Text className="text-2xl font-bold mt-2">0</Text>
+                    <Text className="text-2xl font-bold mt-2">{totalNotices}</Text>
                 </Box>
                 <Box p="6" borderWidth="1px" borderRadius="md" borderColor="#0a7450" textAlign="center" w="22%" bg="white" boxShadow="md">
                     <FaPlus color="#0a7450" size="24px" className="mx-auto text-center" />
                     <Text className="text-[#0a7450] font-bold mt-2">Jobs</Text>
-                    <Text className="text-2xl font-bold mt-2">0</Text>
+                    <Text className="text-2xl font-bold mt-2">{totalJobs}</Text>
                 </Box>
             </Flex>
 

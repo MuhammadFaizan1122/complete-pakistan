@@ -26,11 +26,10 @@ export default function Notice({ setTotalNotices }) {
       try {
         const res = await fetch("/api/trade-partner/notice", { cache: "no-store" });
         const data = await res.json();
-        console.log('data', data)
         if (!res.ok) {
           throw new Error(data.message || "Failed to fetch Notices");
         }
-        setTotalNotices(data.data.length)
+        setTotalNotices(data.data[0].images.length)
         setNotices(data.data[0].images || []);
       } catch (err) {
         setError(err.message);

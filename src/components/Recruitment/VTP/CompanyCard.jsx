@@ -20,6 +20,46 @@ import {
 } from 'react-icons/fa';
 
 export default function CompanyCard(item) {
+  const getEmbedLink = (link) => {
+    if (!link) return '';
+
+    // If it's already an embed link, return as is
+    if (link.includes('/maps/embed')) return link;
+
+    // Convert regular Google Maps URLs to embeddable format without API key
+    // Extract coordinates from @lat,lng format
+    const coordsMatch = link.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+    if (coordsMatch) {
+      const lat = coordsMatch[1];
+      const lng = coordsMatch[2];
+      // Use the basic embed format without API key
+      return `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15000!2d${lng}!3d${lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1`;
+    }
+
+    // Extract place name from /place/ URLs
+    const placeMatch = link.match(/\/place\/([^\/\?]+)/);
+    if (placeMatch) {
+      const place = encodeURIComponent(placeMatch[1].replace(/\+/g, ' '));
+      return `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3048.123!2d-74.006!3d40.7128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s${place}!5e0!3m2!1sen!2s!4v1`;
+    }
+
+    // If it contains maps.google.com, try to make it embeddable
+    if (link.includes('maps.google.com') || link.includes('goo.gl/maps')) {
+      // Simple conversion for basic google maps links
+      const urlParams = new URLSearchParams();
+      urlParams.set('q', item?.businessAddress || item?.agencyName || '');
+      return `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3048.123!2d-74.006!3d40.7128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s${encodeURIComponent(item?.businessAddress || item?.agencyName || '')}!5e0!3m2!1sen!2s!4v1`;
+    }
+
+    // If nothing else works, return empty string
+    return '';
+  };
+
+  const embedUrl = getEmbedLink(item?.mapLink);
+
+  console.log('item', item.mapLink);
+  console.log('embedUrl', embedUrl);
+
   return (
     <Box
       bg="white"
@@ -34,7 +74,7 @@ export default function CompanyCard(item) {
       position="relative"
     >
       {/* Card Clickable Area */}
-      <Link href={`/recruitment/vtp/${item.vtpId}`} passHref>
+      <Link href={`/recruitment/vtp/${item.companyAccountId}`} passHref>
         <Box
           as="a"
           position="absolute"
@@ -80,12 +120,12 @@ export default function CompanyCard(item) {
       {/* Map (non-clickable) */}
       <Box w="full" h="32" bg="gray.100" rounded="md" overflow="hidden" zIndex={1} position="relative">
         <iframe
-          src={item?.mapLink}
+          src={embedUrl}
           width="100%"
           height="100%"
           style={{ border: 0 }}
-          loading="lazy"
           allowFullScreen
+          loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         />
       </Box>
@@ -104,7 +144,7 @@ export default function CompanyCard(item) {
 
       {/* Social Media Buttons (interactive) */}
       <HStack spacing={3} pt={2} zIndex={1} position="relative">
-        {item.socialMedia.facebook && (
+        {item.socialMedia?.facebook && (
           <IconButton
             as={Link}
             href={item.socialMedia.facebook}
@@ -117,7 +157,7 @@ export default function CompanyCard(item) {
             target="_blank"
           />
         )}
-        {item.socialMedia.twitter && (
+        {item.socialMedia?.twitter && (
           <IconButton
             as={Link}
             href={item.socialMedia.twitter}
@@ -130,7 +170,7 @@ export default function CompanyCard(item) {
             target="_blank"
           />
         )}
-        {item.socialMedia.instagram && (
+        {item.socialMedia?.instagram && (
           <IconButton
             as={Link}
             href={item.socialMedia.instagram}
@@ -143,7 +183,7 @@ export default function CompanyCard(item) {
             target="_blank"
           />
         )}
-        {item.socialMedia.tiktok && (
+        {item.socialMedia?.tiktok && (
           <IconButton
             as={Link}
             href={item.socialMedia.tiktok}

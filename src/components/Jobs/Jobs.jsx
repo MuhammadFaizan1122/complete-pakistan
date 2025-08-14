@@ -13,10 +13,11 @@ import {
 import TopCompanies from './TopCompanies';
 import FilterSection from './FilterSection';
 import JobList from './JobList';
-import { handleGetJobs } from '../../handlers/Jobs/jobs';
+import { handleGetJobs, handleGetJobsByUser } from '../../handlers/Jobs/jobs';
 import FilterDrawer from './FilterDrawer';
+import { useParams } from 'next/navigation';
 
-const Jobs = () => {
+const Jobs = ({ type, setTotalJobs }) => {
   const [bookmarkedJobs, setBookmarkedJobs] = useState(new Set());
   const [viewMode, setViewMode] = useState('list');
   const [searchQuery, setSearchQuery] = useState('');
@@ -35,6 +36,7 @@ const Jobs = () => {
   const [selectedNavttc, setSelectedNavttc] = useState('');
   const [loading, setLoading] = useState(true);
   const toast = useToast();
+  const params = useParams();
 
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
@@ -43,9 +45,10 @@ const Jobs = () => {
     const fetchJobs = async () => {
       try {
         setLoading(true);
-        const res = await handleGetJobs();
+        const res = type !== 'trade-partner' ? await handleGetJobs() : await handleGetJobsByUser(params.id);
         if (res?.status === 200) {
           setJobs(res.data?.data || []);
+          setTotalJobs(res.data.data.length)
           setFilteredJobs(res.data?.data || []);
         } else {
           toast({
@@ -159,7 +162,10 @@ const Jobs = () => {
 
   return (
     <Box>
-      <HeroSection />
+      {
+        type !== 'trade-partner'
+        && <HeroSection />
+      }
       <Box bg={'#0a74501A'} minH="100vh">
         <Container
           maxW={{ base: '100%', sm: 'container.sm', md: 'container.md', lg: '1440px' }}
@@ -170,80 +176,84 @@ const Jobs = () => {
             direction={{ base: 'column', lg: 'row' }}
             w="full"
           >
-            <Box
-              w={{ base: 'full', lg: '300px' }}
-              display={{ base: 'none', lg: 'block' }}
-              flexShrink={0}
-            >
-              <Box
-                bg="white"
-                p={{ base: 4, md: 6 }}
-                rounded="xl"
-                shadow="sm"
-              >
-                <FilterSection
-                  searchQuery={searchQuery}
-                  setSearchQuery={setSearchQuery}
-                  selectedLocation={selectedLocation}
-                  setSelectedLocation={setSelectedLocation}
-                  selectedCategories={selectedCategories}
-                  setSelectedCategories={setSelectedCategories}
-                  selectedJobTypes={selectedJobTypes}
-                  setSelectedJobTypes={setSelectedJobTypes}
-                  selectedExperience={selectedExperience}
-                  setSelectedExperience={setSelectedExperience}
-                  selectedDatePosted={selectedDatePosted}
-                  setSelectedDatePosted={setSelectedDatePosted}
-                  salaryRange={salaryRange}
-                  setSalaryRange={setSalaryRange}
-                  selectedTags={selectedTags}
-                  setSelectedTags={setSelectedTags}
-                  selectedLicense={selectedLicense}
-                  setSelectedLicense={setSelectedLicense}
-                  selectedOvertime={selectedOvertime}
-                  setSelectedOvertime={setSelectedOvertime}
-                  selectedAccommodation={selectedAccommodation}
-                  setSelectedAccommodation={setSelectedAccommodation}
-                  selectedMedicalInsurance={selectedMedicalInsurance}
-                  setSelectedMedicalInsurance={setSelectedMedicalInsurance}
-                  selectedTransportation={selectedTransportation}
-                  setSelectedTransportation={setSelectedTransportation}
-                  selectedNavttc={selectedNavttc}
-                  setSelectedNavttc={setSelectedNavttc}
-                  applyFilters={applyFilters}
-                  clearAllFilters={() => {
-                    setSearchQuery('');
-                    setSelectedLocation('');
-                    setSelectedCategories([]);
-                    setSelectedJobTypes([]);
-                    setSelectedExperience([]);
-                    setSelectedDatePosted([]);
-                    setSalaryRange([0, 100000]);
-                    setSelectedTags([]);
-                    setSelectedLicense('');
-                    setSelectedOvertime('');
-                    setSelectedAccommodation('');
-                    setSelectedMedicalInsurance('');
-                    setSelectedTransportation('');
-                    setSelectedNavttc('');
-                  }}
-                />
-              </Box>
-            </Box>
+            {
+              type !== 'trade-partner' &&
+              <>
+                <Box
+                  w={{ base: 'full', lg: '300px' }}
+                  display={{ base: 'none', lg: 'block' }}
+                  flexShrink={0}
+                >
+                  <Box
+                    bg="white"
+                    p={{ base: 4, md: 6 }}
+                    rounded="xl"
+                    shadow="sm"
+                  >
+                    <FilterSection
+                      searchQuery={searchQuery}
+                      setSearchQuery={setSearchQuery}
+                      selectedLocation={selectedLocation}
+                      setSelectedLocation={setSelectedLocation}
+                      selectedCategories={selectedCategories}
+                      setSelectedCategories={setSelectedCategories}
+                      selectedJobTypes={selectedJobTypes}
+                      setSelectedJobTypes={setSelectedJobTypes}
+                      selectedExperience={selectedExperience}
+                      setSelectedExperience={setSelectedExperience}
+                      selectedDatePosted={selectedDatePosted}
+                      setSelectedDatePosted={setSelectedDatePosted}
+                      salaryRange={salaryRange}
+                      setSalaryRange={setSalaryRange}
+                      selectedTags={selectedTags}
+                      setSelectedTags={setSelectedTags}
+                      selectedLicense={selectedLicense}
+                      setSelectedLicense={setSelectedLicense}
+                      selectedOvertime={selectedOvertime}
+                      setSelectedOvertime={setSelectedOvertime}
+                      selectedAccommodation={selectedAccommodation}
+                      setSelectedAccommodation={setSelectedAccommodation}
+                      selectedMedicalInsurance={selectedMedicalInsurance}
+                      setSelectedMedicalInsurance={setSelectedMedicalInsurance}
+                      selectedTransportation={selectedTransportation}
+                      setSelectedTransportation={setSelectedTransportation}
+                      selectedNavttc={selectedNavttc}
+                      setSelectedNavttc={setSelectedNavttc}
+                      applyFilters={applyFilters}
+                      clearAllFilters={() => {
+                        setSearchQuery('');
+                        setSelectedLocation('');
+                        setSelectedCategories([]);
+                        setSelectedJobTypes([]);
+                        setSelectedExperience([]);
+                        setSelectedDatePosted([]);
+                        setSalaryRange([0, 100000]);
+                        setSelectedTags([]);
+                        setSelectedLicense('');
+                        setSelectedOvertime('');
+                        setSelectedAccommodation('');
+                        setSelectedMedicalInsurance('');
+                        setSelectedTransportation('');
+                        setSelectedNavttc('');
+                      }}
+                    />
+                  </Box>
+                </Box>
 
-            <Box display={{ base: 'block', lg: 'none' }} mb={{ base: 4, md: 6 }}>
-              <Button
-                onClick={onOpen}
-                bg={'#0a7450'}
-                color={'white'}
-                leftIcon={<Text fontSize={{ base: 'sm', md: 'md' }}>⚙️</Text>}
-                size={{ base: 'sm', md: 'md' }}
-                w={{ base: 'full', sm: 'auto' }}
-              >
-                Filters
-              </Button>
-            </Box>
-
+                <Box display={{ base: 'block', lg: 'none' }} mb={{ base: 4, md: 6 }}>
+                  <Button
+                    onClick={onOpen}
+                    bg={'#0a7450'}
+                    color={'white'}
+                    leftIcon={<Text fontSize={{ base: 'sm', md: 'md' }}>⚙️</Text>}
+                    size={{ base: 'sm', md: 'md' }}
+                    w={{ base: 'full', sm: 'auto' }}
+                  >
+                    Filters
+                  </Button>
+                </Box>
+              </>
+            }
             <Box flex={1} w="full">
               <JobList
                 loading={loading}
@@ -255,44 +265,49 @@ const Jobs = () => {
               />
             </Box>
           </Flex>
-
-          <FilterDrawer
-            isOpen={isOpen}
-            onClose={onClose}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            selectedLocation={selectedLocation}
-            setSelectedLocation={setSelectedLocation}
-            selectedCategories={selectedCategories}
-            setSelectedCategories={setSelectedCategories}
-            selectedJobTypes={selectedJobTypes}
-            setSelectedJobTypes={setSelectedJobTypes}
-            selectedExperience={selectedExperience}
-            setSelectedExperience={setSelectedExperience}
-            selectedDatePosted={selectedDatePosted}
-            setSelectedDatePosted={setSelectedDatePosted}
-            salaryRange={salaryRange}
-            setSalaryRange={setSalaryRange}
-            selectedTags={selectedTags}
-            setSelectedTags={setSelectedTags}
-            selectedLicense={selectedLicense}
-            setSelectedLicense={setSelectedLicense}
-            selectedOvertime={selectedOvertime}
-            setSelectedOvertime={setSelectedOvertime}
-            selectedAccommodation={selectedAccommodation}
-            setSelectedAccommodation={setSelectedAccommodation}
-            selectedMedicalInsurance={selectedMedicalInsurance}
-            setSelectedMedicalInsurance={setSelectedMedicalInsurance}
-            selectedTransportation={selectedTransportation}
-            setSelectedTransportation={setSelectedTransportation}
-            selectedNavttc={selectedNavttc}
-            setSelectedNavttc={setSelectedNavttc}
-            applyFilters={applyFilters}
+          {
+            type !== 'trade-partner' &&
+            <FilterDrawer
+              isOpen={isOpen}
+              onClose={onClose}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              selectedLocation={selectedLocation}
+              setSelectedLocation={setSelectedLocation}
+              selectedCategories={selectedCategories}
+              setSelectedCategories={setSelectedCategories}
+              selectedJobTypes={selectedJobTypes}
+              setSelectedJobTypes={setSelectedJobTypes}
+              selectedExperience={selectedExperience}
+              setSelectedExperience={setSelectedExperience}
+              selectedDatePosted={selectedDatePosted}
+              setSelectedDatePosted={setSelectedDatePosted}
+              salaryRange={salaryRange}
+              setSalaryRange={setSalaryRange}
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
+              selectedLicense={selectedLicense}
+              setSelectedLicense={setSelectedLicense}
+              selectedOvertime={selectedOvertime}
+              setSelectedOvertime={setSelectedOvertime}
+              selectedAccommodation={selectedAccommodation}
+              setSelectedAccommodation={setSelectedAccommodation}
+              selectedMedicalInsurance={selectedMedicalInsurance}
+              setSelectedMedicalInsurance={setSelectedMedicalInsurance}
+              selectedTransportation={selectedTransportation}
+              setSelectedTransportation={setSelectedTransportation}
+              selectedNavttc={selectedNavttc}
+              setSelectedNavttc={setSelectedNavttc}
+              applyFilters={applyFilters}
             // clearAllFilters={clearAllFilters}
-          />
+            />
+          }
         </Container>
       </Box>
-      <TopCompanies />
+      {
+        type !== 'trade-partner' &&
+        <TopCompanies />
+      }
     </Box>
   );
 };

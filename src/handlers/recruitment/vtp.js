@@ -12,7 +12,7 @@ export const handleGetVTPs = async () => {
 
 export const handleGetVTPById = async (id) => {
   try {
-    const response = await axios.get(`/api/recruitment/vtp?id=${id}`);
+    const response = await axios.get(`/api/recruitment/vtp?userId=${id}`);
     return response;
   } catch (error) {
     console.error('Error fetching VTP by ID:', error.response?.data?.error || error.message);

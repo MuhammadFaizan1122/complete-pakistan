@@ -8,7 +8,6 @@ import {
     Heading,
     HStack,
     IconButton,
-    Image,
     Text,
     useToast,
     VStack,
@@ -17,6 +16,7 @@ import Link from 'next/link';
 import { memo, useState } from 'react';
 import { handleCreateJobApplication } from '../../handlers/JobApplicants/JobApplicants';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 export function getTimeAgo(dateString) {
     const date = new Date(dateString);
     const now = new Date();
@@ -82,7 +82,6 @@ const JobCard = memo(({ job }) => {
         }
     };
     return (
-
         <Card
             bg="#fff"
             shadow="sm"
@@ -100,7 +99,7 @@ const JobCard = memo(({ job }) => {
                         company={job.companyName}
                     /> */}
                         <Box>
-                            <Image src="/Images/CEO.jpg" alt="company" width={24} height={24} borderRadius={'lg'} />
+                            <Image src={job.image||"/Images/placeholder.png"} alt="company" width={120} height={120} className='rounded-lg'/>
                         </Box>
 
                         <VStack align="flex-start" spacing={1} flex={1}>
@@ -279,7 +278,7 @@ const JobCard = memo(({ job }) => {
                             py={{ base: 4, md: 6 }}
                             _hover={{ bg: "white", color: "black", border: "1px solid black" }}
                             as={Link}
-                            href={`/job-details/${job.id}`}
+                            href={`/job-details/${job._id}`}
                         >
                             View Details
                         </Button>

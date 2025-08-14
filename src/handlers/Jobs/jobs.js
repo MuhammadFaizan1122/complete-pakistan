@@ -20,3 +20,13 @@ export const handleGetJobs = async () => {
     }
 };
 
+export const handleGetJobsByUser = async (userId) => {
+    try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASEURL_2}/job/by-user?userId=${userId}`);
+        return res;
+    } catch (error) {
+        console.error("Get Job error:", error);
+        return error.response;
+    }
+};
+

@@ -18,4 +18,5 @@ const LikeLogSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-module.exports = mongoose.model('LikeLog', LikeLogSchema);
+// Prevent OverwriteModelError in Next.js hot reload
+module.exports = mongoose.models.LikeLog || mongoose.model('LikeLog', LikeLogSchema);
