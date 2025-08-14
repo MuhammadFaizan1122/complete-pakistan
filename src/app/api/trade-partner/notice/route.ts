@@ -25,7 +25,6 @@ export async function GET(req: any) {
         if (userId) {
             // @ts-ignore
             const notice = await Notice.find({ userId });
-            console.log('notice', notice)
             if (!notice) {
                 return NextResponse.json({ success: false, message: 'Notice not found' }, { status: 404 });
             }

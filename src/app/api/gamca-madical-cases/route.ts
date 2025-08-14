@@ -77,7 +77,6 @@ export async function GET(req: NextRequest) {
     if (type === 'trade-partner') {
       // @ts-ignore
       const data = await MedicalCase.find({ userId }).sort({ createdAt: -1 });
-console.log('data', data)
       if (!data) {
         return NextResponse.json(
           { success: false, message: 'Candidate medical case not found' },

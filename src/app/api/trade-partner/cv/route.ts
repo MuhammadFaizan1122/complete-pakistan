@@ -23,7 +23,6 @@ export async function GET(req: any) {
         if (companyId) {
             // @ts-ignore
             const cv = await CV.find({ companyId });
-            console.log('cv', cv)
             if (!cv) {
                 return NextResponse.json({ success: false, message: 'CV not found' }, { status: 404 });
             }
