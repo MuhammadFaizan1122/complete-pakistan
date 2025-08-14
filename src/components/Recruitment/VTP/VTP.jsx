@@ -204,7 +204,6 @@ export default function VTP() {
             setNews(sliderData?.data?.news || []);
 
             if (data.status === 200) {
-                console.log('data', data.data.data)
                 setTradePartners(data.data.data);
                 setError(null);
             } else {

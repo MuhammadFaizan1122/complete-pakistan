@@ -15,11 +15,13 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { useParams } from "next/navigation";
 
 export default function CVTable({ setTotalCvs }) {
   const [cvs, setCvs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const params = useParams()
 
   const calculateAge = (dob) => {
     if (!dob) return "-";
@@ -36,11 +38,11 @@ export default function CVTable({ setTotalCvs }) {
   useEffect(() => {
     const fetchCVs = async () => {
       try {
-        const res = await fetch("/api/trade-partner/cv", { cache: "no-store" });
+        const res = await fetch(`/api/trade-partner/cv?id=${params.id}`, { cache: "no-store" });
         const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.message || "Failed to fetch CVs");
+        console.log('data', data)
+        if (!data.success) {
+          setError(err.message);
         }
         setTotalCvs(data.data.length)
         setCvs(data.data || []);
@@ -55,7 +57,7 @@ export default function CVTable({ setTotalCvs }) {
   }, []);
 
   return (
-    <Box className="px-4 bg-white rounded-lg shadow">
+    <Box className="px-4 bg-white rounded-lg shadow" minH="60vh">
       {/* Header */}
       <Flex justify="space-between" align="center" mb={4}>
         <Box as="h2" fontSize="xl" fontWeight="bold">

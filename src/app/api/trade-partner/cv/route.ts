@@ -19,10 +19,11 @@ export async function POST(req: any) {
 export async function GET(req: any) {
     try {
         await connectDB();
-        const id = req.nextUrl.searchParams.get('id');
-        if (id) {
+        const companyId = req.nextUrl.searchParams.get('id');
+        if (companyId) {
             // @ts-ignore
-            const cv = await CV.findById(id);
+            const cv = await CV.find({ companyId });
+            console.log('cv', cv)
             if (!cv) {
                 return NextResponse.json({ success: false, message: 'CV not found' }, { status: 404 });
             }

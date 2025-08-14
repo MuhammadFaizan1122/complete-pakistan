@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const VTPSchema = new mongoose.Schema({
   rating: { type: Number, min: 0, max: 5, default: 0 },
+  userId: { type: String },
   workingWith: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Agent' }],
   pictures: [{ type: String }],
   cnic: { type: String, required: true, select: false, match: /^\d{5}-\d{7}-\d$/ },

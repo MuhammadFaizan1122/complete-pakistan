@@ -2,7 +2,6 @@ import axios from 'axios';
 
 export const handleGetOEPs = async () => {
   try {
-    console.log('first')
     // const response = await axios.get('/api/recruitment/oep');
     // return response.data.data;
   } catch (error) {
@@ -13,7 +12,6 @@ export const handleGetOEPs = async () => {
 
 export const handleGetOEPById = async (id) => {
   try {
-    console.log('first')
 
     // const response = await axios.get(`/api/recruitment/oep?id=${id}`);
     // return response.data.data;
@@ -35,7 +33,6 @@ export const handleCreateOEP = async (payload) => {
 
 export const handleUpdateOEP = async (payload) => {
   try {
-    console.log('first')
 
     // const response = await axios.put('/api/recruitment/oep', payload);
     // return response.data.data;
@@ -47,7 +44,6 @@ export const handleUpdateOEP = async (payload) => {
 
 export const handleDeleteOEP = async (id) => {
   try {
-    console.log('first')
 
     // const response = await axios.delete(`/api/recruitment/oep?id=${id}`);
     // return response.data.data;

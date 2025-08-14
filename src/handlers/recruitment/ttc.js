@@ -2,7 +2,6 @@ import axios from 'axios';
 
 export const handleGetTTCs = async () => {
   try {
-    console.log('first')
 
     // const response = await axios.get('/api/recruitment/ttc');
     // return response.data.data;
@@ -14,7 +13,6 @@ export const handleGetTTCs = async () => {
 
 export const handleGetTTCById = async (id) => {
   try {
-    console.log('first')
 
     // const response = await axios.get(`/api/recruitment/ttc?id=${id}`);
     // return response.data.data;
@@ -26,7 +24,6 @@ export const handleGetTTCById = async (id) => {
 
 export const handleCreateTTC = async (payload) => {
   try {
-    console.log('first')
 
     // const response = await axios.post('/api/recruitment/ttc', payload);
     // return response.data.data;
@@ -38,7 +35,6 @@ export const handleCreateTTC = async (payload) => {
 
 export const handleUpdateTTC = async (payload) => {
   try {
-    console.log('first')
 
     // const response = await axios.put('/api/recruitment/ttc', payload);
     // return response.data.data;
@@ -50,7 +46,6 @@ export const handleUpdateTTC = async (payload) => {
 
 export const handleDeleteTTC = async (id) => {
   try {
-    console.log('first')
 
     // const response = await axios.delete(`/api/recruitment/ttc?id=${id}`);
     // return response.data.data;

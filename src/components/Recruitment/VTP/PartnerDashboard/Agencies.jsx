@@ -65,7 +65,7 @@ const Agencies = ({ setOepData, setTtcData }) => {
         );
     }
     return (
-        <Box p={4} bg="white" borderRadius="md" boxShadow="md">
+        <Box p={4} bg="white" borderRadius="md" boxShadow="md" minH="60vh">
             <Flex justify="space-between" align="center" mb={4}>
                 <Text fontWeight="bold">Favorite Agencies</Text>
             </Flex>

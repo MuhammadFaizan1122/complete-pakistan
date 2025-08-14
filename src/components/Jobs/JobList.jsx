@@ -23,7 +23,7 @@ const JobList = ({ loading, filteredJobs, viewMode, setViewMode, bookmarkedJobs,
                     color="gray.500"
                     fontSize={{ base: 'xs', md: 'sm' }}
                 >
-                    Showing 6-6 of {filteredJobs.length} results
+                    Showing {filteredJobs.length} results
                 </Text>
                 <Select
                     placeholder="Sort by latest"

@@ -21,10 +21,11 @@ export async function POST(req: any) {
 export async function GET(req: any) {
     try {
         await connectDB();
-        const id = req.nextUrl.searchParams.get('id');
-        if (id) {
+        const userId = req.nextUrl.searchParams.get('id');
+        if (userId) {
             // @ts-ignore
-            const notice = await Notice.findOne({ userId: id });
+            const notice = await Notice.find({ userId });
+            console.log('notice', notice)
             if (!notice) {
                 return NextResponse.json({ success: false, message: 'Notice not found' }, { status: 404 });
             }

@@ -3,6 +3,7 @@ import connectDB from '../../../../config/mongoose';
 import CompanyAccount from '../../../../config/models/CompanyAccount';
 import VTP from "../../../../config/models/VTP";
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 
 // GET: Fetch all providers or a single provider by ID
 export async function GET(req: NextRequest) {
@@ -11,20 +12,25 @@ export async function GET(req: NextRequest) {
         const { searchParams } = new URL(req.url);
         const id = searchParams.get('id');
         const userId = searchParams.get('userId');
-
-        if (id) {
+        if (userId) {
             // @ts-ignore
-            const provider = await VTP.find({ userId: userId }).select('-cnic -password').lean();
-            if (!provider) {
+            const providers = await VTP.find()
+                .select('-cnic -password')
+                .lean();
+
+            const filteredProviders = providers.filter(p => String(p.userId) === String(userId));
+
+            if (!filteredProviders) {
                 return NextResponse.json({ error: 'Provider not found' }, { status: 404 });
             }
             // @ts-ignore
-            const companyAccount = await CompanyAccount.findOne({ agencyEmail: provider.email }).select('-password').lean();
+            const companyAccount = await CompanyAccount.findOne({ agencyEmail: filteredProviders[0].email }).select('-password').lean();
+
             if (!companyAccount) {
                 return NextResponse.json({ error: 'Company account not found' }, { status: 404 });
             }
             // @ts-ignore
-            return NextResponse.json({ data: { ...provider, ...companyAccount, email: provider.email } }, { status: 200 });
+            return NextResponse.json({ data: { ...filteredProviders[0], ...companyAccount, email: filteredProviders[0].email } }, { status: 200 });
         }
 
         // @ts-ignore
@@ -142,7 +148,6 @@ export async function PUT(req: NextRequest) {
         if (!vtpId || !companyAccountId) {
             return NextResponse.json({ error: 'Both VTP ID and CompanyAccount ID are required' }, { status: 400 });
         }
-        console.log('vtpId', companyAccountId, vtpId)
 
         // Mask IBAN for public display
         // if (updateData.bankAccount?.iban) {

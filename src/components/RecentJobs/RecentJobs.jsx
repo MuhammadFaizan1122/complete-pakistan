@@ -375,7 +375,7 @@ const RecentJobs = () => {
                             gap={4}
                         >
                             <Text color="gray.500" fontSize="sm">
-                                Showing 6-6 of 10 results
+                                Showing {jobsData.length} results
                             </Text>
                             <Select
                                 value={viewMode === 'grid' ? 'grid-view' : viewMode === 'list' ? 'list-view' : sortBy}

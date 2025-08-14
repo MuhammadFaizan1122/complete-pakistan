@@ -41,7 +41,6 @@ const VerifyOtpPage = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log("OTP submitted:", data.otp);
       toast({ title: "OTP verified successfully", status: "success", isClosable: true });
       router.push("/login");
     } catch (error) {
@@ -51,7 +50,6 @@ const VerifyOtpPage = () => {
   };
 
   const handleResendOtp = () => {
-    console.log("Resending OTP...");
     toast({ title: "OTP resent successfully", status: "success", isClosable: true });
   };
 

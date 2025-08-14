@@ -166,7 +166,7 @@ const Jobs = ({ type, setTotalJobs }) => {
         type !== 'trade-partner'
         && <HeroSection />
       }
-      <Box bg={'#0a74501A'} minH="100vh">
+      <Box bg={'#0a74501A'} minH="60vh">
         <Container
           maxW={{ base: '100%', sm: 'container.sm', md: 'container.md', lg: '1440px' }}
           py={{ base: 4, md: 8 }}

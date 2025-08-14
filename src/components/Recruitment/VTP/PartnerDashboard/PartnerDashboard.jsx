@@ -30,7 +30,7 @@ const PartnerDashboard = () => {
             setLoading(true);
             const data = await handleGetVTPById(params.id);
             if (data.status === 200) {
-                setAgentData(data.data.data[0]);
+                setAgentData(data.data.data);
                 setError(null);
             }
             else {

@@ -57,8 +57,6 @@ export default function CompanyCard(item) {
 
   const embedUrl = getEmbedLink(item?.mapLink);
 
-  console.log('item', item.mapLink);
-  console.log('embedUrl', embedUrl);
 
   return (
     <Box
