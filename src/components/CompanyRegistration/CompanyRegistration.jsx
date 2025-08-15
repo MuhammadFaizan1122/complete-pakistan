@@ -1,8 +1,8 @@
 'use client';
 
 import {
-    Box, Button, FormControl, FormLabel, Heading, Input, Link, Stack, Text,
-    InputGroup, InputRightElement, IconButton, FormErrorMessage, useToast, Select, HStack,
+    Box, FormControl, FormLabel, Heading, Input, Link, Stack, Text,
+    InputGroup, InputRightElement, IconButton, FormErrorMessage, useToast, Select, HStack, Tag, TagLabel, TagCloseButton
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { AuthLayout } from "../Login/Login";
@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { FaTrash } from "react-icons/fa";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -23,23 +24,73 @@ import StyledButton from "../../utils/StyledButton";
 
 const CompanyRegisterPage = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [socialLinks, setSocialLinks] = useState([{ platform: 'facebook', url: '' }]);
+    const [services, setServices] = useState([]);
+    const [serviceInput, setServiceInput] = useState('');
     const router = useRouter();
     const { status } = useSession();
     const toast = useToast();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+        setValue,
+    } = useForm({
+        resolver: yupResolver(companySignupSchema),
+        defaultValues: {
+            socialMedia: { facebook: '', twitter: '', linkedin: '', instagram: '' },
+            services: []
+        }
+    });
+
+    const addSocialLink = () => {
+        const availablePlatforms = ['facebook', 'twitter', 'linkedin', 'instagram'].filter(
+            platform => !socialLinks.some(link => link.platform === platform)
+        );
+        if (availablePlatforms.length > 0) {
+            setSocialLinks([...socialLinks, { platform: availablePlatforms[0], url: '' }]);
+        } else {
+            toast({
+                title: 'Limit Reached',
+                description: 'You can only add up to 4 social media links.',
+                status: 'warning',
+                duration: 4000,
+                isClosable: true,
+            });
+        }
+    };
+
+    const handleServiceInput = (e) => {
+        if (e.key === 'Enter' && serviceInput.trim() && services.length < 5) {
+            e.preventDefault();
+            const newServices = [...services, serviceInput.trim()];
+            setServices(newServices);
+            setValue('services', newServices);
+            setServiceInput('');
+        } else if (e.key === 'Enter' && services.length >= 5) {
+            e.preventDefault();
+            toast({
+                title: 'Limit Reached',
+                description: 'You can only add up to 5 services.',
+                status: 'warning',
+                duration: 4000,
+                isClosable: true,
+            });
+        }
+    };
+
+    const removeService = (index) => {
+        const newServices = services.filter((_, i) => i !== index);
+        setServices(newServices);
+        setValue('services', newServices);
+    };
 
     useEffect(() => {
         if (status === "authenticated") {
             router.push("/");
         }
     }, [status, router]);
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm({
-        resolver: yupResolver(companySignupSchema),
-    });
 
     const onSubmit = async (data) => {
         try {
@@ -60,6 +111,11 @@ const CompanyRegisterPage = () => {
                 uploadFile(data.agencyCoverPhoto[0]),
             ]);
 
+            const socialMedia = socialLinks.reduce((acc, { platform, url }) => ({
+                ...acc,
+                [platform]: url || undefined
+            }), {});
+
             const finalPayload = {
                 agencyName: data.agencyName,
                 agencyEmail: data.agencyEmail,
@@ -79,11 +135,18 @@ const CompanyRegisterPage = () => {
                 licenceTitle: data.licenceTitle,
                 licenceStatus: data.licenceStatus,
                 licenceExpiry: data.licenceExpiry,
+                address: {
+                    country: data.country,
+                    state: data.state,
+                    city: data.city
+                },
                 headOffice: data.headOffice,
                 branchOffice: data.branchOffice,
                 ptcl: data.ptcl,
                 whatsappNo: data.whatsappNo,
                 websiteUrl: data.websiteUrl,
+                services: data.services,
+                socialMedia
             };
 
             const response = await companyRegistration(finalPayload);
@@ -167,6 +230,8 @@ const CompanyRegisterPage = () => {
                             >
                                 <option value="OEP">OEP</option>
                                 <option value="TTC">TTC</option>
+                                <option value="VTP">VTP</option>
+                                <option value="consultancies">Consultancies</option>
                             </StyledSelect>
                             <FormErrorMessage>{errors.type?.message}</FormErrorMessage>
                         </FormControl>
@@ -313,6 +378,35 @@ const CompanyRegisterPage = () => {
                         </FormControl>
                     </HStack>
                     <HStack spacing={4}>
+                        <FormControl isInvalid={!!errors.country} flex="1">
+                            <FormLabel>Country</FormLabel>
+                            <StyledInput
+                                type="text"
+                                placeholder="Enter country"
+                                {...register("country")}
+                            />
+                            <FormErrorMessage>{errors.country?.message}</FormErrorMessage>
+                        </FormControl>
+                        <FormControl isInvalid={!!errors.state} flex="1">
+                            <FormLabel>State</FormLabel>
+                            <StyledInput
+                                type="text"
+                                placeholder="Enter state"
+                                {...register("state")}
+                            />
+                            <FormErrorMessage>{errors.state?.message}</FormErrorMessage>
+                        </FormControl>
+                    </HStack>
+                    <HStack spacing={4}>
+                        <FormControl isInvalid={!!errors.city} flex="1">
+                            <FormLabel>City</FormLabel>
+                            <StyledInput
+                                type="text"
+                                placeholder="Enter city"
+                                {...register("city")}
+                            />
+                            <FormErrorMessage>{errors.city?.message}</FormErrorMessage>
+                        </FormControl>
                         <FormControl isInvalid={!!errors.headOffice} flex="1">
                             <FormLabel>Head Office</FormLabel>
                             <StyledInput
@@ -322,6 +416,8 @@ const CompanyRegisterPage = () => {
                             />
                             <FormErrorMessage>{errors.headOffice?.message}</FormErrorMessage>
                         </FormControl>
+                    </HStack>
+                    <HStack spacing={4}>
                         <FormControl isInvalid={!!errors.branchOffice} flex="1">
                             <FormLabel>Branch Office</FormLabel>
                             <StyledInput
@@ -331,8 +427,6 @@ const CompanyRegisterPage = () => {
                             />
                             <FormErrorMessage>{errors.branchOffice?.message}</FormErrorMessage>
                         </FormControl>
-                    </HStack>
-                    <HStack spacing={4}>
                         <FormControl isInvalid={!!errors.ptcl} flex="1">
                             <FormLabel>PTCL</FormLabel>
                             <StyledInput
@@ -342,6 +436,8 @@ const CompanyRegisterPage = () => {
                             />
                             <FormErrorMessage>{errors.ptcl?.message}</FormErrorMessage>
                         </FormControl>
+                    </HStack>
+                    <HStack spacing={4}>
                         <FormControl isInvalid={!!errors.whatsappNo} flex="1">
                             <FormLabel>WhatsApp No</FormLabel>
                             <StyledInput
@@ -351,8 +447,6 @@ const CompanyRegisterPage = () => {
                             />
                             <FormErrorMessage>{errors.whatsappNo?.message}</FormErrorMessage>
                         </FormControl>
-                    </HStack>
-                    <HStack spacing={4}>
                         <FormControl isInvalid={!!errors.websiteUrl} flex="1">
                             <FormLabel>Website URL</FormLabel>
                             <StyledInput
@@ -362,6 +456,111 @@ const CompanyRegisterPage = () => {
                             />
                             <FormErrorMessage>{errors.websiteUrl?.message}</FormErrorMessage>
                         </FormControl>
+                    </HStack>
+                    <HStack>
+
+                        <FormControl isInvalid={!!errors.services}>
+                            <FormLabel>Services (Press Enter to add, max 5)</FormLabel>
+                            <StyledInput
+                                type="text"
+                                placeholder="Type a service and press Enter"
+                                value={serviceInput}
+                                onChange={(e) => setServiceInput(e.target.value)}
+                                onKeyDown={handleServiceInput}
+                            />
+                            <Box mt={2} display="flex" flexWrap="wrap" gap={2}>
+                                {services.map((service, index) => (
+                                    <Tag
+                                        key={index}
+                                        size="lg"
+                                        borderRadius="full"
+                                        variant="solid"
+                                        colorScheme="blue"
+                                    >
+                                        <TagLabel>{service}</TagLabel>
+                                        <TagCloseButton onClick={() => removeService(index)} />
+                                    </Tag>
+                                ))}
+                            </Box>
+                            <FormErrorMessage>{errors.services?.message}</FormErrorMessage>
+                        </FormControl>
+                        <FormControl isInvalid={!!errors.mapLink}>
+                            <FormLabel>Map Link</FormLabel>
+                            <StyledInput
+                                type="text"
+                                placeholder="Enter location map link"
+                                value={serviceInput}
+                                {...register("mapLink")}
+                                // onChange={(e) => setServiceInput(e.target.value)}
+                            />
+                            
+                            <FormErrorMessage>{errors.mapLink?.message}</FormErrorMessage>
+                        </FormControl>
+                    </HStack>
+                    <Box>
+                        <Text fontWeight="medium" mb={2}>Social Media Links</Text>
+                        {socialLinks.map((link, index) => (
+                            <HStack key={index} spacing={4} mb={2} alignItems="center">
+                                <FormControl flex="1">
+                                    <StyledSelect
+                                        value={link.platform}
+                                        onChange={(e) => {
+                                            const newLinks = [...socialLinks];
+                                            newLinks[index].platform = e.target.value;
+                                            setSocialLinks(newLinks);
+                                        }}
+                                        icon={
+                                            <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                                        }
+                                    >
+                                        {['facebook', 'twitter', 'linkedin', 'instagram'].map(platform => (
+                                            <option key={platform} value={platform} disabled={socialLinks.some(l => l.platform === platform && l.platform !== link.platform)}>
+                                                {platform.charAt(0).toUpperCase() + platform.slice(1)}
+                                            </option>
+                                        ))}
+                                    </StyledSelect>
+                                </FormControl>
+                                <FormControl isInvalid={!!errors.socialMedia?.[link.platform]} flex="2">
+                                    <StyledInput
+                                        type="url"
+                                        placeholder={`Enter ${link.platform} URL`}
+                                        value={link.url}
+                                        onChange={(e) => {
+                                            const newLinks = [...socialLinks];
+                                            newLinks[index].url = e.target.value;
+                                            setSocialLinks(newLinks);
+                                            setValue(`socialMedia.${link.platform}`, e.target.value);
+                                        }}
+                                    />
+                                    <FormErrorMessage>{errors.socialMedia?.[link.platform]?.message}</FormErrorMessage>
+                                </FormControl>
+                                <StyledButton
+                                    type="button"
+                                    onClick={() => {
+                                        const newLinks = socialLinks.filter((_, i) => i !== index);
+                                        setSocialLinks(newLinks);
+                                        setValue('socialMedia', newLinks.reduce((acc, { platform, url }) => ({ ...acc, [platform]: url }), {}));
+                                    }}
+                                    w={'10%'}
+                                    title={<FaTrash />}
+                                    bg="red.600"
+                                    hoverBg="red.700"
+                                    px={3}
+                                    py={4}
+                                />
+                            </HStack>
+                        ))}
+                        <StyledButton
+                            type="button"
+                            onClick={addSocialLink}
+                            title="Add Social Page"
+                            bg="secondary"
+                            color={'gray'}
+                            borderColor={'gray.300'}
+                            mt={2}
+                        />
+                    </Box>
+                    <HStack spacing={4}>
                         <FormControl isInvalid={!!errors.password} flex="1">
                             <FormLabel>Password</FormLabel>
                             <InputGroup>
@@ -381,26 +580,26 @@ const CompanyRegisterPage = () => {
                             </InputGroup>
                             <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
                         </FormControl>
-                    </HStack>
-                    <FormControl isInvalid={!!errors.confirmPassword}>
-                        <FormLabel>Confirm Password</FormLabel>
-                        <InputGroup>
-                            <StyledInput
-                                type={showPassword ? "text" : "password"}
-                                placeholder="Confirm password"
-                                {...register("confirmPassword")}
-                            />
-                            <InputRightElement h="full">
-                                <IconButton
-                                    variant="ghost"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    aria-label={showPassword ? "Hide password" : "Show password"}
-                                    icon={showPassword ? <FiEyeOff /> : <FiEye />}
+                        <FormControl isInvalid={!!errors.confirmPassword} flex="1">
+                            <FormLabel>Confirm Password</FormLabel>
+                            <InputGroup>
+                                <StyledInput
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Confirm password"
+                                    {...register("confirmPassword")}
                                 />
-                            </InputRightElement>
-                        </InputGroup>
-                        <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
-                    </FormControl>
+                                <InputRightElement h="full">
+                                    <IconButton
+                                        variant="ghost"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        aria-label={showPassword ? "Hide password" : "Show password"}
+                                        icon={showPassword ? <FiEyeOff /> : <FiEye />}
+                                    />
+                                </InputRightElement>
+                            </InputGroup>
+                            <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
+                        </FormControl>
+                    </HStack>
                     <Box>
                         <StyledButton
                             type="submit"

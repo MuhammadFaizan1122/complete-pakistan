@@ -41,11 +41,14 @@ export async function POST(req) {
             licenceTitle,
             licenceStatus,
             licenceExpiry,
+            address,
             headOffice,
             branchOffice,
             ptcl,
             whatsappNo,
             websiteUrl,
+            services,
+            socialMedia
         } = body;
 
         if (password !== confirmPassword) {
@@ -79,11 +82,23 @@ export async function POST(req) {
             licenceTitle,
             licenceStatus,
             licenceExpiry,
+            address: {
+                country: address?.country,
+                state: address?.state,
+                city: address?.city
+            },
             headOffice,
             branchOffice,
             ptcl,
             whatsappNo,
             websiteUrl,
+            services,
+            socialMedia: {
+                facebook: socialMedia?.facebook,
+                twitter: socialMedia?.twitter,
+                linkedin: socialMedia?.linkedin,
+                instagram: socialMedia?.instagram
+            }
         });
 
         return NextResponse.json({

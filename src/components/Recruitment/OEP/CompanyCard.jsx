@@ -27,16 +27,17 @@ import {
 } from 'react-icons/fa';
 
 export default function CompanyCard({
-  name,
-  logoUrl,
-  location,
+  agencyName,
+  agencyLogo,
+  headOffice,
   services,
-  contactPerson,
-  phone,
-  email,
-  since,
-  license,
-  address,
+  contactPersonName,
+  contactPersonPhone,
+  agencyEmail,
+  createdAt,
+  licenceStatus,
+  mapLink,
+  address
 }) {
   return (
     <Box
@@ -53,12 +54,12 @@ export default function CompanyCard({
       {/* Left: Logo + Name */}
       <Box w={{ base: 'full', md: "25%" }} >
         <VStack align="center" spacing={1} >
-          <Avatar size="xl" name={name} src={logoUrl} />
+          <Avatar size="xl" name={agencyName} src={agencyLogo} />
           <Text fontWeight="bold" fontSize="lg">
-            {name}
+            {agencyName}
           </Text>
           <Text fontSize="sm" color="gray.600">
-            {location}
+            {headOffice}
           </Text>
         </VStack>
       </Box>
@@ -71,7 +72,7 @@ export default function CompanyCard({
               Services & Expertise
             </Text>
             <HStack spacing={2} wrap="wrap" >
-              {services.map((service, idx) => (
+              {services?.map((service, idx) => (
                 <Badge
                   key={idx}
                   variant="subtle"
@@ -94,9 +95,9 @@ export default function CompanyCard({
                 Contact Details
               </Text>
               <VStack align="start" spacing={1} fontSize="sm">
-                <HStack><Icon as={FaPhoneAlt} /> <Text>{phone}</Text></HStack>
-                <HStack><Icon as={FaEnvelope} /> <Text>{email}</Text></HStack>
-                <HStack><Icon as={FaUser} /> <Text>{contactPerson}</Text></HStack>
+                <HStack><Icon as={FaPhoneAlt} /> <Text>{contactPersonPhone}</Text></HStack>
+                <HStack><Icon as={FaEnvelope} /> <Text>{agencyEmail}</Text></HStack>
+                <HStack><Icon as={FaUser} /> <Text>{contactPersonName}</Text></HStack>
               </VStack>
             </Box>
 
@@ -105,9 +106,9 @@ export default function CompanyCard({
                 Business Info
               </Text>
               <VStack align="start" spacing={1} fontSize="sm">
-                <HStack><Icon as={FaCalendarAlt} /> <Text>Since {since}</Text></HStack>
-                <HStack><Icon as={FaIdCard} /> <Text>{license}</Text></HStack>
-                <HStack><Icon as={FaMapMarkerAlt} /> <Text>{address}</Text></HStack>
+                <HStack><Icon as={FaCalendarAlt} /> <Text>Since {createdAt ? new Date(createdAt).toLocaleDateString() : 'N/A'}</Text></HStack>
+                <HStack><Icon as={FaIdCard} /> <Text>{licenceStatus}</Text></HStack>
+                <HStack><Icon as={FaMapMarkerAlt} /> <Text>{address?.country}, {address?.state}, {address?.city}</Text></HStack>
               </VStack>
             </Box>
           </SimpleGrid>
@@ -118,7 +119,7 @@ export default function CompanyCard({
         <VStack spacing={2} align="center">
           <Box w="100%" h="32" bg="gray.100" borderRadius="md" overflow="hidden">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus"
+              src={mapLink}
               width="100%"
               height="100%"
               style={{ border: 0 }}

@@ -4,19 +4,20 @@ import { useEffect, useState } from 'react';
 import CompanyCard from './CompanyCard';
 import { HeroSection } from '../../Gamca/MedicalCenters/HeroSection';
 import { Center, Heading, Spinner } from '@chakra-ui/react';
+import { handleGetOEPs } from '../../../handlers/recruitment/oep';
 
 
 const allCompanies = new Array(24).fill(0).map((_, idx) => ({
-  name: `TechSolutions Pro ${idx + 1}`,
-  logoUrl: '/logo.png',
-  location: 'New York, USA',
-  services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-  contactPerson: 'John Smith',
-  phone: '+1 (555) 123-4567',
-  email: 'contact@techsolutions.com',
-  since: '2018',
-  license: 'LIC-2024-001',
-  address: 'Manhattan',
+    name: `TechSolutions Pro ${idx + 1}`,
+    logoUrl: '/logo.png',
+    location: 'New York, USA',
+    services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
+    contactPerson: 'John Smith',
+    phone: '+1 (555) 123-4567',
+    email: 'contact@techsolutions.com',
+    since: '2018',
+    license: 'LIC-2024-001',
+    address: 'Manhattan',
 }));
 
 
@@ -27,31 +28,33 @@ export default function OEP() {
     const [page, setPage] = useState(1);
     const [sliderImages, setSliderImages] = useState([]);
     const [news, setNews] = useState([]);
+    const [OepListing, setOepListing] = useState([])
+    const [error, setError] = useState('');
 
-    const totalPages = Math.ceil(allCompanies.length / ITEMS_PER_PAGE);
-    const paginatedData = allCompanies.slice(
+    const totalPages = Math.ceil(OepListing.length / ITEMS_PER_PAGE);
+    const paginatedData = OepListing.slice(
         (page - 1) * ITEMS_PER_PAGE,
         page * ITEMS_PER_PAGE
     );
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            // const data = await handleFetchMadicals();
+            const Resp = await handleGetOEPs();
             const response = await fetch(`/api/slider?page=OEP`);
             const sliderData = await response.json();
             setSliderImages(sliderData?.data?.sliderImgs || []);
             setNews(sliderData?.data?.news || []);
-
-            // if (data.success === true) {
-            //     setMedicals(data.data);
-            //     setError(null);
-            // } else {
-            //     setError("Failed to fetch medical records");
-            // }
+            if (Resp.status === 200) {
+                setOepListing(Resp.data.data);
+                setError(null);
+            } else {
+                setError("Failed to fetch medical records");
+            }
             setLoading(false);
         };
         fetchData();
     }, []);
+            console.log('paginatedData', paginatedData)
 
     if (loading) {
         return (
@@ -76,7 +79,7 @@ export default function OEP() {
                     Overseas Employement Promoters - OEP
                 </Heading>
                 <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-1">
-                    {paginatedData.map((company, idx) => (
+                    {paginatedData?.map((company, idx) => (
                         <CompanyCard key={idx} {...company} />
                     ))}
                 </div>

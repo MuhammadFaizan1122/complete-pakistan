@@ -2,8 +2,8 @@ import axios from 'axios';
 
 export const handleGetOEPs = async () => {
   try {
-    // const response = await axios.get('/api/recruitment/oep');
-    // return response.data.data;
+    const response = await axios.get('/api/recruitment/oep');
+    return response;
   } catch (error) {
     console.error('Error fetching OEPs:', error.response?.data?.error || error.message);
     return [];
