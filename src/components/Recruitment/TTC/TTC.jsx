@@ -4,180 +4,7 @@ import { useEffect, useState } from 'react';
 import CompanyCard from './CompanyCard';
 import { HeroSection } from '../../Gamca/MedicalCenters/HeroSection';
 import { Center, Heading, Spinner } from '@chakra-ui/react';
-
-const allCompanies = [
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    {
-        name: 'TechSolutions Pro',
-        location: 'New York, USA',
-        services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-        contactPerson: 'John Smith',
-        phone: '+1 (555) 123-4567',
-        email: 'contact@techsolutions.com',
-        mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.850020506004!2d-74.00601548459341!3d40.712775779331794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQyJzQ2LjAiTiA3NMKwMDAnMjEuNSJX!5e0!3m2!1sen!2sus!4v1615261526583!5m2!1sen!2sus',
-        since: '2018',
-    },
-    // Add more companies here
-];
+import { handleGetTTCs } from '../../../handlers/recruitment/ttc';
 
 const ITEMS_PER_PAGE = 9;
 
@@ -186,27 +13,29 @@ export default function TTC() {
     const [page, setPage] = useState(1);
     const [sliderImages, setSliderImages] = useState([]);
     const [news, setNews] = useState([]);
+    const [TtcListing, setTtcListing] = useState([])
+    const [error, setError] = useState('');
 
-    const totalPages = Math.ceil(allCompanies.length / ITEMS_PER_PAGE);
-    const paginatedData = allCompanies.slice(
+    const totalPages = Math.ceil(TtcListing.length / ITEMS_PER_PAGE);
+    const paginatedData = TtcListing.slice(
         (page - 1) * ITEMS_PER_PAGE,
         page * ITEMS_PER_PAGE
     );
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            // const data = await handleFetchMadicals();
+            const Resp = await handleGetTTCs();
             const response = await fetch(`/api/slider?page=TTC`);
             const sliderData = await response.json();
             setSliderImages(sliderData?.data?.sliderImgs || []);
             setNews(sliderData?.data?.news || []);
 
-            // if (data.success === true) {
-            //     setMedicals(data.data);
-            //     setError(null);
-            // } else {
-            //     setError("Failed to fetch medical records");
-            // }
+            if (Resp.status === 200) {
+                setTtcListing(Resp.data.data);
+                setError(null);
+            } else {
+                setError("Failed to fetch medical records");
+            }
             setLoading(false);
         };
         fetchData();
@@ -219,6 +48,7 @@ export default function TTC() {
             </Center>
         );
     }
+    console.log('paginatedData', paginatedData)
     return (
         <>
             <HeroSection sliderImages={sliderImages} news={news} />

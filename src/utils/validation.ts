@@ -68,19 +68,15 @@ export const companySignupSchema = yup.object().shape({
     socialMedia: yup.object().shape({
         facebook: yup
             .string()
-            .matches(/^https?:\/\/(www\.)?facebook\.com\/.+/, "Invalid Facebook URL")
-            .nullable(),
+            .matches(/^https?:\/\/(www\.)?facebook\.com\/.+/, "Invalid Facebook URL"),
         twitter: yup
             .string()
-            .matches(/^https?:\/\/(www\.)?x\.com\/.+/, "Invalid Twitter URL")
-            .nullable(),
+            .matches(/^https?:\/\/(www\.)?x\.com\/.+/, "Invalid Twitter URL"),
         linkedin: yup
             .string()
-            .matches(/^https?:\/\/(www\.)?linkedin\.com\/.+/, "Invalid LinkedIn URL")
-            .nullable(),
+            .matches(/^https?:\/\/(www\.)?linkedin\.com\/.+/, "Invalid LinkedIn URL"),
         instagram: yup
             .string()
-            .matches(/^https?:\/\/(www\.)?instagram\.com\/.+/, "Invalid Instagram URL")
-            .nullable(),
+            .matches(/^https?:\/\/(www\.)?instagram\.com\/.+/, "Invalid Instagram URL"),
     })
 });

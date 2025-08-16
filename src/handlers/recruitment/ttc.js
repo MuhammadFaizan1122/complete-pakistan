@@ -3,8 +3,8 @@ import axios from 'axios';
 export const handleGetTTCs = async () => {
   try {
 
-    // const response = await axios.get('/api/recruitment/ttc');
-    // return response.data.data;
+    const response = await axios.get('/api/recruitment/ttc');
+    return response;
   } catch (error) {
     console.error('Error fetching TTCs:', error.response?.data?.error || error.message);
     return [];

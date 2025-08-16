@@ -1,25 +1,9 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import CompanyCard from './CompanyCard';
 import { HeroSection } from '../../Gamca/MedicalCenters/HeroSection';
 import { Center, Heading, Spinner } from '@chakra-ui/react';
 import { handleGetOEPs } from '../../../handlers/recruitment/oep';
-
-
-const allCompanies = new Array(24).fill(0).map((_, idx) => ({
-    name: `TechSolutions Pro ${idx + 1}`,
-    logoUrl: '/logo.png',
-    location: 'New York, USA',
-    services: ['Web Development', 'Mobile Apps', 'Cloud Services'],
-    contactPerson: 'John Smith',
-    phone: '+1 (555) 123-4567',
-    email: 'contact@techsolutions.com',
-    since: '2018',
-    license: 'LIC-2024-001',
-    address: 'Manhattan',
-}));
-
 
 const ITEMS_PER_PAGE = 9;
 
@@ -54,7 +38,7 @@ export default function OEP() {
         };
         fetchData();
     }, []);
-            console.log('paginatedData', paginatedData)
+    console.log('paginatedData', paginatedData)
 
     if (loading) {
         return (

@@ -489,7 +489,6 @@ const CompanyRegisterPage = () => {
                             <StyledInput
                                 type="text"
                                 placeholder="Enter location map link"
-                                value={serviceInput}
                                 {...register("mapLink")}
                                 // onChange={(e) => setServiceInput(e.target.value)}
                             />
