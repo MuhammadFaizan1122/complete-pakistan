@@ -1,351 +1,310 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import {
-    Box,
-    VStack,
-    Heading,
-    Accordion,
-    AccordionItem,
-    AccordionButton,
-    AccordionPanel,
-    AccordionIcon,
-    Spinner,
-    Center,
-    Text,
-    Button,
-    useColorModeValue,
-    Icon,
-    Flex,
-    Tag,
-    TagLabel,
-    SimpleGrid,
-    List,
-    ListItem,
-    ListIcon,
-    Stack,
-    HStack,
-    RadioGroup,
-    Input,
-    Radio,
-    useAccordionItemState,
-} from '@chakra-ui/react';
-import { MdBusiness, MdCheckCircle, MdLocationPin, MdCardMembership, MdStar, MdRemove, MdAdd } from 'react-icons/md';
-import { handleGetAllGulfCompanies } from '../../../handlers/companies/companies';
-import { HeroSection } from '../../Gamca/MedicalCenters/HeroSection';
-import Image from 'next/image';
+"use client";
+import { Box, Flex, Text, Image, Button, VStack, HStack, Stack, Badge, Center, Spinner, Avatar, Icon, SimpleGrid, Divider } from "@chakra-ui/react";
+import { FaUniversity, FaMapMarkerAlt, FaEnvelope, FaGlobe } from "react-icons/fa";
+import { useMediaQuery } from "@chakra-ui/react";
+import { HeroSection } from "../../../components/Gamca/MedicalCenters/HeroSection";
+import { handleGetOEPs } from "../../../handlers/recruitment/oep";
+import { useEffect, useState } from "react";
+import { BsFillPeopleFill } from "react-icons/bs";
+import { MdOutlineDateRange, MdVerified } from "react-icons/md";
+import Link from "next/link";
+import { AiFillDislike, AiFillLike } from "react-icons/ai";
+import CompanyCatalogue from "./Catalogue";
+const ITEMS_PER_PAGE = 9;
 
-const InfoLine = ({ icon, label, value, iconColor = "gray.500" }) => (
-    <Flex align="center" gap={2}>
-        <Icon as={icon} color={iconColor} boxSize={5} />
-        <Text fontSize="sm" color="gray.700" _dark={{ color: "gray.200" }}>
-            <Text as="span" fontWeight="medium">{label}:</Text> {value}
-        </Text>
-    </Flex>
-);
 export default function GulfCompanies() {
-    const [companies, setCompanies] = useState([]);
+    const [isMobile] = useMediaQuery("(max-width: 768px)");
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [page, setPage] = useState(1);
     const [sliderImages, setSliderImages] = useState([]);
     const [news, setNews] = useState([]);
-    // const { isOpen } = useAccordionItemState();
+    const [OepListing, setOepListing] = useState([])
+    const [error, setError] = useState('');
 
+    const totalPages = Math.ceil(OepListing.length / ITEMS_PER_PAGE);
+    const paginatedData = OepListing.slice(
+        (page - 1) * ITEMS_PER_PAGE,
+        page * ITEMS_PER_PAGE
+    );
     useEffect(() => {
-        const fetchCompanies = async () => {
-            try {
-                const data = await handleGetAllGulfCompanies();
-                const response = await fetch(`/api/slider?page=gulfCompanies`);
-                const sliderData = await response.json();
-                setSliderImages(sliderData?.data?.sliderImgs || []);
-                setNews(sliderData?.data?.news || []);
-                if (data.status === 200) {
-                    setCompanies(data.data.data);
-                    setError(null);
-                } else {
-                    setError("Failed to fetch Gulf companies.");
-                }
-            } catch (err) {
-                setError("An unexpected error occurred.");
-            } finally {
-                setLoading(false);
+        const fetchData = async () => {
+            setLoading(true);
+            const Resp = await handleGetOEPs();
+            const response = await fetch(`/api/slider?page=OEP`);
+            const sliderData = await response.json();
+            setSliderImages(sliderData?.data?.sliderImgs || []);
+            setNews(sliderData?.data?.news || []);
+            if (Resp.status === 200) {
+                setOepListing(Resp.data.data);
+                setError(null);
+            } else {
+                setError("Failed to fetch medical records");
             }
+            setLoading(false);
         };
-
-        fetchCompanies();
+        fetchData();
     }, []);
-
-    const cardBg = useColorModeValue("white", "gray.800");
-    const companyIconColor = useColorModeValue("blue.400", "blue.300");
-    const detailIconColor = useColorModeValue("green.500", "green.400");
-
+    const partners = [
+        { name: "Dubai Ports World", workers: "56 workers", location: "UAE" },
+        { name: "SABIC Industries", workers: "09 workers", location: "Saudi Arabia" },
+        { name: "Qatar Petroleum", workers: "67 workers", location: "Qatar" },
+        { name: "ADNOC Group", workers: "123 workers", location: "UAE" },
+    ];
     if (loading) {
         return (
-            <Center minH="100vh">
+            <Center minH="100vh" bg="gray.50">
                 <Spinner size="xl" color="#0a7450" thickness="4px" />
             </Center>
         );
     }
-
-    if (error) {
-        return (
-            <Center minH="100vh">
-                <VStack spacing={6}>
-                    <Text fontSize="xl" color="red.500" fontWeight="medium">{error}</Text>
-                    <Button
-                        bgGradient="linear(to-r, #0a7450, #0a7450)"
-                        color="white"
-                        rounded="full"
-                        px={8}
-                        py={6}
-                        _hover={{ bgGradient: "linear(to-r, #0a7450, #0a7450)", transform: "scale(1.05)" }}
-                        transition="all 0.3s"
-                        onClick={() => window.location.reload()}
-                    >
-                        Retry
-                    </Button>
-                </VStack>
-            </Center>
-        );
-    }
-
     return (
-        <>
-            <Box
-                w="full"
-                bg="gray.100"
-                _dark={{ bg: "gray.800" }}
-                py={12}
-                px={{ base: 4, md: 8 }}
-            >
-                <Flex
-                    direction={{ base: "column", md: "row" }}
-                    align="center"
-                    justify="space-between"
-                    gap={10}
-                    maxW="1400px"
-                    mx="auto"
-                >
-                    {/* Left Search Section */}
-                    <Box flex="1">
-                        <Heading fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold" mb={6}>
-                            Find a Business by Name or Category
-                        </Heading>
-
-                        <VStack spacing={4} align="stretch">
-                            <Box>
-                                <Text fontWeight="semibold" mb={1}>
-                                    What?
-                                </Text>
-                                <Input
-                                    placeholder="Search Shirka, Musassa, Majmua & More By Name"
-                                    bg="white"
-                                    _dark={{ bg: "gray.700" }}
-                                />
-                            </Box>
-
-                            <Box>
-                                <Text fontWeight="semibold" mb={1}>
-                                    Where?
-                                </Text>
-                                <Input
-                                    placeholder="Search By Country, By Industry, By Trade"
-                                    bg="white"
-                                    _dark={{ bg: "gray.700" }}
-                                />
-                            </Box>
-
-                            <Flex align="center" gap={4}>
-                                <Text fontWeight="medium">Search for</Text>
-                                <RadioGroup defaultValue="category">
-                                    <HStack spacing={4}>
-                                        <Radio value="category">Category</Radio>
-                                        <Radio value="name">Name</Radio>
-                                    </HStack>
-                                </RadioGroup>
+        <Box minH="100vh">
+            <HeroSection sliderImages={sliderImages} news={news} />
+            <Box maxW={'1440px'} mx={'auto'} px={{ base: 4, md: 'auto' }}>
+                <CompanyCatalogue />
+                <Flex direction={isMobile ? "column" : "row"} gap={isMobile ? 4 : 6}>
+                    <Box flex={isMobile ? "1" : "3"} bg="white">
+                        <Flex justify="space-between" align="center" mb={4}>
+                            <Text fontSize={isMobile ? "lg" : "xl"} fontWeight="bold" color={'#0a7450'}>Company Details</Text>
+                            <Button variant="outline" size={isMobile ? "xs" : "sm"}>Filter</Button>
+                        </Flex>
+                        <Box
+                            bg="white"
+                            shadow="md"
+                            rounded="2xl"
+                            p={isMobile ? 3 : 6}
+                            border="1px solid"
+                            borderColor="#0a7450"
+                            className="w-full mx-auto"
+                        >
+                            <Flex direction={isMobile ? "column" : "row"} justify="space-between" align="center">
+                                <Flex gap={isMobile ? 2 : 4} align="center" mb={isMobile ? 2 : 0}>
+                                    <Avatar size={isMobile ? "md" : "lg"} name="Al-Rajhi Construction" borderRadius="10px" />
+                                    <Box>
+                                        <Text fontSize={isMobile ? "md" : "xl"} fontWeight="bold">
+                                            Al-Rajhi Construction Co.
+                                        </Text>
+                                        <Text color="gray.600" fontSize={isMobile ? "sm" : "md"}>Riyadh, Saudi Arabia</Text>
+                                        <Badge mt={1} colorScheme="teal" fontSize={isMobile ? "xs" : "sm"}>
+                                            Infrastructure Development Project
+                                        </Badge>
+                                    </Box>
+                                </Flex>
+                                <Flex direction={isMobile ? "column" : "row"} align={isMobile ? "flex-start" : "flex-end"} mt={isMobile ? 2 : 0}>
+                                    <Badge colorScheme="green" rounded="md" fontSize={isMobile ? "xs" : "sm"}>
+                                        Ongoing
+                                    </Badge>
+                                    <Flex align="center" mt={isMobile ? 1 : 2} gap={1}>
+                                        <Icon as={BsFillPeopleFill} />
+                                        <Text fontSize={isMobile ? "xs" : "sm"}>45 Workers</Text>
+                                    </Flex>
+                                </Flex>
                             </Flex>
+                            <Divider my={isMobile ? 2 : 4} />
+                            {/* Details */}
+                            <SimpleGrid columns={isMobile ? 1 : [1, 2]} spacing={isMobile ? 2 : 4} mb={isMobile ? 2 : 4}>
+                                <Flex gap={2} align="center">
+                                    <Icon as={FaMapMarkerAlt} color="blue.500" boxSize={isMobile ? 4 : 5} />
+                                    <Box>
+                                        <Text fontWeight="medium" fontSize={isMobile ? "sm" : "md"}>Location Details</Text>
+                                        <Text fontSize={isMobile ? "xs" : "sm"} color="gray.600">
+                                            King Fahd Road, Al-Olaya District, Riyadh, Saudi Arabia
+                                        </Text>
+                                    </Box>
+                                </Flex>
+                                <Flex gap={2} align="center">
+                                    <Icon as={FaUniversity} color="purple.500" boxSize={isMobile ? 4 : 5} />
+                                    <Box>
+                                        <Text fontWeight="medium" fontSize={isMobile ? "sm" : "md"}>Embassy</Text>
+                                        <Text fontSize={isMobile ? "xs" : "sm"} color="gray.600">
+                                            Saudi Embassy Islamabad
+                                        </Text>
+                                    </Box>
+                                </Flex>
+                                <Flex gap={2} align="center">
+                                    <Icon as={MdOutlineDateRange} color="orange.500" boxSize={isMobile ? 4 : 5} />
+                                    <Box>
+                                        <Text fontWeight="medium" fontSize={isMobile ? "sm" : "md"}>Duration</Text>
+                                        <Text fontSize={isMobile ? "xs" : "sm"} color="gray.600">
+                                            15/01/2024 - 30/12/2024
+                                        </Text>
+                                    </Box>
+                                </Flex>
+                                <Box>
+                                    <Text fontWeight="medium" fontSize={isMobile ? "sm" : "md"}>Visa Details</Text>
+                                    <Text fontSize={isMobile ? "xs" : "sm"} color="gray.600">
+                                        Number: SA-2024-VIS-001234 <br />
+                                        Saudi ID: 7001234567
+                                    </Text>
+                                </Box>
+                                <Flex gap={2} align="center">
+                                    <Icon as={FaEnvelope} color="red.500" boxSize={isMobile ? 4 : 5} />
+                                    <Link href="mailto:hr@alrajhi-construction.sa" color="blue.600" fontSize={isMobile ? "xs" : "sm"}>
+                                        hr@alrajhi-construction.sa
+                                    </Link>
+                                </Flex>
+                                <Flex gap={2} align="center">
+                                    <Icon as={FaGlobe} color="green.500" boxSize={isMobile ? 4 : 5} />
+                                    <Link href="https://www.alrajhi-construction.sa" isExternal color="blue.600" fontSize={isMobile ? "xs" : "sm"}>
+                                        www.alrajhi-construction.sa
+                                    </Link>
+                                </Flex>
+                            </SimpleGrid>
 
-                            <Button
-                                colorScheme="yellow"
-                                w="40"
-                                alignSelf="flex-start"
-                                fontWeight="bold"
-                                px={6}
-                            >
-                                SEARCH
-                            </Button>
-                        </VStack>
+                            <Divider my={isMobile ? 2 : 4} />
+
+                            {/* Ratings */}
+                            <Text fontWeight="bold" mb={isMobile ? 2 : 3} fontSize={isMobile ? "md" : "lg"}>
+                                Public Reviews & Ratings
+                            </Text>
+                            <SimpleGrid columns={isMobile ? 1 : [1, 2]} spacing={isMobile ? 2 : 4} mb={isMobile ? 2 : 6}>
+                                <RatingItem label="Provides Salary On Time" percent={89} fontSize={isMobile ? "xs" : "sm"} />
+                                <RatingItem label="Working Safety Standards" percent={91} fontSize={isMobile ? "xs" : "sm"} />
+                                <RatingItem label="Provides Food On Time" percent={92} fontSize={isMobile ? "xs" : "sm"} />
+                                <RatingItem label="Good Treatment Quality" percent={88} fontSize={isMobile ? "xs" : "sm"} />
+                                <RatingItem label="Good Accommodation" percent={85} fontSize={isMobile ? "xs" : "sm"} />
+                            </SimpleGrid>
+
+                            {/* Footer Actions */}
+                            <Flex direction={isMobile ? "column" : "row"} justify="space-between" align="center" gap={isMobile ? 2 : 0}>
+                                <Flex gap={isMobile ? 2 : 4}>
+                                    <Flex align="center" gap={1}>
+                                        <Icon as={AiFillLike} color="blue.500" boxSize={isMobile ? 4 : 5} />
+                                        <Text fontSize={isMobile ? "xs" : "sm"}>234</Text>
+                                    </Flex>
+                                    <Flex align="center" gap={1}>
+                                        <Icon as={AiFillDislike} color="red.500" boxSize={isMobile ? 4 : 5} />
+                                        <Text fontSize={isMobile ? "xs" : "sm"}>12</Text>
+                                    </Flex>
+                                </Flex>
+                                <Flex gap={isMobile ? 2 : 2}>
+                                    <Button variant="outline" size={isMobile ? "xs" : "sm"}>
+                                        Share
+                                    </Button>
+                                    <Button bg="#0a7450" color='#fff' size={isMobile ? "xs" : "sm"} leftIcon={<MdVerified boxSize={isMobile ? 4 : 5} />}>
+                                        Recommend
+                                    </Button>
+                                </Flex>
+                            </Flex>
+                        </Box>
                     </Box>
-
-                    {/* Right Image Section */}
-                    <Box flex="1" display="flex" justifyContent="center" alignItems="center">
-                        <Image
-                            width={550}
-                            height={550}
-                            src="/Images/mapImage.png"
-                            alt="Gulf Only Map"
-                            maxW="360px"
-                            borderRadius="md"
-                            objectFit="contain"
-                        />
+                    <Box flex={isMobile ? "1" : "1"} bg="white" px={0} borderRadius="md" boxShadow="sm">
+                        <Text fontSize={isMobile ? "lg" : "xl"} fontWeight="bold" color={'#0a7450'} mb={isMobile ? 2 : 4}>Quick Stats</Text>
+                        <VStack align="center" spacing={isMobile ? 3 : 6}>
+                            <Box p={isMobile ? 3 : 6} borderColor="#0a7450" border="1px solid" w={'full'} rounded={'xl'} display={'flex'} alignItems={'center'} flexDirection={'column'}>
+                                <Text fontSize={isMobile ? "xl" : "2xl"} fontWeight="bold">7</Text>
+                                <Text color="black" fontSize={isMobile ? "sm" : "md"}>Active Partners</Text>
+                            </Box>
+                            <Box p={isMobile ? 3 : 6} borderColor="#0a7450" border="1px solid" w={'full'} rounded={'xl'} display={'flex'} alignItems={'center'} flexDirection={'column'}>
+                                <Text fontSize={isMobile ? "xl" : "2xl"} fontWeight="bold">490</Text>
+                                <Text color="black" fontSize={isMobile ? "sm" : "md"}>Workers Placed</Text>
+                                <Text fontSize={isMobile ? "xs" : "sm"} color="black">Ongoing: 133 workers</Text>
+                                <Text fontSize={isMobile ? "xs" : "sm"} color="black">189 plumbers found for visa issuance</Text>
+                            </Box>
+                            <Box p={isMobile ? 3 : 6} borderColor="#0a7450" border="1px solid" w={'full'} rounded={'xl'} display={'flex'} alignItems={'center'} flexDirection={'column'}>
+                                <Text fontSize={isMobile ? "xl" : "2xl"} fontWeight="bold">3</Text>
+                                <Text color="black" fontSize={isMobile ? "sm" : "md"}>Countries</Text>
+                            </Box>
+                            <Box p={isMobile ? 3 : 6} borderColor="#0a7450" border="1px solid" w={'full'} rounded={'xl'} display={'flex'} alignItems={'center'} flexDirection={'column'}>
+                                <Text color="black" fontSize={isMobile ? "sm" : "md"}>Other Partners</Text>
+                                <VStack align="start" spacing={isMobile ? 1 : 1}>
+                                    <HStack>
+                                        <Badge colorScheme="gray" fontSize={isMobile ? "xs" : "sm"}>Dubai Ports World</Badge>
+                                        <Text fontSize={isMobile ? "xs" : "sm"} color="black">56 workers - UAE</Text>
+                                    </HStack>
+                                    <HStack>
+                                        <Badge colorScheme="gray" fontSize={isMobile ? "xs" : "sm"}>SABIC Industries</Badge>
+                                        <Text fontSize={isMobile ? "xs" : "sm"} color="black">09 workers - Saudi Arabia</Text>
+                                    </HStack>
+                                </VStack>
+                            </Box>
+                            <Box
+                                p={isMobile ? 3 : 4}
+                                bg="white"
+                                borderRadius="xl"
+                                w={"100%"}
+                            >
+                                <Text fontSize={isMobile ? "lg" : "xl"} fontWeight="bold" mb={isMobile ? 2 : 4} color="#0a7450">
+                                    Other Partners
+                                </Text>
+                                <VStack align="start" spacing={isMobile ? 2 : 3}>
+                                    {partners.map((partner, index) => (
+                                        <HStack
+                                            key={index}
+                                            p={isMobile ? 1 : 2}
+                                            bg="gray.50"
+                                            borderRadius="md"
+                                            w="full"
+                                            justify="space-between"
+                                            border="1px solid"
+                                            borderColor="gray.200"
+                                        >
+                                            <HStack spacing={isMobile ? 1 : 2}>
+                                                <Image src="/Images/placeholder.png" alt={`${partner.name} Logo`} boxSize={isMobile ? "30px" : "40px"} objectFit="contain" />
+                                                <VStack align="start" spacing={isMobile ? 0 : 0}>
+                                                    <Text fontSize={isMobile ? "xs" : "sm"} fontWeight="medium">{partner.name}</Text>
+                                                    <Text fontSize={isMobile ? "xs" : "xs"} color="gray.500">
+                                                        {partner.workers} - {partner.location}
+                                                    </Text>
+                                                </VStack>
+                                            </HStack>
+                                            <Badge colorScheme="blue" borderRadius="full" p={isMobile ? 0.5 : 1} fontSize={isMobile ? "xs" : "sm"}>
+                                                <span role="img" aria-label="info">ℹ️</span>
+                                            </Badge>
+                                        </HStack>
+                                    ))}
+                                </VStack>
+                            </Box>
+                            <Box
+                                p={isMobile ? 3 : 4}
+                                bg="white"
+                                borderRadius="xl"
+                                boxShadow="sm"
+                                border="1px solid"
+                                borderColor="#0a7450"
+                                w={"100%"}
+                            >
+                                <Text fontSize={isMobile ? "lg" : "xl"} fontWeight="bold" mb={isMobile ? 2 : 4} color="#0a7450">
+                                    Success Metrics
+                                </Text>
+                                <VStack align="start" spacing={isMobile ? 2 : 3}>
+                                    <HStack justify="space-between" w="full">
+                                        <Text fontSize={isMobile ? "xs" : "sm"}>Success Rate</Text>
+                                        <Badge colorScheme="green" fontSize={isMobile ? "xs" : "sm"}>96.5%</Badge>
+                                    </HStack>
+                                    <HStack justify="space-between" w="full">
+                                        <Text fontSize={isMobile ? "xs" : "sm"}>Avg. Processing Time</Text>
+                                        <Badge colorScheme="green" fontSize={isMobile ? "xs" : "sm"}>15 days</Badge>
+                                    </HStack>
+                                    <HStack justify="space-between" w="full">
+                                        <Text fontSize={isMobile ? "xs" : "sm"}>Client Satisfaction</Text>
+                                        <Badge colorScheme="green" fontSize={isMobile ? "xs" : "sm"}>4.8/5</Badge>
+                                    </HStack>
+                                </VStack>
+                            </Box>
+                        </VStack>
                     </Box>
                 </Flex>
             </Box>
-            {/* <HeroSection sliderImages={sliderImages} news={news} /> */}
-            <Box maxW="1440px" mx="auto" py={12} px={{ base: 4, md: 8 }} minH="100vh">
-                <VStack spacing={10} align="stretch">
-                    <Heading
-                        fontSize={{ base: "2xl", md: "4xl" }}
-                        textAlign="center"
-                        fontWeight="extrabold"
-                        bgGradient="linear(to-r, #0a7450, #0a7450)"
-                        bgClip="text"
-                    >
-                        Gulf Companies
-                    </Heading>
+        </Box>
+    );
+}
 
-                    {companies.length === 0 ? (
-                        <Center py={20}>
-                            <Text fontSize="lg" color="gray.500">No companies found.</Text>
-                        </Center>
-                    ) : (
-                        <Accordion allowToggle defaultIndex={[0]}>
-                            {companies.map((company, index) => {
-                                return (
-                                    <AccordionItem
-                                        key={company._id}
-                                        bg={cardBg}
-                                        boxShadow="sm"
-                                        rounded="xl"
-                                        mb={4}
-                                        border="1px solid"
-                                        borderColor="gray.200"
-                                        transition="all 0.3s"
-                                        _hover={{ boxShadow: "md", transform: "translateY(-2px)" }}
-                                    >
-                                        {({ isExpanded }) => (
-                                            <>
-                                                <h2>
-                                                    <AccordionButton
-                                                        px={6}
-                                                        py={4}
-                                                        bg={'#0a7450'}
-                                                        rounded={'lg'}
-                                                        _hover={{
-                                                            bg: 'gray.300',
-                                                            '& .accordion-text': { color: '#000' },
-                                                            '& .accordion-icon': { color: '#000' }
-                                                        }}
-                                                    >
-                                                        <Flex flex="1" textAlign="left" align="center" gap={3}>
-                                                            <Box w={12} h={12} rounded={'full'} bg={'white'} display={'flex'} justifyContent={'center'} alignItems={'center'} color={'white'}>
-                                                                {company.logo ? (
-                                                                    <Box border="1px" borderColor="gray.200" _dark={{ borderColor: "gray.700" }} borderRadius="md">
-                                                                        <Image
-                                                                            width={100}
-                                                                            height={100}
-                                                                            src={company.logo}
-                                                                            alt={`${company.name} Logo`}
-                                                                        />
-                                                                    </Box>
-                                                                ) : (
-                                                                    <Icon as={MdBusiness} boxSize={5} color={companyIconColor} />
-                                                                )}
-                                                            </Box>
-                                                            <Text
-                                                                fontSize="md"
-                                                                fontWeight="semibold"
-                                                                color="#fff"
-                                                                className="accordion-text"
-                                                            >
-                                                                {index + 1}. {company.name}
-                                                            </Text>
-                                                        </Flex>
-                                                        <Icon
-                                                            as={isExpanded ? MdRemove : MdAdd}
-                                                            boxSize={10}
-                                                            color={'white'}
-                                                            className="accordion-icon"
-                                                        />
-                                                    </AccordionButton>
-                                                </h2>
-                                                <AccordionPanel pb={6} pt={4} px={6} bg="gray.50" _dark={{ bg: "gray.800" }} borderRadius="lg" boxShadow="md">
-                                                    <Flex align="center" gap={3} mb={6}>
-                                                        <Icon as={MdCheckCircle} color="green.500" boxSize={5} />
-                                                        <Tag size="md" variant="solid" colorScheme="green">
-                                                            <TagLabel fontWeight="medium">Company Details</TagLabel>
-                                                        </Tag>
-                                                    </Flex>
-
-                                                    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
-                                                        <VStack align="start" spacing={3}>
-                                                            <InfoLine icon={MdLocationPin} label="Location" value={`${company.city}, ${company.country}`} />
-                                                            <InfoLine icon={MdCardMembership} label="Visa Number" value={company.visaNumber} />
-                                                            <InfoLine icon={MdCardMembership} label="ID Number" value={company.idNumber} />
-                                                            {company.rating && (
-                                                                <InfoLine icon={MdStar} label="Rating" value={`${company.rating}/5`} iconColor="yellow.400" />
-                                                            )}
-                                                        </VStack>
-
-                                                        {company.logo && (
-                                                            <Box border="1px" borderColor="gray.200" _dark={{ borderColor: "gray.700" }} borderRadius="md" p={2}>
-                                                                <Image
-                                                                    width={150}
-                                                                    height={150}
-                                                                    src={company.logo}
-                                                                    alt={`${company.name} Logo`}
-                                                                // maxW="150px"
-                                                                // borderRadius="md"
-                                                                // mx="auto"
-                                                                />
-                                                            </Box>
-                                                        )}
-                                                    </SimpleGrid>
-
-                                                    <Box mt={8}>
-                                                        <Text fontSize="lg" fontWeight="bold" color="gray.700" _dark={{ color: "white" }} mb={3}>
-                                                            Authorized Trades
-                                                        </Text>
-                                                        <Stack spacing={4}>
-                                                            {company.visaAuthorizedTrade.map((trade, tradeIndex) => (
-                                                                <Box
-                                                                    key={tradeIndex}
-                                                                    p={4}
-                                                                    bg="white"
-                                                                    _dark={{ bg: "gray.700" }}
-                                                                    rounded="md"
-                                                                    border="1px solid"
-                                                                    borderColor="gray.200"
-                                                                    _darkBorderColor="gray.600"
-                                                                    boxShadow="sm"
-                                                                >
-                                                                    <Text fontWeight="semibold" color="gray.800" _dark={{ color: "white" }} mb={1}>
-                                                                        <Icon as={MdCheckCircle} color="green.500" mr={2} />
-                                                                        {trade.authorized_trade}
-                                                                    </Text>
-                                                                    <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={1} fontSize="sm" color="gray.700" _dark={{ color: "gray.200" }}>
-                                                                        <Text>- Required: {trade.required_trade}</Text>
-                                                                        <Text>- Salary: {trade.salary} {trade.currency}</Text>
-                                                                        <Text>- Quantity: {trade.quantity}</Text>
-                                                                        <Text>- Duty Timings: {trade.dutyTimings}</Text>
-                                                                        <Text>- Overtime: {trade.overtime}</Text>
-                                                                        <Text>- Benefits: {trade.benefits.join(', ')}</Text>
-                                                                        <Text>- Contract Period: {trade.contractPeriod}</Text>
-                                                                        <Text>- NAVTAC: {trade.NAVTAC}</Text>
-                                                                    </SimpleGrid>
-                                                                </Box>
-                                                            ))}
-                                                        </Stack>
-                                                    </Box>
-                                                </AccordionPanel>
-                                            </>
-                                        )}
-                                    </AccordionItem>
-                                )
-                            })}
-                        </Accordion>
-                    )}
-                </VStack>
-            </Box>
-        </>
+function RatingItem({ label, percent, fontSize }) {
+    return (
+        <Flex
+            justify="space-between"
+            align="center"
+            p={3}
+            rounded="xl"
+            border="1px solid"
+            borderColor="gray.200"
+            _hover={{ bg: "gray.50" }}
+        >
+            <Text fontSize={fontSize} fontWeight="medium">
+                {label}
+            </Text>
+            <Text fontWeight="bold" fontSize={fontSize}>{percent}%</Text>
+        </Flex>
     );
 }

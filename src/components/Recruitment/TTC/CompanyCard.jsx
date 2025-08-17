@@ -50,6 +50,7 @@ export default function CompanyCard({
       border={'1px solid #D1D5DB'}
       alignItems="center"
       w={'100%'}
+      cursor={'pointer'}
     >
       {/* Left: Logo + Name */}
       <Box
