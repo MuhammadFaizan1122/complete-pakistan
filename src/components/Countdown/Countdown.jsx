@@ -3,54 +3,54 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Image } from "@chakra-ui/react";
 export default function Countdown() {
-    const [timeLeft, setTimeLeft] = useState({
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-    });
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
 
-    const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-    useEffect(() => {
-        setMounted(true);
-        const targetDate = new Date("2025-09-06T17:59:59").getTime();
+  useEffect(() => {
+    setMounted(true);
+    const targetDate = new Date("2025-09-06T17:59:59").getTime();
 
-        const updateCountdown = () => {
-            const now = new Date().getTime();
-            const diff = targetDate - now;
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const diff = targetDate - now;
 
-            if (diff <= 0) {
-                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-                return;
-            }
+      if (diff <= 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
 
-            const newTimeLeft = {
-                days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-                hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-                minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-                seconds: Math.floor((diff % (1000 * 60)) / 1000),
-            };
+      const newTimeLeft = {
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((diff % (1000 * 60)) / 1000),
+      };
 
-            setTimeLeft(newTimeLeft);
-        };
+      setTimeLeft(newTimeLeft);
+    };
 
-        updateCountdown();
-        const interval = setInterval(updateCountdown, 1000);
-        return () => clearInterval(interval);
-    }, []);
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
-    if (!mounted) {
-        return (
-            <div className="loading-container">
-                <div className="loading-text">Loading...</div>
-            </div>
-        );
-    }
-
+  if (!mounted) {
     return (
-        <>
-            <style jsx>{`
+      <div className="loading-container">
+        <div className="loading-text">Loading...</div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
         * {
@@ -280,7 +280,7 @@ export default function Countdown() {
         }
         
        .digit-display {
-  font-size: clamp(2.5rem, 8vw, 4rem); /* ✅ Bigger, responsive */
+  font-size: clamp(2.5rem, 8vw, 4rem); 
   font-weight: 900;
   letter-spacing: -0.02em;
   background: linear-gradient(135deg, #ffffff, #0a7450);
@@ -388,94 +388,139 @@ export default function Countdown() {
             margin-bottom: 2rem;
           }
         }
+          @media (max-width: 480px) {
+  .launch-title {
+    font-size: 2rem; /* tighter fit */
+    margin-bottom: 0.75rem;
+  }
+
+  .launch-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .countdown-wrapper {
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .countdown-inner {
+    width: 80px;   /* smaller countdown boxes */
+    height: 100px;
+    border-radius: 16px;
+  }
+
+  .digit-display {
+    font-size: 1.75rem;
+  }
+
+  .countdown-label {
+    font-size: 0.7rem;
+  }
+
+  .progress-indicator {
+    bottom: 1.5rem;
+  }
+
+  .progress-ring {
+    width: 60px;
+    height: 60px;
+  }
+
+  .progress-text {
+    font-size: 0.75rem;
+  }
+}
+
       `}</style>
 
-            <div className="countdown-container">
-                <div className="background-effects">
-                    <div className="green-orb-1"></div>
-                    <div className="green-orb-2"></div>
-                    <div className="grid-overlay"></div>
-                </div>
-                <div className="main-content">
-                    <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }} className="!items-center !justidy-center !flex">
-                        <Image
-                            src="/Images/logo.png"
-                            mx={'auto'}
-                            alt="Company Logo"
-                            objectFit="contain"
-                            w={'200px'}
-                            zIndex={1}
-                        />
-                    </motion.div>
-                    <h1 className="launch-title">
-                        Launching Soon
-                    </h1>
+      <div className="countdown-container">
+        <div className="background-effects">
+          <div className="green-orb-1"></div>
+          <div className="green-orb-2"></div>
+          <div className="grid-overlay"></div>
+        </div>
+        <div className="main-content">
+          <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }} className="!items-center !justidy-center !flex">
+            <Image
+              src="/Images/logo.png"
+              mx={'auto'}
+              alt="Company Logo"
+              objectFit="contain"
+              w={'200px'}
+              zIndex={1}
+            />
+          </motion.div>
+          <h1 className="launch-title">
+            Launching Soon
+          </h1>
 
-                    <p className="launch-subtitle">
-                        Something extraordinary is on the horizon
-                    </p>
+          <p className="launch-subtitle">
+            Something extraordinary is on the horizon
+          </p>
 
-                    <div className="countdown-wrapper text-white">
-                        <div
-                            className="countdown-box"
-                            style={{ animationDelay: `${0 * 0.15}s` }}
-                        >
-                            <div className="countdown-inner">
-                                <div className="countdown-value">
-                                    <span className="digit-display">{timeLeft.days.toString().padStart(2, "0")}</span>
-                                </div>
-                                <div className="countdown-separator"></div>
-                                <div className="countdown-label">{'Days'}</div>
-                            </div>
-                            <div className="countdown-border"></div>
-                        </div>
-                        <div
-                            className="countdown-box"
-                            style={{ animationDelay: `${1 * 0.15}s` }}
-                        >
-                            <div className="countdown-inner">
-                                <div className="countdown-value">
-                                    <span className="digit-display">{timeLeft.hours.toString().padStart(2, "0")}</span>
-                                </div>
-                                <div className="countdown-separator"></div>
-                                <div className="countdown-label">{'Hours'}</div>
-                            </div>
-                            <div className="countdown-border"></div>
-                        </div>
-                        <div
-                            className="countdown-box"
-                            style={{ animationDelay: `${2 * 0.15}s` }}
-                        >
-                            <div className="countdown-inner">
-                                <div className="countdown-value">
-                                    <span className="digit-display">{timeLeft.minutes.toString().padStart(2, "0")}</span>
-                                </div>
-                                <div className="countdown-separator"></div>
-                                <div className="countdown-label">{'Minutes'}</div>
-                            </div>
-                            <div className="countdown-border"></div>
-                        </div>
-                        <div
-                            className="countdown-box"
-                            style={{ animationDelay: `${3 * 0.15}s` }}
-                        >
-                            <div className="countdown-inner">
-                                <div className="countdown-value">
-                                    <span className="digit-display">{timeLeft.seconds.toString().padStart(2, "0")}</span>
-                                </div>
-                                <div className="countdown-separator"></div>
-                                <div className="countdown-label">{'Seconds'}</div>
-                            </div>
-                            <div className="countdown-border"></div>
-                        </div>
-                    </div>
+          <div className="countdown-wrapper text-white">
+            <div
+              className="countdown-box"
+              style={{ animationDelay: `${0 * 0.15}s` }}
+            >
+              <div className="countdown-inner">
+                <div className="countdown-value">
+                  <span className="digit-display">{timeLeft.days.toString().padStart(2, "0")}</span>
                 </div>
-
-                <div className="progress-indicator">
-                    <div className="progress-ring"></div>
-                    <div className="progress-text">Loading</div>
-                </div>
+                <div className="countdown-separator"></div>
+                <div className="countdown-label">{'Days'}</div>
+              </div>
+              <div className="countdown-border"></div>
             </div>
-        </>
-    );
+            <div
+              className="countdown-box"
+              style={{ animationDelay: `${1 * 0.15}s` }}
+            >
+              <div className="countdown-inner">
+                <div className="countdown-value">
+                  <span className="digit-display">{timeLeft.hours.toString().padStart(2, "0")}</span>
+                </div>
+                <div className="countdown-separator"></div>
+                <div className="countdown-label">{'Hours'}</div>
+              </div>
+              <div className="countdown-border"></div>
+            </div>
+            <div
+              className="countdown-box"
+              style={{ animationDelay: `${2 * 0.15}s` }}
+            >
+              <div className="countdown-inner">
+                <div className="countdown-value">
+                  <span className="digit-display">{timeLeft.minutes.toString().padStart(2, "0")}</span>
+                </div>
+                <div className="countdown-separator"></div>
+                <div className="countdown-label">{'Minutes'}</div>
+              </div>
+              <div className="countdown-border"></div>
+            </div>
+            <div
+              className="countdown-box"
+              style={{ animationDelay: `${3 * 0.15}s` }}
+            >
+              <div className="countdown-inner">
+                <div className="countdown-value">
+                  <span className="digit-display">{timeLeft.seconds.toString().padStart(2, "0")}</span>
+                </div>
+                <div className="countdown-separator"></div>
+                <div className="countdown-label">{'Seconds'}</div>
+              </div>
+              <div className="countdown-border"></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="progress-indicator">
+          <div className="progress-ring"></div>
+          <div className="progress-text">Loading</div>
+        </div>
+      </div>
+    </>
+  );
 }
