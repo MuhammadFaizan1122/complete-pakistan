@@ -6,5 +6,4 @@ const page = () => {
     <VerifyOtpPage />
   )
 }
-
 export default page
