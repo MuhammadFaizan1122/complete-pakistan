@@ -13,17 +13,17 @@ const Layout = ({ children }) => {
         <>
             <Providers>
                 <ToastContainer />
-                {
+                {children}
+                {/* {
                     pathname.includes('/auth') ? <></>
                         : <Header />
                 }
-                {children}
                 {
                     pathname.includes('/auth') ? <></>
                         :
                         <Footer />
                 }
-                <BackToTopButton />
+                <BackToTopButton /> */}
             </Providers>
         </>
     )
