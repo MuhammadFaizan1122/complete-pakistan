@@ -1,0 +1,16 @@
+{
+    "projects": {
+        "domains": [
+            {
+                "domain": "completepakistan.com",
+                "production": true,
+                "gitBranch": "countdown"
+            },
+            {
+                "domain": "staging.completepakistan.com",
+                "production": true,
+                "gitBranch": "main"
+            }
+        ]
+    }
+}
