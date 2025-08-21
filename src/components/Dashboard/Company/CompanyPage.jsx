@@ -38,6 +38,11 @@ export default function CompanyPage() {
         permission_number: '',
         idNumber: '',
         visaNumber: '',
+        website: '',
+        duration: '',
+        embassy: '',
+        industry: '',
+        workers_count: '',
         visaAuthorizedTrade: [{
             salary: '',
             currency: 'USD',
@@ -74,6 +79,10 @@ export default function CompanyPage() {
         if (!form.country) newErrors.country = 'Country is required';
         if (!form.permission_number) newErrors.permission_number = 'Permission Number is required';
         if (!form.idNumber) newErrors.idNumber = 'ID Number is required';
+        if (!form.duration) newErrors.duration = 'Duration is required';
+        if (!form.embassy) newErrors.embassy = 'Embassy is required';
+        if (!form.industry) newErrors.industry = 'Industry is required';
+        if (!form.workers_count) newErrors.workers_count = 'Workers count is required';
 
         form.visaAuthorizedTrade.forEach((trade, index) => {
             if (!trade.salary) newErrors[`visaAuthorizedTrade_${index}_salary`] = 'Salary is required';
@@ -334,6 +343,11 @@ export default function CompanyPage() {
             country: '',
             permission_number: '',
             idNumber: '',
+            website: '',
+            duration: '',
+            embassy: '',
+            industry: '',
+            workers_count: '',
             visaAuthorizedTrade: [{
                 salary: '',
                 currency: 'USD',

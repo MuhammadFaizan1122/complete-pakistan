@@ -130,7 +130,7 @@ export function CompanyForm({ form, setForm, errors, handleChange, handleBenefit
                         if (file) {
                             const reader = new FileReader();
                             reader.onloadend = () => {
-                                setPreviewLogo(reader.result); 
+                                setPreviewLogo(reader.result);
                             };
                             reader.readAsDataURL(file);
                             setForm(prev => ({ ...prev, logo: file }));
@@ -156,8 +156,14 @@ export function CompanyForm({ form, setForm, errors, handleChange, handleBenefit
             {[
                 { name: 'permission_number', label: 'Permission Number', error: errors.permission_number, type: 'number' },
                 { name: 'name', label: 'Company Name', error: errors.name },
+                { name: 'hr_email', label: 'Hr Email', error: errors.hr_email },
                 { name: 'visaNumber', label: 'Visa Number', error: errors.visaNumber },
                 { name: 'idNumber', label: 'ID Number', error: errors.idNumber },
+                { name: 'website', label: 'Website', error: errors.website },
+                { name: 'duration', label: 'Duration', error: errors.duration },
+                { name: 'embassy', label: 'Embassy', error: errors.embassy },
+                { name: 'industry', label: 'Industry', error: errors.industry },
+                { name: 'workers_count', label: 'Workers Count', error: errors.workers_count, type: 'number' },
             ].map(({ name, label, error, type = 'text' }) => (
                 <Box w="100%" key={name}>
                     <FormLabel fontWeight="medium" color="gray.700">{label}</FormLabel>

@@ -10,6 +10,7 @@ import { MdOutlineDateRange, MdVerified } from "react-icons/md";
 import Link from "next/link";
 import { AiFillDislike, AiFillLike } from "react-icons/ai";
 import CompanyCatalogue from "./Catalogue";
+import { handleGetAllGulfCompanies } from "../../../handlers/companies/companies";
 const ITEMS_PER_PAGE = 9;
 
 export default function GulfCompanies() {
@@ -18,24 +19,24 @@ export default function GulfCompanies() {
     const [page, setPage] = useState(1);
     const [sliderImages, setSliderImages] = useState([]);
     const [news, setNews] = useState([]);
-    const [OepListing, setOepListing] = useState([])
+    const [CompaniesList, setCompaniesList] = useState([])
     const [error, setError] = useState('');
 
-    const totalPages = Math.ceil(OepListing.length / ITEMS_PER_PAGE);
-    const paginatedData = OepListing.slice(
+    const totalPages = Math.ceil(CompaniesList.length / ITEMS_PER_PAGE);
+    const paginatedData = CompaniesList.slice(
         (page - 1) * ITEMS_PER_PAGE,
         page * ITEMS_PER_PAGE
     );
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            const Resp = await handleGetOEPs();
-            const response = await fetch(`/api/slider?page=OEP`);
+            const Resp = await handleGetAllGulfCompanies();
+            const response = await fetch(`/api/slider?page=gulfCompanies`);
             const sliderData = await response.json();
             setSliderImages(sliderData?.data?.sliderImgs || []);
             setNews(sliderData?.data?.news || []);
             if (Resp.status === 200) {
-                setOepListing(Resp.data.data);
+                setCompaniesList(Resp.data.data);
                 setError(null);
             } else {
                 setError("Failed to fetch medical records");
@@ -68,125 +69,134 @@ export default function GulfCompanies() {
                             <Text fontSize={isMobile ? "lg" : "xl"} fontWeight="bold" color={'#0a7450'}>Company Details</Text>
                             <Button variant="outline" size={isMobile ? "xs" : "sm"}>Filter</Button>
                         </Flex>
-                        <Box
-                            bg="white"
-                            shadow="md"
-                            rounded="2xl"
-                            p={isMobile ? 3 : 6}
-                            border="1px solid"
-                            borderColor="#0a7450"
-                            className="w-full mx-auto"
-                        >
-                            <Flex direction={isMobile ? "column" : "row"} justify="space-between" align="center">
-                                <Flex gap={isMobile ? 2 : 4} align="center" mb={isMobile ? 2 : 0}>
-                                    <Avatar size={isMobile ? "md" : "lg"} name="Al-Rajhi Construction" borderRadius="10px" />
-                                    <Box>
-                                        <Text fontSize={isMobile ? "md" : "xl"} fontWeight="bold">
-                                            Al-Rajhi Construction Co.
-                                        </Text>
-                                        <Text color="gray.600" fontSize={isMobile ? "sm" : "md"}>Riyadh, Saudi Arabia</Text>
-                                        <Badge mt={1} colorScheme="teal" fontSize={isMobile ? "xs" : "sm"}>
-                                            Infrastructure Development Project
-                                        </Badge>
-                                    </Box>
-                                </Flex>
-                                <Flex direction={isMobile ? "column" : "row"} align={isMobile ? "flex-start" : "flex-end"} mt={isMobile ? 2 : 0}>
-                                    <Badge colorScheme="green" rounded="md" fontSize={isMobile ? "xs" : "sm"}>
-                                        Ongoing
-                                    </Badge>
-                                    <Flex align="center" mt={isMobile ? 1 : 2} gap={1}>
-                                        <Icon as={BsFillPeopleFill} />
-                                        <Text fontSize={isMobile ? "xs" : "sm"}>45 Workers</Text>
-                                    </Flex>
-                                </Flex>
-                            </Flex>
-                            <Divider my={isMobile ? 2 : 4} />
-                            {/* Details */}
-                            <SimpleGrid columns={isMobile ? 1 : [1, 2]} spacing={isMobile ? 2 : 4} mb={isMobile ? 2 : 4}>
-                                <Flex gap={2} align="center">
-                                    <Icon as={FaMapMarkerAlt} color="blue.500" boxSize={isMobile ? 4 : 5} />
-                                    <Box>
-                                        <Text fontWeight="medium" fontSize={isMobile ? "sm" : "md"}>Location Details</Text>
-                                        <Text fontSize={isMobile ? "xs" : "sm"} color="gray.600">
-                                            King Fahd Road, Al-Olaya District, Riyadh, Saudi Arabia
-                                        </Text>
-                                    </Box>
-                                </Flex>
-                                <Flex gap={2} align="center">
-                                    <Icon as={FaUniversity} color="purple.500" boxSize={isMobile ? 4 : 5} />
-                                    <Box>
-                                        <Text fontWeight="medium" fontSize={isMobile ? "sm" : "md"}>Embassy</Text>
-                                        <Text fontSize={isMobile ? "xs" : "sm"} color="gray.600">
-                                            Saudi Embassy Islamabad
-                                        </Text>
-                                    </Box>
-                                </Flex>
-                                <Flex gap={2} align="center">
-                                    <Icon as={MdOutlineDateRange} color="orange.500" boxSize={isMobile ? 4 : 5} />
-                                    <Box>
-                                        <Text fontWeight="medium" fontSize={isMobile ? "sm" : "md"}>Duration</Text>
-                                        <Text fontSize={isMobile ? "xs" : "sm"} color="gray.600">
-                                            15/01/2024 - 30/12/2024
-                                        </Text>
-                                    </Box>
-                                </Flex>
-                                <Box>
-                                    <Text fontWeight="medium" fontSize={isMobile ? "sm" : "md"}>Visa Details</Text>
-                                    <Text fontSize={isMobile ? "xs" : "sm"} color="gray.600">
-                                        Number: SA-2024-VIS-001234 <br />
-                                        Saudi ID: 7001234567
-                                    </Text>
-                                </Box>
-                                <Flex gap={2} align="center">
-                                    <Icon as={FaEnvelope} color="red.500" boxSize={isMobile ? 4 : 5} />
-                                    <Link href="mailto:hr@alrajhi-construction.sa" color="blue.600" fontSize={isMobile ? "xs" : "sm"}>
-                                        hr@alrajhi-construction.sa
-                                    </Link>
-                                </Flex>
-                                <Flex gap={2} align="center">
-                                    <Icon as={FaGlobe} color="green.500" boxSize={isMobile ? 4 : 5} />
-                                    <Link href="https://www.alrajhi-construction.sa" isExternal color="blue.600" fontSize={isMobile ? "xs" : "sm"}>
-                                        www.alrajhi-construction.sa
-                                    </Link>
-                                </Flex>
-                            </SimpleGrid>
 
-                            <Divider my={isMobile ? 2 : 4} />
+                        {
+                            paginatedData.map((company, index) => {
+                                return (
+                                    <Box
+                                        key={index}
+                                        bg="white"
+                                        shadow="md"
+                                        rounded="2xl"
+                                        p={isMobile ? 3 : 6}
+                                        border="1px solid"
+                                        borderColor="#0a7450"
+                                        className="w-full mx-auto"
+                                        mb={4}
+                                    >
+                                        <Flex direction={isMobile ? "column" : "row"} justify="space-between" align="center">
+                                            <Flex gap={isMobile ? 2 : 4} align="center" mb={isMobile ? 2 : 0}>
+                                                <Avatar src={company.logo} size={isMobile ? "md" : "lg"} name={company.name} borderRadius="10px" />
+                                                <Box>
+                                                    <Text fontSize={isMobile ? "md" : "xl"} fontWeight="bold">
+                                                        {company.name}
+                                                    </Text>
+                                                    <Text color="gray.600" fontSize={isMobile ? "sm" : "md"}>{company.city}, {company.country}</Text>
+                                                    <Badge mt={1} colorScheme="teal" fontSize={isMobile ? "xs" : "sm"}>
+                                                        {company?.industry}
+                                                    </Badge>
+                                                </Box>
+                                            </Flex>
+                                            <Flex direction={isMobile ? "column" : "row"} align={isMobile ? "flex-start" : "flex-end"} mt={isMobile ? 2 : 0}>
+                                                <Badge colorScheme="green" rounded="md" fontSize={isMobile ? "xs" : "sm"}>
+                                                    Ongoing
+                                                </Badge>
+                                                <Flex align="center" mt={isMobile ? 1 : 2} gap={1}>
+                                                    <Icon as={BsFillPeopleFill} />
+                                                    <Text fontSize={isMobile ? "xs" : "sm"}>{company?.workers_count || 0} Workers</Text>
+                                                </Flex>
+                                            </Flex>
+                                        </Flex>
+                                        <Divider my={isMobile ? 2 : 4} />
+                                        {/* Details */}
+                                        <SimpleGrid columns={isMobile ? 1 : [1, 2]} spacing={isMobile ? 2 : 4} mb={isMobile ? 2 : 4}>
+                                            <Flex gap={2} align="center">
+                                                <Icon as={FaMapMarkerAlt} color="blue.500" boxSize={isMobile ? 4 : 5} />
+                                                <Box>
+                                                    <Text fontWeight="medium" fontSize={isMobile ? "sm" : "md"}>Location Details</Text>
+                                                    <Text fontSize={isMobile ? "xs" : "sm"} color="gray.600">
+                                                        {company.city}, {company.country}
+                                                    </Text>
+                                                </Box>
+                                            </Flex>
+                                            <Flex gap={2} align="center">
+                                                <Icon as={FaUniversity} color="purple.500" boxSize={isMobile ? 4 : 5} />
+                                                <Box>
+                                                    <Text fontWeight="medium" fontSize={isMobile ? "sm" : "md"}>Embassy</Text>
+                                                    <Text fontSize={isMobile ? "xs" : "sm"} color="gray.600">
+                                                        {company?.embassy || 'N/A'}
+                                                    </Text>
+                                                </Box>
+                                            </Flex>
+                                            <Flex gap={2} align="center">
+                                                <Icon as={MdOutlineDateRange} color="orange.500" boxSize={isMobile ? 4 : 5} />
+                                                <Box>
+                                                    <Text fontWeight="medium" fontSize={isMobile ? "sm" : "md"}>Duration</Text>
+                                                    <Text fontSize={isMobile ? "xs" : "sm"} color="gray.600">
+                                                        {company?.duration || 'N/A'}
+                                                    </Text>
+                                                </Box>
+                                            </Flex>
+                                            <Box>
+                                                <Text fontWeight="medium" fontSize={isMobile ? "sm" : "md"}>Visa Details</Text>
+                                                <Text fontSize={isMobile ? "xs" : "sm"} color="gray.600">
+                                                    Number: {company.visaNumber} <br />
+                                                    ID: {company.idNumber}
+                                                </Text>
+                                            </Box>
+                                            <Flex gap={2} align="center">
+                                                <Icon as={FaEnvelope} color="red.500" boxSize={isMobile ? 4 : 5} />
+                                                <Link href="mailto:hr@alrajhi-construction.sa" color="blue.600" fontSize={isMobile ? "xs" : "sm"}>
+                                                    {company?.hr_email || 'N/A'}
+                                                </Link>
+                                            </Flex>
+                                            <Flex gap={2} align="center">
+                                                <Icon as={FaGlobe} color="green.500" boxSize={isMobile ? 4 : 5} />
+                                                <Link href="https://www.alrajhi-construction.sa" isExternal color="blue.600" fontSize={isMobile ? "xs" : "sm"}>
+                                                    {company?.website || 'N/A'}
+                                                </Link>
+                                            </Flex>
+                                        </SimpleGrid>
 
-                            {/* Ratings */}
-                            <Text fontWeight="bold" mb={isMobile ? 2 : 3} fontSize={isMobile ? "md" : "lg"}>
-                                Public Reviews & Ratings
-                            </Text>
-                            <SimpleGrid columns={isMobile ? 1 : [1, 2]} spacing={isMobile ? 2 : 4} mb={isMobile ? 2 : 6}>
-                                <RatingItem label="Provides Salary On Time" percent={89} fontSize={isMobile ? "xs" : "sm"} />
-                                <RatingItem label="Working Safety Standards" percent={91} fontSize={isMobile ? "xs" : "sm"} />
-                                <RatingItem label="Provides Food On Time" percent={92} fontSize={isMobile ? "xs" : "sm"} />
-                                <RatingItem label="Good Treatment Quality" percent={88} fontSize={isMobile ? "xs" : "sm"} />
-                                <RatingItem label="Good Accommodation" percent={85} fontSize={isMobile ? "xs" : "sm"} />
-                            </SimpleGrid>
+                                        <Divider my={isMobile ? 2 : 4} />
 
-                            {/* Footer Actions */}
-                            <Flex direction={isMobile ? "column" : "row"} justify="space-between" align="center" gap={isMobile ? 2 : 0}>
-                                <Flex gap={isMobile ? 2 : 4}>
-                                    <Flex align="center" gap={1}>
-                                        <Icon as={AiFillLike} color="blue.500" boxSize={isMobile ? 4 : 5} />
-                                        <Text fontSize={isMobile ? "xs" : "sm"}>234</Text>
-                                    </Flex>
-                                    <Flex align="center" gap={1}>
-                                        <Icon as={AiFillDislike} color="red.500" boxSize={isMobile ? 4 : 5} />
-                                        <Text fontSize={isMobile ? "xs" : "sm"}>12</Text>
-                                    </Flex>
-                                </Flex>
-                                <Flex gap={isMobile ? 2 : 2}>
-                                    <Button variant="outline" size={isMobile ? "xs" : "sm"}>
-                                        Share
-                                    </Button>
-                                    <Button bg="#0a7450" color='#fff' size={isMobile ? "xs" : "sm"} leftIcon={<MdVerified boxSize={isMobile ? 4 : 5} />}>
-                                        Recommend
-                                    </Button>
-                                </Flex>
-                            </Flex>
-                        </Box>
+                                        {/* Ratings */}
+                                        <Text fontWeight="bold" mb={isMobile ? 2 : 3} fontSize={isMobile ? "md" : "lg"}>
+                                            Public Reviews & Ratings
+                                        </Text>
+                                        <SimpleGrid columns={isMobile ? 1 : [1, 2]} spacing={isMobile ? 2 : 4} mb={isMobile ? 2 : 6}>
+                                            <RatingItem label="Provides Salary On Time" percent={89} fontSize={isMobile ? "xs" : "sm"} />
+                                            <RatingItem label="Working Safety Standards" percent={91} fontSize={isMobile ? "xs" : "sm"} />
+                                            <RatingItem label="Provides Food On Time" percent={92} fontSize={isMobile ? "xs" : "sm"} />
+                                            <RatingItem label="Good Treatment Quality" percent={88} fontSize={isMobile ? "xs" : "sm"} />
+                                            <RatingItem label="Good Accommodation" percent={85} fontSize={isMobile ? "xs" : "sm"} />
+                                        </SimpleGrid>
+
+                                        {/* Footer Actions */}
+                                        <Flex direction={isMobile ? "column" : "row"} justify="space-between" align="center" gap={isMobile ? 2 : 0}>
+                                            <Flex gap={isMobile ? 2 : 4}>
+                                                <Flex align="center" gap={1}>
+                                                    <Icon as={AiFillLike} color="blue.500" boxSize={isMobile ? 4 : 5} />
+                                                    <Text fontSize={isMobile ? "xs" : "sm"}>234</Text>
+                                                </Flex>
+                                                <Flex align="center" gap={1}>
+                                                    <Icon as={AiFillDislike} color="red.500" boxSize={isMobile ? 4 : 5} />
+                                                    <Text fontSize={isMobile ? "xs" : "sm"}>12</Text>
+                                                </Flex>
+                                            </Flex>
+                                            <Flex gap={isMobile ? 2 : 2}>
+                                                <Button variant="outline" size={isMobile ? "xs" : "sm"}>
+                                                    Share
+                                                </Button>
+                                                <Button bg="#0a7450" color='#fff' size={isMobile ? "xs" : "sm"} leftIcon={<MdVerified boxSize={isMobile ? 4 : 5} />}>
+                                                    Recommend
+                                                </Button>
+                                            </Flex>
+                                        </Flex>
+                                    </Box>
+                                )
+                            })
+                        }
                     </Box>
                     <Box flex={isMobile ? "1" : "1"} bg="white" px={0} borderRadius="md" boxShadow="sm">
                         <Text fontSize={isMobile ? "lg" : "xl"} fontWeight="bold" color={'#0a7450'} mb={isMobile ? 2 : 4}>Quick Stats</Text>
