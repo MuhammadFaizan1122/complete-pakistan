@@ -21,7 +21,6 @@ const VictomOfFraud = () => {
       </Box>
 
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6} maxW="1440px" mx="auto">
-        {/* Fraud Report Form */}
         <Card variant="outline" p={{ base: 0, md: 6 }} bg="white" borderColor="orange.100" boxShadow="0 4px 12px rgba(255, 165, 0, 0.4)">
           <CardBody>
             <Text fontWeight="bold" fontSize={'lg'} mb={4}>Report Fraud Now</Text>
