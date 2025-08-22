@@ -1,8 +1,13 @@
 import React from 'react'
+import Hero from '../../../components/Recruitment/Consultant/Hero'
+import Info from '../../../components/Recruitment/Consultant/Info'
 
 const page = () => {
   return (
-    <div>Under Development</div>
+    <div>
+      <Hero />
+      <Info />
+    </div>
   )
 }
 
