@@ -82,7 +82,7 @@ export default function Header() {
     ];
     const othersLinks = [
         { href: '#', label: 'Ticketing' },
-        { href: '#', label: 'Fraud Alert' },
+        { href: '/fraud-alert', label: 'Fraud Alert' },
         { href: '#', label: 'Travel & Tour' },
         // { href: '#', label: 'Help Center' },
     ];
