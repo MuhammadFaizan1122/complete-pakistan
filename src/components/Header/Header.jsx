@@ -56,7 +56,7 @@ export default function Header() {
         { href: '#', label: 'Jobs Visa' },
         // { href: '#', label: 'Protector' },
         { href: '#', label: 'GAMCA' },
-        { href: '/iqama', label: 'Iqama' },
+        { href: '/naqal-kafala', label: 'Naqal Kafala' },
         { href: '#', label: 'More' },
     ];
 

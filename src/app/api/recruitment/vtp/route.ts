@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
                 return NextResponse.json({ error: 'Provider not found' }, { status: 404 });
             }
             // @ts-ignore
-            const companyAccount = await CompanyAccount.findOne({ agencyEmail: filteredProviders[0].email }).select('-password').lean();
+            const companyAccount = await CompanyAccount.findOne({ agencyEmail: filteredProviders[0]?.email }).select('-password').lean();
 
             if (!companyAccount) {
                 return NextResponse.json({ error: 'Company account not found' }, { status: 404 });
