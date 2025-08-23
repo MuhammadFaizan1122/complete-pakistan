@@ -110,7 +110,7 @@ const SearchSection = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const response = await fetch(`/api/slider?page=GAMCAApprovedMedicals`);
+      const response = await fetch(`/api/slider?page=NaqalKafala`);
       const sliderData = await response.json();
       setSliderImages(sliderData?.data?.sliderImgs || []);
       setNews(sliderData?.data?.news || []);

@@ -51,7 +51,7 @@ export default function Header() {
     const navLinks = [
         { href: '/', label: 'Home' },
         { href: '/create-cv', label: 'Make CV' },
-        { href: '#', label: 'Hajj & Umrah' },
+        { href: '/hajj-and-umrah', label: 'Hajj & Umrah' },
         { href: '#', label: 'Recruitment' },
         { href: '#', label: 'Jobs Visa' },
         // { href: '#', label: 'Protector' },
