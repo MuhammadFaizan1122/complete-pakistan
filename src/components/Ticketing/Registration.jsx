@@ -8,18 +8,20 @@ import {
   Button,
   VStack,
   HStack,
-  Input,
-  Select,
   Textarea,
   FormControl,
   FormLabel,
   Icon,
-  Divider,
   Badge,
   Flex,
   IconButton,
-  useToast
+  useToast,
+  Spinner,
+  Select,
+  Input
 } from "@chakra-ui/react";
+import StyledInput from '../CV/StyledInput';
+import StyledSelect from '../CV/CvDirectory/StyledSelect';
 import {
   FaStar,
   FaBuilding,
@@ -39,11 +41,10 @@ import {
   FaLinkedin,
   FaYoutube
 } from "react-icons/fa";
-import StyledInput from '../CV/StyledInput';
-import StyledSelect from '../CV/CvDirectory/StyledSelect';
 
-export default function AgentRegistration() {
+export default function TravelAgentRegistration() {
   const toast = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     businessType: '',
     businessName: '',
@@ -134,14 +135,169 @@ export default function AgentRegistration() {
     setAirlines(airlines.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = () => {
-    toast({
-      title: "Application Submitted",
-      description: "Your premium travel registration has been submitted for review.",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+
+    try {
+      // Validate required fields
+      const requiredFields = [
+        { field: 'businessType', label: 'Business Type' },
+        { field: 'businessName', label: 'Business Name' },
+        { field: 'proprietorName', label: 'Proprietor Name' },
+        { field: 'businessClassification', label: 'Business Classification' },
+        { field: 'yearEstablished', label: 'Year of Establishment' },
+        { field: 'iataAccreditation', label: 'IATA Accreditation' },
+        { field: 'serviceSpecialization', label: 'Service Specialization' },
+        { field: 'dealTypes', label: 'Service Deals' },
+        { field: 'primaryMobile', label: 'Primary Mobile' },
+        { field: 'whatsappBusiness', label: 'WhatsApp Business' },
+        { field: 'officeDirectLine', label: 'Office Direct Line' },
+        { field: 'businessEmail', label: 'Business Email' },
+        { field: 'officeAddress', label: 'Office Address' },
+        { field: 'officeTimings', label: 'Office Timings' },
+        { field: 'workingDays', label: 'Working Days' }
+      ];
+
+      const missingFields = requiredFields.filter(({ field }) => !formData[field]);
+
+      if (missingFields.length > 0) {
+        toast({
+          title: "Missing Required Fields",
+          description: `Please fill in: ${missingFields.map(f => f.label).join(', ')}`,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Filter out empty services and airlines
+      const filteredServices = services.filter(service => service.trim() !== '');
+      const filteredAirlines = airlines.filter(airline => airline.trim() !== '');
+
+      if (filteredServices.length === 0) {
+        toast({
+          title: "Services Required",
+          description: "Please add at least one service",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (filteredAirlines.length === 0) {
+        toast({
+          title: "Airlines Required",
+          description: "Please add at least one partner airline",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Prepare submission data
+      const submissionData = {
+        ...formData,
+        services: filteredServices,
+        airlines: filteredAirlines,
+        branches: branches.filter(branch => branch.name && branch.address && branch.phone),
+        staff: staff.filter(member => member.name && member.designation && member.contact),
+        socialLinks
+      };
+
+      // Submit to API
+      const response = await fetch('/api/ticketing-agent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast({
+          title: "Registration Successful!",
+          description: "Your premium travel registration has been submitted for review. You will be notified once it's processed.",
+          status: "success",
+          duration: 7000,
+          isClosable: true,
+        });
+
+        // Reset form
+        setFormData({
+          businessType: '',
+          businessName: '',
+          proprietorName: '',
+          businessClassification: '',
+          yearEstablished: '',
+          iataAccreditation: '',
+          serviceSpecialization: '',
+          dealTypes: '',
+          primaryMobile: '',
+          whatsappBusiness: '',
+          officeDirectLine: '',
+          businessEmail: '',
+          websiteUrl: '',
+          officeAddress: '',
+          officeTimings: '',
+          workingDays: '',
+          googleMapLink: '',
+          corporateLogo: null,
+          businessLicense: null
+        });
+        setServices(['']);
+        setAirlines(['']);
+        setBranches([{ name: '', address: '', phone: '', whatsapp: '' }]);
+        setStaff([{ name: '', designation: '', contact: '', whatsapp: '', ptcl: '' }]);
+        setSocialLinks({
+          facebook: '',
+          twitter: '',
+          instagram: '',
+          linkedin: '',
+          youtube: ''
+        });
+
+      } else {
+        // Handle API errors
+        if (result.validationErrors) {
+          const errorMessages = result.validationErrors.map(err => err.message).join(', ');
+          toast({
+            title: "Validation Error",
+            description: errorMessages,
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: "Submission Failed",
+            description: result.error || "Something went wrong. Please try again.",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
+        }
+      }
+
+    } catch (error) {
+      console.error('Submission error:', error);
+      toast({
+        title: "Network Error",
+        description: "Unable to submit registration. Please check your connection and try again.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -183,50 +339,50 @@ export default function AgentRegistration() {
                 <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
                   <FormControl>
                     <FormLabel fontSize="sm">Business Classification</FormLabel>
-                    <StyledSelect placeholder="Select classification" value={formData.businessClassification} onChange={(e) => setFormData({ ...formData, businessClassification: e.target.value })}>
+                    <Select placeholder="Select classification" value={formData.businessClassification} onChange={(e) => setFormData({ ...formData, businessClassification: e.target.value })}>
                       <option value="corporate">Corporate Entity</option>
                       <option value="individual">Individual Practitioner</option>
-                    </StyledSelect>
+                    </Select>
                   </FormControl>
 
                   <FormControl>
                     <FormLabel fontSize="sm">Company / Individual</FormLabel>
-                    <StyledSelect placeholder="Select type" value={formData.businessType} onChange={(e) => setFormData({ ...formData, businessType: e.target.value })}>
+                    <Select placeholder="Select type" value={formData.businessType} onChange={(e) => setFormData({ ...formData, businessType: e.target.value })}>
                       <option value="company">Company</option>
                       <option value="individual">Individual</option>
-                    </StyledSelect>
+                    </Select>
                   </FormControl>
 
                   <FormControl>
                     <FormLabel fontSize="sm">Business Name</FormLabel>
-                    <StyledInput placeholder="Business name" value={formData.businessName} onChange={(e) => setFormData({ ...formData, businessName: e.target.value })} />
+                    <Input placeholder="Business name" value={formData.businessName} onChange={(e) => setFormData({ ...formData, businessName: e.target.value })} />
                   </FormControl>
                   <FormControl>
                     <FormLabel fontSize="sm">Proprietor Name</FormLabel>
-                    <StyledInput placeholder="Full legal name" value={formData.proprietorName} onChange={(e) => setFormData({ ...formData, proprietorName: e.target.value })} />
+                    <Input placeholder="Full legal name" value={formData.proprietorName} onChange={(e) => setFormData({ ...formData, proprietorName: e.target.value })} />
                   </FormControl>
 
                   <FormControl>
                     <FormLabel fontSize="sm">Year of Establishment</FormLabel>
-                    <StyledInput placeholder="YYYY" value={formData.yearEstablished} onChange={(e) => setFormData({ ...formData, yearEstablished: e.target.value })} />
+                    <Input placeholder="YYYY" value={formData.yearEstablished} onChange={(e) => setFormData({ ...formData, yearEstablished: e.target.value })} />
                   </FormControl>
 
                   <FormControl>
                     <FormLabel fontSize="sm">IATA Accreditation</FormLabel>
-                    <StyledSelect placeholder="Accreditation status" value={formData.iataAccreditation} onChange={(e) => setFormData({ ...formData, iataAccreditation: e.target.value })}>
+                    <Select placeholder="Accreditation status" value={formData.iataAccreditation} onChange={(e) => setFormData({ ...formData, iataAccreditation: e.target.value })}>
                       <option value="full">Full IATA Member</option>
                       <option value="associate">Associate Member</option>
                       <option value="non-iata">Non-IATA</option>
-                    </StyledSelect>
+                    </Select>
                   </FormControl>
 
                   <FormControl>
                     <FormLabel fontSize="sm">Service Deals</FormLabel>
-                    <StyledSelect placeholder="Select service type" value={formData.dealTypes} onChange={(e) => setFormData({ ...formData, dealTypes: e.target.value })}>
+                    <Select placeholder="Select service type" value={formData.dealTypes} onChange={(e) => setFormData({ ...formData, dealTypes: e.target.value })}>
                       <option value="both">International & Domestic</option>
                       <option value="international">International Only</option>
                       <option value="domestic">Domestic Only</option>
-                    </StyledSelect>
+                    </Select>
                   </FormControl>
                 </Grid>
               </Box>
@@ -240,19 +396,19 @@ export default function AgentRegistration() {
 
                 <FormControl mb={4}>
                   <FormLabel fontSize="sm">Service Specialization</FormLabel>
-                  <StyledSelect placeholder="Specialization" value={formData.serviceSpecialization} onChange={(e) => setFormData({ ...formData, serviceSpecialization: e.target.value })}>
+                  <Select placeholder="Specialization" value={formData.serviceSpecialization} onChange={(e) => setFormData({ ...formData, serviceSpecialization: e.target.value })}>
                     <option value="full-service">Full Service - International & Domestic</option>
                     <option value="domestic">Domestic Travel</option>
                     <option value="corporate">Corporate Travel Management</option>
                     <option value="leisure">Leisure Travel Expert</option>
-                  </StyledSelect>
+                  </Select>
                 </FormControl>
 
                 <FormLabel fontSize="sm" mb={2}>Services Offered (Maximum 6)</FormLabel>
                 <VStack spacing={2} align="stretch" mb={4}>
                   {services.map((service, index) => (
                     <HStack key={index}>
-                      <StyledInput
+                      <Input
                         placeholder={`Service ${index + 1}`}
                         value={service}
                         onChange={(e) => {
@@ -283,7 +439,7 @@ export default function AgentRegistration() {
                 <VStack spacing={2} align="stretch">
                   {airlines.map((airline, index) => (
                     <HStack key={index}>
-                      <StyledInput
+                      <Input
                         placeholder={`Airline ${index + 1}`}
                         value={airline}
                         onChange={(e) => {
@@ -339,7 +495,7 @@ export default function AgentRegistration() {
                         />
                       </HStack>
                       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={3}>
-                        <StyledInput
+                        <Input
                           placeholder="Branch Name"
                           value={branch.name}
                           onChange={(e) => {
@@ -348,7 +504,7 @@ export default function AgentRegistration() {
                             setBranches(newBranches);
                           }}
                         />
-                        <StyledInput
+                        <Input
                           placeholder="Phone Number"
                           value={branch.phone}
                           onChange={(e) => {
@@ -357,7 +513,7 @@ export default function AgentRegistration() {
                             setBranches(newBranches);
                           }}
                         />
-                        <StyledInput
+                        <Input
                           placeholder="WhatsApp Number"
                           value={branch.whatsapp}
                           onChange={(e) => {
@@ -371,9 +527,6 @@ export default function AgentRegistration() {
                         mt={3}
                         placeholder="Branch Address"
                         value={branch.address}
-                        rounded={'15px'}
-                        border={'2px solid'}
-                        borderColor="gray.300"
                         onChange={(e) => {
                           const newBranches = [...branches];
                           newBranches[index].address = e.target.value;
@@ -413,7 +566,7 @@ export default function AgentRegistration() {
                         />
                       </HStack>
                       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={3}>
-                        <StyledInput
+                        <Input
                           placeholder="Name"
                           value={member.name}
                           onChange={(e) => {
@@ -422,7 +575,7 @@ export default function AgentRegistration() {
                             setStaff(newStaff);
                           }}
                         />
-                        <StyledInput
+                        <Input
                           placeholder="Designation"
                           value={member.designation}
                           onChange={(e) => {
@@ -431,7 +584,7 @@ export default function AgentRegistration() {
                             setStaff(newStaff);
                           }}
                         />
-                        <StyledInput
+                        <Input
                           placeholder="Contact Number"
                           value={member.contact}
                           onChange={(e) => {
@@ -440,7 +593,7 @@ export default function AgentRegistration() {
                             setStaff(newStaff);
                           }}
                         />
-                        <StyledInput
+                        <Input
                           placeholder="WhatsApp Number"
                           value={member.whatsapp}
                           onChange={(e) => {
@@ -449,7 +602,7 @@ export default function AgentRegistration() {
                             setStaff(newStaff);
                           }}
                         />
-                        <StyledInput
+                        <Input
                           placeholder="PTCL Number"
                           value={member.ptcl}
                           onChange={(e) => {
@@ -471,9 +624,6 @@ export default function AgentRegistration() {
                   <Textarea
                     placeholder="Complete corporate address including building, street, area, city, and postal code"
                     rows={4}
-                    rounded={'15px'}
-                        border={'2px solid'}
-                        borderColor="gray.300"
                     value={formData.officeAddress}
                     onChange={(e) => setFormData({ ...formData, officeAddress: e.target.value })}
                   />
@@ -482,7 +632,7 @@ export default function AgentRegistration() {
                 <HStack mt={4} spacing={4}>
                   <FormControl>
                     <FormLabel fontSize="sm">Office Timings</FormLabel>
-                    <StyledInput
+                    <Input
                       placeholder="e.g., 9:00 AM - 8:00 PM"
                       value={formData.officeTimings}
                       onChange={(e) => setFormData({ ...formData, officeTimings: e.target.value })}
@@ -490,7 +640,7 @@ export default function AgentRegistration() {
                   </FormControl>
                   <FormControl>
                     <FormLabel fontSize="sm">Working Days</FormLabel>
-                    <StyledInput
+                    <Input
                       placeholder="e.g., Monday - Saturday"
                       value={formData.workingDays}
                       onChange={(e) => setFormData({ ...formData, workingDays: e.target.value })}
@@ -500,7 +650,7 @@ export default function AgentRegistration() {
 
                 <FormControl mt={4}>
                   <FormLabel fontSize="sm">Google Map Link</FormLabel>
-                  <StyledInput
+                  <Input
                     placeholder="https://maps.google.com/..."
                     value={formData.googleMapLink}
                     onChange={(e) => setFormData({ ...formData, googleMapLink: e.target.value })}
@@ -523,7 +673,7 @@ export default function AgentRegistration() {
                 <VStack spacing={4} align="stretch">
                   <FormControl>
                     <FormLabel fontSize="sm">Primary Mobile</FormLabel>
-                    <StyledInput
+                    <Input
                       placeholder="+92 300 1234567"
                       value={formData.primaryMobile}
                       onChange={(e) => setFormData({ ...formData, primaryMobile: e.target.value })}
@@ -532,7 +682,7 @@ export default function AgentRegistration() {
 
                   <FormControl>
                     <FormLabel fontSize="sm">WhatsApp Business</FormLabel>
-                    <StyledInput
+                    <Input
                       placeholder="+92 300 1234567"
                       value={formData.whatsappBusiness}
                       onChange={(e) => setFormData({ ...formData, whatsappBusiness: e.target.value })}
@@ -541,7 +691,7 @@ export default function AgentRegistration() {
 
                   <FormControl>
                     <FormLabel fontSize="sm">Office Direct Line</FormLabel>
-                    <StyledInput
+                    <Input
                       placeholder="+92 21 1234567"
                       value={formData.officeDirectLine}
                       onChange={(e) => setFormData({ ...formData, officeDirectLine: e.target.value })}
@@ -550,7 +700,7 @@ export default function AgentRegistration() {
 
                   <FormControl>
                     <FormLabel fontSize="sm">Business Email</FormLabel>
-                    <StyledInput
+                    <Input
                       type="email"
                       placeholder="info@premiumtravel.com"
                       value={formData.businessEmail}
@@ -560,7 +710,7 @@ export default function AgentRegistration() {
 
                   <FormControl>
                     <FormLabel fontSize="sm">Website URL</FormLabel>
-                    <StyledInput
+                    <Input
                       placeholder="https://www.yourwebsite.com"
                       value={formData.websiteUrl}
                       onChange={(e) => setFormData({ ...formData, websiteUrl: e.target.value })}
@@ -575,7 +725,7 @@ export default function AgentRegistration() {
                 <VStack spacing={3} align="stretch">
                   <HStack>
                     <Icon as={FaFacebook} color="blue.600" />
-                    <StyledInput
+                    <Input
                       placeholder="Facebook URL"
                       value={socialLinks.facebook}
                       onChange={(e) => setSocialLinks({ ...socialLinks, facebook: e.target.value })}
@@ -583,7 +733,7 @@ export default function AgentRegistration() {
                   </HStack>
                   <HStack>
                     <Icon as={FaTwitter} color="blue.400" />
-                    <StyledInput
+                    <Input
                       placeholder="Twitter URL"
                       value={socialLinks.twitter}
                       onChange={(e) => setSocialLinks({ ...socialLinks, twitter: e.target.value })}
@@ -591,7 +741,7 @@ export default function AgentRegistration() {
                   </HStack>
                   <HStack>
                     <Icon as={FaInstagram} color="pink.600" />
-                    <StyledInput
+                    <Input
                       placeholder="Instagram URL"
                       value={socialLinks.instagram}
                       onChange={(e) => setSocialLinks({ ...socialLinks, instagram: e.target.value })}
@@ -599,7 +749,7 @@ export default function AgentRegistration() {
                   </HStack>
                   <HStack>
                     <Icon as={FaLinkedin} color="blue.700" />
-                    <StyledInput
+                    <Input
                       placeholder="LinkedIn URL"
                       value={socialLinks.linkedin}
                       onChange={(e) => setSocialLinks({ ...socialLinks, linkedin: e.target.value })}
@@ -607,7 +757,7 @@ export default function AgentRegistration() {
                   </HStack>
                   <HStack>
                     <Icon as={FaYoutube} color="red.600" />
-                    <StyledInput
+                    <Input
                       placeholder="YouTube URL"
                       value={socialLinks.youtube}
                       onChange={(e) => setSocialLinks({ ...socialLinks, youtube: e.target.value })}
@@ -621,9 +771,7 @@ export default function AgentRegistration() {
                 <VStack spacing={4} align="stretch">
                   <FormControl>
                     <FormLabel fontSize="sm">Corporate Logo</FormLabel>
-                    <StyledInput  p={2}
-                                h={50}
-                                py={3} type="file" accept="image/*" p={1} />
+                    <Input type="file" accept="image/*" p={1} />
                     <Text fontSize="xs" color="gray.500" mt={1}>
                       Upload company logo or individual picture
                     </Text>
@@ -631,9 +779,7 @@ export default function AgentRegistration() {
 
                   <FormControl>
                     <FormLabel fontSize="sm">Business License</FormLabel>
-                    <StyledInput  p={2}
-                                h={50}
-                                py={3} type="file" accept=".pdf,.jpg,.png" p={1} />
+                    <Input type="file" accept=".pdf,.jpg,.png" p={1} />
                     <Text fontSize="xs" color="gray.500" mt={1}>
                       Upload business license or registration documents
                     </Text>
