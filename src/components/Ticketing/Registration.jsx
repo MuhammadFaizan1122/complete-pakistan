@@ -39,11 +39,14 @@ import {
   FaLinkedin,
   FaYoutube
 } from "react-icons/fa";
+import StyledInput from '../CV/StyledInput';
+import StyledSelect from '../CV/CvDirectory/StyledSelect';
 
 export default function AgentRegistration() {
   const toast = useToast();
   const [formData, setFormData] = useState({
     businessType: '',
+    businessName: '',
     proprietorName: '',
     businessClassification: '',
     yearEstablished: '',
@@ -176,50 +179,54 @@ export default function AgentRegistration() {
                   <Icon as={FaBuilding} color="gray.600" />
                   <Text fontSize="lg" fontWeight="semibold">Premium Business Details</Text>
                 </Flex>
-                
+
                 <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
                   <FormControl>
                     <FormLabel fontSize="sm">Business Classification</FormLabel>
-                    <Select placeholder="Select classification" value={formData.businessClassification} onChange={(e) => setFormData({...formData, businessClassification: e.target.value})}>
+                    <StyledSelect placeholder="Select classification" value={formData.businessClassification} onChange={(e) => setFormData({ ...formData, businessClassification: e.target.value })}>
                       <option value="corporate">Corporate Entity</option>
                       <option value="individual">Individual Practitioner</option>
-                    </Select>
+                    </StyledSelect>
                   </FormControl>
 
                   <FormControl>
                     <FormLabel fontSize="sm">Company / Individual</FormLabel>
-                    <Select placeholder="Select type" value={formData.businessType} onChange={(e) => setFormData({...formData, businessType: e.target.value})}>
+                    <StyledSelect placeholder="Select type" value={formData.businessType} onChange={(e) => setFormData({ ...formData, businessType: e.target.value })}>
                       <option value="company">Company</option>
                       <option value="individual">Individual</option>
-                    </Select>
+                    </StyledSelect>
                   </FormControl>
 
                   <FormControl>
+                    <FormLabel fontSize="sm">Business Name</FormLabel>
+                    <StyledInput placeholder="Business name" value={formData.businessName} onChange={(e) => setFormData({ ...formData, businessName: e.target.value })} />
+                  </FormControl>
+                  <FormControl>
                     <FormLabel fontSize="sm">Proprietor Name</FormLabel>
-                    <Input placeholder="Full legal name" value={formData.proprietorName} onChange={(e) => setFormData({...formData, proprietorName: e.target.value})} />
+                    <StyledInput placeholder="Full legal name" value={formData.proprietorName} onChange={(e) => setFormData({ ...formData, proprietorName: e.target.value })} />
                   </FormControl>
 
                   <FormControl>
                     <FormLabel fontSize="sm">Year of Establishment</FormLabel>
-                    <Input placeholder="YYYY" value={formData.yearEstablished} onChange={(e) => setFormData({...formData, yearEstablished: e.target.value})} />
+                    <StyledInput placeholder="YYYY" value={formData.yearEstablished} onChange={(e) => setFormData({ ...formData, yearEstablished: e.target.value })} />
                   </FormControl>
 
                   <FormControl>
                     <FormLabel fontSize="sm">IATA Accreditation</FormLabel>
-                    <Select placeholder="Accreditation status" value={formData.iataAccreditation} onChange={(e) => setFormData({...formData, iataAccreditation: e.target.value})}>
+                    <StyledSelect placeholder="Accreditation status" value={formData.iataAccreditation} onChange={(e) => setFormData({ ...formData, iataAccreditation: e.target.value })}>
                       <option value="full">Full IATA Member</option>
                       <option value="associate">Associate Member</option>
                       <option value="non-iata">Non-IATA</option>
-                    </Select>
+                    </StyledSelect>
                   </FormControl>
 
                   <FormControl>
                     <FormLabel fontSize="sm">Service Deals</FormLabel>
-                    <Select placeholder="Select service type" value={formData.dealTypes} onChange={(e) => setFormData({...formData, dealTypes: e.target.value})}>
+                    <StyledSelect placeholder="Select service type" value={formData.dealTypes} onChange={(e) => setFormData({ ...formData, dealTypes: e.target.value })}>
                       <option value="both">International & Domestic</option>
                       <option value="international">International Only</option>
                       <option value="domestic">Domestic Only</option>
-                    </Select>
+                    </StyledSelect>
                   </FormControl>
                 </Grid>
               </Box>
@@ -233,19 +240,19 @@ export default function AgentRegistration() {
 
                 <FormControl mb={4}>
                   <FormLabel fontSize="sm">Service Specialization</FormLabel>
-                  <Select placeholder="Specialization" value={formData.serviceSpecialization} onChange={(e) => setFormData({...formData, serviceSpecialization: e.target.value})}>
+                  <StyledSelect placeholder="Specialization" value={formData.serviceSpecialization} onChange={(e) => setFormData({ ...formData, serviceSpecialization: e.target.value })}>
                     <option value="full-service">Full Service - International & Domestic</option>
                     <option value="domestic">Domestic Travel</option>
                     <option value="corporate">Corporate Travel Management</option>
                     <option value="leisure">Leisure Travel Expert</option>
-                  </Select>
+                  </StyledSelect>
                 </FormControl>
 
                 <FormLabel fontSize="sm" mb={2}>Services Offered (Maximum 6)</FormLabel>
                 <VStack spacing={2} align="stretch" mb={4}>
                   {services.map((service, index) => (
                     <HStack key={index}>
-                      <Input
+                      <StyledInput
                         placeholder={`Service ${index + 1}`}
                         value={service}
                         onChange={(e) => {
@@ -276,7 +283,7 @@ export default function AgentRegistration() {
                 <VStack spacing={2} align="stretch">
                   {airlines.map((airline, index) => (
                     <HStack key={index}>
-                      <Input
+                      <StyledInput
                         placeholder={`Airline ${index + 1}`}
                         value={airline}
                         onChange={(e) => {
@@ -332,7 +339,7 @@ export default function AgentRegistration() {
                         />
                       </HStack>
                       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={3}>
-                        <Input
+                        <StyledInput
                           placeholder="Branch Name"
                           value={branch.name}
                           onChange={(e) => {
@@ -341,7 +348,7 @@ export default function AgentRegistration() {
                             setBranches(newBranches);
                           }}
                         />
-                        <Input
+                        <StyledInput
                           placeholder="Phone Number"
                           value={branch.phone}
                           onChange={(e) => {
@@ -350,7 +357,7 @@ export default function AgentRegistration() {
                             setBranches(newBranches);
                           }}
                         />
-                        <Input
+                        <StyledInput
                           placeholder="WhatsApp Number"
                           value={branch.whatsapp}
                           onChange={(e) => {
@@ -364,6 +371,9 @@ export default function AgentRegistration() {
                         mt={3}
                         placeholder="Branch Address"
                         value={branch.address}
+                        rounded={'15px'}
+                        border={'2px solid'}
+                        borderColor="gray.300"
                         onChange={(e) => {
                           const newBranches = [...branches];
                           newBranches[index].address = e.target.value;
@@ -403,7 +413,7 @@ export default function AgentRegistration() {
                         />
                       </HStack>
                       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={3}>
-                        <Input
+                        <StyledInput
                           placeholder="Name"
                           value={member.name}
                           onChange={(e) => {
@@ -412,7 +422,7 @@ export default function AgentRegistration() {
                             setStaff(newStaff);
                           }}
                         />
-                        <Input
+                        <StyledInput
                           placeholder="Designation"
                           value={member.designation}
                           onChange={(e) => {
@@ -421,7 +431,7 @@ export default function AgentRegistration() {
                             setStaff(newStaff);
                           }}
                         />
-                        <Input
+                        <StyledInput
                           placeholder="Contact Number"
                           value={member.contact}
                           onChange={(e) => {
@@ -430,7 +440,7 @@ export default function AgentRegistration() {
                             setStaff(newStaff);
                           }}
                         />
-                        <Input
+                        <StyledInput
                           placeholder="WhatsApp Number"
                           value={member.whatsapp}
                           onChange={(e) => {
@@ -439,7 +449,7 @@ export default function AgentRegistration() {
                             setStaff(newStaff);
                           }}
                         />
-                        <Input
+                        <StyledInput
                           placeholder="PTCL Number"
                           value={member.ptcl}
                           onChange={(e) => {
@@ -461,36 +471,39 @@ export default function AgentRegistration() {
                   <Textarea
                     placeholder="Complete corporate address including building, street, area, city, and postal code"
                     rows={4}
+                    rounded={'15px'}
+                        border={'2px solid'}
+                        borderColor="gray.300"
                     value={formData.officeAddress}
-                    onChange={(e) => setFormData({...formData, officeAddress: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, officeAddress: e.target.value })}
                   />
                 </FormControl>
 
                 <HStack mt={4} spacing={4}>
                   <FormControl>
                     <FormLabel fontSize="sm">Office Timings</FormLabel>
-                    <Input
+                    <StyledInput
                       placeholder="e.g., 9:00 AM - 8:00 PM"
                       value={formData.officeTimings}
-                      onChange={(e) => setFormData({...formData, officeTimings: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, officeTimings: e.target.value })}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel fontSize="sm">Working Days</FormLabel>
-                    <Input
+                    <StyledInput
                       placeholder="e.g., Monday - Saturday"
                       value={formData.workingDays}
-                      onChange={(e) => setFormData({...formData, workingDays: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, workingDays: e.target.value })}
                     />
                   </FormControl>
                 </HStack>
 
                 <FormControl mt={4}>
                   <FormLabel fontSize="sm">Google Map Link</FormLabel>
-                  <Input
+                  <StyledInput
                     placeholder="https://maps.google.com/..."
                     value={formData.googleMapLink}
-                    onChange={(e) => setFormData({...formData, googleMapLink: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, googleMapLink: e.target.value })}
                   />
                 </FormControl>
               </Box>
@@ -510,47 +523,47 @@ export default function AgentRegistration() {
                 <VStack spacing={4} align="stretch">
                   <FormControl>
                     <FormLabel fontSize="sm">Primary Mobile</FormLabel>
-                    <Input
+                    <StyledInput
                       placeholder="+92 300 1234567"
                       value={formData.primaryMobile}
-                      onChange={(e) => setFormData({...formData, primaryMobile: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, primaryMobile: e.target.value })}
                     />
                   </FormControl>
 
                   <FormControl>
                     <FormLabel fontSize="sm">WhatsApp Business</FormLabel>
-                    <Input
+                    <StyledInput
                       placeholder="+92 300 1234567"
                       value={formData.whatsappBusiness}
-                      onChange={(e) => setFormData({...formData, whatsappBusiness: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, whatsappBusiness: e.target.value })}
                     />
                   </FormControl>
 
                   <FormControl>
                     <FormLabel fontSize="sm">Office Direct Line</FormLabel>
-                    <Input
+                    <StyledInput
                       placeholder="+92 21 1234567"
                       value={formData.officeDirectLine}
-                      onChange={(e) => setFormData({...formData, officeDirectLine: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, officeDirectLine: e.target.value })}
                     />
                   </FormControl>
 
                   <FormControl>
                     <FormLabel fontSize="sm">Business Email</FormLabel>
-                    <Input
+                    <StyledInput
                       type="email"
                       placeholder="info@premiumtravel.com"
                       value={formData.businessEmail}
-                      onChange={(e) => setFormData({...formData, businessEmail: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, businessEmail: e.target.value })}
                     />
                   </FormControl>
 
                   <FormControl>
                     <FormLabel fontSize="sm">Website URL</FormLabel>
-                    <Input
+                    <StyledInput
                       placeholder="https://www.yourwebsite.com"
                       value={formData.websiteUrl}
-                      onChange={(e) => setFormData({...formData, websiteUrl: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, websiteUrl: e.target.value })}
                     />
                   </FormControl>
                 </VStack>
@@ -562,42 +575,42 @@ export default function AgentRegistration() {
                 <VStack spacing={3} align="stretch">
                   <HStack>
                     <Icon as={FaFacebook} color="blue.600" />
-                    <Input
+                    <StyledInput
                       placeholder="Facebook URL"
                       value={socialLinks.facebook}
-                      onChange={(e) => setSocialLinks({...socialLinks, facebook: e.target.value})}
+                      onChange={(e) => setSocialLinks({ ...socialLinks, facebook: e.target.value })}
                     />
                   </HStack>
                   <HStack>
                     <Icon as={FaTwitter} color="blue.400" />
-                    <Input
+                    <StyledInput
                       placeholder="Twitter URL"
                       value={socialLinks.twitter}
-                      onChange={(e) => setSocialLinks({...socialLinks, twitter: e.target.value})}
+                      onChange={(e) => setSocialLinks({ ...socialLinks, twitter: e.target.value })}
                     />
                   </HStack>
                   <HStack>
                     <Icon as={FaInstagram} color="pink.600" />
-                    <Input
+                    <StyledInput
                       placeholder="Instagram URL"
                       value={socialLinks.instagram}
-                      onChange={(e) => setSocialLinks({...socialLinks, instagram: e.target.value})}
+                      onChange={(e) => setSocialLinks({ ...socialLinks, instagram: e.target.value })}
                     />
                   </HStack>
                   <HStack>
                     <Icon as={FaLinkedin} color="blue.700" />
-                    <Input
+                    <StyledInput
                       placeholder="LinkedIn URL"
                       value={socialLinks.linkedin}
-                      onChange={(e) => setSocialLinks({...socialLinks, linkedin: e.target.value})}
+                      onChange={(e) => setSocialLinks({ ...socialLinks, linkedin: e.target.value })}
                     />
                   </HStack>
                   <HStack>
                     <Icon as={FaYoutube} color="red.600" />
-                    <Input
+                    <StyledInput
                       placeholder="YouTube URL"
                       value={socialLinks.youtube}
-                      onChange={(e) => setSocialLinks({...socialLinks, youtube: e.target.value})}
+                      onChange={(e) => setSocialLinks({ ...socialLinks, youtube: e.target.value })}
                     />
                   </HStack>
                 </VStack>
@@ -608,7 +621,9 @@ export default function AgentRegistration() {
                 <VStack spacing={4} align="stretch">
                   <FormControl>
                     <FormLabel fontSize="sm">Corporate Logo</FormLabel>
-                    <Input type="file" accept="image/*" p={1} />
+                    <StyledInput  p={2}
+                                h={50}
+                                py={3} type="file" accept="image/*" p={1} />
                     <Text fontSize="xs" color="gray.500" mt={1}>
                       Upload company logo or individual picture
                     </Text>
@@ -616,7 +631,9 @@ export default function AgentRegistration() {
 
                   <FormControl>
                     <FormLabel fontSize="sm">Business License</FormLabel>
-                    <Input type="file" accept=".pdf,.jpg,.png" p={1} />
+                    <StyledInput  p={2}
+                                h={50}
+                                py={3} type="file" accept=".pdf,.jpg,.png" p={1} />
                     <Text fontSize="xs" color="gray.500" mt={1}>
                       Upload business license or registration documents
                     </Text>

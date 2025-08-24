@@ -54,7 +54,6 @@ export default function Header() {
         { href: '/hajj-and-umrah', label: 'Hajj & Umrah' },
         { href: '#', label: 'Recruitment' },
         { href: '#', label: 'Jobs Visa' },
-        // { href: '#', label: 'Protector' },
         { href: '#', label: 'GAMCA' },
         { href: '/naqal-kafala', label: 'Naqal Kafala' },
         { href: '#', label: 'More' },
@@ -78,13 +77,13 @@ export default function Header() {
         { href: '/recruitment/vtp', label: 'Verified Trade Partners' },
         { href: '/recruitment/consultancies', label: 'Consultant Directory' },
         { href: '/recruitment/gulf-companies', label: 'Gulf Companies Directory' },
-        { href: '/', label: 'Protector' },
+        { href: '#', label: 'Protector' },
     ];
     const othersLinks = [
         { href: '/ticketing', label: 'Ticketing' },
         { href: '/fraud-alert', label: 'Fraud Alert' },
-        { href: '#', label: 'Travel & Tour' },
-        // { href: '#', label: 'Help Center' },
+        // { href: '#', label: 'Travel & Tour' },
+        { href: '#', label: 'Help Center' },
     ];
     const jobs = [
         { href: '/jobs', label: 'Jobs' },
