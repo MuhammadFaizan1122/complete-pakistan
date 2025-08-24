@@ -92,7 +92,7 @@ const itemsPerPage = 6;
 
 export default function Ticketing() {
     const [currentPage, setCurrentPage] = useState(1);
-const router = useRouter();
+    const router = useRouter();
     const totalPages = Math.ceil(agents.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentAgents = agents.slice(startIndex, startIndex + itemsPerPage);
@@ -103,6 +103,9 @@ const router = useRouter();
                 <Text fontSize="2xl" fontWeight="bold" textAlign="center" mb={2}>
                     Verified Travel Agents
                 </Text>
+                <Button fontSize="md" fontWeight="bold" textAlign="center" mb={2} onClick={() => router.push('/ticketing/agent/registration')}>
+                    Become Travel Agents
+                </Button>
                 <Text textAlign="center" color="gray.600" mb={8}>
                     Choose from our network of trusted agents offering competitive prices
                     and excellent service
@@ -168,10 +171,10 @@ const router = useRouter();
                             </Flex>
                             <Divider my={3} />
                             <Flex gap={2}>
-                                <Button bg="#0a7450" color={'white'} w="full" mb={3} onClick={()=> router.push(`/ticketing/details/${agent.name}`)}>
+                                <Button bg="#0a7450" color={'white'} w="full" mb={3} onClick={() => router.push(`/ticketing/details/${agent.name}`)}>
                                     View Details
                                 </Button>
-                                <Button bg="#0a7450" color={'white'} w="full" mb={3} onClick={()=> router.push(`/ticketing/details/${agent.name}`)}>
+                                <Button bg="#0a7450" color={'white'} w="full" mb={3} onClick={() => router.push(`/ticketing/details/${agent.name}`)}>
                                     {`View Fares`}
                                 </Button>
                             </Flex>
