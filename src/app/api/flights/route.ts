@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from '../../../config/mongoose';
 import Flight from '../../../config/models/Flights';
+import TicketingAgent from '../../../config/models/TicketingAgent';
 
 // ✅ Create a flight
 export async function POST(req) {
@@ -23,21 +24,22 @@ export async function POST(req) {
 }
 
 // ✅ Get flights (by id or all)
-export async function GET(req) {
+export async function GET(req: Request) {
     try {
         await connectDB();
-        const id = req.nextUrl.searchParams.get('id');
+        const id = new URL(req.url).searchParams.get("id");
 
-        // Current datetime
         const now = new Date();
 
-        // Auto-remove past flights (based on last route arrivalTime + date)
+        // Clean expired flights
         // @ts-ignore
         const flights = await Flight.find();
         for (const f of flights) {
             const lastRoute = f.routes[f.routes.length - 1];
             if (lastRoute?.arrivalTime) {
-                const flightDateTime = new Date(`${f.date.toISOString().split('T')[0]}T${lastRoute.arrivalTime}`);
+                const flightDateTime = new Date(
+                    `${f.date.toISOString().split("T")[0]}T${lastRoute.arrivalTime}`
+                );
                 if (flightDateTime < now) {
                     // @ts-ignore
                     await Flight.findByIdAndDelete(f._id);
@@ -46,20 +48,39 @@ export async function GET(req) {
         }
 
         if (id) {
+            // Populate the companyId field with TicketingAgent data
             // @ts-ignore
-            const flight = await Flight.findById(id);
-            if (!flight) {
-                return NextResponse.json({ success: false, message: 'Flight not found' }, { status: 404 });
+            const flightsWithAgent = await Flight.find({ companyId: id }).populate({
+                path: "companyId",
+                model: "TicketingAgent",
+            });
+
+            if (!flightsWithAgent || flightsWithAgent.length === 0) {
+                return NextResponse.json(
+                    { success: false, message: "Flight not found" },
+                    { status: 404 }
+                );
             }
-            return NextResponse.json({ success: true, data: flight });
+
+            return NextResponse.json({ success: true, data: flightsWithAgent });
         }
 
+        // For all flights, populate companyId with TicketingAgent data
         // @ts-ignore
-        const updatedFlights = await Flight.find().sort({ createdAt: -1 });
+        const updatedFlights = await Flight.find()
+            .populate({
+                path: "companyId",
+                model: "TicketingAgent",
+            })
+            .sort({ createdAt: -1 });
+            
         return NextResponse.json({ success: true, data: updatedFlights });
     } catch (error) {
-        console.error('GET Flights Error:', error);
-        return NextResponse.json({ success: false, message: 'Server Error' }, { status: 500 });
+        console.error("GET Flights Error:", error);
+        return NextResponse.json(
+            { success: false, message: "Server Error" },
+            { status: 500 }
+        );
     }
 }
 

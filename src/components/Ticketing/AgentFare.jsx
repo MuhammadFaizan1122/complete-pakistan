@@ -1,5 +1,4 @@
 "use client";
-
 import {
     Box,
     Tabs,
@@ -11,8 +10,13 @@ import {
     Flex,
     Button,
     Divider,
+    Spinner,
+    Badge,
 } from "@chakra-ui/react";
-import { FaPlaneDeparture, FaClock, FaSuitcase } from "react-icons/fa";
+import { useParams, useRouter } from "next/navigation";
+import { FaPlaneDeparture, FaClock, FaSuitcase, FaArrowRight } from "react-icons/fa";
+import { handleGetFlightById } from "../../handlers/Flights/Flights";
+import { useEffect, useState } from "react";
 
 // Example Data
 const flightData = [
@@ -93,91 +97,109 @@ const flightData = [
 ];
 
 export default function AgentFare() {
+    const { id } = useParams();
+    const [flight, setFlight] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const router = useRouter()
+    const handleFetch = async () => {
+        try {
+            const res = await handleGetFlightById(id);
+            if (res?.data?.success) {
+                setFlight(res.data.data);
+            }
+        } catch (error) {
+            console.error("Fetch flight error:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (id) handleFetch();
+    }, [id]);
+    if (loading) {
+        return (
+            <Flex justify="center" align="center" minH="60vh">
+                <Spinner size="xl" />
+            </Flex>
+        );
+    }
     return (
+
         <Box maxW="1440px" mx="auto" p={4}>
-            {/* Tabs */}
-            <Tabs variant="unstyled">
-                <Box overflowX="auto" borderBottom="1px solid #e2e8f0" mb={4}>
-                    <TabList minW="max-content" display="flex">
-                        {flightData.map((route, i) => (
-                            <Tab
-                                key={i}
-                                px={4}
-                                py={2}
-                                mr={2}
+            {flight.map((f, index) => (
+                <Box
+                    key={index}
+                    borderWidth="1px"
+                    borderRadius="2xl"
+                    p={0}
+                    mb={6}
+                    bg="white"
+                    shadow="lg"
+                    overflow="hidden"
+                    transition="all 0.3s ease"
+                    _hover={{ shadow: "xl", transform: "translateY(-4px)" }}
+                >
+                    {/* Header Section */}
+                    <Box
+                        bgGradient="linear(to-r, teal.600, green.500)"
+                        color="white"
+                        px={5}
+                        py={3}
+                    >
+                        <Flex justify="space-between" align="center">
+                            <Flex align="center" gap={2} fontWeight="bold" fontSize="lg">
+                                <FaPlaneDeparture /> {f.airline} - {f.flightNo}
+                            </Flex>
+                            <Badge
+                                colorScheme="yellow"
+                                fontSize="lg"
+                                px={3}
+                                py={1}
                                 borderRadius="md"
-                                fontWeight="semibold"
-                                _selected={{ bg: "#0a7450", color: "white" }}
-                                _hover={{ bg: "#f0fdf4" }}
                             >
-                                ✈ {route.route}
-                                <Text ml={2} fontSize="sm" fontWeight="bold" color="inherit">
-                                    {route.price}
-                                </Text>
-                            </Tab>
-                        ))}
-                    </TabList>
-                </Box>
-                <TabPanels >
-                    {flightData.map((route, i) => (
-                        <TabPanel px={0} key={i}>
-                            <Box textAlign="center" my={6}>
-                                <Text fontSize="2xl" fontWeight="bold">
-                                    {route.route} Flight Schedule
-                                </Text>
-                                <Text color="gray.600">
-                                    Choose from available flights and contact agents directly
-                                </Text>
-                            </Box>
+                                {f.price} PKR
+                            </Badge>
+                        </Flex>
+                        <Text fontSize="sm" opacity={0.9}>
+                            Date: {new Date(f.date).toDateString()} | by {f.agent}
+                        </Text>
+                    </Box>
 
-                            {route.flights.map((f, idx) => (
-                                <Box
-                                    key={idx}
-                                    borderWidth="1px"
-                                    borderRadius="lg"
-                                    p={5}
-                                    mb={5}
-                                    bg="white"
-                                    shadow="md"
+                    {/* Body Section */}
+                    <Box px={5} py={4}>
+                        {f.routes.map((route, idx) => (
+                            <Box key={route._id || idx}>
+                                <Flex
+                                    justify="space-between"
+                                    align="center"
+                                    direction={{ base: "column", md: "row" }}
+                                    gap={{ base: 4, md: 8 }}
                                 >
-                                    <Flex
-                                        direction={{ base: "column", md: "row" }}
-                                        justify="space-between"
-                                        align={{ base: "flex-start", md: "center" }}
-                                        gap={{ base: 4, md: 0 }}
-                                    >
-                                        {/* Airline Info */}
-                                        <Flex direction="column" flex="1" w="full">
-                                            <Flex align="center" gap={2} fontWeight="bold" mb={1}>
-                                                <FaPlaneDeparture /> {f.airline} - {f.flightNo}
-                                            </Flex>
-                                            <Text fontSize="sm" color="gray.600">
-                                                Date {f.date}
-                                            </Text>
-                                        </Flex>
+                                    {/* Departure */}
+                                    <Box flex="1" textAlign="center">
+                                        <Text fontWeight="bold" fontSize="xl" color="teal.700">
+                                            {route.departureTime}
+                                        </Text>
+                                        <Text fontSize="sm" color="gray.600">
+                                            {route.departureAirport}
+                                        </Text>
+                                        <Text fontSize="xs" color="gray.500">
+                                            {route.fromCity}
+                                        </Text>
+                                    </Box>
 
-                                        {/* Flight Timeline */}
-                                        <Flex
-                                            justify={{ base: "flex-start", md: "center" }}
-                                            flex={{ base: "unset", md: 1.5 }}
-                                            textAlign="center"
-                                            align="center"
-                                            gap={{ base: 4, md: 8 }}
-                                            w="full"
-                                        >
-                                            <Box flex="1">
-                                                <Text fontWeight="bold" fontSize="lg">
-                                                    {f.departureTime}
-                                                </Text>
-                                                <Text fontSize="sm" color="gray.600">
-                                                    {f.departureAirport}
-                                                </Text>
-                                                <Text fontSize="xs" color="gray.500">
-                                                    Departure
-                                                </Text>
-                                            </Box>
-
-                                            <Box flex="1">
+                                    {/* Route Info (center only for first leg) */}
+                                    {idx === 0 && (
+                                        <Box flex="1" textAlign="center">
+                                            <Flex
+                                                direction="column"
+                                                justify="center"
+                                                alignItems="center"
+                                            >
+                                                <Flex align="center" gap={2} fontWeight="semibold" mb={2}>
+                                                    {route.fromCity} <FaArrowRight /> {route.toCity}
+                                                </Flex>
                                                 <Flex
                                                     align="center"
                                                     justify="center"
@@ -190,64 +212,65 @@ export default function AgentFare() {
                                                 <Text fontSize="sm" color="gray.600">
                                                     {f.type}
                                                 </Text>
-                                            </Box>
-
-                                            <Box flex="1">
-                                                <Text fontWeight="bold" fontSize="lg">
-                                                    {f.arrivalTime}
-                                                </Text>
-                                                <Text fontSize="sm" color="gray.600">
-                                                    {f.arrivalAirport}
-                                                </Text>
-                                                <Text fontSize="xs" color="gray.500">
-                                                    Arrival
-                                                </Text>
-                                            </Box>
-                                        </Flex>
-
-                                        {/* Price + Agent */}
-                                        <Flex
-                                            direction="column"
-                                            flex="1"
-                                            textAlign={{ base: "left", md: "right" }}
-                                            align={{ base: "flex-start", md: "flex-end" }}
-                                            w="full"
-                                        >
-                                            <Text fontSize="xl" fontWeight="bold" color="#0a7450">
-                                                {f.price}
-                                            </Text>
-                                            <Text fontSize="sm" color="gray.600">
-                                                by {f.agent}
-                                            </Text>
-                                            <Flex
-                                                align="center"
-                                                gap={1}
-                                                justify={{ base: "flex-start", md: "flex-end" }}
-                                                color="gray.600"
-                                                mt={2}
-                                            >
-                                                <FaSuitcase /> <Text fontSize="sm">{f.baggage}</Text>
                                             </Flex>
-                                            <Button
-                                                mt={2}
-                                                bg="#0a7450"
-                                                color="white"
-                                                size="sm"
-                                                _hover={{ bg: "#065f46" }}
-                                                w={{ base: "full", md: "auto" }}
-                                            >
-                                                Contact Agent
-                                            </Button>
-                                        </Flex>
-                                    </Flex>
+                                        </Box>
+                                    )}
 
-                                    <Divider mt={4} />
-                                </Box>
-                            ))}
-                        </TabPanel>
-                    ))}
-                </TabPanels>
-            </Tabs>
+                                    {/* Arrival */}
+                                    <Box flex="1" textAlign="center">
+                                        <Text fontWeight="bold" fontSize="xl" color="teal.700">
+                                            {route.arrivalTime}
+                                        </Text>
+                                        <Text fontSize="sm" color="gray.600">
+                                            {route.arrivalAirport}
+                                        </Text>
+                                        <Text fontSize="xs" color="gray.500">
+                                            {route.toCity}
+                                        </Text>
+                                    </Box>
+                                </Flex>
+
+                                {/* Divider between multi-routes */}
+                                {idx < f.routes.length - 1 && (
+                                    <Divider my={6} borderColor="gray.300" />
+                                )}
+                            </Box>
+                        ))}
+                    </Box>
+
+                    {/* Footer Section */}
+                    <Box
+                        px={5}
+                        py={3}
+                        borderTop="1px solid"
+                        borderColor="gray.100"
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                    >
+                        <Flex align="center" gap={2} color="gray.600">
+                            <FaSuitcase /> <Text fontSize="sm">{f.baggage}</Text>
+                        </Flex>
+                        <Button
+                            bg="teal.600"
+                            color="white"
+                            size="md"
+                            px={6}
+                            _hover={{ bg: "teal.700" }}
+                            borderRadius="md"
+                            onClick={() => {
+                                if (f.companyId?.whatsappBusiness) {
+                                    window.open(`https://wa.me/${f.companyId.whatsappBusiness}`, "_blank");
+                                }
+                            }}
+                        >
+                            Contact Agent
+                        </Button>
+
+
+                    </Box>
+                </Box>
+            ))}
         </Box>
     );
 }

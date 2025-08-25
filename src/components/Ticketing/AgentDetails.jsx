@@ -32,9 +32,12 @@ import {
   FaClock,
   FaUsers,
   FaMapMarkerAlt,
-  FaEye
+  FaEye,
+  FaLinkedin
 } from "react-icons/fa";
 import { useParams } from 'next/navigation';
+import { handleGetFlightById } from '../../handlers/Flights/Flights';
+import Link from 'next/link';
 
 export default function TravelAgentDetail() {
   // const agent = {
@@ -126,7 +129,7 @@ export default function TravelAgentDetail() {
   // ];
   const params = useParams();
   const { id } = params;
-
+  const [flight, setFlight] = useState(null);
   const [agent, setAgent] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -136,43 +139,42 @@ export default function TravelAgentDetail() {
 
     const fetchAgent = async () => {
       try {
-        const res = await fetch(`/api/ticketing-agent/${id}`);
-        const data = await res.json();
-        console.log('data', data)
-        if (data.success) {
-          // setAgent(data.data);
-          const d = data.data;
-  setAgent({
-    name: d.businessName,
-    owner: d.proprietorName,
-    rating: d.rating,
-    likes: d.likes ?? 0,
-    comments: d.comments ?? 0,
-    services: d.services || [],
-    established: d.yearEstablished,
-    description: d.businessClassification,
-    offeredServices: d.services || [],
-    partnerAirlines: d.airlines || [],
-    teamMembers: d.staff.map(s => ({
-      name: s.name,
-      role: s.designation,
-      phone: s.contact,
-      whatsapp: s.whatsapp,
-      mobile: s.ptcl,
-    })),
-    contact: {
-      mainPhone: d.primaryMobile,
-      whatsapp: d.whatsappBusiness,
-      landline: d.officeDirectLine,
-      email: d.businessEmail,
-    },
-    officeHours: {
-      time: d.officeTimings,
-      days: d.workingDays,
-    },
-    branches: d.branches || [],
-    socialLinks: d.socialLinks || {},
-  });
+        const res = await handleGetFlightById(id);
+        if (res.data.success) {
+          const d = res.data.data[0].companyId;
+          setFlight(res.data.data);
+          setAgent({
+            name: d.businessName,
+            owner: d.proprietorName,
+            rating: d.rating,
+            likes: d.likes ?? 0,
+            comments: d.comments ?? 0,
+            services: d.services || [],
+            established: d.yearEstablished,
+            description: d.businessClassification,
+            offeredServices: d.services || [],
+            partnerAirlines: d.airlines || [],
+            googleMapLink: d.googleMapLink || '',
+            teamMembers: d.staff.map(s => ({
+              name: s.name,
+              role: s.designation,
+              phone: s.contact,
+              whatsapp: s.whatsapp,
+              mobile: s.ptcl,
+            })),
+            contact: {
+              mainPhone: d.primaryMobile,
+              whatsapp: d.whatsappBusiness,
+              landline: d.officeDirectLine,
+              email: d.businessEmail,
+            },
+            officeHours: {
+              time: d.officeTimings,
+              days: d.workingDays,
+            },
+            branches: d.branches || [],
+            socialLinks: d.socialLinks || {},
+          });
         } else {
           console.error("Error:", data.error);
         }
@@ -346,57 +348,108 @@ export default function TravelAgentDetail() {
                 <Flex justify="space-between" align="center" mb={4}>
                   <Text fontSize="lg" fontWeight="semibold">Contact Information</Text>
                   <HStack spacing={1}>
-                    <Button size="sm" variant="outline" colorScheme="gray">
-                      Location
-                    </Button>
+                    {
+                      agent.googleMapLink &&
+                      <Button size="sm" variant="outline" colorScheme="gray"
+                        as={Link}
+                        href={`${agent.googleMapLink}`} target="_blank"
+
+                      >
+                        Location
+                      </Button>
+                    }
                   </HStack>
                 </Flex>
 
-                <VStack spacing={3} align="stretch">
-                  <Flex align="center" gap={3}>
-                    <Icon as={FaPhone} color="green.600" />
-                    <Box>
-                      <Text fontWeight="semibold" fontSize="sm">{agent.contact.mainPhone}</Text>
-                      <Text fontSize="xs" color="gray.500">Main number</Text>
-                    </Box>
-                  </Flex>
+               
+    <VStack spacing={3} align="stretch">
+      {/* Phones, WhatsApp, Email (your existing code) */}
 
-                  <Flex align="center" gap={3}>
-                    <Icon as={FaWhatsapp} color="green.600" />
-                    <Box>
-                      <Text fontWeight="semibold" fontSize="sm">{agent.contact.whatsapp}</Text>
-                      <Text fontSize="xs" color="gray.500">WhatsApp</Text>
-                    </Box>
-                  </Flex>
-
-                  <Flex align="center" gap={3}>
-                    <Icon as={FaPhone} color="green.600" />
-                    <Box>
-                      <Text fontWeight="semibold" fontSize="sm">{agent.contact.landline}</Text>
-                      <Text fontSize="xs" color="gray.500">Landline</Text>
-                    </Box>
-                  </Flex>
-
-                  <Flex align="center" gap={3}>
-                    <Icon as={FaEnvelope} color="red.600" />
-                    <Box>
-                      <Text fontWeight="semibold" fontSize="sm">{agent.contact.email}</Text>
-                      <Text fontSize="xs" color="gray.500">Email inquiries</Text>
-                    </Box>
-                  </Flex>
-                </VStack>
+      {/* Social Media */}
+      {agent.socialLinks && (
+        <Flex gap={4} mt={3}>
+          {agent.socialLinks.facebook && (
+            <Icon
+              as={FaFacebook}
+              w={5}
+              h={5}
+              color="blue.600"
+              cursor="pointer"
+              onClick={() => window.open(agent.socialLinks.facebook, "_blank")}
+            />
+          )}
+          {agent.socialLinks.twitter && (
+            <Icon
+              as={FaTwitter}
+              w={5}
+              h={5}
+              color="blue.400"
+              cursor="pointer"
+              onClick={() => window.open(agent.socialLinks.twitter, "_blank")}
+            />
+          )}
+          {agent.socialLinks.instagram && (
+            <Icon
+              as={FaInstagram}
+              w={5}
+              h={5}
+              color="pink.500"
+              cursor="pointer"
+              onClick={() => window.open(agent.socialLinks.instagram, "_blank")}
+            />
+          )}
+          {agent.socialLinks.linkedin && (
+            <Icon
+              as={FaLinkedin}
+              w={5}
+              h={5}
+              color="blue.700"
+              cursor="pointer"
+              onClick={() => window.open(agent.socialLinks.linkedin, "_blank")}
+            />
+          )}
+        </Flex>
+      )}
+    </VStack>
 
                 <VStack spacing={2} mt={6}>
-                  <Button w="full" bg="green.600" color="white" leftIcon={<FaPhone />}>
+                  <Button
+                    as={Link}
+                    href={`tel:${agent.contact.mainPhone}`} target="_blank"
+                    w="full"
+                    bg="green.600"
+                    color="white"
+                    leftIcon={<FaPhone />}
+                  >
                     Call Now
                   </Button>
-                  <Button w="full" bg="gray.100" border={'1px solid gray'} color="gray.700" fontWeight={'semibold'} leftIcon={<FaWhatsapp />}>
+
+                  <Button
+                    w="full"
+                    bg="gray.100"
+                    border={"1px solid gray"}
+                    color="gray.700"
+                    fontWeight={"semibold"}
+                    leftIcon={<FaWhatsapp />}
+                    onClick={() => window.open(`https://wa.me/${agent.contact.whatsapp}`, "_blank")}
+                  >
                     WhatsApp
                   </Button>
-                  <Button w="full" bg="gray.100" border={'1px solid gray'} color="gray.700" fontWeight={'semibold'} leftIcon={<FaEnvelope />}>
+
+                  <Button
+                    w="full"
+                    bg="gray.100"
+                    border={"1px solid gray"}
+                    color="gray.700"
+                    fontWeight={"semibold"}
+                    leftIcon={<FaEnvelope />}
+                    as={Link}
+                    href={`tel:${agent.contact.email}`} target="_blank"
+                  >
                     Send Email
                   </Button>
                 </VStack>
+
               </Box>
 
               <Box bg="white" borderRadius="lg" p={6} shadow="sm">
@@ -450,19 +503,19 @@ export default function TravelAgentDetail() {
           </GridItem>
         </Grid>
       </Box>
-      {/* <Box bg="gray.50" py={8}>
+      <Box bg="gray.50" py={8}>
         <Box maxW="1440px" mx="auto" px={4}>
           <VStack spacing={2} mb={8}>
             <Text fontSize="2xl" fontWeight="bold" color="gray.800">
               Current Fare Offers
             </Text>
-            <Text color="gray.600" textAlign="center">
-              Special deals from Al-Noor Travel Services
+            <Text color="gray.600" textAlign="center" textTransform={'capitalize'}>
+              Special deals from {agent.name}
             </Text>
           </VStack>
 
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-            {fareOffers.map((offer, index) => (
+            {flight.map((offer, index) => (
               <Box
                 key={index}
                 bg="white"
@@ -476,20 +529,30 @@ export default function TravelAgentDetail() {
                 transition="all 0.2s"
               >
                 <VStack spacing={4}>
-                  <Text fontSize="lg" fontWeight="semibold" color="green.600">
-                    {offer.route}
+                  {
+                    offer.routes.map((r, i) => {
+                      return (
+                        <Text fontSize="lg" fontWeight="semibold" color="green.600" key={i}>
+                          {r.fromCity} {'-->'} {r.toCity}
+                        </Text>
+                      )
+                    })
+                  }
+                  <Text fontSize="2xl" fontWeight="bold" color="yellow.500">
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "PKR",
+                      minimumFractionDigits: 0,
+                    }).format(offer.price)}
                   </Text>
 
-                  <Text fontSize="2xl" fontWeight="bold" color="yellow.500">
-                    {offer.price}
-                  </Text>
 
                   <Text fontSize="sm" color="gray.600">
                     {offer.airline}
                   </Text>
 
                   <Text fontSize="xs" color="gray.500">
-                    {offer.validTill}
+                    {offer.date ? new Date(offer.date).toLocaleDateString() : 'N/A'}
                   </Text>
 
                   <Button
@@ -498,8 +561,8 @@ export default function TravelAgentDetail() {
                     w="full"
                     py={3}
                     fontWeight="semibold"
-                    _hover={{ bg: "blue.700" }}
-                    _active={{ bg: "blue.800" }}
+                    _hover={{ bg: "green.700" }}
+                    _active={{ bg: "green.800" }}
                   >
                     Book Now
                   </Button>
@@ -508,7 +571,7 @@ export default function TravelAgentDetail() {
             ))}
           </SimpleGrid>
         </Box>
-      </Box> */}
+      </Box>
     </Box>
   );
 }
