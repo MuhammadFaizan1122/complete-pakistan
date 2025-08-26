@@ -15,8 +15,9 @@ import NextLink from "next/link";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AuthLayout } from "../Login/Login";
+import { useState } from "react";
 
 const otpSchema = yup.object().shape({
   otp: yup
@@ -25,11 +26,12 @@ const otpSchema = yup.object().shape({
     .required("OTP is required"),
 });
 
-
-
 const VerifyOtpPage = () => {
   const toast = useToast();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = searchParams.get('email');
+  const [isResending, setIsResending] = useState(false);
 
   const {
     register,
@@ -39,18 +41,85 @@ const VerifyOtpPage = () => {
     resolver: yupResolver(otpSchema),
   });
 
-  const onSubmit = async (data) => {
+  const verifyOTP = async (otpData) => {
     try {
-      toast({ title: "OTP verified successfully", status: "success", isClosable: true });
-      router.push("/login");
+      const payload = {
+        otp: otpData.otp,
+        userData:
+        {
+          name: "Muhammad Faizan",
+          email: "muh.faizaan@gmail.com",
+          password: "$2b$10$mHppnZ5kl2nUwrQkXVm7eOJslbxepT3jXTjcg57eEuHujOGMouuIm"
+        }
+      }
+      const response = await fetch('/api/auth/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: "muh.faizaan@gmail.com",
+          otp: otpData.otp,
+          userData: payload,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: "Account created successfully",
+          status: "success",
+          isClosable: true
+        });
+        router.push("/auth/login");
+      } else {
+        throw new Error(data.message);
+      }
     } catch (error) {
-      console.error("OTP verification error:", error);
-      toast({ title: "Invalid OTP", status: "error", isClosable: true });
+      throw error;
     }
   };
 
-  const handleResendOtp = () => {
-    toast({ title: "OTP resent successfully", status: "success", isClosable: true });
+  const resendOTP = async () => {
+    setIsResending(true);
+    try {
+      const response = await fetch('/api/auth/resend-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: "OTP resent successfully",
+          status: "success",
+          isClosable: true
+        });
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      toast({
+        title: "Failed to resend OTP",
+        status: "error",
+        isClosable: true
+      });
+    } finally {
+      setIsResending(false);
+    }
+  };
+
+  const onSubmit = async (data) => {
+    try {
+      await verifyOTP(data);
+    } catch (error) {
+      toast({
+        title: error.message || "Invalid OTP",
+        status: "error",
+        isClosable: true
+      });
+    }
   };
 
   return (
@@ -59,7 +128,7 @@ const VerifyOtpPage = () => {
         Verify OTP
       </Heading>
       <Text fontSize="sm" color="gray.600" mb={6} textAlign="center">
-        Enter the 6-digit code sent to your email.
+        Enter the 6-digit code sent to {email}
       </Text>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
@@ -89,13 +158,17 @@ const VerifyOtpPage = () => {
           </Button>
           <Text fontSize="sm" textAlign="center">
             Didn't receive the code?{' '}
-            <Link color="#0a7450" onClick={handleResendOtp}>
+            <Link
+              color="#0a7450"
+              onClick={resendOTP}
+              isLoading={isResending}
+            >
               Resend OTP
             </Link>
           </Text>
           <Text fontSize="sm" textAlign="center">
             Back to{' '}
-            <NextLink href="/login" passHref>
+            <NextLink href="/auth/login" passHref>
               <Link color="#0a7450">Login</Link>
             </NextLink>
           </Text>

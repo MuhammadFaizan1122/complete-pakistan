@@ -25,7 +25,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { handleRegister } from "../../handlers/auth/registration";
+import { sendOTPEmail } from "../../services/emailService";
 
 const signupSchema = yup.object().shape({
     fullName: yup
@@ -49,8 +49,11 @@ const signupSchema = yup.object().shape({
         .oneOf([yup.ref("password"), null], "Passwords must match")
         .required("Confirm password is required"),
 });
+
 const SignupPage = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [otpSent, setOtpSent] = useState(false);
+    const [tempUserData, setTempUserData] = useState(null);
     const router = useRouter();
     const { status } = useSession();
     const toast = useToast();
@@ -60,6 +63,7 @@ const SignupPage = () => {
             router.push("/");
         }
     }, [status, router]);
+
     const {
         register,
         handleSubmit,
@@ -68,35 +72,85 @@ const SignupPage = () => {
         resolver: yupResolver(signupSchema),
     });
 
+    const handleRegister = async (payload) => {
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // ✅ only send email from client
+                const emailResult = await sendOTPEmail(data.email, data.otp, data.userName);
+
+                if (emailResult.success) {
+                    const res = await fetch('/api/auth/send-otp', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: data.email, otp: data.otp })
+                    });
+                    return { message: 'OTP sent to your email. Please verify to complete registration.' }
+                } else {
+                    return { message: 'Failed to send OTP email' }
+                }
+            } else {
+                return { message: data.message }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            return { message: 'Registration failed' }
+        }
+    };
+
     const onSubmit = async (data) => {
         try {
-            const payload = { name: data.fullName, email: data.email, password: data.password, password_confirmation: data.confirmPassword }
-            const response = await handleRegister(payload)
-            if (response.status !== 201) {
-                // toast.error(response)
+            const payload = {
+                name: data.fullName,
+                email: data.email,
+                password: data.password,
+                password_confirmation: data.confirmPassword
+            };
+
+            const response = await handleRegister(payload);
+            console.log('response', response)
+            if (response.message === 'OTP sent to your email. Please verify to complete registration.') {
+                setOtpSent(true);
+                setTempUserData({
+                    name: data.fullName,
+                    email: data.email,
+                    password: data.password,
+                });
+                toast({
+                    title: 'Success',
+                    description: 'OTP sent to your email',
+                    status: 'success',
+                    duration: 4000,
+                    isClosable: true,
+                });
+                router.push(`/auth/verify-otp?email=${encodeURIComponent(data.email)}`);
+            } else {
                 toast({
                     title: 'Error',
-                    description: response.data.message,
+                    description: response.message,
                     status: 'error',
                     duration: 4000,
                     isClosable: true,
                 });
             }
-            if (response.status === 201) {
-                toast({
-                    title: 'Success',
-                    description: response.data.message,
-                    status: 'success',
-                    duration: 4000,
-                    isClosable: true,
-                });
-                router.push("/auth/login");
-            }
         } catch (error) {
             console.error("Signup error:", error);
+            toast({
+                title: 'Error',
+                description: 'An error occurred during registration',
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+            });
         }
     };
-
     return (
         <AuthLayout>
             <Box display={'flex'} justifyContent={'center'} w={'full'} mx={'auto'}>

@@ -1,4 +1,4 @@
-import VerifyOtpPage from '../../components/OTPScreen/OTPScreen'
+import VerifyOtpPage from '../../../components/OTPScreen/OTPScreen'
 import React from 'react'
 
 const page = () => {
