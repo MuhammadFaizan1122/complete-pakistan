@@ -25,6 +25,7 @@ import {
   FaIdCard,
   FaMapMarkerAlt,
 } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 
 export default function CompanyCard({
   agencyName,
@@ -38,8 +39,10 @@ export default function CompanyCard({
   licenceStatus,
   licenceNo,
   mapLink,
-  address
+  address,
+  _id
 }) {
+  const router = useRouter()
   return (
     <Box
       borderRadius="lg"
@@ -51,6 +54,7 @@ export default function CompanyCard({
       alignItems="center"
       w={'100%'}
       cursor={'pointer'}
+      onClick={() => router.push(`/recruitment/ttc/details/${_id}`)}
     >
       {/* Left: Logo + Name */}
       <Box

@@ -5,20 +5,14 @@ import {
     Text,
     VStack,
     HStack,
-    Grid,
-    Avatar,
     Button,
-    Badge,
     Card,
     CardBody,
-    Image,
     IconButton
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import {
     FiMenu,
-    FiStar,
-    FiX
 } from 'react-icons/fi'
 import JobCreationPage from './Visa';
 import SideMenu from './SideMenu';
@@ -31,7 +25,7 @@ import DashboardContent from './DashboardContent'
 import ApplicantList from './Applicants/ApplicantList';
 import CVs from './CVs/CVs';
 
-export default function TrainingDashboard() {
+export default function Dashboard() {
     const [activeTab, setActiveTab] = useState('Dashboard');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const { data: session, status } = useSession();

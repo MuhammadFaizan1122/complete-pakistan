@@ -70,7 +70,7 @@ export default function Ticketing() {
         <Box bg="gray.50" minH="100vh">
             <Box p={4} maxW="1440px" mx="auto" position={'relative'}>
                 <Text fontSize="2xl" fontWeight="bold" textAlign="center" mb={2}>
-                    Verified Travel Agents
+                    Verified Ticketing Agents
                 </Text>
 
                 <Button
