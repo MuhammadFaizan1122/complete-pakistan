@@ -82,7 +82,7 @@ export default function Header() {
     const othersLinks = [
         { href: '/ticketing', label: 'Ticketing' },
         { href: '/fraud-alert', label: 'Fraud Alert' },
-        // { href: '#', label: 'Travel & Tour' },
+        { href: '/navttc', label: 'NAVTTC' },
         { href: '#', label: 'Help Center' },
     ];
     const jobs = [

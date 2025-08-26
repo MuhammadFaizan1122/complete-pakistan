@@ -100,7 +100,6 @@ export default function AgentFare() {
     const { id } = useParams();
     const [flight, setFlight] = useState(null);
     const [loading, setLoading] = useState(true);
-    const router = useRouter()
     const handleFetch = async () => {
         try {
             const res = await handleGetFlightById(id);
@@ -126,7 +125,7 @@ export default function AgentFare() {
     }
     return (
 
-        <Box maxW="1440px" mx="auto" p={4}>
+        <Box maxW="1440px" mx="auto" p={4} minH={'50vh'}>
             {flight.map((f, index) => (
                 <Box
                     key={index}
