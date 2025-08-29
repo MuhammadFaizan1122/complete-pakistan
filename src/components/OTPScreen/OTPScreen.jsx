@@ -53,13 +53,21 @@ const VerifyOtpPage = () => {
       });
 
       const data = await response.json();
-
+      console.log('data', data)
       if (response.ok) {
-        toast({
-          title: "Account created successfully",
-          status: "success",
-          isClosable: true
-        });
+        if (data.type === 'agency') {
+          toast({
+            title: "Account submitted for review. It may take 2 to 3 working days.",
+            status: "success",
+            isClosable: true
+          });
+        } else {
+          toast({
+            title: "Account created successfully",
+            status: "success",
+            isClosable: true
+          });
+        }
         router.push("/auth/login");
       } else {
         throw new Error(data.message);

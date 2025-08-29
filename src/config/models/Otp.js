@@ -17,6 +17,7 @@ const OtpSchema = new mongoose.Schema({
   password: { type: String, required: true },
   otpHash: { type: String, required: true },
   expiryTime: { type: Date, required: true },
+  agencyData: { type: Object },
 }, { timestamps: true });
 
 export default mongoose.models.Otp || mongoose.model("Otp", OtpSchema);

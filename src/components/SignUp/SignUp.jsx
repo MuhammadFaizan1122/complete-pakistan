@@ -25,7 +25,6 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-// import { sendOTPEmail } from "../../services/emailService";
 
 const signupSchema = yup.object().shape({
     fullName: yup

@@ -41,11 +41,11 @@ export async function POST(req: NextRequest) {
             to: email,
             subject: "Verify Your Email - OTP Code",
             html: `
-        <h2>Hello! Here's your new OTP,</h2>
-        <p>Your OTP code is:</p>
-        <h3 style="color:#4F46E5">${otp}</h3>
-        <p>This code will expire in <b>5 minutes</b>.</p>
-      `,
+                <h2>Hello! Here's your new OTP,</h2>
+                <p>Your OTP code is:</p>
+                <h3 style="color:#4F46E5">${otp}</h3>
+                <p>This code will expire in <b>5 minutes</b>.</p>
+            `,
         });
 
         return NextResponse.json(

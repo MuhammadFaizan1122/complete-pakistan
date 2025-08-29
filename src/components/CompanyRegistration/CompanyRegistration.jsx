@@ -30,6 +30,7 @@ const CompanyRegisterPage = () => {
     const router = useRouter();
     const { status } = useSession();
     const toast = useToast();
+    const [otpSent, setOtpSent] = useState(false);
 
     const {
         register,
@@ -150,18 +151,37 @@ const CompanyRegisterPage = () => {
             };
 
             const response = await companyRegistration(finalPayload);
-
-            if (response?.status === 201) {
+            console.log('response', response.data)
+            // if (response?.status === 201) {
+            //     toast({
+            //         title: 'Success',
+            //         description: response.data.message || 'Registration successful',
+            //         status: 'success',
+            //         duration: 4000,
+            //         isClosable: true,
+            //     });
+            //     router.push("/auth/login");
+            // } else {
+            //     throw new Error(response?.data?.message || 'Registration failed');
+            // }
+            if (response.data.message === 'OTP sent to agency email. Please verify to complete registration.') {
+                setOtpSent(true);
                 toast({
                     title: 'Success',
-                    description: response.data.message || 'Registration successful',
+                    description: 'OTP sent to your email',
                     status: 'success',
                     duration: 4000,
                     isClosable: true,
                 });
-                router.push("/auth/login");
+                router.push(`/auth/verify-otp?email=${encodeURIComponent(response.data.email)}`);
             } else {
-                throw new Error(response?.data?.message || 'Registration failed');
+                toast({
+                    title: 'Error',
+                    description: response.message,
+                    status: 'error',
+                    duration: 4000,
+                    isClosable: true,
+                });
             }
         } catch (error) {
             console.error("Signup error:", error);
@@ -490,9 +510,9 @@ const CompanyRegisterPage = () => {
                                 type="text"
                                 placeholder="Enter location map link"
                                 {...register("mapLink")}
-                                // onChange={(e) => setServiceInput(e.target.value)}
+                            // onChange={(e) => setServiceInput(e.target.value)}
                             />
-                            
+
                             <FormErrorMessage>{errors.mapLink?.message}</FormErrorMessage>
                         </FormControl>
                     </HStack>
