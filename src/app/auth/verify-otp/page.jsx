@@ -1,9 +1,9 @@
 import VerifyOtpPage from '../../../components/OTPScreen/OTPScreen'
 import React from 'react'
 
-const page = () => {
+const page = ({ searchParams }) => {
   return (
-    <VerifyOtpPage />
+    <VerifyOtpPage searchParams={searchParams} />
   )
 }
 export default page

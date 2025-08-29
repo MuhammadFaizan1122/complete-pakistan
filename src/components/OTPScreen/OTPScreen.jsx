@@ -26,11 +26,9 @@ const otpSchema = yup.object().shape({
     .required("OTP is required"),
 });
 
-const VerifyOtpPage = () => {
+const VerifyOtpPage = ({ searchParams }) => {
   const toast = useToast();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const email = searchParams.get('email');
   const [isResending, setIsResending] = useState(false);
 
   const {
@@ -43,17 +41,17 @@ const VerifyOtpPage = () => {
 
   const verifyOTP = async (otpData) => {
     try {
+      const param = await searchParams;
       const response = await fetch('/api/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: email,
+          email: param.email,
           otp: otpData.otp,
         }),
       });
 
       const data = await response.json();
-      console.log('data', data)
       if (response.ok) {
         if (data.type === 'agency') {
           toast({
@@ -80,10 +78,11 @@ const VerifyOtpPage = () => {
   const resendOTP = async () => {
     setIsResending(true);
     try {
+      const param = await searchParams;
       const response = await fetch('/api/auth/resend-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: param.email }),
       });
 
       const data = await response.json();
@@ -126,7 +125,7 @@ const VerifyOtpPage = () => {
         Verify OTP
       </Heading>
       <Text fontSize="sm" color="gray.600" mb={6} textAlign="center">
-        Enter the 6-digit code sent to {email}
+        Enter the 6-digit code sent to your email
       </Text>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
