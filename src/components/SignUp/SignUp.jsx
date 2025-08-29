@@ -25,7 +25,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { sendOTPEmail } from "../../services/emailService";
+// import { sendOTPEmail } from "../../services/emailService";
 
 const signupSchema = yup.object().shape({
     fullName: yup
@@ -79,29 +79,15 @@ const SignupPage = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
-
             const data = await response.json();
-
             if (response.ok) {
-                // ✅ only send email from client
-                const emailResult = await sendOTPEmail(data.email, data.otp, data.userName);
-
-                if (emailResult.success) {
-                    const res = await fetch('/api/auth/send-otp', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email: data.email, otp: data.otp })
-                    });
-                    return { message: 'OTP sent to your email. Please verify to complete registration.' }
-                } else {
-                    return { message: 'Failed to send OTP email' }
-                }
+                return { message: 'OTP sent to your email. Please verify to complete registration' }
             } else {
-                return { message: data.message }
+                alert(data.message);
             }
         } catch (error) {
             console.error('Error:', error);
-            return { message: 'Registration failed' }
+            alert('Registration failed');
         }
     };
 
@@ -115,8 +101,7 @@ const SignupPage = () => {
             };
 
             const response = await handleRegister(payload);
-            console.log('response', response)
-            if (response.message === 'OTP sent to your email. Please verify to complete registration.') {
+            if (response.message === 'OTP sent to your email. Please verify to complete registration') {
                 setOtpSent(true);
                 setTempUserData({
                     name: data.fullName,

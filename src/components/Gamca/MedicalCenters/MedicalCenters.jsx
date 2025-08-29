@@ -30,8 +30,6 @@ import { IoShareSocialOutline } from "react-icons/io5";
 
 export default function GamcaMedicalList() {
   const [medicals, setMedicals] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [countries, setCountries] = useState(Country.getAllCountries());
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
@@ -39,6 +37,8 @@ export default function GamcaMedicalList() {
   const [location, setLocation] = useState('');
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [sliderImages, setSliderImages] = useState([]);
   const [news, setNews] = useState([]);
   useEffect(() => {

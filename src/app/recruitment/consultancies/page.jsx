@@ -1,12 +1,10 @@
 import React from 'react'
-import Hero from '../../../components/Recruitment/Consultant/Hero'
-import Info from '../../../components/Recruitment/Consultant/Info'
+import ConsultantCard from '../../../components/Recruitment/Consultant/Listing/Listing'
 
 const page = () => {
   return (
     <div>
-      <Hero />
-      <Info />
+      <ConsultantCard />
     </div>
   )
 }

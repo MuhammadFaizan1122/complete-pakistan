@@ -43,22 +43,12 @@ const VerifyOtpPage = () => {
 
   const verifyOTP = async (otpData) => {
     try {
-      const payload = {
-        otp: otpData.otp,
-        userData:
-        {
-          name: "Muhammad Faizan",
-          email: "muh.faizaan@gmail.com",
-          password: "$2b$10$mHppnZ5kl2nUwrQkXVm7eOJslbxepT3jXTjcg57eEuHujOGMouuIm"
-        }
-      }
       const response = await fetch('/api/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: "muh.faizaan@gmail.com",
+          email: email,
           otp: otpData.otp,
-          userData: payload,
         }),
       });
 
