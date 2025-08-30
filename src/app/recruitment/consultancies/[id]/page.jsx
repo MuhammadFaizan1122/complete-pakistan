@@ -1,19 +1,4 @@
 'use client'
-// import React from 'react'
-// import Hero from '../../../../components/Recruitment/Consultant/Hero'
-// import Info from '../../../../components/Recruitment/Consultant/Info'
-
-// const page = () => {
-//   return (
-//     <div>
-//       <Hero />
-//       <Info />
-//     </div>
-//   )
-// }
-
-// export default page
-
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Hero from '../../../../components/Recruitment/Consultant/Hero';

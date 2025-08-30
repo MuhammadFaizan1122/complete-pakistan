@@ -35,7 +35,7 @@ const Notice = ({ consultant }) => {
             </Box>
           )
         })
-        : 'No Notice Available'}
+        : <Text>No Data Available</Text>}
     </VStack>
   );
 };

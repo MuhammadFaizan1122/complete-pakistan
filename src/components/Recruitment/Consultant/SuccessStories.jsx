@@ -29,7 +29,7 @@ const SuccessStories = ({ consultant }) => {
                         </Box>
                     )
                 })
-                : 'No Data Available'}
+                : <Text>No Data Available</Text>}
             {/* <Box className="p-4 rounded-lg border-l-[4px] border-black" border={'1px solid'} borderColor={'gray.400'} bg={'gray.50'} w="full">
                 <Flex>
                     <Box>

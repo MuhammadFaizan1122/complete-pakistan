@@ -38,6 +38,7 @@ import Notice from "./Notice";
 import RequestConsultationForm from "./ConsultationForm";
 import Gallery from "./Gallery";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Info({ consultant, tabIndex, setTabIndex }) {
     if (!consultant) return null;
@@ -45,7 +46,7 @@ export default function Info({ consultant, tabIndex, setTabIndex }) {
         successRate: consultant.successRate || 0,
         clientsHelped: consultant.clientsHelped || 0,
         experienceYears: consultant.experienceYears || 0,
-        likes: consultant.likes || 0, 
+        likes: consultant.likes || 0,
     };
 
     const socialLinks = {
@@ -366,11 +367,32 @@ export default function Info({ consultant, tabIndex, setTabIndex }) {
                         </Text>
 
                         <HStack spacing={3} mb={3}>
-                            {socialLinks.facebook && <Icon as={FaFacebook} color="blue.600" />}
-                            {socialLinks.twitter && <Icon as={FaTwitter} color="blue.400" />}
-                            {socialLinks.instagram && <Icon as={FaInstagram} color="pink.500" />}
-                            {socialLinks.linkedin && <Icon as={FaLinkedin} color="blue.700" />}
-                            {socialLinks.youtube && <Icon as={FaYoutube} color="red.600" />}
+                            {socialLinks.facebook && (
+                                <Link href={socialLinks.facebook} target="_blank" rel="noopener noreferrer">
+                                    <Icon as={FaFacebook} color="blue.600" className="cursor-pointer" />
+                                </Link>
+                            )}
+                            {socialLinks.twitter && (
+                                <Link href={socialLinks.twitter} target="_blank" rel="noopener noreferrer">
+                                    <Icon as={FaTwitter} color="blue.400" className="cursor-pointer" />
+                                </Link>
+                            )}
+                            {socialLinks.instagram && (
+                                <Link href={socialLinks.instagram} target="_blank" rel="noopener noreferrer">
+                                    <Icon as={FaInstagram} color="pink.500" className="cursor-pointer" />
+                                </Link>
+                            )}
+                            {socialLinks.linkedin && (
+                                <Link href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer">
+                                    <Icon as={FaLinkedin} color="blue.700" className="cursor-pointer" />
+                                </Link>
+                            )}
+                            {socialLinks.youtube && (
+                                <Link href={socialLinks.youtube} target="_blank" rel="noopener noreferrer">
+                                    <Icon as={FaYoutube} color="red.600" className="cursor-pointer" />
+                                </Link>
+                            )}
+
                         </HStack>
 
                         <VStack align="flex-start" spacing={2} fontSize="sm">
