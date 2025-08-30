@@ -1,5 +1,4 @@
 "use client";
-
 import {
     Box,
     Flex,
@@ -38,19 +37,17 @@ import SuccessStories from "./SuccessStories";
 import Notice from "./Notice";
 import RequestConsultationForm from "./ConsultationForm";
 import Gallery from "./Gallery";
+import { useState } from "react";
 
-export default function Info({ consultant }) {
+export default function Info({ consultant, tabIndex, setTabIndex }) {
     if (!consultant) return null;
-
-    // Fallback values for dynamic data
     const stats = {
         successRate: consultant.successRate || 0,
         clientsHelped: consultant.clientsHelped || 0,
         experienceYears: consultant.experienceYears || 0,
-        likes: consultant.likes || 0, // Assuming 'likes' might be a field; adjust if different
+        likes: consultant.likes || 0, 
     };
 
-    // Social media links with fallback
     const socialLinks = {
         facebook: consultant.socialLinks?.facebook || "",
         twitter: consultant.socialLinks?.twitter || "",
@@ -58,18 +55,15 @@ export default function Info({ consultant }) {
         linkedin: consultant.socialLinks?.linkedin || "",
         youtube: consultant.socialLinks?.youtube || "",
     };
-
+    console.log('consultant', consultant)
     return (
         <Box className="max-w-[1440px] mx-auto px-4 md:px-4 py-8">
-            {/* Grid Layout */}
             <Flex
                 gap={8}
                 direction={{ base: "column", md: "row" }}
                 className="w-full"
             >
-                {/* Left Content */}
                 <Box flex="3">
-                    {/* Top Banner */}
                     <Box className="bg-gray-100 text-sm px-4 py-3 rounded-lg mb-6 flex items-center">
                         <span className="mr-2">🆕</span>
                         <Text>
@@ -110,7 +104,10 @@ export default function Info({ consultant }) {
                             </Box>
                         </SimpleGrid>
                     </Grid>
-                    <Tabs variant="soft-rounded" colorScheme="gray" w="100%">
+                    <Tabs variant="soft-rounded" colorScheme="gray" w="100%"
+                        index={tabIndex}
+                        onChange={(index) => setTabIndex(index)}
+                    >
                         <TabList
                             w="100%"
                             gap={{ base: 2, md: 2 }}
@@ -181,20 +178,23 @@ export default function Info({ consultant }) {
                                         <Text fontWeight="bold" fontSize="lg">
                                             Professional Portfolio
                                         </Text>
-                                        <Button
-                                            size="sm"
-                                            leftIcon={<FaDownload />}
-                                            variant="outline"
-                                            onClick={() => {
-                                                if (consultant.portfolioPdf) {
-                                                    window.open(consultant.portfolioPdf, "_blank");
-                                                } else {
-                                                    alert("Portfolio PDF not available");
-                                                }
-                                            }}
-                                        >
-                                            Download Portfolio PDF
-                                        </Button>
+                                        {
+                                            consultant.portfolioPdf &&
+                                            <Button
+                                                size="sm"
+                                                leftIcon={<FaDownload />}
+                                                variant="outline"
+                                                onClick={() => {
+                                                    if (consultant.portfolioPdf) {
+                                                        window.open(consultant.portfolioPdf, "_blank");
+                                                    } else {
+                                                        alert("Portfolio PDF not available");
+                                                    }
+                                                }}
+                                            >
+                                                Download Portfolio PDF
+                                            </Button>
+                                        }
                                     </Flex>
 
                                     {consultant.portfolioItems?.length > 0 ? (
@@ -402,7 +402,7 @@ export default function Info({ consultant }) {
                             color="white"
                             mt={4}
                             _hover={{ bg: "gray.800" }}
-                            onClick={() => window.location.href = `tel:${consultant.phone}`}
+                            onClick={() => setTabIndex(3)}
                         >
                             Schedule Consultation
                         </Button>
@@ -431,20 +431,18 @@ export default function Info({ consultant }) {
                         </Text>
                         {consultant.videoLinks && consultant.videoLinks.length > 0 ? (
                             consultant.videoLinks.map((link, index) => {
-                                // Try to extract the YouTube video ID from different formats
                                 let videoId = null;
 
                                 try {
                                     const url = new URL(link);
                                     if (url.hostname.includes("youtu.be")) {
-                                        videoId = url.pathname.slice(1); 
+                                        videoId = url.pathname.slice(1);
                                     } else if (url.hostname.includes("youtube.com")) {
                                         videoId = url.searchParams.get("v");
                                     }
                                 } catch (e) {
                                     console.error("Invalid URL:", link);
                                 }
-
                                 return (
                                     <Box
                                         key={index}
@@ -476,7 +474,6 @@ export default function Info({ consultant }) {
                         ) : (
                             <Text color="gray.500">No YouTube videos available.</Text>
                         )}
-
                     </Box>
                 </Box>
             </Flex>

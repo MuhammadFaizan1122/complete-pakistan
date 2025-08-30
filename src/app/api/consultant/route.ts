@@ -26,7 +26,7 @@ export async function GET(req) {
     // @ts-ignore
     const consultants = await Consultant.find({
       ...filter,
-      status: 'approved'
+      registrationStatus: 'approved'
     })
       .sort({ createdAt: -1 })
       .skip(skip)

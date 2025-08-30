@@ -25,7 +25,8 @@ const page = () => {
   const [consultant, setConsultant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  console.log('consultant', consultant)
+  const [tabIndex, setTabIndex] = useState(0);
+
   useEffect(() => {
     const fetchConsultant = async () => {
       setLoading(true);
@@ -70,8 +71,8 @@ const page = () => {
 
   return (
     <div>
-      <Hero consultant={consultant} />
-      <Info consultant={consultant} />
+      <Hero tabIndex={tabIndex} setTabIndex={setTabIndex} consultant={consultant} />
+      <Info tabIndex={tabIndex} setTabIndex={setTabIndex} consultant={consultant} />
     </div>
   );
 };

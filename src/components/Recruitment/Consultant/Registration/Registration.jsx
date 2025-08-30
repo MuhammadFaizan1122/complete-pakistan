@@ -23,21 +23,13 @@ import {
 } from "@chakra-ui/react";
 import {
   FaStar,
-  FaBuilding,
   FaUser,
   FaGlobe,
-  FaPhone,
-  FaWhatsapp,
   FaEnvelope,
-  FaMapMarkerAlt,
-  FaClock,
-  FaUsers,
   FaPlus,
   FaTrash,
-  FaFacebook,
   FaTwitter,
   FaInstagram,
-  FaLinkedin,
   FaYoutube,
   FaLanguage,
   FaBriefcase,
@@ -46,6 +38,7 @@ import {
   FaCheckCircle
 } from "react-icons/fa";
 import { useRouter } from 'next/navigation';
+import { handleUpload } from '../../../../handlers/contentUploading/contentUploading';
 
 export default function ConsultantRegistration() {
   const toast = useToast();
@@ -73,6 +66,7 @@ export default function ConsultantRegistration() {
   const [specializations, setSpecializations] = useState(['Work Permits', 'Student Visas', 'Job Placement', 'Business Immigration']);
   const [languages, setLanguages] = useState([]);
   const [socialLinks, setSocialLinks] = useState({ twitter: '', instagram: '', youtube: '' });
+  const [profileImage, setProfileImage] = useState(null);
   const [portfolioItems, setPortfolioItems] = useState([
     { title: 'Successful Work Permit Applications', description: '', successRate: '', year: '2023-2024' },
     { title: 'Guided Student Visa Approvals', description: '', successRate: '', year: '2023-2024' }
@@ -144,7 +138,23 @@ export default function ConsultantRegistration() {
 
     return errors;
   };
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
+    const validTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!validTypes.includes(file.type)) {
+      toast({
+        title: "Invalid file type",
+        description: "Only JPG, PNG, and WEBP files are allowed.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
+    setProfileImage(file);
+  };
   // Handle form submission
   const handleSubmit = async () => {
     setIsSubmitting(true);
@@ -161,6 +171,9 @@ export default function ConsultantRegistration() {
       setIsSubmitting(false);
       return;
     }
+    // const res = await handleUpload(file);
+    const cvResp = profileImage ? await handleUpload(cvImage) : null;
+    const ImageUrl = cvResp?.data?.url || "";
 
     const submissionData = {
       ...formData,
@@ -173,6 +186,7 @@ export default function ConsultantRegistration() {
       portfolioItems: portfolioItems.filter(item => item.description && item.successRate),
       services: services.filter(service => service.trim() !== ''),
       videoLinks: videoLinks.filter(link => link.trim() !== ''),
+      profilePhoto: ImageUrl
     };
 
     try {
@@ -576,7 +590,7 @@ export default function ConsultantRegistration() {
                 <VStack spacing={4} align="stretch">
                   <FormControl>
                     <FormLabel fontSize="md" color="gray.600">Profile Photo</FormLabel>
-                    <Input type="file" accept="image/*" p={1} onChange={(e) => setFormData({ ...formData, profilePhoto: e.target.files[0] })} />
+                    <Input type="file" accept="image/*" p={1} onChange={handleImageChange} />
                   </FormControl>
                   <FormControl>
                     <FormLabel fontSize="md" color="gray.600">Portfolio PDF</FormLabel>
