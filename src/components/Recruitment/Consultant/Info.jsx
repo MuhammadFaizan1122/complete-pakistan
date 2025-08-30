@@ -76,7 +76,7 @@ export default function Info({ consultant, tabIndex, setTabIndex }) {
                     {/* Stats Grid */}
                     <Grid gap={4} wrap="wrap">
                         <SimpleGrid
-                            columns={{ base: 1, sm: 2, md: 4 }}
+                            columns={{ base: 1, sm: 2, md: 3 }}
                             spacing={{ base: 4, md: 6 }}
                         >
                             <Box className="bg-green-50 rounded-lg text-center py-6 shadow-sm w-full">
@@ -97,12 +97,12 @@ export default function Info({ consultant, tabIndex, setTabIndex }) {
                                 </Text>
                                 <Text color="gray.600">Years Experience</Text>
                             </Box>
-                            <Box className="bg-red-50 rounded-lg text-center py-6 shadow-sm w-full">
+                            {/* <Box className="bg-red-50 rounded-lg text-center py-6 shadow-sm w-full">
                                 <Text fontSize="2xl" fontWeight="bold" color="red.600">
                                     {stats.likes}
                                 </Text>
                                 <Text color="gray.600">Likes</Text>
-                            </Box>
+                            </Box> */}
                         </SimpleGrid>
                     </Grid>
                     <Tabs variant="soft-rounded" colorScheme="gray" w="100%"
