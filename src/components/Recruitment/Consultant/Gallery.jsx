@@ -1,7 +1,6 @@
 import React from 'react';
 import { VStack, Text, SimpleGrid, Box, Flex, Icon } from '@chakra-ui/react';
-import { FaCamera } from 'react-icons/fa'; // Placeholder icon for images
-
+import { FaCamera } from 'react-icons/fa'; 
 const Gallery = () => {
   return (
     <VStack align="flex-start" spacing={6} p={4} bg="gray.50" borderRadius="lg" boxShadow="md">
