@@ -28,10 +28,7 @@ export async function GET(req: Request) {
     try {
         await connectDB();
         const id = new URL(req.url).searchParams.get("id");
-
         const now = new Date();
-
-        // Clean expired flights
         // @ts-ignore
         const flights = await Flight.find();
         for (const f of flights) {
@@ -48,7 +45,6 @@ export async function GET(req: Request) {
         }
 
         if (id) {
-            // Populate the companyId field with TicketingAgent data
             // @ts-ignore
             const flightsWithAgent = await Flight.find({ companyId: id }).populate({
                 path: "companyId",
@@ -56,13 +52,27 @@ export async function GET(req: Request) {
             });
 
             if (!flightsWithAgent || flightsWithAgent.length === 0) {
-                return NextResponse.json(
-                    { success: false, message: "Flight not found" },
-                    { status: 404 }
-                );
+                // If no flights → fetch agent
+                // @ts-ignore
+                const agent = await TicketingAgent.findById(id).select("-__v");
+
+                if (!agent) {
+                    return NextResponse.json(
+                        { success: false, message: "Agent not found" },
+                        { status: 404 }
+                    );
+                }
+
+                return NextResponse.json({
+                    success: true,
+                    data: {
+                        agent,
+                        flights: [],
+                    },
+                });
             }
 
-            return NextResponse.json({ success: true, data: flightsWithAgent });
+            return NextResponse.json({ success: true, data: { agent: flightsWithAgent[0].companyId, flights: flightsWithAgent } });
         }
 
         // For all flights, populate companyId with TicketingAgent data
@@ -73,7 +83,7 @@ export async function GET(req: Request) {
                 model: "TicketingAgent",
             })
             .sort({ createdAt: -1 });
-            
+
         return NextResponse.json({ success: true, data: updatedFlights });
     } catch (error) {
         console.error("GET Flights Error:", error);

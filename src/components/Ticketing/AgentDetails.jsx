@@ -133,16 +133,15 @@ export default function TravelAgentDetail() {
   const [agent, setAgent] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 👉 Fetch agent details
   useEffect(() => {
     if (!id) return;
-
     const fetchAgent = async () => {
       try {
         const res = await handleGetFlightById(id);
-        if (res.data.success) {
-          const d = res.data.data[0].companyId;
-          setFlight(res.data.data);
+        console.log('res', res)
+        if (res.status === 200) {
+          const d = res.data.data.agent;
+          setFlight(res.data.data.flights);
           setAgent({
             name: d.businessName,
             owner: d.proprietorName,
@@ -361,56 +360,56 @@ export default function TravelAgentDetail() {
                   </HStack>
                 </Flex>
 
-               
-    <VStack spacing={3} align="stretch">
-      {/* Phones, WhatsApp, Email (your existing code) */}
 
-      {/* Social Media */}
-      {agent.socialLinks && (
-        <Flex gap={4} mt={3}>
-          {agent.socialLinks.facebook && (
-            <Icon
-              as={FaFacebook}
-              w={5}
-              h={5}
-              color="blue.600"
-              cursor="pointer"
-              onClick={() => window.open(agent.socialLinks.facebook, "_blank")}
-            />
-          )}
-          {agent.socialLinks.twitter && (
-            <Icon
-              as={FaTwitter}
-              w={5}
-              h={5}
-              color="blue.400"
-              cursor="pointer"
-              onClick={() => window.open(agent.socialLinks.twitter, "_blank")}
-            />
-          )}
-          {agent.socialLinks.instagram && (
-            <Icon
-              as={FaInstagram}
-              w={5}
-              h={5}
-              color="pink.500"
-              cursor="pointer"
-              onClick={() => window.open(agent.socialLinks.instagram, "_blank")}
-            />
-          )}
-          {agent.socialLinks.linkedin && (
-            <Icon
-              as={FaLinkedin}
-              w={5}
-              h={5}
-              color="blue.700"
-              cursor="pointer"
-              onClick={() => window.open(agent.socialLinks.linkedin, "_blank")}
-            />
-          )}
-        </Flex>
-      )}
-    </VStack>
+                <VStack spacing={3} align="stretch">
+                  {/* Phones, WhatsApp, Email (your existing code) */}
+
+                  {/* Social Media */}
+                  {agent.socialLinks && (
+                    <Flex gap={4} mt={3}>
+                      {agent.socialLinks.facebook && (
+                        <Icon
+                          as={FaFacebook}
+                          w={5}
+                          h={5}
+                          color="blue.600"
+                          cursor="pointer"
+                          onClick={() => window.open(agent.socialLinks.facebook, "_blank")}
+                        />
+                      )}
+                      {agent.socialLinks.twitter && (
+                        <Icon
+                          as={FaTwitter}
+                          w={5}
+                          h={5}
+                          color="blue.400"
+                          cursor="pointer"
+                          onClick={() => window.open(agent.socialLinks.twitter, "_blank")}
+                        />
+                      )}
+                      {agent.socialLinks.instagram && (
+                        <Icon
+                          as={FaInstagram}
+                          w={5}
+                          h={5}
+                          color="pink.500"
+                          cursor="pointer"
+                          onClick={() => window.open(agent.socialLinks.instagram, "_blank")}
+                        />
+                      )}
+                      {agent.socialLinks.linkedin && (
+                        <Icon
+                          as={FaLinkedin}
+                          w={5}
+                          h={5}
+                          color="blue.700"
+                          cursor="pointer"
+                          onClick={() => window.open(agent.socialLinks.linkedin, "_blank")}
+                        />
+                      )}
+                    </Flex>
+                  )}
+                </VStack>
 
                 <VStack spacing={2} mt={6}>
                   <Button
@@ -503,75 +502,79 @@ export default function TravelAgentDetail() {
           </GridItem>
         </Grid>
       </Box>
-      <Box bg="gray.50" py={8}>
-        <Box maxW="1440px" mx="auto" px={4}>
-          <VStack spacing={2} mb={8}>
-            <Text fontSize="2xl" fontWeight="bold" color="gray.800">
-              Current Fare Offers
-            </Text>
-            <Text color="gray.600" textAlign="center" textTransform={'capitalize'}>
-              Special deals from {agent.name}
-            </Text>
-          </VStack>
+      {
+        flight.length &&
+        <Box bg="gray.50" py={8}>
+          <Box maxW="1440px" mx="auto" px={4}>
+            <VStack spacing={2} mb={8}>
+              <Text fontSize="2xl" fontWeight="bold" color="gray.800">
+                Current Fare Offers
+              </Text>
+              <Text color="gray.600" textAlign="center" textTransform={'capitalize'}>
+                Special deals from {agent.name}
+              </Text>
+            </VStack>
 
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-            {flight.map((offer, index) => (
-              <Box
-                key={index}
-                bg="white"
-                borderRadius="lg"
-                p={6}
-                shadow="sm"
-                border="1px"
-                borderColor="gray.200"
-                textAlign="center"
-                _hover={{ shadow: "md", transform: "translateY(-2px)" }}
-                transition="all 0.2s"
-              >
-                <VStack spacing={4}>
-                  {
-                    offer.routes.map((r, i) => {
-                      return (
-                        <Text fontSize="lg" fontWeight="semibold" color="green.600" key={i}>
-                          {r.fromCity} {'-->'} {r.toCity}
-                        </Text>
-                      )
-                    })
-                  }
-                  <Text fontSize="2xl" fontWeight="bold" color="yellow.500">
-                    {new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "PKR",
-                      minimumFractionDigits: 0,
-                    }).format(offer.price)}
-                  </Text>
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+              {flight.map((offer, index) => (
+                <Box
+                  key={index}
+                  bg="white"
+                  borderRadius="lg"
+                  p={6}
+                  shadow="sm"
+                  border="1px"
+                  borderColor="gray.200"
+                  textAlign="center"
+                  _hover={{ shadow: "md", transform: "translateY(-2px)" }}
+                  transition="all 0.2s"
+                >
+                  <VStack spacing={4}>
+                    {
+                      offer.routes.map((r, i) => {
+                        return (
+                          <Text fontSize="lg" fontWeight="semibold" color="green.600" key={i}>
+                            {r.fromCity} {'-->'} {r.toCity}
+                          </Text>
+                        )
+                      })
+                    }
+                    <Text fontSize="2xl" fontWeight="bold" color="yellow.500">
+                      {new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "PKR",
+                        minimumFractionDigits: 0,
+                      }).format(offer.price)}
+                    </Text>
 
 
-                  <Text fontSize="sm" color="gray.600">
-                    {offer.airline}
-                  </Text>
+                    <Text fontSize="sm" color="gray.600">
+                      {offer.airline}
+                    </Text>
 
-                  <Text fontSize="xs" color="gray.500">
-                    {offer.date ? new Date(offer.date).toLocaleDateString() : 'N/A'}
-                  </Text>
+                    <Text fontSize="xs" color="gray.500">
+                      {offer.date ? new Date(offer.date).toLocaleDateString() : 'N/A'}
+                    </Text>
 
-                  <Button
-                    bg="green.600"
-                    color="white"
-                    w="full"
-                    py={3}
-                    fontWeight="semibold"
-                    _hover={{ bg: "green.700" }}
-                    _active={{ bg: "green.800" }}
-                  >
-                    Book Now
-                  </Button>
-                </VStack>
-              </Box>
-            ))}
-          </SimpleGrid>
+                    <Button
+                      bg="green.600"
+                      color="white"
+                      w="full"
+                      py={3}
+                      fontWeight="semibold"
+                      _hover={{ bg: "green.700" }}
+                      _active={{ bg: "green.800" }}
+                    >
+                      Book Now
+                    </Button>
+                  </VStack>
+                </Box>
+              ))}
+            </SimpleGrid>
+          </Box>
         </Box>
-      </Box>
+      }
+
     </Box>
   );
 }
