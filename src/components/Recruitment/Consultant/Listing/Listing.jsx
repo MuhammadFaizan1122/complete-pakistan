@@ -38,7 +38,7 @@ export default function ConsultantCard() {
     };
 
     const fetchSliderData = async () => {
-      const response = await fetch(`/api/slider?page=HajjAndUmrah`);
+      const response = await fetch(`/api/slider?page=Consultant`);
       const sliderData = await response.json();
       setSliderImages(sliderData?.data?.sliderImgs || []);
       setNews(sliderData?.data?.news || []);
