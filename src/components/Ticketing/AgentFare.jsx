@@ -98,12 +98,13 @@ const flightData = [
 
 export default function AgentFare() {
     const { id } = useParams();
-    const [flight, setFlight] = useState(null);
+    const [flight, setFlight] = useState([]);
     const [loading, setLoading] = useState(true);
     const handleFetch = async () => {
         try {
             const res = await handleGetFlightById(id);
-            if (res?.data?.success) {
+            console.log('res', res)
+            if (res?.status === 200) {
                 setFlight(res.data.data);
             }
         } catch (error) {
@@ -126,150 +127,154 @@ export default function AgentFare() {
     return (
 
         <Box maxW="1440px" mx="auto" p={4} minH={'50vh'}>
-            {flight.map((f, index) => (
-                <Box
-                    key={index}
-                    borderWidth="1px"
-                    borderRadius="2xl"
-                    p={0}
-                    mb={6}
-                    bg="white"
-                    shadow="lg"
-                    overflow="hidden"
-                    transition="all 0.3s ease"
-                    _hover={{ shadow: "xl", transform: "translateY(-4px)" }}
-                >
-                    {/* Header Section */}
+            {!flight.length ?
+                <Text textAlign={'center'} my={10}>
+                    No Flights Available
+                </Text>
+                : flight.map((f, index) => (
                     <Box
-                        bgGradient="linear(to-r, teal.600, green.500)"
-                        color="white"
-                        px={5}
-                        py={3}
+                        key={index}
+                        borderWidth="1px"
+                        borderRadius="2xl"
+                        p={0}
+                        mb={6}
+                        bg="white"
+                        shadow="lg"
+                        overflow="hidden"
+                        transition="all 0.3s ease"
+                        _hover={{ shadow: "xl", transform: "translateY(-4px)" }}
                     >
-                        <Flex justify="space-between" align="center">
-                            <Flex align="center" gap={2} fontWeight="bold" fontSize="lg">
-                                <FaPlaneDeparture /> {f.airline} - {f.flightNo}
-                            </Flex>
-                            <Badge
-                                colorScheme="yellow"
-                                fontSize="lg"
-                                px={3}
-                                py={1}
-                                borderRadius="md"
-                            >
-                                {f.price} PKR
-                            </Badge>
-                        </Flex>
-                        <Text fontSize="sm" opacity={0.9}>
-                            Date: {new Date(f.date).toDateString()} | by {f.agent}
-                        </Text>
-                    </Box>
-
-                    {/* Body Section */}
-                    <Box px={5} py={4}>
-                        {f.routes.map((route, idx) => (
-                            <Box key={route._id || idx}>
-                                <Flex
-                                    justify="space-between"
-                                    align="center"
-                                    direction={{ base: "column", md: "row" }}
-                                    gap={{ base: 4, md: 8 }}
-                                >
-                                    {/* Departure */}
-                                    <Box flex="1" textAlign="center">
-                                        <Text fontWeight="bold" fontSize="xl" color="teal.700">
-                                            {route.departureTime}
-                                        </Text>
-                                        <Text fontSize="sm" color="gray.600">
-                                            {route.departureAirport}
-                                        </Text>
-                                        <Text fontSize="xs" color="gray.500">
-                                            {route.fromCity}
-                                        </Text>
-                                    </Box>
-
-                                    {/* Route Info (center only for first leg) */}
-                                    {idx === 0 && (
-                                        <Box flex="1" textAlign="center">
-                                            <Flex
-                                                direction="column"
-                                                justify="center"
-                                                alignItems="center"
-                                            >
-                                                <Flex align="center" gap={2} fontWeight="semibold" mb={2}>
-                                                    {route.fromCity} <FaArrowRight /> {route.toCity}
-                                                </Flex>
-                                                <Flex
-                                                    align="center"
-                                                    justify="center"
-                                                    color="gray.600"
-                                                    mb={1}
-                                                    fontSize="sm"
-                                                >
-                                                    <FaClock /> <Text ml={1}>{f.duration}</Text>
-                                                </Flex>
-                                                <Text fontSize="sm" color="gray.600">
-                                                    {f.type}
-                                                </Text>
-                                            </Flex>
-                                        </Box>
-                                    )}
-
-                                    {/* Arrival */}
-                                    <Box flex="1" textAlign="center">
-                                        <Text fontWeight="bold" fontSize="xl" color="teal.700">
-                                            {route.arrivalTime}
-                                        </Text>
-                                        <Text fontSize="sm" color="gray.600">
-                                            {route.arrivalAirport}
-                                        </Text>
-                                        <Text fontSize="xs" color="gray.500">
-                                            {route.toCity}
-                                        </Text>
-                                    </Box>
-                                </Flex>
-
-                                {/* Divider between multi-routes */}
-                                {idx < f.routes.length - 1 && (
-                                    <Divider my={6} borderColor="gray.300" />
-                                )}
-                            </Box>
-                        ))}
-                    </Box>
-
-                    {/* Footer Section */}
-                    <Box
-                        px={5}
-                        py={3}
-                        borderTop="1px solid"
-                        borderColor="gray.100"
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                    >
-                        <Flex align="center" gap={2} color="gray.600">
-                            <FaSuitcase /> <Text fontSize="sm">{f.baggage}</Text>
-                        </Flex>
-                        <Button
-                            bg="teal.600"
+                        {/* Header Section */}
+                        <Box
+                            bgGradient="linear(to-r, teal.600, green.500)"
                             color="white"
-                            size="md"
-                            px={6}
-                            _hover={{ bg: "teal.700" }}
-                            borderRadius="md"
-                            onClick={() => {
-                                if (f.companyId?.whatsappBusiness) {
-                                    window.open(`https://wa.me/${f.companyId.whatsappBusiness}`, "_blank");
-                                }
-                            }}
+                            px={5}
+                            py={3}
                         >
-                            Contact Agent
-                        </Button>
+                            <Flex justify="space-between" align="center">
+                                <Flex align="center" gap={2} fontWeight="bold" fontSize="lg">
+                                    <FaPlaneDeparture /> {f.airline} - {f.flightNo}
+                                </Flex>
+                                <Badge
+                                    colorScheme="yellow"
+                                    fontSize="lg"
+                                    px={3}
+                                    py={1}
+                                    borderRadius="md"
+                                >
+                                    {f.price} PKR
+                                </Badge>
+                            </Flex>
+                            <Text fontSize="sm" opacity={0.9}>
+                                Date: {new Date(f.date).toDateString()} | by {f.agent}
+                            </Text>
+                        </Box>
+
+                        {/* Body Section */}
+                        <Box px={5} py={4}>
+                            {f.routes.map((route, idx) => (
+                                <Box key={route._id || idx}>
+                                    <Flex
+                                        justify="space-between"
+                                        align="center"
+                                        direction={{ base: "column", md: "row" }}
+                                        gap={{ base: 4, md: 8 }}
+                                    >
+                                        {/* Departure */}
+                                        <Box flex="1" textAlign="center">
+                                            <Text fontWeight="bold" fontSize="xl" color="teal.700">
+                                                {route.departureTime}
+                                            </Text>
+                                            <Text fontSize="sm" color="gray.600">
+                                                {route.departureAirport}
+                                            </Text>
+                                            <Text fontSize="xs" color="gray.500">
+                                                {route.fromCity}
+                                            </Text>
+                                        </Box>
+
+                                        {/* Route Info (center only for first leg) */}
+                                        {idx === 0 && (
+                                            <Box flex="1" textAlign="center">
+                                                <Flex
+                                                    direction="column"
+                                                    justify="center"
+                                                    alignItems="center"
+                                                >
+                                                    <Flex align="center" gap={2} fontWeight="semibold" mb={2}>
+                                                        {route.fromCity} <FaArrowRight /> {route.toCity}
+                                                    </Flex>
+                                                    <Flex
+                                                        align="center"
+                                                        justify="center"
+                                                        color="gray.600"
+                                                        mb={1}
+                                                        fontSize="sm"
+                                                    >
+                                                        <FaClock /> <Text ml={1}>{f.duration}</Text>
+                                                    </Flex>
+                                                    <Text fontSize="sm" color="gray.600">
+                                                        {f.type}
+                                                    </Text>
+                                                </Flex>
+                                            </Box>
+                                        )}
+
+                                        {/* Arrival */}
+                                        <Box flex="1" textAlign="center">
+                                            <Text fontWeight="bold" fontSize="xl" color="teal.700">
+                                                {route.arrivalTime}
+                                            </Text>
+                                            <Text fontSize="sm" color="gray.600">
+                                                {route.arrivalAirport}
+                                            </Text>
+                                            <Text fontSize="xs" color="gray.500">
+                                                {route.toCity}
+                                            </Text>
+                                        </Box>
+                                    </Flex>
+
+                                    {/* Divider between multi-routes */}
+                                    {idx < f.routes.length - 1 && (
+                                        <Divider my={6} borderColor="gray.300" />
+                                    )}
+                                </Box>
+                            ))}
+                        </Box>
+
+                        {/* Footer Section */}
+                        <Box
+                            px={5}
+                            py={3}
+                            borderTop="1px solid"
+                            borderColor="gray.100"
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                        >
+                            <Flex align="center" gap={2} color="gray.600">
+                                <FaSuitcase /> <Text fontSize="sm">{f.baggage}</Text>
+                            </Flex>
+                            <Button
+                                bg="teal.600"
+                                color="white"
+                                size="md"
+                                px={6}
+                                _hover={{ bg: "teal.700" }}
+                                borderRadius="md"
+                                onClick={() => {
+                                    if (f.companyId?.whatsappBusiness) {
+                                        window.open(`https://wa.me/${f.companyId.whatsappBusiness}`, "_blank");
+                                    }
+                                }}
+                            >
+                                Contact Agent
+                            </Button>
 
 
+                        </Box>
                     </Box>
-                </Box>
-            ))}
+                ))}
         </Box>
     );
 }
