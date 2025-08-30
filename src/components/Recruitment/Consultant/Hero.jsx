@@ -51,13 +51,13 @@ export default function Hero({ consultant, tabIndex, setTabIndex }) {
                     </HStack>
 
                     <HStack spacing={3}>
-                        <HStack>
+                        {/* <HStack>
                             <Icon as={FaStar} color="yellow.400" />
                             <Text fontWeight="semibold">{consultant.rating}</Text>
                             <Text fontSize="lg" color="gray.500">
-                                {/* ({consultant.clientsHelped || "0"} reviews) */} |
+                                |
                             </Text>
-                        </HStack>
+                        </HStack> */}
                         <Text fontWeight="semibold">{consultant.clientsHelped || "0"}+</Text>
                         <Text color="gray.700" fontWeight="medium">
                             clients helped

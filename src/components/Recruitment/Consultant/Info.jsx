@@ -65,13 +65,13 @@ export default function Info({ consultant, tabIndex, setTabIndex }) {
                 className="w-full"
             >
                 <Box flex="3">
-                    <Box className="bg-gray-100 text-sm px-4 py-3 rounded-lg mb-6 flex items-center">
+                    {/* <Box className="bg-gray-100 text-sm px-4 py-3 rounded-lg mb-6 flex items-center">
                         <span className="mr-2">🆕</span>
                         <Text>
                             New fast-track processing available for work permits! Book your
                             consultation today for priority handling.
                         </Text>
-                    </Box>
+                    </Box> */}
 
                     {/* Stats Grid */}
                     <Grid gap={4} wrap="wrap">
