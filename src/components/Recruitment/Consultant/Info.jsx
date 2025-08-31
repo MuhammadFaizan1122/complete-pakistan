@@ -13,7 +13,6 @@ import {
     VStack,
     HStack,
     Icon,
-    Divider,
     Grid,
     SimpleGrid,
 } from "@chakra-ui/react";
@@ -37,7 +36,6 @@ import SuccessStories from "./SuccessStories";
 import Notice from "./Notice";
 import RequestConsultationForm from "./ConsultationForm";
 import Gallery from "./Gallery";
-import { useState } from "react";
 import Link from "next/link";
 
 export default function Info({ consultant, tabIndex, setTabIndex }) {
@@ -207,7 +205,7 @@ export default function Info({ consultant, tabIndex, setTabIndex }) {
                                                 <Flex justify="space-between" align="center">
                                                     <Box>
                                                         <Text fontWeight="bold">{item.title}</Text>
-                                                        <Text fontSize="sm" color="gray.600">
+                                                        <Text fontSize="md" color="gray.600">
                                                             {item.description || "No description available"}
                                                         </Text>
                                                         <Tag
@@ -221,7 +219,7 @@ export default function Info({ consultant, tabIndex, setTabIndex }) {
                                                                 : "N/A"}
                                                         </Tag>
                                                     </Box>
-                                                    <Text color="gray.500" fontSize="sm">
+                                                    <Text color="gray.500" fontSize="md">
                                                         {item.year || "N/A"}
                                                     </Text>
                                                 </Flex>
@@ -315,7 +313,7 @@ export default function Info({ consultant, tabIndex, setTabIndex }) {
                                             />
                                             <Box>
                                                 <Text fontWeight="bold">{service}</Text>
-                                                <Text fontSize="sm" color="gray.600">
+                                                <Text fontSize="md" color="gray.600">
                                                     {service.includes("Consultation")
                                                         ? "Personalized consultation to understand your goals and provide expert guidance on available options."
                                                         : service.includes("Documentation")
@@ -395,7 +393,7 @@ export default function Info({ consultant, tabIndex, setTabIndex }) {
 
                         </HStack>
 
-                        <VStack align="flex-start" spacing={2} fontSize="sm">
+                        <VStack align="flex-start" spacing={2} fontSize="md">
                             <HStack>
                                 <Icon as={FaPhone} />
                                 <Text>{consultant.phone || "N/A"}</Text>

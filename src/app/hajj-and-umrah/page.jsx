@@ -1,10 +1,10 @@
 import React from 'react'
-import HajjAndUmrah from '../../components/hajjAndUmrah/HajjAndUmrah'
+import AgentsList from '../../components/hajjAndUmrah/AgentsList/AgentsList'
 
 const page = () => {
   return (
     <div>
-        <HajjAndUmrah />
+      <AgentsList />
     </div>
   )
 }

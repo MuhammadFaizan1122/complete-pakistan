@@ -43,6 +43,7 @@ import {
 } from "react-icons/fa";
 import { useRouter } from 'next/navigation';
 import { handleUpload } from '../../../../handlers/contentUploading/contentUploading';
+import StyledInput from '../../../CV/StyledInput';
 
 // Yup validation schema
 const validationSchema = Yup.object({
@@ -385,7 +386,7 @@ export default function ConsultantRegistration() {
                 <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={4}>
                   <FormControl isInvalid={!!errors.fullName}>
                     <FormLabel fontSize="md" color="gray.600">Full Name</FormLabel>
-                    <Input
+                    <StyledInput
                       value={formData.fullName}
                       placeholder="Full Name"
                       onChange={(e) => {
@@ -397,7 +398,7 @@ export default function ConsultantRegistration() {
                   </FormControl>
                   <FormControl isInvalid={!!errors.title}>
                     <FormLabel fontSize="md" color="gray.600">Professional Title</FormLabel>
-                    <Input
+                    <StyledInput
                       placeholder="e.g., Senior Immigration Consultant"
                       value={formData.title}
                       onChange={(e) => {
@@ -409,7 +410,7 @@ export default function ConsultantRegistration() {
                   </FormControl>
                   <FormControl isInvalid={!!errors.locationCity}>
                     <FormLabel fontSize="md" color="gray.600">City</FormLabel>
-                    <Input
+                    <StyledInput
                       value={formData.locationCity}
                       placeholder="City"
                       onChange={(e) => {
@@ -421,7 +422,7 @@ export default function ConsultantRegistration() {
                   </FormControl>
                   <FormControl isInvalid={!!errors.locationCountry}>
                     <FormLabel fontSize="md" color="gray.600">Country</FormLabel>
-                    <Input
+                    <StyledInput
                       value={formData.locationCountry}
                       placeholder="Country"
                       onChange={(e) => {
@@ -433,7 +434,7 @@ export default function ConsultantRegistration() {
                   </FormControl>
                   <FormControl isInvalid={!!errors.experienceYears}>
                     <FormLabel fontSize="md" color="gray.600">Years of Experience</FormLabel>
-                    <Input
+                    <StyledInput
                       type="number"
                       min="0"
                       step="1"
@@ -449,7 +450,7 @@ export default function ConsultantRegistration() {
                   <FormControl isInvalid={!!errors.successRate}>
                     <FormLabel fontSize="md" color="gray.600">Success Rate (%)</FormLabel>
                     <InputGroup>
-                      <Input
+                      <StyledInput
                         type="number"
                         min="1"
                         max="100"
@@ -467,7 +468,7 @@ export default function ConsultantRegistration() {
                   </FormControl>
                   <FormControl isInvalid={!!errors.clientsHelped}>
                     <FormLabel fontSize="md" color="gray.600">Clients Helped</FormLabel>
-                    <Input
+                    <StyledInput
                       type="number"
                       min="0"
                       step="1"
@@ -511,7 +512,7 @@ export default function ConsultantRegistration() {
                   </VStack>
                   <HStack>
                     <FormControl isInvalid={!!errors.newSpecialization}>
-                      <Input
+                      <StyledInput
                         placeholder="Add specialization (e.g., Work Permits)"
                         value={newSpecialization}
                         onChange={(e) => setNewSpecialization(e.target.value)}
@@ -530,7 +531,8 @@ export default function ConsultantRegistration() {
                         }
                       }}
                       colorScheme="green"
-                      size="md"
+                      size="lg"
+                      rounded={'lg'}
                     >
                       Add
                     </Button>
@@ -554,7 +556,7 @@ export default function ConsultantRegistration() {
                       <Box key={index}>
                         <Text fontWeight="medium" mb={2}>{item.title}</Text>
                         <FormControl isInvalid={!!errors[`portfolioItems[${index}].description`]}>
-                          <Input
+                          <StyledInput
                             placeholder="Description (e.g., Helped 150+ professionals secure work permits in Canada, USA, and Australia)"
                             value={item.description}
                             onChange={(e) => handlePortfolioChange(index, 'description', e.target.value)}
@@ -564,7 +566,7 @@ export default function ConsultantRegistration() {
                         </FormControl>
                         <FormControl isInvalid={!!errors[`portfolioItems[${index}].successRate`]}>
                           <InputGroup>
-                            <Input
+                            <StyledInput
                               type="number"
                               placeholder="Success Rate (e.g., 95)"
                               value={item.successRate}
@@ -603,6 +605,14 @@ export default function ConsultantRegistration() {
                   <Textarea
                     placeholder="Describe your experience, specializations, and track record (e.g., Ahmed Hassan is a highly experienced immigration consultant with over 12 years...)"
                     value={formData.about}
+                          border="1px solid"
+      borderColor="gray.300"
+      py={6}
+      outline="1px solid"
+      outlineColor="gray.300"
+      _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
+      _active={{ outline: "none" }}
+
                     onChange={(e) => {
                       setFormData({ ...formData, about: e.target.value });
                       validateField('about', e.target.value);
@@ -642,7 +652,7 @@ export default function ConsultantRegistration() {
                   </VStack>
                   <HStack>
                     <FormControl isInvalid={!!errors.newService}>
-                      <Input
+                      <StyledInput
                         placeholder="Add service (e.g., Client Consultation)"
                         value={newService}
                         onChange={(e) => setNewService(e.target.value)}
@@ -660,8 +670,9 @@ export default function ConsultantRegistration() {
                           setErrors((prev) => ({ ...prev, newService: 'Service cannot be empty' }));
                         }
                       }}
+                      rounded={'xl'}
                       colorScheme="green"
-                      size="md"
+                      size="lg"
                     >
                       Add
                     </Button>
@@ -690,14 +701,15 @@ export default function ConsultantRegistration() {
                   </HStack>
                   <HStack>
                     <FormControl isInvalid={!!errors.newLanguage}>
-                      <Input
+                      <StyledInput
                         placeholder="Add language (e.g., English)"
                         value={newLanguage}
                         onChange={(e) => setNewLanguage(e.target.value)}
                       />
                       <FormErrorMessage>{errors.newLanguage}</FormErrorMessage>
                     </FormControl>
-                    <Button onClick={addLanguage} colorScheme="green" size="md">
+                      
+                    <Button onClick={addLanguage} colorScheme="green" size="lg" rounded={'xl'}>
                       Add
                     </Button>
                   </HStack>
@@ -715,7 +727,7 @@ export default function ConsultantRegistration() {
                   {videoLinks.map((link, index) => (
                     <HStack key={index}>
                       <FormControl isInvalid={!!errors[`videoLinks[${index}]`]}>
-                        <Input
+                        <StyledInput
                           placeholder="Video URL (e.g., https://youtube.com/...)"
                           value={link}
                           onChange={(e) => {
@@ -760,7 +772,7 @@ export default function ConsultantRegistration() {
                 <VStack spacing={4} align="stretch">
                   <FormControl isInvalid={!!errors.phone}>
                     <FormLabel fontSize="md" color="gray.600">Phone Number</FormLabel>
-                    <Input
+                    <StyledInput
                       type="tel"
                       value={formData.phone}
                       placeholder="Phone number (e.g., +923001234567)"
@@ -773,7 +785,7 @@ export default function ConsultantRegistration() {
                   </FormControl>
                   <FormControl isInvalid={!!errors.email}>
                     <FormLabel fontSize="md" color="gray.600">Email Address</FormLabel>
-                    <Input
+                    <StyledInput
                       type="email"
                       value={formData.email}
                       placeholder="email"
@@ -789,6 +801,14 @@ export default function ConsultantRegistration() {
                     <Textarea
                       value={formData.officeAddress}
                       placeholder="Office address"
+                            border="1px solid"
+      borderColor="gray.300"
+      py={6}
+      outline="1px solid"
+      outlineColor="gray.300"
+      _focus={{ ring: 2, ringColor: "#0a7450", borderColor: "transparent", outline: "none" }}
+      _active={{ outline: "none" }}
+
                       onChange={(e) => {
                         setFormData({ ...formData, officeAddress: e.target.value });
                         validateField('officeAddress', e.target.value);
@@ -810,7 +830,7 @@ export default function ConsultantRegistration() {
                   <HStack spacing={2}>
                     <Icon as={FaTwitter} color="green.400" boxSize={5} />
                     <FormControl isInvalid={!!errors['socialLinks.twitter']}>
-                      <Input
+                      <StyledInput
                         placeholder="Twitter URL"
                         value={socialLinks.twitter}
                         onChange={(e) => {
@@ -824,7 +844,7 @@ export default function ConsultantRegistration() {
                   <HStack spacing={2}>
                     <Icon as={FaInstagram} color="pink.600" boxSize={5} />
                     <FormControl isInvalid={!!errors['socialLinks.instagram']}>
-                      <Input
+                      <StyledInput
                         placeholder="Instagram URL"
                         value={socialLinks.instagram}
                         onChange={(e) => {
@@ -838,7 +858,7 @@ export default function ConsultantRegistration() {
                   <HStack spacing={2}>
                     <Icon as={FaYoutube} color="red.600" boxSize={5} />
                     <FormControl isInvalid={!!errors['socialLinks.youtube']}>
-                      <Input
+                      <StyledInput
                         placeholder="YouTube Channel URL"
                         value={socialLinks.youtube}
                         onChange={(e) => {
@@ -861,12 +881,12 @@ export default function ConsultantRegistration() {
                 <VStack spacing={4} align="stretch">
                   <FormControl isInvalid={!!errors.profilePhoto}>
                     <FormLabel fontSize="md" color="gray.600">Profile Photo</FormLabel>
-                    <Input type="file" accept="image/*" p={1} onChange={handleImageChange} />
+                    <StyledInput type="file" accept="image/*" p={1} onChange={handleImageChange} />
                     <FormErrorMessage>{errors.profilePhoto}</FormErrorMessage>
                   </FormControl>
                   <FormControl isInvalid={!!errors.portfolioPdf}>
                     <FormLabel fontSize="md" color="gray.600">Portfolio PDF</FormLabel>
-                    <Input type="file" accept=".pdf" p={1} onChange={handlePDFChange} />
+                    <StyledInput type="file" accept=".pdf" p={1} onChange={handlePDFChange} />
                     <FormErrorMessage>{errors.portfolioPdf}</FormErrorMessage>
                   </FormControl>
 
@@ -876,6 +896,7 @@ export default function ConsultantRegistration() {
               {/* Submit */}
               <Button
                 colorScheme="green"
+                rounded={'lg'}
                 size="lg"
                 isLoading={isSubmitting}
                 onClick={handleSubmit}

@@ -3,12 +3,15 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPane
 import React, { useEffect, useState } from 'react';
 import { HeroSection } from '../Gamca/MedicalCenters/HeroSection';
 import { VStack, Text } from '@chakra-ui/react';
-import { FaCamera, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCheck, FaGlobe, FaFacebook, FaInstagram, FaYoutube, FaStar } from 'react-icons/fa';
+import { FaCamera, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCheck, FaGlobe, FaFacebook, FaInstagram, FaYoutube, FaStar, FaTwitter } from 'react-icons/fa';
 import { MdCall, MdStar } from 'react-icons/md';
 import { IoMdMail } from 'react-icons/io';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 const HajjAndUmrah = () => {
+    const { id } = useParams();
+    const [agent, setAgent] = useState(null);
     const [sliderImages, setSliderImages] = useState([]);
     const [news, setNews] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -22,6 +25,10 @@ const HajjAndUmrah = () => {
             const sliderData = await response.json();
             setSliderImages(sliderData?.data?.sliderImgs || []);
             setNews(sliderData?.data?.news || []);
+            const res = await fetch(`/api/travel-agent/${id}`);
+            const data = await res.json();
+            console.log('data', data)
+            if (data.success) setAgent(data.data);
             setLoading(false);
         };
         fetchData();
@@ -37,31 +44,36 @@ const HajjAndUmrah = () => {
 
     return (
         <Box bg="gray.50">
-            <HeroSection sliderImages={sliderImages} news={news} />
             <Box maxW={'1440px'} mx="auto" bg="gray.50">
                 <VStack align="flex-start" spacing={{ base: 4, md: 6 }} w="full">
                     <Flex align="center" w="full" justify="space-between" direction={{ base: 'column', md: 'row' }} gap={{ base: 4, md: 0 }} p={4}>
                         <Flex mt={{ base: 4, md: 10 }} align="center">
                             <Box mr={2}>
-                                <Avatar name="Hajj & Umrah" size={{ base: 'md', md: 'lg' }} mr={{ base: 2, md: 4 }} />
+                                <Avatar name={agent.agencyName} src={agent.logo} size={{ base: 'md', md: 'lg' }} mr={{ base: 2, md: 4 }} />
                             </Box>
                             <Box>
-                                <Text fontWeight="bold" fontSize={{ base: 'lg', md: 'xl' }}>Al-Haramain Tours & Travel</Text>
+                                <Text fontWeight="bold" fontSize={{ base: 'lg', md: 'xl' }}>{agent.agencyName}</Text>
                                 <Text fontSize={{ base: 'xs', md: 'sm' }} color="#0a7450">Verified</Text>
-                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">Mecca, Saudi Arabia Est. 1998</Text>
+                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">{agent.state}, {agent.country} Est. {agent.establishmentYear}</Text>
                                 <Flex mt={1}>
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }} color="yellow.500">★ 4.8 (1247 reviews)</Text>
+                                    <Text fontSize={{ base: 'xs', md: 'sm' }} color="yellow.500">★ {agent.rating} </Text>
                                 </Flex>
                                 <Flex mt={1} flexWrap="wrap" gap={2}>
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">Hajj Operator</Text>
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">Umrah Operator</Text>
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">Travel Agency</Text>
+                                    {
+                                        agent.services.map((item, i) => {
+                                            return (
+                                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">{item}</Text>
+                                            )
+                                        })
+                                    }
                                 </Flex>
                             </Box>
                         </Flex>
                         <Flex gap={2} w={{ base: 'full', md: 'auto' }} justify={{ base: 'center', md: 'flex-end' }}>
-                            <Button bg="#0a7450" color={'white'} size={{ base: 'sm', md: 'md' }} w={{ base: '50%', md: 'auto' }}>Contact Now</Button>
-                            <Button variant="outline" size={{ base: 'sm', md: 'md' }} w={{ base: '50%', md: 'auto' }}>View Packages</Button>
+                            <Button as={Link}
+                                href={`tel:${agent.phone}`} target="_blank"
+                                bg="#0a7450" color={'white'} size={{ base: 'sm', md: 'md' }} w={{ base: '50%', md: 'auto' }}>Contact Now</Button>
+                            {/* <Button variant="outline" size={{ base: 'sm', md: 'md' }} w={{ base: '50%', md: 'auto' }}>View Packages</Button> */}
                         </Flex>
                     </Flex>
                     <Flex w="full" direction={{ base: 'column', md: 'row' }} gap={{ base: 4, md: 0 }}>
@@ -166,13 +178,13 @@ const HajjAndUmrah = () => {
                                         Location & Contact
                                     </Text>
                                     <Text fontSize={{ base: 'xs', md: 'sm' }}>
-                                        <b>Address:</b> King Abdul Aziz Road, Mecca 21955
+                                        <b>Address:</b> {agent.address}
                                     </Text>
                                     <Text fontSize={{ base: 'xs', md: 'sm' }} mt={2}>
-                                        <b>Phone:</b> +966 12 123 4567
+                                        <b>Phone:</b> {agent.phone}
                                     </Text>
                                     <Text fontSize={{ base: 'xs', md: 'sm' }} mt={2}>
-                                        <b>Email:</b> info@alharamaintours.com
+                                        <b>Email:</b> {agent.email}
                                     </Text>
                                     <Link
                                         href="https://alharamaintours.com"
@@ -181,7 +193,7 @@ const HajjAndUmrah = () => {
                                         mt={2}
                                         display="block"
                                     >
-                                        <b>Website:</b> https://alharamaintours.com
+                                        <b>Website:</b> {agent.website}
                                     </Link>
                                 </GridItem>
                                 <GridItem
@@ -195,20 +207,23 @@ const HajjAndUmrah = () => {
                                         Business Details
                                     </Text>
                                     <Text fontSize={{ base: 'xs', md: 'sm' }}>
-                                        <b>Established:</b> 1998
+                                        <b>Established:</b> {agent.establishmentYear}
                                     </Text>
                                     <Text fontSize={{ base: 'xs', md: 'sm' }} mt={2}>
                                         <b>Languages Spoken:</b>
                                     </Text>
                                     <Flex gap={2} mt={1} flexWrap="wrap">
-                                        <Tag size={{ base: 'sm', md: 'md' }}>Arabic</Tag>
-                                        <Tag size={{ base: 'sm', md: 'md' }}>English</Tag>
-                                        <Tag size={{ base: 'sm', md: 'md' }}>Urdu</Tag>
-                                        <Tag size={{ base: 'sm', md: 'md' }}>Turkish</Tag>
+                                        {
+                                            agent?.languages?.map((item, i) => {
+                                                return (
+                                                    <Tag size={{ base: 'sm', md: 'md' }} key={i}>{item}</Tag>
+                                                )
+                                            })
+                                        }
                                     </Flex>
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }} mt={3}>
+                                    {/* <Text fontSize={{ base: 'xs', md: 'sm' }} mt={3}>
                                         <b>Total Reviews:</b> 1247 customer reviews
-                                    </Text>
+                                    </Text> */}
                                 </GridItem>
                             </Grid>
                             <Box
@@ -223,16 +238,32 @@ const HajjAndUmrah = () => {
                                     Social Media
                                 </Text>
                                 <Flex gap={4} fontSize={{ base: 'lg', md: 'xl' }}>
-                                    <Link href="#">
-                                        <Icon as={FaFacebook} color="blue.600" boxSize={{ base: 5, md: 6 }} />
-                                    </Link>
-                                    <Link href="#">
-                                        <Icon as={FaInstagram} color="pink.500" boxSize={{ base: 5, md: 6 }} />
-                                    </Link>
-                                    <Link href="#">
-                                        <Icon as={FaYoutube} color="red.500" boxSize={{ base: 5, md: 6 }} />
-                                    </Link>
+                                    {agent.facebook && (
+                                        <Link href={agent.facebook} target='_blank' aria-label="Facebook">
+                                            <Icon as={FaFacebook} color="blue.600" boxSize={{ base: 5, md: 6 }} />
+                                        </Link>
+                                    )}
+                                    {agent.twitter && (
+                                        <Link href={agent.twitter} target='_blank' aria-label="Twitter">
+                                            <Icon as={FaTwitter} color="blue.400" boxSize={{ base: 5, md: 6 }} />
+                                        </Link>
+                                    )}
+                                    {agent.instagram && (
+                                        <Link href={agent.instagram} target='_blank' aria-label="Instagram">
+                                            <Icon as={FaInstagram} color="pink.500" boxSize={{ base: 5, md: 6 }} />
+                                        </Link>
+                                    )}
+                                    {agent.youtube && (
+                                        <Link href={agent.youtube} target='_blank' aria-label="YouTube">
+                                            <Icon as={FaYoutube} color="red.500" boxSize={{ base: 5, md: 6 }} />
+                                        </Link>
+                                    )}
                                 </Flex>
+                                <Text>
+                                    {
+                                        !agent.twitter && !agent.facebook && !agent.instagram &&
+                                        !agent.youtube && 'No data found'}
+                                </Text>
                             </Box>
                         </Box>
                         <Box flex={{ base: 'none', md: 1 }} p={4} bg="gray.50" gap={4} w={{ base: 'full', md: 'auto' }}>
@@ -240,17 +271,21 @@ const HajjAndUmrah = () => {
                                 <Text fontWeight="bold" mb={2} fontSize={{ base: 'md', md: 'lg' }}>Contact Information</Text>
                                 <Flex align="center" mb={2}>
                                     <Icon as={FaPhone} color="#0a7450" boxSize={{ base: 4, md: 5 }} mr={2} />
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }}>+966 12 23 4567</Text>
+                                    <Text fontSize={{ base: 'xs', md: 'sm' }}>{agent.phone}</Text>
                                 </Flex>
                                 <Flex align="center" mb={2}>
                                     <Icon as={FaEnvelope} color="#0a7450" boxSize={{ base: 4, md: 5 }} mr={2} />
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }}>info@alharamaintours.com</Text>
+                                    <Text fontSize={{ base: 'xs', md: 'sm' }}>{agent.email}</Text>
                                 </Flex>
                                 <Flex align="center" mb={2}>
                                     <Icon as={FaMapMarkerAlt} color="#0a7450" boxSize={{ base: 4, md: 5 }} mr={2} />
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }}>King Abdul Aziz Road, Mecca 21955</Text>
+                                    <Text fontSize={{ base: 'xs', md: 'sm' }}>{agent.address}</Text>
                                 </Flex>
-                                <Button bg="#0a7450" color={'white'} leftIcon={<Icon as={MdCall} boxSize={{ base: 4, md: 5 }} />} mb={4} w="full" size={{ base: 'sm', md: 'md' }}>
+                                <Button
+                                    as={Link}
+                                    href={`tel:${agent.phone}`} target="_blank"
+
+                                    bg="#0a7450" color={'white'} leftIcon={<Icon as={MdCall} boxSize={{ base: 4, md: 5 }} />} mb={4} w="full" size={{ base: 'sm', md: 'md' }}>
                                     Call Now
                                 </Button>
                             </Box>
@@ -311,8 +346,8 @@ const HajjAndUmrah = () => {
                                     <Text fontWeight="bold" fontSize={{ base: 'md', md: 'lg' }}>Customer Reviews</Text>
                                     <Flex align="center" gap={2}>
                                         <Icon as={FaStar} color="gold" boxSize={{ base: 4, md: 5 }} />
-                                        <Text fontWeight="bold" fontSize={{ base: 'sm', md: 'md' }}>4.8</Text>
-                                        <Text fontSize={{ base: 'xs', md: 'sm' }}>(1247 reviews)</Text>
+                                        <Text fontWeight="bold" fontSize={{ base: 'sm', md: 'md' }}>{agent.rating}</Text>
+                                        {/* <Text fontSize={{ base: 'xs', md: 'sm' }}>({} reviews)</Text> */}
                                     </Flex>
                                 </Flex>
                                 {/* Review 1 */}

@@ -24,11 +24,11 @@ import {
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { HeroSection } from "../Gamca/MedicalCenters/HeroSection";
+import { HeroSection } from "../../Gamca/MedicalCenters/HeroSection";
 
 const itemsPerPage = 6;
 
-export default function Ticketing() {
+export default function AgentsList() {
     const [agents, setAgents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -36,18 +36,18 @@ export default function Ticketing() {
     const router = useRouter();
     const [sliderImages, setSliderImages] = useState([]);
     const [news, setNews] = useState([]);
-
+console.log('agents', agents)
     // 🔹 Fetch agents from API
     useEffect(() => {
         const fetchAgents = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`/api/slider?page=Ticketing`);
+                const response = await fetch(`/api/slider?page=HajjAndUmrah`);
                 const sliderData = await response.json();
                 setSliderImages(sliderData?.data?.sliderImgs || []);
                 setNews(sliderData?.data?.news || []);
                 const res = await fetch(
-                    `/api/ticketing-agent?page=${currentPage}&limit=${itemsPerPage}`
+                    `/api/travel-agent?page=${currentPage}&limit=${itemsPerPage}`
                 );
                 const data = await res.json();
 
@@ -79,7 +79,7 @@ export default function Ticketing() {
             <Box bg="gray.50" minH="100vh">
                 <Box p={4} maxW="1440px" mx="auto" position={'relative'}>
                     <Text fontSize="2xl" fontWeight="bold" textAlign="center" mb={2}>
-                        Verified Ticketing Agents
+                        Verified Travel Agents
                     </Text>
 
                     <Button
@@ -95,9 +95,9 @@ export default function Ticketing() {
                         color="white"
                         _hover={{ bg: "#065f46" }}
                         _active={{ bg: "#054d3a" }}
-                        onClick={() => router.push("/ticketing/agent/registration")}
+                        onClick={() => router.push("/hajj-and-umrah/agent/registration")}
                     >
-                        Become Ticketing Agents
+                        Become Travel Agents
                     </Button>
 
                     <Text textAlign="center" color="gray.600" mb={8} mt={6}>
@@ -125,15 +125,15 @@ export default function Ticketing() {
                                 {/* 🔹 Agent Header */}
                                 <Flex align="" mb={3} gap={3}>
                                     <Avatar
-                                        name={agent.businessName}
-                                        src={agent.corporateLogo || ""}
+                                        name={agent.agencyName}
+                                        src={agent.logo || ""}
                                         size="lg"
                                         rounded={"lg"}
                                     />
                                     <Box>
-                                        <Text fontWeight="bold" fontSize="lg">{agent.businessName}</Text>
+                                        <Text fontWeight="bold" fontSize="lg">{agent.agencyName}</Text>
                                         <Text fontSize="md" color="gray.600">
-                                            {agent.proprietorName}
+                                            {agent.state} {agent.country}
                                         </Text>
                                         <Flex align="center" gap={1} mb={2}>
                                             <FaStar color="gold" />
@@ -151,10 +151,10 @@ export default function Ticketing() {
                                     color="gray.600"
                                 >
                                     <FaMapMarkerAlt />   <Text noOfLines={2} wordBreak="break-word">
-                                        {agent.officeAddress}
+                                        {agent.address}
                                     </Text>
                                 </Flex>
-                                <Flex
+                                {/* <Flex
                                     align="center"
                                     gap={2}
                                     mb={2}
@@ -162,7 +162,7 @@ export default function Ticketing() {
                                     color="gray.600"
                                 >
                                     <FaClock /> {agent.officeTimings}
-                                </Flex>
+                                </Flex> */}
 
                                 {/* 🔹 Services */}
                                 <Flex gap={2} flexWrap="wrap" mb={2}>
@@ -174,7 +174,7 @@ export default function Ticketing() {
                                 </Flex>
 
                                 {/* 🔹 Airlines */}
-                                <Flex gap={2} flexWrap="wrap" mb={4}>
+                                {/* <Flex gap={2} flexWrap="wrap" mb={4}>
                                     {agent.airlines?.map((airline, i) => (
                                         <Tag
                                             key={i}
@@ -185,18 +185,18 @@ export default function Ticketing() {
                                             {airline}
                                         </Tag>
                                     ))}
-                                </Flex>
+                                </Flex> */}
 
                                 <Flex justify="space-around" fontSize="lg" color="gray.600">
-                                    <Link href={`tel:${agent.primaryMobile}`} target="_blank">
+                                    <Link href={`tel:${agent.phone}`} target="_blank">
                                         <Icon as={FaPhone} _hover={{ color: "teal.500" }} cursor="pointer" />
                                     </Link>
 
-                                    <Link href={`mailto:${agent.businessEmail}`} target="_blank">
+                                    <Link href={`mailto:${agent.email}`} target="_blank">
                                         <Icon as={FaEnvelope} _hover={{ color: "teal.500" }} cursor="pointer" />
                                     </Link>
 
-                                    <Link href={agent.websiteUrl} target="_blank">
+                                    <Link href={agent.website} target="_blank">
                                         <Icon as={FaGlobe} _hover={{ color: "teal.500" }} cursor="pointer" />
                                     </Link>
                                 </Flex>
@@ -208,21 +208,10 @@ export default function Ticketing() {
                                         w="full"
                                         mb={3}
                                         onClick={() =>
-                                            router.push(`/ticketing/agent-details/${agent._id}`)
+                                            router.push(`/hajj-and-umrah/agent-details/${agent._id}`)
                                         }
                                     >
                                         View Details
-                                    </Button>
-                                    <Button
-                                        bg="#0a7450"
-                                        color={"white"}
-                                        w="full"
-                                        mb={3}
-                                        onClick={() =>
-                                            router.push(`/ticketing/details/${agent._id}`)
-                                        }
-                                    >
-                                        {`View Fares`}
                                     </Button>
                                 </Flex>
                             </GridItem>
