@@ -866,7 +866,7 @@ export default function ConsultantRegistration() {
                   </FormControl>
                   <FormControl isInvalid={!!errors.portfolioPdf}>
                     <FormLabel fontSize="md" color="gray.600">Portfolio PDF</FormLabel>
-                    <Input type="file" accept=".pdf" p={1} onChange={handlePDFhange} />
+                    <Input type="file" accept=".pdf" p={1} onChange={handlePDFChange} />
                     <FormErrorMessage>{errors.portfolioPdf}</FormErrorMessage>
                   </FormControl>
 
