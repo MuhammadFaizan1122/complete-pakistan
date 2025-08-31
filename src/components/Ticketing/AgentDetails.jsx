@@ -317,21 +317,21 @@ export default function TravelAgentDetail() {
                 </Flex>
                 <VStack spacing={4} align="stretch">
                   {agent.teamMembers.map((member, index) => (
-                    <Box key={index} borderBottom={index < agent.teamMembers.length - 1 ? "1px" : "none"} borderColor="gray.200" pb={index < agent.teamMembers.length - 1 ? 4 : 0}>
+                    <Box key={index} borderBottom={index < agent.teamMembers.length - 1 ? "1px" : "none"} border={'1px solid'} rounded={'xl'} p={4} borderColor="gray.200">
                       <Text fontWeight="semibold" color="gray.900" mb={1}>{member.name}</Text>
                       <Text fontSize="sm" color="gray.600" mb={2}>{member.role}</Text>
                       <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={2} fontSize="xs">
                         <Flex align="center" gap={1} color="green.600">
                           <Icon as={FaPhone} w={3} h={3} />
-                          <Text>{member.phone}</Text>
+                          <Text fontSize={'md'}>{member.phone}</Text>
                         </Flex>
                         <Flex align="center" gap={1} color="green.600">
                           <Icon as={FaWhatsapp} w={3} h={3} />
-                          <Text>{member.whatsapp}</Text>
+                          <Text fontSize={'md'}>{member.whatsapp}</Text>
                         </Flex>
                         <Flex align="center" gap={1} color="gray.600">
                           <Icon as={FaPhone} w={3} h={3} />
-                          <Text>{member.mobile}</Text>
+                          <Text fontSize={'md'}>{member.mobile}</Text>
                         </Flex>
                       </SimpleGrid>
                     </Box>
@@ -362,8 +362,6 @@ export default function TravelAgentDetail() {
 
 
                 <VStack spacing={3} align="stretch">
-                  {/* Phones, WhatsApp, Email (your existing code) */}
-
                   {/* Social Media */}
                   {agent.socialLinks && (
                     <Flex gap={4} mt={3}>
@@ -416,8 +414,9 @@ export default function TravelAgentDetail() {
                     as={Link}
                     href={`tel:${agent.contact.mainPhone}`} target="_blank"
                     w="full"
-                    bg="green.600"
-                    color="white"
+                    bg="white"
+                    border={"1px solid gray"}
+                    _hover={{bg:'green.600', color: 'white'}}
                     leftIcon={<FaPhone />}
                   >
                     Call Now
@@ -425,9 +424,9 @@ export default function TravelAgentDetail() {
 
                   <Button
                     w="full"
-                    bg="gray.100"
+                    bg="white"
                     border={"1px solid gray"}
-                    color="gray.700"
+                    _hover={{bg:'green.600', color: 'white'}}
                     fontWeight={"semibold"}
                     leftIcon={<FaWhatsapp />}
                     onClick={() => window.open(`https://wa.me/${agent.contact.whatsapp}`, "_blank")}
@@ -437,9 +436,9 @@ export default function TravelAgentDetail() {
 
                   <Button
                     w="full"
-                    bg="gray.100"
+                    bg="white"
                     border={"1px solid gray"}
-                    color="gray.700"
+                    _hover={{bg:'green.600', color: 'white'}}
                     fontWeight={"semibold"}
                     leftIcon={<FaEnvelope />}
                     as={Link}
@@ -452,15 +451,15 @@ export default function TravelAgentDetail() {
               </Box>
 
               <Box bg="white" borderRadius="lg" p={6} shadow="sm">
-                <Text fontSize="lg" fontWeight="semibold" mb={4}>Office Details</Text>
+                <Text fontSize="lg" fontWeight="semibold" mb={4}>Office Hours</Text>
 
                 <Box mb={4}>
-                  <Text fontWeight="semibold" color="gray.700" mb={2}>Office Hours</Text>
+                  {/* <Text fontWeight="semibold" color="gray.700" mb={2}>Office Hours</Text> */}
                   <Flex align="center" gap={2}>
                     <Icon as={FaClock} color="yellow.600" />
                     <Box>
-                      <Text fontWeight="semibold" fontSize="sm" color="yellow.600">{agent.officeHours.time}</Text>
-                      <Text fontSize="xs" color="gray.500">{agent.officeHours.days}</Text>
+                      <Text fontWeight="semibold" fontSize="md" color="yellow.600">{agent.officeHours.time}</Text>
+                      <Text fontSize={'md'} color="gray.500">{agent.officeHours.days}</Text>
                     </Box>
                   </Flex>
                 </Box>
@@ -478,20 +477,20 @@ export default function TravelAgentDetail() {
                     <Box key={index} borderBottom={index < agent.branches.length - 1 ? "1px" : "none"} borderColor="gray.200" pb={index < agent.branches.length - 1 ? 4 : 0}>
                       <Flex justify="space-between" align="center" mb={2}>
                         <Text fontWeight="semibold" color="gray.900" fontSize="sm">{branch.name}</Text>
-                        <Flex align="center" gap={1} fontSize="xs" color="gray.500">
+                        <Flex align="center" gap={1} fontSize="md" color="gray.500">
                           <Icon as={FaEye} w={3} h={3} />
                           <Text>{branch.visits}</Text>
                         </Flex>
                       </Flex>
-                      <Text fontSize="xs" color="gray.600" mb={2}>{branch.address}</Text>
+                      <Text fontSize="md" color="gray.600" mb={2}>{branch.address}</Text>
                       <VStack spacing={1} align="stretch">
-                        <Flex align="center" gap={1} fontSize="xs">
+                        <Flex align="center" gap={1} fontSize="md">
                           <Icon as={FaPhone} w={3} h={3} color="green.600" />
-                          <Text color="green.600">{branch.phone}</Text>
+                          <Text fontSize={'md'} color="green.600">{branch.phone}</Text>
                         </Flex>
-                        <Flex align="center" gap={1} fontSize="xs">
+                        <Flex align="center" gap={1} fontSize="md">
                           <Icon as={FaWhatsapp} w={3} h={3} color="green.600" />
-                          <Text color="green.600">{branch.whatsapp}</Text>
+                          <Text fontSize={'md'} color="green.600">{branch.whatsapp}</Text>
                         </Flex>
                       </VStack>
                     </Box>
