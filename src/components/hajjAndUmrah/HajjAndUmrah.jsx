@@ -8,6 +8,8 @@ import { MdCall, MdStar } from 'react-icons/md';
 import { IoMdMail } from 'react-icons/io';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import Gallery from './Gallery/Gallery';
+import SendMessageForm from './SendMessageForm/SendMessageForm';
 
 const HajjAndUmrah = () => {
     const { id } = useParams();
@@ -81,89 +83,78 @@ const HajjAndUmrah = () => {
                     </Flex>
                     <Flex w="full" direction={{ base: 'column', md: 'row' }} gap={{ base: 4, md: 0 }}>
                         <Box flex={{ base: 'none', md: 3 }} p={4} mr={{ base: 0, md: 4 }} w={{ base: 'full', md: 'auto' }}>
-                            <Box p={4} bg="gray.100" borderRadius="md">
-                                <Text fontWeight="bold" mb={2} fontSize={{ base: 'md', md: 'lg' }}>Gallery</Text>
-                                <Flex align="center" justify="center" h={{ base: '200px', md: '300px' }} bg="gray.200" borderRadius="md">
-                                    <Icon as={FaCamera} boxSize={{ base: 6, md: 10 }} color="gray.500" />
-                                </Flex>
-                            </Box>
-                            <Box border={'1px solid'} borderColor={'gray.200'} p={4} rounded={'lg'} shadow={'md'} mt={4}>
-                                <Flex w="full" justify="space-between" align="center" direction={{ base: 'column', md: 'row' }} gap={{ base: 4, md: 0 }}>
-                                    <Box>
-                                        <Text fontWeight="bold" fontSize={{ base: 'lg', md: 'xl' }}>Premium Umrah Package - 10 Days</Text>
-                                        <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600" display={'flex'} alignItems={'center'} gap={2} flexWrap="wrap">
-                                            <Icon as={FaCheck} color="#0a7450" boxSize={{ base: 3, md: 4 }} /> 10 days / 9 nights
-                                            <Icon as={FaCheck} color="#0a7450" boxSize={{ base: 3, md: 4 }} /> 2-20 people
+                            {
+                                agent.gallery.length ?
+                                    <Gallery images={agent.gallery} />
+                                    : <></>}
+                            {agent?.umrahHajjPackages?.map((item, i) => {
+                                return (
+                                    <Box border={'1px solid'} borderColor={'gray.200'} p={4} rounded={'lg'} shadow={'md'} mt={4} key={i}>
+                                        <Flex w="full" justify="space-between" align="center" direction={{ base: 'column', md: 'row' }} gap={{ base: 4, md: 0 }}>
+                                            <Box>
+                                                <Text fontWeight="bold" fontSize={{ base: 'lg', md: 'xl' }}>{item.packageTitle}</Text>
+                                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600" display={'flex'} alignItems={'center'} gap={2} flexWrap="wrap">
+                                                    <Icon as={FaCheck} color="#0a7450" boxSize={{ base: 3, md: 4 }} /> {item.duration}
+                                                    <Icon as={FaCheck} color="#0a7450" boxSize={{ base: 3, md: 4 }} /> {item.numberOfPeople} people
+                                                </Text>
+                                            </Box>
+                                            <Box display={'flex'} flexDir={'column'} alignItems={'center'}>
+                                                <Text color={'#0a7450'} fontSize={{ base: 'lg', md: 'xl' }} fontWeight={'bold'}>
+                                                    {item.currency}{" "}
+                                                    {new Intl.NumberFormat('en-US', {
+                                                        minimumFractionDigits: 0,
+                                                        maximumFractionDigits: 2,
+                                                    }).format(item.price)}
+                                                </Text>
+
+                                                <Text color={'gray'} fontSize={{ base: 'xs', md: 'sm' }}>
+                                                    per person
+                                                </Text>
+                                                <Tag colorScheme={'gray'} fontSize={{ base: 'xs', md: 'sm' }} rounded={'full'} textTransform={'uppercase'}>
+                                                    {item.type}
+                                                </Tag>
+                                            </Box>
+                                        </Flex>
+                                        <Text fontSize={{ base: 'sm', md: 'md' }} color="gray.600" my={6}>
+                                            {item.description}
                                         </Text>
+                                        <Text fontWeight="bold" fontSize={{ base: 'md', md: 'lg' }}>Accommodation</Text>
+                                        <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600" fontWeight={'semibold'} mt={4}>
+                                            {item.accommodations?.map((acc, i) => {
+                                                return (
+                                                    <span key={i}>
+                                                        {acc} <br />
+                                                    </span>
+                                                )
+                                            })}
+                                        </Text>
+                                        <Box fontWeight="bold" fontSize={{ base: 'md', md: 'lg' }} flex="1" textAlign="left" mt={6}>
+                                            What's Included
+                                        </Box>
+                                        <List spacing={2} fontSize={{ base: 'xs', md: 'sm' }} my={4}>
+                                            <Grid templateColumns={{ base: '1fr', md: '2fr 2fr' }} gap={2}>
+                                                {item.whatsIncluded?.map((acc, i) => {
+                                                    return (
+                                                        <ListItem key={i}>
+                                                            <ListIcon as={FaCheck} color="#0a7450" />
+                                                            {acc}
+                                                        </ListItem>
+                                                    )
+                                                })}
+                                            </Grid>
+                                        </List>
+                                        <Flex w="full" gap={2} direction={{ base: 'column', md: 'row' }}>
+                                            <Button as={Link}
+                                                href={`tel:${agent.phone}`} target="_blank" bg="#0a7450" color="white" w={{ base: 'full', md: '100%' }} size={{ base: 'sm', md: 'md' }}>
+                                                $ Book Now
+                                            </Button>
+                                            {/* <Button variant="outline" w={{ base: 'full', md: '15%' }} size={{ base: 'sm', md: 'md' }}>
+                                                View Details
+                                            </Button> */}
+                                        </Flex>
                                     </Box>
-                                    <Box display={'flex'} flexDir={'column'} alignItems={'center'}>
-                                        <Text color={'#0a7450'} fontSize={{ base: 'lg', md: 'xl' }} fontWeight={'bold'}>
-                                            $2500
-                                        </Text>
-                                        <Text color={'gray'} fontSize={{ base: 'xs', md: 'sm' }}>
-                                            per person
-                                        </Text>
-                                        <Tag colorScheme={'gray'} fontSize={{ base: 'xs', md: 'sm' }} rounded={'full'} textTransform={'uppercase'}>
-                                            Umrah
-                                        </Tag>
-                                    </Box>
-                                </Flex>
-                                <Text fontSize={{ base: 'sm', md: 'md' }} color="gray.600" my={6}>
-                                    Luxury Umrah experience with 5-star accommodation, private transportation, and dedicated guide.
-                                </Text>
-                                <Text fontWeight="bold" fontSize={{ base: 'md', md: 'lg' }}>Accommodation</Text>
-                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600" fontWeight={'semibold'} mt={4}>
-                                    Mecca: Fairmont Makkah Clock Royal Tower (5-star) <br />
-                                    Medina: Pullman Zamzam Madina (5-star)
-                                </Text>
-                                <Box fontWeight="bold" fontSize={{ base: 'md', md: 'lg' }} flex="1" textAlign="left" mt={6}>
-                                    What's Included
-                                </Box>
-                                <List spacing={2} fontSize={{ base: 'xs', md: 'sm' }} my={4}>
-                                    <Grid templateColumns={{ base: '1fr', md: '2fr 2fr' }} gap={2}>
-                                        <ListItem>
-                                            <ListIcon as={FaCheck} color="#0a7450" />
-                                            Round-trip flights
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListIcon as={FaCheck} color="#0a7450" />
-                                            All meals (breakfast, lunch, dinner)
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListIcon as={FaCheck} color="#0a7450" />
-                                            Umrah visa processing
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListIcon as={FaCheck} color="#0a7450" />
-                                            Zam Zam water
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListIcon as={FaCheck} color="#0a7450" />
-                                            5-star hotel accommodation (4 nights Mecca, 3 nights Medina)
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListIcon as={FaCheck} color="#0a7450" />
-                                            Private air-conditioned transportation
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListIcon as={FaCheck} color="#0a7450" />
-                                            Dedicated multilingual guide
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListIcon as={FaCheck} color="#0a7450" />
-                                            Prayer mat and Ihram
-                                        </ListItem>
-                                    </Grid>
-                                </List>
-                                <Flex w="full" gap={2} direction={{ base: 'column', md: 'row' }}>
-                                    <Button bg="#0a7450" color="white" w={{ base: 'full', md: '85%' }} size={{ base: 'sm', md: 'md' }}>
-                                        $ Book Now
-                                    </Button>
-                                    <Button variant="outline" w={{ base: 'full', md: '15%' }} size={{ base: 'sm', md: 'md' }}>
-                                        View Details
-                                    </Button>
-                                </Flex>
-                            </Box>
+                                )
+                            })}
                             <Grid
                                 templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "2fr 2fr" }}
                                 gap={4}
@@ -305,52 +296,35 @@ const HajjAndUmrah = () => {
                                     Call Now
                                 </Button>
                             </Box>
-                            <Box borderRadius="md" border={"1px solid green"} p={4} mt={4}>
-                                <Box borderRadius="md" boxShadow="sm">
-                                    <Text fontWeight="bold" mb={2} fontSize={{ base: 'md', md: 'lg' }}>Send Message</Text>
-                                    <Input placeholder="Name *" mb={2} size={{ base: 'sm', md: 'md' }} />
-                                    <Input placeholder="Email *" mb={2} size={{ base: 'sm', md: 'md' }} />
-                                    <Input placeholder="Phone" mb={2} size={{ base: 'sm', md: 'md' }} />
-                                    <Textarea placeholder="Message * Tell us about your requirements..." mb={2} size={{ base: 'sm', md: 'md' }} />
-                                    <Button bg="#0a7450" color={'white'} leftIcon={<Icon as={IoMdMail} boxSize={{ base: 4, md: 5 }} />} w="full" size={{ base: 'sm', md: 'md' }}>
-                                        Send
-                                    </Button>
-                                </Box>
-                            </Box>
-                            <Box mt={4}>
-                                <Text fontWeight="bold" textAlign={'center'} fontSize={{ base: 'md', md: 'lg' }} mb={4}>
-                                    Frequently Asked Questions
-                                </Text>
-                                <Accordion allowToggle>
-                                    <AccordionItem bg="white" borderRadius="md" mb={2} py={2} shadow={'md'}>
-                                        <h2>
-                                            <AccordionButton>
-                                                <Box flex="1" textAlign="left" fontWeight={'semibold'} fontSize={{ base: 'sm', md: 'md' }}>
-                                                    What documents do I need for Umrah?
-                                                </Box>
-                                                <AccordionIcon />
-                                            </AccordionButton>
-                                        </h2>
-                                        <AccordionPanel pb={4} fontSize={{ base: 'xs', md: 'sm' }}>
-                                            You typically need a valid passport, visa, vaccination certificate, and travel documents.
-                                        </AccordionPanel>
-                                    </AccordionItem>
-                                    <AccordionItem bg="white" borderRadius="md" mb={2} py={2} shadow={'md'}>
-                                        <h2>
-                                            <AccordionButton>
-                                                <Box flex="1" textAlign="left" fontWeight={'semibold'} fontSize={{ base: 'sm', md: 'md' }}>
-                                                    Is accommodation included in packages?
-                                                </Box>
-                                                <AccordionIcon />
-                                            </AccordionButton>
-                                        </h2>
-                                        <AccordionPanel pb={4} fontSize={{ base: 'xs', md: 'sm' }}>
-                                            Yes, most packages include hotel accommodation. Details depend on the selected package.
-                                        </AccordionPanel>
-                                    </AccordionItem>
-                                </Accordion>
-                            </Box>
-                            <Box
+                            <SendMessageForm agent={agent} />
+                            {
+                                agent.faq.length ?
+                                    <Box mt={4}>
+                                        <Text fontWeight="bold" textAlign={'center'} fontSize={{ base: 'md', md: 'lg' }} mb={4}>
+                                            Frequently Asked Questions
+                                        </Text>
+                                        <Accordion allowToggle>
+                                            {agent.faq?.map((acc, i) => {
+                                                return (
+                                                    <AccordionItem bg="white" borderRadius="md" mb={2} py={2} shadow={'md'} key={i}>
+                                                        <h2>
+                                                            <AccordionButton>
+                                                                <Box flex="1" textAlign="left" fontWeight={'semibold'} fontSize={{ base: 'sm', md: 'md' }}>
+                                                                    {acc.question}
+                                                                </Box>
+                                                                <AccordionIcon />
+                                                            </AccordionButton>
+                                                        </h2>
+                                                        <AccordionPanel pb={4} fontSize={{ base: 'xs', md: 'sm' }}>
+                                                            {acc.answer}
+                                                        </AccordionPanel>
+                                                    </AccordionItem>
+                                                )
+                                            })}
+                                        </Accordion>
+                                    </Box> : <></>
+                            }
+                            {/* <Box
                                 borderWidth="1px"
                                 borderRadius="lg"
                                 p={4}
@@ -363,10 +337,9 @@ const HajjAndUmrah = () => {
                                     <Flex align="center" gap={2}>
                                         <Icon as={FaStar} color="gold" boxSize={{ base: 4, md: 5 }} />
                                         <Text fontWeight="bold" fontSize={{ base: 'sm', md: 'md' }}>{agent.rating}</Text>
-                                        {/* <Text fontSize={{ base: 'xs', md: 'sm' }}>({} reviews)</Text> */}
+                                        <Text fontSize={{ base: 'xs', md: 'sm' }}>({} reviews)</Text>
                                     </Flex>
                                 </Flex>
-                                {/* Review 1 */}
                                 <Box mb={4}>
                                     <Flex align="center" gap={2}>
                                         <Avatar size={{ base: 'xs', md: 'sm' }} name="Ahmed Hassan" />
@@ -385,41 +358,7 @@ const HajjAndUmrah = () => {
                                     </Text>
                                 </Box>
                                 <Divider />
-                                {/* Review 2 */}
-                                <Box my={4}>
-                                    <Flex align="center" gap={2}>
-                                        <Avatar size={{ base: 'xs', md: 'sm' }} name="Fatima Al-Zahra" />
-                                        <Text fontWeight="bold" fontSize={{ base: 'xs', md: 'sm' }}>
-                                            Fatima Al-Zahra{' '}
-                                            <Tag size={{ base: 'sm', md: 'md' }} colorScheme="green" ml={1}>
-                                                Verified
-                                            </Tag>
-                                        </Text>
-                                    </Flex>
-                                    <Text fontSize={{ base: '2xs', md: 'xs' }} color="gray.500">
-                                        2024-04-10
-                                    </Text>
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }} mt={1}>
-                                        ⭐⭐⭐⭐ Good experience overall. The accommodation was good. Would use again.
-                                    </Text>
-                                </Box>
-                                <Divider />
-                                {/* Review 3 */}
-                                <Box mt={4}>
-                                    <Flex align="center" gap={2}>
-                                        <Avatar size={{ base: 'xs', md: 'sm' }} name="Mohammad Ali" />
-                                        <Text fontWeight="bold" fontSize={{ base: 'xs', md: 'sm' }}>
-                                            Mohammad Ali
-                                        </Text>
-                                    </Flex>
-                                    <Text fontSize={{ base: '2xs', md: 'xs' }} color="gray.500">
-                                        2024-04-05
-                                    </Text>
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }} mt={1}>
-                                        ⭐⭐⭐⭐⭐ Outstanding service from start to finish, helpful throughout the journey.
-                                    </Text>
-                                </Box>
-                            </Box>
+                            </Box> */}
                         </Box>
                     </Flex>
                 </VStack>

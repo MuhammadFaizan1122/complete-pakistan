@@ -51,12 +51,13 @@ export default function Header() {
     const navLinks = [
         { href: '/', label: 'Home' },
         { href: '/create-cv', label: 'Make CV' },
-        { href: '/hajj-and-umrah', label: 'Hajj & Umrah' },
-        { href: '#', label: 'Recruitment' },
-        { href: '#', label: 'Jobs Visa' },
+        { href: '#', label: 'Management' },
+        { href: '#', label: 'Gulfs Jobs' },
         { href: '#', label: 'GAMCA' },
         { href: '/naqal-kafala', label: 'Naqal Kafala' },
-        { href: '#', label: 'More' },
+        { href: '/fraud-alert', label: 'Fraud Alert' },
+        { href: '#', label: 'Help Center' },
+        // { href: '#', label: 'More' },
     ];
 
     const makeCvLinks = [
@@ -68,22 +69,21 @@ export default function Header() {
         { href: '/gamca/approved-medical-centers', label: 'GAMCA approved medical centers' },
         { href: '/gamca/issues-and-solutions', label: 'Medical Issues, Solution & Tips' },
         { href: '/gamca/medical-appointment', label: 'GAMCA Medical Appointment' },
-        { href: '/gamca/ready-medical-cases', label: 'Ready Medical Cases' },
 
     ];
     const recruitmentLinks = [
+        { href: '/recruitment/gulf-companies', label: 'Gulf Companies Directory' },
         { href: '/recruitment/oep', label: 'Overseas Employement Promoters - OEP' },
         { href: '/recruitment/ttc', label: 'Trade Test & Traning Center - TTC' },
         { href: '/recruitment/vtp', label: 'Verified Trade Partners' },
+        { href: '/gamca/ready-medical-cases', label: 'Ready Medical Cases' },
+        { href: '/hajj-and-umrah', label: 'Hajj & Umrah' },
+        { href: '/ticketing', label: 'Ticketing' },
         { href: '/recruitment/consultancies', label: 'Consultant Directory' },
-        { href: '/recruitment/gulf-companies', label: 'Gulf Companies Directory' },
-        { href: '#', label: 'Protector' },
+        { href: '/navttc', label: 'NAVTTC' },
+        { href: '#', label: 'Protector Information' },
     ];
     const othersLinks = [
-        { href: '/ticketing', label: 'Ticketing' },
-        { href: '/fraud-alert', label: 'Fraud Alert' },
-        { href: '/navttc', label: 'NAVTTC' },
-        { href: '#', label: 'Help Center' },
     ];
     const jobs = [
         { href: '/jobs', label: 'Jobs' },
@@ -173,7 +173,7 @@ export default function Header() {
                                     </PopoverContent>
                                 </Popover>
                             )
-                        } else if (link.label === 'Jobs Visa') {
+                        } else if (link.label === 'Gulfs Jobs') {
                             return (
                                 <Popover trigger="hover" placement="bottom-start" key={i}>
                                     <PopoverTrigger>
@@ -183,7 +183,7 @@ export default function Header() {
                                             cursor="pointer"
                                             _hover={{ color: '#0a7450' }}
                                         >
-                                            Jobs Visa
+                                            Gulfs Jobs
                                         </Text>
                                     </PopoverTrigger>
                                     <PopoverContent w="fit-content">
@@ -207,7 +207,7 @@ export default function Header() {
                                     </PopoverContent>
                                 </Popover>
                             )
-                        } else if (link.label === 'Recruitment') {
+                        } else if (link.label === 'Management') {
                             return (
                                 <Popover trigger="hover" placement="bottom-start" key={i}>
                                     <PopoverTrigger>
@@ -215,7 +215,7 @@ export default function Header() {
                                             cursor="pointer"
                                             _hover={{ color: '#0a7450' }}
                                         >
-                                            Recruitment
+                                            Management
                                         </Text>
                                     </PopoverTrigger>
                                     <PopoverContent w="fit-content">
@@ -239,39 +239,40 @@ export default function Header() {
                                     </PopoverContent>
                                 </Popover>
                             )
-                        } else if (link.label === 'More') {
-                            return (
-                                <Popover trigger="hover" placement="bottom-start" key={i}>
-                                    <PopoverTrigger>
-                                        <Text
-                                            cursor="pointer"
-                                            _hover={{ color: '#0a7450' }}
-                                        >
-                                            More
-                                        </Text>
-                                    </PopoverTrigger>
-                                    <PopoverContent w="fit-content">
-                                        <PopoverBody p={2}>
-                                            {othersLinks.map((subLink, j) => (
-                                                <abbr key={j} title={subLink.label} style={{ textDecoration: 'none' }}>
-                                                    <Box
-                                                        as={Link}
-                                                        href={subLink.href}
-                                                        display="block"
-                                                        px={3}
-                                                        py={2}
-                                                        borderRadius="md"
-                                                        _hover={{ bg: 'gray.100' }}
-                                                    >
-                                                        {subLink.label}
-                                                    </Box>
-                                                </abbr>
-                                            ))}
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Popover>
-                            )
-                        }
+                        } 
+                        // else if (link.label === 'More') {
+                        //     return (
+                        //         <Popover trigger="hover" placement="bottom-start" key={i}>
+                        //             <PopoverTrigger>
+                        //                 <Text
+                        //                     cursor="pointer"
+                        //                     _hover={{ color: '#0a7450' }}
+                        //                 >
+                        //                     More
+                        //                 </Text>
+                        //             </PopoverTrigger>
+                        //             <PopoverContent w="fit-content">
+                        //                 <PopoverBody p={2}>
+                        //                     {othersLinks.map((subLink, j) => (
+                        //                         <abbr key={j} title={subLink.label} style={{ textDecoration: 'none' }}>
+                        //                             <Box
+                        //                                 as={Link}
+                        //                                 href={subLink.href}
+                        //                                 display="block"
+                        //                                 px={3}
+                        //                                 py={2}
+                        //                                 borderRadius="md"
+                        //                                 _hover={{ bg: 'gray.100' }}
+                        //                             >
+                        //                                 {subLink.label}
+                        //                             </Box>
+                        //                         </abbr>
+                        //                     ))}
+                        //                 </PopoverBody>
+                        //             </PopoverContent>
+                        //         </Popover>
+                        //     )
+                        // }
 
                         // Regular non-dropdown links
                         return (
@@ -411,7 +412,7 @@ export default function Header() {
                                             </Collapse>
                                         </Box>
                                     );
-                                } else if (link.label === "Jobs Visa") {
+                                } else if (link.label === "Gulfs Jobs") {
                                     return (
                                         <Box key={i} width="full">
                                             <Flex
@@ -424,7 +425,7 @@ export default function Header() {
                                                 <Text
                                                     className={`duration-300 ${pathname.includes("/jobs") || pathname === "/jobs" ? 'text-[#0a7450] font-semibold' : ""}`}
                                                 >
-                                                    Jobs Visa
+                                                    Gulfs Jobs
                                                 </Text>
 
                                             </Flex>
@@ -444,7 +445,7 @@ export default function Header() {
                                             </Collapse>
                                         </Box>
                                     );
-                                } else if (link.label === "Recruitment") {
+                                } else if (link.label === "Management") {
                                     return (
                                         <Box key={i} width="full">
                                             <Flex
@@ -457,7 +458,7 @@ export default function Header() {
                                                 <Text
                                                     className={`duration-300 ${pathname.includes("/create") || pathname === "/cv-directory" ? 'text-[#0a7450] font-semibold' : ""}`}
                                                 >
-                                                    Recruitment
+                                                    Management
                                                 </Text>
 
                                             </Flex>
@@ -510,40 +511,41 @@ export default function Header() {
                                             </Collapse>
                                         </Box>
                                     );
-                                } else if (link.label === "More") {
-                                    return (
-                                        <Box key={i} width="full">
-                                            <Flex
-                                                justify="space-between"
-                                                align="center"
-                                                onClick={() => setothersOpen(!othersOpen)}
-                                                cursor="pointer"
-                                                _hover={{ color: "#0a7450" }}
-                                            >
-                                                <Text
-                                                    className={`duration-300 ${pathname.includes("/others") || pathname === "/cv-directory" ? 'text-[#0a7450] font-semibold' : ""}`}
-                                                >
-                                                    More
-                                                </Text>
+                                } 
+                                // else if (link.label === "More") {
+                                //     return (
+                                //         <Box key={i} width="full">
+                                //             <Flex
+                                //                 justify="space-between"
+                                //                 align="center"
+                                //                 onClick={() => setothersOpen(!othersOpen)}
+                                //                 cursor="pointer"
+                                //                 _hover={{ color: "#0a7450" }}
+                                //             >
+                                //                 <Text
+                                //                     className={`duration-300 ${pathname.includes("/others") || pathname === "/cv-directory" ? 'text-[#0a7450] font-semibold' : ""}`}
+                                //                 >
+                                //                     More
+                                //                 </Text>
 
-                                            </Flex>
-                                            <Collapse in={othersOpen} animateOpacity>
-                                                <VStack pl={4} pt={2} align="start">
-                                                    {othersLinks.map((sub, j) => (
-                                                        <Link key={j} href={sub.href} onClick={onClose}>
-                                                            <Text
-                                                                _hover={{ color: "#0a7450" }}
-                                                                className={`duration-300 truncate ${pathname === sub.href ? 'text-[#0a7450] font-semibold' : ""}`}
-                                                            >
-                                                                {sub.label}
-                                                            </Text>
-                                                        </Link>
-                                                    ))}
-                                                </VStack>
-                                            </Collapse>
-                                        </Box>
-                                    );
-                                }
+                                //             </Flex>
+                                //             <Collapse in={othersOpen} animateOpacity>
+                                //                 <VStack pl={4} pt={2} align="start">
+                                //                     {othersLinks.map((sub, j) => (
+                                //                         <Link key={j} href={sub.href} onClick={onClose}>
+                                //                             <Text
+                                //                                 _hover={{ color: "#0a7450" }}
+                                //                                 className={`duration-300 truncate ${pathname === sub.href ? 'text-[#0a7450] font-semibold' : ""}`}
+                                //                             >
+                                //                                 {sub.label}
+                                //                             </Text>
+                                //                         </Link>
+                                //                     ))}
+                                //                 </VStack>
+                                //             </Collapse>
+                                //         </Box>
+                                //     );
+                                // }
                                 return (
                                     <Link key={i} href={link.href} onClick={onClose}>
                                         <Text
