@@ -363,19 +363,19 @@ export default function TravelAgentRegistration() {
             {/* Header */}
             <Box bg="green.700" py={8}>
                 <Box maxW="1440px" mx="auto" px={4}>
-                    <VStack spacing={4}>
+                    <VStack spacing={4} my={4}>
                         <HStack spacing={2}>
-                            <Icon as={FaPlane} color="white" boxSize={6} />
-                            <Text fontSize="2xl" fontWeight="bold" color="white">
-                                Travel Agency Registration
+                            {/* <Icon as={FaPlane} color="white" boxSize={6} /> */}
+                            <Text fontSize="2xl" fontWeight="bold" color="white" textTransform={'capitalize'}>
+                                HAJJ & UMRAH AGENCY ONLINE SPACE REGISTRATION REQUEST FORM
                             </Text>
-                            <Icon as={FaPlane} color="white" boxSize={6} />
+                            {/* <Icon as={FaPlane} color="white" boxSize={6} /> */}
                         </HStack>
-                        <Text color="gray.100" textAlign="center">
-                            Join Pakistan's premier travel network
+                        <Text color="gray.100" textAlign="center" fontSize={'md'}>
+                            Join Pakistan's premier hajj and umrah online network
                         </Text>
-                        <Badge bg="white" color="green.700" px={4} py={1} rounded="full">
-                            Trusted Travel Partners
+                        <Badge bg="white" color="green.700" px={4} py={1} rounded="full" size={'md'}>
+                            Trusted Partners Online Network
                         </Badge>
                     </VStack>
                 </Box>

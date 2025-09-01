@@ -121,17 +121,21 @@ export default function Ticketing() {
                                 p={5}
                                 bg="white"
                                 shadow="sm"
+                                display="flex"
+                                flexDirection="column"
                             >
                                 {/* 🔹 Agent Header */}
-                                <Flex align="" mb={3} gap={3}>
+                                <Flex align="" mb={3} gap={4}>
                                     <Avatar
                                         name={agent.businessName}
                                         src={agent.corporateLogo || ""}
-                                        size="lg"
-                                        rounded={"lg"}
+                                        size="xl"
+                                        rounded="lg"
                                     />
-                                    <Box>
-                                        <Text fontWeight="bold" fontSize="lg">{agent.businessName}</Text>
+                                    <Flex flexDirection={'column'} gap={2}>
+                                        <Text fontWeight="bold" fontSize="xl">
+                                            {agent.businessName}
+                                        </Text>
                                         <Text fontSize="md" color="gray.600">
                                             {agent.proprietorName}
                                         </Text>
@@ -139,32 +143,25 @@ export default function Ticketing() {
                                             <FaStar color="gold" />
                                             <Text fontWeight="bold">{agent.rating || "N/A"}</Text>
                                         </Flex>
-                                    </Box>
+                                    </Flex>
                                 </Flex>
 
                                 {/* 🔹 Address / Timings */}
-                                <Flex
-                                    align="center"
-                                    gap={2}
-                                    mb={2}
-                                    fontSize="sm"
-                                    color="gray.600"
-                                >
-                                    <FaMapMarkerAlt />   <Text noOfLines={2} wordBreak="break-word">
+                                <Text my={2} color={'black'} fontWeight={'bold'}>Address</Text>
+                                <Flex align="center" gap={2} mb={2} fontSize="sm" color="gray.600">
+                                    <FaMapMarkerAlt />
+                                    <Text noOfLines={2} wordBreak="break-word">
                                         {agent.officeAddress}
                                     </Text>
                                 </Flex>
-                                <Flex
-                                    align="center"
-                                    gap={2}
-                                    mb={2}
-                                    fontSize="md"
-                                    color="gray.600"
-                                >
+
+                                <Text my={2} color={'black'} fontWeight={'bold'}>Timings</Text>
+                                <Flex align="center" gap={2} mb={2} fontSize="md" color="gray.600">
                                     <FaClock /> {agent.officeTimings}
                                 </Flex>
 
                                 {/* 🔹 Services */}
+                                <Text color={'black'} fontWeight={'bold'} my={4}>Services</Text>
                                 <Flex gap={2} flexWrap="wrap" mb={2}>
                                     {agent.services?.map((service, i) => (
                                         <Tag key={i} size="md" colorScheme="blue">
@@ -174,19 +171,16 @@ export default function Ticketing() {
                                 </Flex>
 
                                 {/* 🔹 Airlines */}
+                                <Text my={4}>Airline services</Text>
                                 <Flex gap={2} flexWrap="wrap" mb={4}>
                                     {agent.airlines?.map((airline, i) => (
-                                        <Tag
-                                            key={i}
-                                            size="md"
-                                            variant="subtle"
-                                            colorScheme="gray"
-                                        >
+                                        <Tag key={i} size="md" variant="subtle" colorScheme="gray">
                                             {airline}
                                         </Tag>
                                     ))}
                                 </Flex>
 
+                                {/* 🔹 Contact */}
                                 <Flex justify="space-around" fontSize="lg" color="gray.600">
                                     <Link href={`tel:${agent.primaryMobile}`} target="_blank">
                                         <Icon as={FaPhone} _hover={{ color: "teal.500" }} cursor="pointer" />
@@ -200,32 +194,32 @@ export default function Ticketing() {
                                         <Icon as={FaGlobe} _hover={{ color: "teal.500" }} cursor="pointer" />
                                     </Link>
                                 </Flex>
+
                                 <Divider my={3} />
-                                <Flex gap={2}>
+
+                                {/* 🔹 Bottom Buttons */}
+                                <Flex gap={2} mt="auto">
                                     <Button
                                         bg="#0a7450"
-                                        color={"white"}
+                                        color="white"
                                         w="full"
                                         mb={3}
-                                        onClick={() =>
-                                            router.push(`/ticketing/agent-details/${agent._id}`)
-                                        }
+                                        onClick={() => router.push(`/ticketing/agent-details/${agent._id}`)}
                                     >
                                         View Details
                                     </Button>
                                     <Button
                                         bg="#0a7450"
-                                        color={"white"}
+                                        color="white"
                                         w="full"
                                         mb={3}
-                                        onClick={() =>
-                                            router.push(`/ticketing/details/${agent._id}`)
-                                        }
+                                        onClick={() => router.push(`/ticketing/details/${agent._id}`)}
                                     >
-                                        {`View Fares`}
+                                        View Fares
                                     </Button>
                                 </Flex>
                             </GridItem>
+
                         ))}
                     </Grid>
 

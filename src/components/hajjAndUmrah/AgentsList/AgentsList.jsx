@@ -36,7 +36,7 @@ export default function AgentsList() {
     const router = useRouter();
     const [sliderImages, setSliderImages] = useState([]);
     const [news, setNews] = useState([]);
-console.log('agents', agents)
+    console.log('agents', agents)
     // 🔹 Fetch agents from API
     useEffect(() => {
         const fetchAgents = async () => {
@@ -77,33 +77,35 @@ console.log('agents', agents)
         <>
             <HeroSection sliderImages={sliderImages} news={news} />
             <Box bg="gray.50" minH="100vh">
-                <Box p={4} maxW="1440px" mx="auto" position={'relative'}>
-                    <Text fontSize="2xl" fontWeight="bold" textAlign="center" mb={2}>
-                        Verified Travel Agents
-                    </Text>
+                <Box p={4} maxW="1440px" mx="auto" >
+                    <Box my={6} position={'relative'}>
+                        <Text fontSize="2xl" fontWeight="bold" textAlign="center" mb={2}>
+                            Verified Hajj and Umrah Agents
+                        </Text>
 
-                    <Button
-                        position="absolute"
-                        right={0}
-                        top={4}
-                        fontSize={{ base: "sm", md: "md" }}
-                        fontWeight="bold"
-                        px={{ base: 6, md: 10 }}
-                        py={{ base: 3, md: 4 }}
-                        borderRadius="full"
-                        bg="#0a7450"
-                        color="white"
-                        _hover={{ bg: "#065f46" }}
-                        _active={{ bg: "#054d3a" }}
-                        onClick={() => router.push("/hajj-and-umrah/agent/registration")}
-                    >
-                        Become Travel Agents
-                    </Button>
+                        <Button
+                            position="absolute"
+                            right={0}
+                            top={4}
+                            fontSize={{ base: "sm", md: "md" }}
+                            fontWeight="bold"
+                            px={{ base: 6, md: 10 }}
+                            py={{ base: 3, md: 4 }}
+                            borderRadius="full"
+                            bg="#0a7450"
+                            color="white"
+                            _hover={{ bg: "#065f46" }}
+                            _active={{ bg: "#054d3a" }}
+                            onClick={() => router.push("/hajj-and-umrah/agent/registration")}
+                        >
+                            Become Hajj and Umrah Agent
+                        </Button>
 
-                    <Text textAlign="center" color="gray.600" mb={8} mt={6}>
-                        Choose from our network of trusted agents offering competitive
-                        prices and excellent service
-                    </Text>
+                        <Text textAlign="center" color="gray.600" mb={8} mt={6}>
+                            Choose from our network of trusted agents offering competitive
+                            prices and excellent service
+                        </Text>
+                    </Box>
 
                     <Grid
                         templateColumns={{
@@ -121,51 +123,40 @@ console.log('agents', agents)
                                 p={5}
                                 bg="white"
                                 shadow="sm"
+                                display="flex"
+                                flexDirection="column"
                             >
-                                {/* 🔹 Agent Header */}
-                                <Flex align="" mb={3} gap={3}>
+                                <Flex mb={3} gap={2}>
                                     <Avatar
                                         name={agent.agencyName}
                                         src={agent.logo || ""}
-                                        size="lg"
-                                        rounded={"lg"}
+                                        size="xl"
+                                        rounded="lg"
+                                        border="2px solid gray"
                                     />
-                                    <Box>
-                                        <Text fontWeight="bold" fontSize="lg">{agent.agencyName}</Text>
-                                        <Text fontSize="md" color="gray.600">
+                                    <Flex flexDirection={'column'} gap={2}>
+                                        <Text fontWeight="bold" fontSize="xl">
+                                            {agent.agencyName}
+                                        </Text>
+                                        <Text fontSize="lg" color="gray.600">
                                             {agent.state} {agent.country}
                                         </Text>
                                         <Flex align="center" gap={1} mb={2}>
                                             <FaStar color="gold" />
                                             <Text fontWeight="bold">{agent.rating || "N/A"}</Text>
                                         </Flex>
-                                    </Box>
+                                    </Flex>
                                 </Flex>
+                                <Text my={2} color={'black'} fontWeight={'bold'}>Address</Text>
 
-                                {/* 🔹 Address / Timings */}
-                                <Flex
-                                    align="center"
-                                    gap={2}
-                                    mb={2}
-                                    fontSize="sm"
-                                    color="gray.600"
-                                >
-                                    <FaMapMarkerAlt />   <Text noOfLines={2} wordBreak="break-word">
+                                <Flex align="center" gap={2} mb={2} fontSize="md" color="gray.600">
+                                    <FaMapMarkerAlt />
+                                    <Text noOfLines={2} wordBreak="break-word">
                                         {agent.address}
                                     </Text>
                                 </Flex>
-                                {/* <Flex
-                                    align="center"
-                                    gap={2}
-                                    mb={2}
-                                    fontSize="md"
-                                    color="gray.600"
-                                >
-                                    <FaClock /> {agent.officeTimings}
-                                </Flex> */}
-
-                                {/* 🔹 Services */}
-                                <Flex gap={2} flexWrap="wrap" mb={2}>
+                                <Text my={2} color={'black'} fontWeight={'bold'}>Services</Text>
+                                <Flex gap={2} flexWrap="wrap" mb={6}>
                                     {agent.services?.map((service, i) => (
                                         <Tag key={i} size="md" colorScheme="blue">
                                             {service}
@@ -173,21 +164,7 @@ console.log('agents', agents)
                                     ))}
                                 </Flex>
 
-                                {/* 🔹 Airlines */}
-                                {/* <Flex gap={2} flexWrap="wrap" mb={4}>
-                                    {agent.airlines?.map((airline, i) => (
-                                        <Tag
-                                            key={i}
-                                            size="md"
-                                            variant="subtle"
-                                            colorScheme="gray"
-                                        >
-                                            {airline}
-                                        </Tag>
-                                    ))}
-                                </Flex> */}
-
-                                <Flex justify="space-around" fontSize="lg" color="gray.600">
+                                <Flex justify="space-around" fontSize="lg" color="gray.600" mt="auto">
                                     <Link href={`tel:${agent.phone}`} target="_blank">
                                         <Icon as={FaPhone} _hover={{ color: "teal.500" }} cursor="pointer" />
                                     </Link>
@@ -200,11 +177,13 @@ console.log('agents', agents)
                                         <Icon as={FaGlobe} _hover={{ color: "teal.500" }} cursor="pointer" />
                                     </Link>
                                 </Flex>
+
                                 <Divider my={3} />
-                                <Flex gap={2}>
+
+                                <Flex gap={2} mt="auto">
                                     <Button
                                         bg="#0a7450"
-                                        color={"white"}
+                                        color="white"
                                         w="full"
                                         mb={3}
                                         onClick={() =>
@@ -215,10 +194,10 @@ console.log('agents', agents)
                                     </Button>
                                 </Flex>
                             </GridItem>
+
                         ))}
                     </Grid>
 
-                    {/* 🔹 Pagination */}
                     <Flex justify="center" mt={8} gap={2}>
                         <Button
                             size="sm"

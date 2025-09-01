@@ -1,5 +1,5 @@
 'use client'
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Avatar, Center, Divider, Grid, GridItem, List, ListIcon, ListItem, Spinner, Tag, Icon, Box, Flex, Button, Input, Textarea } from '@chakra-ui/react';
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Avatar, Center, Divider, Grid, GridItem, List, ListIcon, ListItem, Spinner, Tag, Icon, Box, Flex, Button, Input, Textarea, Stack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { HeroSection } from '../Gamca/MedicalCenters/HeroSection';
 import { VStack, Text } from '@chakra-ui/react';
@@ -47,14 +47,17 @@ const HajjAndUmrah = () => {
             <Box maxW={'1440px'} mx="auto" bg="gray.50">
                 <VStack align="flex-start" spacing={{ base: 4, md: 6 }} w="full">
                     <Flex align="center" w="full" justify="space-between" direction={{ base: 'column', md: 'row' }} gap={{ base: 4, md: 0 }} p={4}>
-                        <Flex mt={{ base: 4, md: 10 }} align="center">
+                        <Flex mt={{ base: 4, md: 10 }} align="">
                             <Box mr={2}>
-                                <Avatar name={agent.agencyName} src={agent.logo} size={{ base: 'md', md: 'lg' }} mr={{ base: 2, md: 4 }} />
+                                <Avatar name={agent.agencyName} src={agent.logo} size={{ base: 'md', md: 'xl' }} mr={{ base: 2, md: 4 }} />
                             </Box>
                             <Box>
                                 <Text fontWeight="bold" fontSize={{ base: 'lg', md: 'xl' }}>{agent.agencyName}</Text>
-                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="#0a7450">Verified</Text>
-                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">{agent.state}, {agent.country} Est. {agent.establishmentYear}</Text>
+                                <Text fontSize={{ base: 'xs', md: 'sm' }} fontWeight={'bold'} color="#0a7450">Verified</Text>
+                                <Flex>
+                                    <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600" mr={2}>{agent.state}, {agent.country}</Text>
+                                    <Text fontSize={{ base: 'sm', md: 'md' }} color="gray.600">Est. <Tag>{agent.establishmentYear}</Tag></Text>
+                                </Flex>
                                 <Flex mt={1}>
                                     <Text fontSize={{ base: 'xs', md: 'sm' }} color="yellow.500">★ {agent.rating} </Text>
                                 </Flex>
@@ -62,7 +65,7 @@ const HajjAndUmrah = () => {
                                     {
                                         agent.services.map((item, i) => {
                                             return (
-                                                <Text fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">{item}</Text>
+                                                <Tag fontSize={{ base: 'xs', md: 'sm' }} color="gray.600">{item}</Tag>
                                             )
                                         })
                                     }
@@ -174,28 +177,35 @@ const HajjAndUmrah = () => {
                                     bg="white"
                                     shadow="sm"
                                 >
-                                    <Text fontWeight="bold" mb={2} fontSize={{ base: 'md', md: 'lg' }}>
-                                        Location & Contact
-                                    </Text>
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }}>
-                                        <b>Address:</b> {agent.address}
-                                    </Text>
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }} mt={2}>
-                                        <b>Phone:</b> {agent.phone}
-                                    </Text>
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }} mt={2}>
-                                        <b>Email:</b> {agent.email}
-                                    </Text>
-                                    <Link
-                                        href="https://alharamaintours.com"
-                                        color="blue.500"
-                                        fontSize={{ base: 'xs', md: 'sm' }}
-                                        mt={2}
-                                        display="block"
-                                    >
-                                        <b>Website:</b> {agent.website}
-                                    </Link>
+                                    <Stack spacing={4}>
+                                        <Text fontWeight="bold" fontSize={{ base: 'md', md: 'lg' }}>
+                                            Location & Contact
+                                        </Text>
+
+                                        <Text fontSize={{ base: 'sm', md: 'md' }}>
+                                            <b>Address:</b> {agent.address}
+                                        </Text>
+
+                                        <Text fontSize={{ base: 'sm', md: 'md' }}>
+                                            <b>Phone:</b> {agent.phone}
+                                        </Text>
+
+                                        <Text fontSize={{ base: 'sm', md: 'md' }}>
+                                            <b>Email:</b> {agent.email}
+                                        </Text>
+
+                                        <Link
+                                            href={agent.website}
+                                            target='_blank'
+                                            color="blue.500"
+                                            fontSize={{ base: 'xs', md: 'sm' }}
+                                            display="block"
+                                        >
+                                            <b>Website:</b> {agent.website}
+                                        </Link>
+                                    </Stack>
                                 </GridItem>
+
                                 <GridItem
                                     borderWidth="1px"
                                     borderRadius="lg"
@@ -203,28 +213,34 @@ const HajjAndUmrah = () => {
                                     bg="white"
                                     shadow="sm"
                                 >
-                                    <Text fontWeight="bold" mb={2} fontSize={{ base: 'md', md: 'lg' }}>
-                                        Business Details
-                                    </Text>
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }}>
-                                        <b>Established:</b> {agent.establishmentYear}
-                                    </Text>
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }} mt={2}>
-                                        <b>Languages Spoken:</b>
-                                    </Text>
-                                    <Flex gap={2} mt={1} flexWrap="wrap">
-                                        {
-                                            agent?.languages?.map((item, i) => {
-                                                return (
-                                                    <Tag size={{ base: 'sm', md: 'md' }} key={i}>{item}</Tag>
-                                                )
-                                            })
-                                        }
-                                    </Flex>
-                                    {/* <Text fontSize={{ base: 'xs', md: 'sm' }} mt={3}>
-                                        <b>Total Reviews:</b> 1247 customer reviews
-                                    </Text> */}
+                                    <Stack spacing={4}>
+                                        <Text fontWeight="bold" fontSize={{ base: 'md', md: 'lg' }}>
+                                            Business Details
+                                        </Text>
+
+                                        <Text fontSize={{ base: 'xs', md: 'sm' }}>
+                                            <b>Established:</b> {agent.establishmentYear}
+                                        </Text>
+
+                                        <Box>
+                                            <Text fontSize={{ base: 'xs', md: 'sm' }}>
+                                                <b>Languages Spoken:</b>
+                                            </Text>
+                                            <Flex gap={2} mt={1} flexWrap="wrap">
+                                                {agent?.languages?.map((item, i) => (
+                                                    <Tag size={{ base: 'sm', md: 'md' }} key={i}>
+                                                        {item}
+                                                    </Tag>
+                                                ))}
+                                            </Flex>
+                                        </Box>
+
+                                        {/* <Text fontSize={{ base: 'xs', md: 'sm' }}>
+      <b>Total Reviews:</b> 1247 customer reviews
+    </Text> */}
+                                    </Stack>
                                 </GridItem>
+
                             </Grid>
                             <Box
                                 borderWidth="1px"
@@ -268,18 +284,18 @@ const HajjAndUmrah = () => {
                         </Box>
                         <Box flex={{ base: 'none', md: 1 }} p={4} bg="gray.50" gap={4} w={{ base: 'full', md: 'auto' }}>
                             <Box borderRadius="md" border={"1px solid green"} p={4}>
-                                <Text fontWeight="bold" mb={2} fontSize={{ base: 'md', md: 'lg' }}>Contact Information</Text>
-                                <Flex align="center" mb={2}>
+                                <Text fontWeight="bold" mb={2} fontSize={{ base: 'lg', md: 'xl' }}>Contact Information</Text>
+                                <Flex align="center" mb={4}>
                                     <Icon as={FaPhone} color="#0a7450" boxSize={{ base: 4, md: 5 }} mr={2} />
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }}>{agent.phone}</Text>
+                                    <Text fontSize={{ base: 'sm', md: 'md' }}>{agent.phone}</Text>
                                 </Flex>
-                                <Flex align="center" mb={2}>
+                                <Flex align="center" mb={4}>
                                     <Icon as={FaEnvelope} color="#0a7450" boxSize={{ base: 4, md: 5 }} mr={2} />
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }}>{agent.email}</Text>
+                                    <Text fontSize={{ base: 'sm', md: 'md' }}>{agent.email}</Text>
                                 </Flex>
-                                <Flex align="center" mb={2}>
+                                <Flex align="center" mb={4}>
                                     <Icon as={FaMapMarkerAlt} color="#0a7450" boxSize={{ base: 4, md: 5 }} mr={2} />
-                                    <Text fontSize={{ base: 'xs', md: 'sm' }}>{agent.address}</Text>
+                                    <Text fontSize={{ base: 'sm', md: 'md' }}>{agent.address}</Text>
                                 </Flex>
                                 <Button
                                     as={Link}

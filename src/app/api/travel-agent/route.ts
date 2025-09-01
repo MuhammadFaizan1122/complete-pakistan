@@ -39,7 +39,10 @@ export async function GET(req) {
         const skip = (page - 1) * limit;
 
         // @ts-ignore
-        const agents = await TravelAgent.find(filter)
+        const agents = await TravelAgent.find({
+            ...filter,
+            registrationStatus: 'approved'
+        })
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit)
