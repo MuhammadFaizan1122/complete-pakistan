@@ -81,7 +81,7 @@ export default function Header() {
         { href: '/ticketing', label: 'Ticketing' },
         { href: '/recruitment/consultancies', label: 'Consultant Directory' },
         { href: '/navttc', label: 'NAVTTC' },
-        { href: '#', label: 'Protector Information' },
+        { href: '/protectors', label: 'Protector Information' },
     ];
     const othersLinks = [
     ];
