@@ -171,7 +171,7 @@ export default function Ticketing() {
                                 </Flex>
 
                                 {/* 🔹 Airlines */}
-                                <Text my={4}>Airline services</Text>
+                                <Text my={4} color={'black'} fontWeight={'bold'}>Airline services</Text>
                                 <Flex gap={2} flexWrap="wrap" mb={4}>
                                     {agent.airlines?.map((airline, i) => (
                                         <Tag key={i} size="md" variant="subtle" colorScheme="gray">
