@@ -1,161 +1,139 @@
+"use client";
 import React from "react";
 import {
   Box,
-  Button,
   Container,
-  Flex,
+  Grid,
+  GridItem,
   Heading,
-  Input,
   Text,
+  Flex,
+  Divider,
 } from "@chakra-ui/react";
 import Image from "next/image";
+import {
+  FaEnvelope,
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+  FaTwitter,
+} from "react-icons/fa";
 import Link from "next/link";
 
 export default function Footer() {
   return (
     <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minH={{ base: "auto", md: "450px" }}
-      py={{ base: 8, md: 12 }}
-      boxShadow="0px 4px 20px rgba(0, 0, 0, 0.1)"
+      bg="gray.50"
+      py={{ base: 10, md: 16 }}
+      borderTop="1px solid"
+      borderColor="gray.200"
     >
-      <Container maxW="1440px" px={{ base: 4, md: 0 }}>
-        <Flex
-          direction={{ base: "column", md: "row" }}
-          justify="space-between"
+      <Container maxW="1440px" px={{ base: 4, md: 6 }}>
+        <Grid
+          templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(5, 1fr)" }}
           gap={{ base: 8, md: 6 }}
-          mb={{ base: 8, md: 4 }}
         >
-          <Box>
+          <GridItem colSpan={{ base: 1, md: 2 }}>
             <Image
-              width={150}
-              height={50}
+              width={160}
+              height={60}
               src="/Images/logo.png"
               alt="CompletePakistan Logo"
-              style={{ marginBottom: "2rem" }}
+              style={{ marginBottom: "1rem" }}
             />
-            <Text
-              fontSize={{ base: "lg", md: "xl" }}
-              fontWeight="bold"
-              color="black"
-            >
-              Opportunities for Agents, Trade, <br /> Careers & Consultancies
+            <Text fontSize="md" color="gray.600" lineHeight="tall">
+              Connecting Pakistani talent with international opportunities. Your trusted partner
+              for overseas employment in the Gulf region.
+              <br /><br /> Licensed by Ministry of Overseas Pakistani & Human Resource Development.
             </Text>
-          </Box>
-          <Box>
-            <Heading size="md" mb={{ base: 3, md: 2 }} fontSize={{ base: "lg", md: "xl" }}>
+          </GridItem>
+
+          <GridItem>
+            <Heading size="sm" mb={4}>
               Company
             </Heading>
-            <Text as={Link} href={'/about-us'} className="!mb-4" mb={6} cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
-              About Us
-            </Text>
-            <br />
-            <Text as={Link} href={'/contact-us'} mb={2} className="!mb-4" cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
+            <Flex direction="column" gap={2} fontSize="md">
+              <Link href="/about-us">About Us</Link>
+              <Link href="/contact-us">Contact Us</Link>
+              <Text cursor="pointer">Our Team</Text>
+              <Text cursor="pointer">Partners</Text>
+              <Text cursor="pointer">For Candidates</Text>
+              <Text cursor="pointer">For Employers</Text>
+            </Flex>
+          </GridItem>
+
+          {/* Services */}
+          <GridItem>
+            <Heading size="sm" mb={4}>
+              Services
+            </Heading>
+            <Flex direction="column" gap={2} fontSize="md">
+              <Text cursor="pointer">Interview Scheduling</Text>
+              <Text cursor="pointer">Document Verification</Text>
+              <Text cursor="pointer">Trade Testing</Text>
+              <Text cursor="pointer">Pre-Employment Training</Text>
+              <Text cursor="pointer">Visa Processing</Text>
+            </Flex>
+          </GridItem>
+
+          {/* Contact */}
+          <GridItem>
+            <Heading size="sm" mb={4}>
               Contact Us
-            </Text>
-            <Text mb={2} cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
-              Our Team
-            </Text>
-            <Text mb={2} cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
-              Partners
-            </Text>
-            <Text mb={2} cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
-              For Candidates
-            </Text>
-            <Text mb={2} cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
-              For Employers
-            </Text>
-          </Box>
-          <Box>
-            <Heading size="md" mb={{ base: 3, md: 2 }} fontSize={{ base: "lg", md: "xl" }}>
-              Job Categories
             </Heading>
-            <Text mb={2} cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
-              Telecommunications
-            </Text>
-            <Text mb={2} cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
-              Hotels & Tourism
-            </Text>
-            <Text mb={2} cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
-              Construction
-            </Text>
-            <Text mb={2} cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
-              Education
-            </Text>
-            <Text mb={2} cursor="pointer" fontSize={{ base: "sm", md: "md" }}>
-              Financial Services
-            </Text>
-          </Box>
-          <Box>
-            <Heading size="md" mb={{ base: 3, md: 2 }} fontSize={{ base: "lg", md: "xl" }}>
-              Newsletter
+            <Flex align="center" mb={2} fontSize="md">
+              <FaMapMarkerAlt style={{ marginRight: "8px" }} />
+              Islamabad, Pakistan
+            </Flex>
+            <Flex align="center" mb={2} fontSize="md">
+              <FaPhoneAlt style={{ marginRight: "8px" }} />
+              <Link href="tel:+923102632470">+92 310 2632470</Link>
+            </Flex>
+            <Flex align="center" mb={2} fontSize="md">
+              <FaEnvelope style={{ marginRight: "8px" }} />
+              <Link href="mailto:info@completepakistan.com">
+                info@completepakistan.com
+              </Link>
+            </Flex>
+
+            <Heading size="sm" mt={4} mb={3}>
+              Follow Us
             </Heading>
-            <Text
-              fontSize={{ base: "xs", md: "sm" }}
-              my={{ base: 3, md: 2 }}
-              color="gray.600"
-            >
-              Eu nunc pretium vitae platea. Non netus <br /> elementum vulputate
-            </Text>
-            <Input
-              placeholder="Email Address"
-              bg="white"
-              color="black"
-              mb={2}
-              borderRadius="xl"
-              p={{ base: 4, md: 6 }}
-              border="1px"
-              borderColor="black"
-              fontSize={{ base: "sm", md: "md" }}
-            />
-            <Button
-              bg="#0a7450"
-              w="full"
-              color="white"
-              borderRadius="xl"
-              py={{ base: 4, md: 6 }}
-              fontSize={{ base: "sm", md: "md" }}
-              _hover={{ bg: "white", color: "black", border: "1px solid black" }}
-            >
-              Subscribe Now
-            </Button>
-          </Box>
-        </Flex>
+            <Flex gap={4}>
+              <Link href="https://facebook.com" isExternal>
+                <FaFacebook size={18} />
+              </Link>
+              <Link href="https://x.com" isExternal>
+                <FaTwitter size={18} />
+              </Link>
+              <Link href="https://instagram.com" isExternal>
+                <FaInstagram size={18} />
+              </Link>
+              <Link href="https://linkedin.com" isExternal>
+                <FaLinkedin size={18} />
+              </Link>
+            </Flex>
+          </GridItem>
+        </Grid>
+
+        {/* Bottom bar */}
+        <Divider my={8} />
         <Flex
           direction={{ base: "column", md: "row" }}
           justify="space-between"
           align={{ base: "center", md: "flex-start" }}
-          mt={{ base: 6, md: 10 }}
+          gap={4}
         >
-          <Text
-            fontSize={{ base: "sm", md: "md" }}
-            textAlign={{ base: "center", md: "left" }}
-            mb={{ base: 4, md: 0 }}
-          >
-            © Copyright Complete Pakistan {new Date().getFullYear()}.
+          <Text fontSize="md" color="gray.600">
+            © {new Date().getFullYear()} Complete Pakistan. All rights reserved.
           </Text>
-          <Flex
-            direction={{ base: "column", md: "row" }}
-            justify={{ base: "center", md: "flex-end" }}
-            align="center"
-            gap={{ base: 2, md: 4 }}
-          >
-            <Text
-              fontSize={{ base: "sm", md: "md" }}
-              color="black"
-              textDecoration="underline"
-              cursor="pointer"
-            >
+          <Flex gap={6} fontSize="md" color="gray.600">
+            <Text cursor="pointer" textDecoration="underline">
               Privacy Policy
             </Text>
-            <Text
-              fontSize={{ base: "sm", md: "md" }}
-              color="black"
-              textDecoration="underline"
-              cursor="pointer"
-            >
+            <Text cursor="pointer" textDecoration="underline">
               Terms of Service
             </Text>
           </Flex>

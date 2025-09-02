@@ -15,13 +15,14 @@ import {
   FormErrorMessage,
   HStack,
   Icon,
+  useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
+import Link from "next/link";
 
-// Validation schema for the contact form
 const contactSchema = Yup.object().shape({
   name: Yup.string().required("Name is required").min(2, "Name must be at least 2 characters"),
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -30,9 +31,9 @@ const contactSchema = Yup.object().shape({
 
 const contactData = {
   details: [
-    { icon: FaPhone, title: "Phone", value: "+92 300 123 4567" },
-    { icon: FaEnvelope, title: "Email", value: "support@completepakistan.com" },
-    { icon: FaMapMarkerAlt, title: "Address", value: "123 Overseas Plaza, Karachi, Pakistan" },
+    { icon: FaPhone, title: "Phone", value: "+92 310 2632470" },
+    { icon: FaEnvelope, title: "Email", value: "info@completepakistan.com" },
+    { icon: FaMapMarkerAlt, title: "Address", value: "Islamabad, Pakistan" },
   ],
   socials: [
     { icon: FaFacebook, link: "https://facebook.com/completepakistan" },
@@ -42,24 +43,56 @@ const contactData = {
 };
 
 export default function ContactUs() {
+  const toast = useToast()
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(contactSchema),
   });
 
   const onSubmit = async (data) => {
-    // Simulate form submission (replace with actual API call)
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate async request
-    alert("Message sent successfully!");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...data, toEmail: process.env.NEXT_PUBLIC_ADMIN_EMAIL_FOR_CONTACT }),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        toast({
+          title: "Message Sent!",
+          description: "Your message has been delivered to our team.",
+          status: "success",
+          duration: 6000,
+          isClosable: true,
+        });
+        reset();
+      } else {
+        toast({
+          description: "Error: " + result.error,
+          status: "error",
+          duration: 6000,
+          isClosable: true,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      toast({
+        description: "Something went wrong!",
+        status: "error",
+        duration: 6000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
     <Box bg="#eaf7f7" px={{ base: 2, sm: 4, md: 4 }} py={{ base: 8, md: 16 }}>
       <Box maxW="1440px" mx="auto">
-        {/* Hero Section */}
         <VStack spacing={{ base: 2, md: 3 }} textAlign="center" mb={{ base: 8, md: 12 }}>
           <Heading
             fontSize={{ base: "xl", sm: "2xl", md: "50px" }}
@@ -77,10 +110,7 @@ export default function ContactUs() {
             We're here to assist you with your overseas employment journey. Reach out with any questions, feedback, or inquiries, and our team will respond promptly.
           </Text>
         </VStack>
-
-        {/* Contact Form and Details Section */}
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 4, md: 6 }} mb={{ base: 8, md: 12 }}>
-          {/* Contact Form */}
           <Box
             bg="white"
             p={{ base: 4, md: 6 }}
@@ -158,7 +188,6 @@ export default function ContactUs() {
             </VStack>
           </Box>
 
-          {/* Contact Details */}
           <Box
             bg="#0a745026"
             p={{ base: 4, md: 6 }}
@@ -249,32 +278,35 @@ export default function ContactUs() {
             >
               Our Location
             </Text>
+
             <Box
               w={{ base: "100%", sm: "90%", md: "800px" }}
               h={{ base: "200px", sm: "250px", md: "400px" }}
               rounded="xl"
               overflow="hidden"
             >
-              <Image
-                src="/Images/map.webp"
-                alt="Location Map"
-                width={800}
-                height={400}
-                style={{ objectFit: "cover", width: "100%", height: "100%" }}
-                sizes="(max-width: 640px) 100vw, (max-width: 768px) 90vw, 800px"
-              />
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d332824.71721406386!2d72.70016842538788!3d33.61612423324212!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfbf6b2032ddfb%3A0xb03f0f04ce68da3b!2sIslamabad!5e0!3m2!1sen!2s!4v1693668000000!5m2!1sen!2s"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </Box>
+
             <Text
               fontSize={{ base: "sm", sm: "md", md: "16px" }}
               color="black"
               maxW={{ base: "90%", md: "600px" }}
             >
-              Visit us at our headquarters in Karachi or connect with us virtually from anywhere in the world.
+              Visit us at our office in Islamabad or connect with us virtually from anywhere in the world.
             </Text>
           </VStack>
         </Box>
 
-        {/* CTA Section */}
+
         <Box
           bg="#0a7450"
           rounded="20px"
@@ -299,6 +331,8 @@ export default function ContactUs() {
               Explore job opportunities, connect with agencies, or list your openings with Complete Pakistan. Get started today!
             </Text>
             <Button
+              as={Link}
+              href="/auth/signup"
               bg="white"
               color="#0a7450"
               rounded="xl"

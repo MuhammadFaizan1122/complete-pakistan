@@ -1,4 +1,5 @@
 import { Box, VStack, Text, SimpleGrid, Flex, Image, Button, Heading } from "@chakra-ui/react";
+import Link from "next/link";
 
 const aboutData = {
     mission: {
@@ -82,7 +83,7 @@ export default function AboutUs() {
                 </VStack>
 
                 {/* Mission Section */}
-                <Box bg="white" rounded="20px" shadow="md" p={{ base: 4, md: 6 }} mb={{ base: 8, md: 12 }}>
+                <Box bg="white" rounded="20px" shadow="md" p={{ base: 4, md: 6 }} mb={{ base: 12, md: 20 }} >
                     <VStack spacing={{ base: 2, md: 3 }} textAlign="center">
                         <Text
                             fontSize={{ base: "lg", sm: "xl", md: "32px" }}
@@ -102,7 +103,7 @@ export default function AboutUs() {
                 </Box>
 
                 {/* Values Section */}
-                <VStack spacing={{ base: 2, md: 3 }} textAlign="center" mb={{ base: 8, md: 12 }}>
+                <VStack spacing={{ base: 2, md: 3 }} textAlign="center" mb={{ base: 12, md: 20 }} align="stretch" >
                     <Text
                         fontSize={{ base: "lg", sm: "xl", md: "32px" }}
                         fontWeight="bold"
@@ -165,7 +166,7 @@ export default function AboutUs() {
                 </VStack>
 
                 {/* Team Section */}
-                <VStack spacing={{ base: 2, md: 3 }} textAlign="center" mb={{ base: 8, md: 12 }}>
+                <VStack spacing={{ base: 2, md: 3 }} textAlign="center" mb={{ base: 12, md: 20 }}>
                     <Text
                         fontSize={{ base: "lg", sm: "xl", md: "32px" }}
                         fontWeight="bold"
@@ -233,7 +234,7 @@ export default function AboutUs() {
                 </VStack>
 
                 {/* Impact Section */}
-                <VStack spacing={{ base: 2, md: 3 }} textAlign="center" mb={{ base: 8, md: 12 }}>
+                <VStack spacing={{ base: 2, md: 3 }} textAlign="center" mb={{ base: 12, md: 20 }} align="stretch">
                     <Text
                         fontSize={{ base: "lg", sm: "xl", md: "32px" }}
                         fontWeight="bold"
@@ -250,7 +251,7 @@ export default function AboutUs() {
                                 rounded="xl"
                                 shadow="md"
                                 textAlign="center"
-                                w={{ base: "100%", sm: "90%", md: "306px" }}
+                                w={{ base: "100%", sm: "90%", md: "100%" }}
                                 h={{ base: "auto", md: "200px" }}
                                 display="flex"
                                 justifyContent="center"
@@ -295,6 +296,8 @@ export default function AboutUs() {
                             Be part of a community that connects talent with opportunity. Sign up now to explore jobs, connect with agencies, or list your openings.
                         </Text>
                         <Button
+                            as={Link}
+                            href={'/'}
                             bg="#0a7450"
                             color="white"
                             rounded="xl"
