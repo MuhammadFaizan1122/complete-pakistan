@@ -56,7 +56,7 @@ export default function Header() {
         { href: '#', label: 'GAMCA' },
         { href: '/naqal-kafala', label: 'Naqal Kafala' },
         { href: '/fraud-alert', label: 'Fraud Alert' },
-        { href: '#', label: 'Help Center' },
+        { href: '/help-center', label: 'Help Center' },
         // { href: '#', label: 'More' },
     ];
 

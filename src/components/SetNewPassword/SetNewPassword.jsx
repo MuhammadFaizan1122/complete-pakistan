@@ -41,7 +41,7 @@ const setNewPasswordSchema = yup.object().shape({
     .required("Confirm password is required"),
 });
 
-export default function SetNewPassword() {
+export default function SetNewPassword({ searchParams }) {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const toast = useToast();
@@ -54,17 +54,29 @@ export default function SetNewPassword() {
   } = useForm({
     resolver: yupResolver(setNewPasswordSchema),
   });
-    const { status } = useSession();
+  const { status } = useSession();
 
-    useEffect(() => {
-        if (status === "authenticated") {
-            router.push("/");
-        }
-    }, [status, router]);
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/");
+    }
+  }, [status, router]);
   const onSubmit = async (data) => {
+    console.log('data', data)
     try {
-      toast({ title: "Password reset successfully", status: "success", isClosable: true });
-      router.push("/login");
+      const param = await searchParams;
+      const res = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        body: JSON.stringify({ email: param.email, password: data.newPassword }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const datas = await res.json();
+      if (datas.success) {
+        alert("Password updated successfully");
+        router.push("/auth/login");
+      } else {
+        alert(datas.error);
+      }
     } catch (error) {
       console.error("Password reset error:", error);
       toast({ title: "Failed to reset password", status: "error", isClosable: true });

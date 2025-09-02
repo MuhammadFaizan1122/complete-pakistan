@@ -5,13 +5,13 @@ import {
   FormLabel,
   Heading,
   Input,
-  Link,
   Stack,
   Text,
   FormErrorMessage,
-  Box
+  Box,
+  useToast
 } from "@chakra-ui/react";
-import NextLink from "next/link";
+import Link from "next/link";
 import { AuthLayout } from "../Login/Login";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -30,6 +30,7 @@ const forgotPasswordSchema = yup.object().shape({
 
 
 const ForgotPasswordPage = () => {
+  const toast = useToast()
   const {
     register,
     handleSubmit,
@@ -47,6 +48,29 @@ const ForgotPasswordPage = () => {
   }, [status, router]);
   const onSubmit = async (data) => {
     try {
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        body: JSON.stringify({ email: data.email }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const datas = await res.json();
+      if (datas.success) {
+        toast({
+          title: "Message Sent!",
+          description: "Verification OTP send to your email successfully",
+          status: "success",
+          duration: 6000,
+          isClosable: true,
+        });
+        router.push(`/auth/forgot-password-verify-otp?email=${data.email}`);
+      } else {
+        toast({
+          description: datas.error,
+          status: "error",
+          duration: 6000,
+          isClosable: true,
+        });
+      }
       console.log("Forgot password email:", data.email);
     } catch (error) {
       console.error("Forgot password error:", error);
@@ -61,7 +85,7 @@ const ForgotPasswordPage = () => {
       <Heading fontSize={{ base: "2xl", md: "3xl" }} my={4}>
         Forgot your password?</Heading>
       <Text fontSize="sm" color="gray.600" mb={4}>
-        Enter your email address and we’ll send you a link to reset your password.
+        Enter your email address and we’ll send you a OTP to reset your password.
       </Text>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
@@ -86,13 +110,13 @@ const ForgotPasswordPage = () => {
             type="submit"
             isLoading={isSubmitting}
           >
-            Send Reset Link
+            Send Reset OTP
           </Button>
-          <Text fontSize="sm" textAlign="center">
+          <Text fontSize="md" textAlign="center" display={'flex'} alignItems={'center'} justifyContent={'center'}>
             Back to{' '}
-            <NextLink href="/login" passHref>
-              <Link color="#0a7450">Login</Link>
-            </NextLink>
+            <Link href="/login" passHref>
+              <Text ml={1} fontWeight={'bold'} color="#0a7450">Login</Text>
+            </Link>
           </Text>
         </Stack>
       </form>
