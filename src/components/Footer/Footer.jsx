@@ -131,10 +131,10 @@ export default function Footer() {
           </Text>
           <Flex gap={6} fontSize="md" color="gray.600">
             <Text cursor="pointer" textDecoration="underline">
-              Privacy Policy
+              <Link href={'privacy-policy'}>Privacy Policy</Link>
             </Text>
             <Text cursor="pointer" textDecoration="underline">
-              Terms of Service
+              <Link href={'terms-and-conditions'}>Terms of Service</Link>
             </Text>
           </Flex>
         </Flex>
