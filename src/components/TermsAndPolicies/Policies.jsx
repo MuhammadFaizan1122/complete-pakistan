@@ -27,7 +27,6 @@ const Section = ({
 );
 
 export default function PrivacyPolicyPage() {
-  const updated = new Date().toLocaleDateString();
 
   return (
     <Box bg="gray.50" py={{ base: 10, md: 16 }}>

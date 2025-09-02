@@ -34,7 +34,6 @@ const Section = ({
 );
 
 export default function TermsAndConditionsPage() {
-    const updated = new Date().toLocaleDateString();
 
     return (
         <Box bg="gray.50" py={{ base: 10, md: 16 }}>
