@@ -6,6 +6,8 @@ import { FaRegStar, FaRegUser, FaUser } from "react-icons/fa";
 import { LuBuilding2 } from "react-icons/lu";
 import { TfiBag } from "react-icons/tfi";
 import { MdLocationOn, MdWork } from "react-icons/md";
+import { useDisclosure } from "@chakra-ui/react";
+import ProfilePopup from '../RequestForm/RequestForm'
 
 const sampleCandidates = [
   {
@@ -106,7 +108,7 @@ const SearchSection = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const candidatesPerPage = 3;
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -147,13 +149,34 @@ const SearchSection = () => {
         textAlign="center"
         position="relative"
       >
-        <Box mb={6}>
-          <Heading as="h2" size={{ base: "md", md: "lg" }} color="gray.800" mb={2}>
-            Find Your Perfect Match
-          </Heading>
-          <Text color="gray.600" maxW={{ base: "100%", md: "600px" }} mx="auto" fontSize={{ base: "sm", md: "md" }}>
-            Connect with trusted agents or skilled candidates across Gulf countries
-          </Text>
+        <Box mb={6} maxW="1440px" mx="auto">
+          <Box my={6} position={'relative'}>
+
+            <Heading as="h2" size={{ base: "md", md: "lg" }} color="gray.800" mb={2}>
+              Find Your Perfect Match
+            </Heading>
+            <Button
+              position="absolute"
+              right={0}
+              top={4}
+              fontSize={{ base: "sm", md: "md" }}
+              fontWeight="bold"
+              px={{ base: 6, md: 10 }}
+              py={{ base: 3, md: 4 }}
+              borderRadius="full"
+              bg="#0a7450"
+              color="white"
+              _hover={{ bg: "#065f46" }}
+              _active={{ bg: "#054d3a" }}
+              // onClick={() => router.push("/ticketing/agent/registration")}
+              onClick={onOpen}
+            >
+              Request Form
+            </Button>
+            <Text color="gray.600" maxW={{ base: "100%", md: "600px" }} mx="auto" fontSize={{ base: "sm", md: "md" }}>
+              Connect with trusted agents or skilled candidates across Gulf countries
+            </Text>
+          </Box>
         </Box>
         <Box mb={6} bg="white" maxW="1440px" mx="auto" rounded="lg" p={{ base: 2, md: 2 }}>
           <Tabs variant="soft-rounded" colorScheme="gray" w="100%">
@@ -551,6 +574,7 @@ const SearchSection = () => {
           </Flex>
         </Box>
       </Box>
+      <ProfilePopup isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

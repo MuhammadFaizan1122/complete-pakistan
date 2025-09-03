@@ -36,7 +36,7 @@ const contactData = {
     { icon: FaMapMarkerAlt, title: "Address", value: "Islamabad, Pakistan" },
   ],
   socials: [
-    { icon: FaFacebook, link: "https://facebook.com/completepakistan" },
+    { icon: FaFacebook, link: "http://www.facebook.com/CompletePakistanOfficial" },
     { icon: FaTwitter, link: "https://twitter.com/completepakistan" },
     { icon: FaLinkedin, link: "https://linkedin.com/company/completepakistan" },
   ],

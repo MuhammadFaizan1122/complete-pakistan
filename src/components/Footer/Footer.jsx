@@ -102,7 +102,7 @@ export default function Footer() {
               Follow Us
             </Heading>
             <Flex gap={4}>
-              <Link href="https://facebook.com" isExternal>
+              <Link href="http://www.facebook.com/CompletePakistanOfficial" isExternal>
                 <FaFacebook size={18} />
               </Link>
               <Link href="https://x.com" isExternal>
