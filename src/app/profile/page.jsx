@@ -1,9 +1,10 @@
 import React from 'react'
-import Profile from '../../components/Profile/Profile'
+import CreateProfessionalProfile from '../../components/Profile/CreateProfessionalProfile'
 const page = () => {
   return (
     <div>
-        <Profile />
+        <CreateProfessionalProfile />
+        {/* <Profile /> */}
     </div>
   )
 }
