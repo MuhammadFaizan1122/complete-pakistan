@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '../../../../config/mongoose';
 import Company from '../../../../config/models/Company';
 
-// GET: Fetch all companies for a user
+
 export async function GET(req) {
     try {
         await connectDB();

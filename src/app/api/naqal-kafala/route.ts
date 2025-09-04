@@ -87,7 +87,7 @@ export async function GET() {
     try {
         await connectDB();
         // @ts-ignore
-        const requests = await NaqalKafalaRequest.find().sort({ createdAt: -1 });
+        const requests = await NaqalKafalaRequest.find({ status: 'approved' }).sort({ createdAt: -1 });
         return NextResponse.json({ success: true, data: requests }, { status: 200 });
     } catch (error) {
         console.error("Naqal Kafala GET error:", error);

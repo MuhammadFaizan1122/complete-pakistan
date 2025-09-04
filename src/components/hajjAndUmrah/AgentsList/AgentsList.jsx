@@ -36,8 +36,6 @@ export default function AgentsList() {
     const router = useRouter();
     const [sliderImages, setSliderImages] = useState([]);
     const [news, setNews] = useState([]);
-    console.log('agents', agents)
-    // 🔹 Fetch agents from API
     useEffect(() => {
         const fetchAgents = async () => {
             try {

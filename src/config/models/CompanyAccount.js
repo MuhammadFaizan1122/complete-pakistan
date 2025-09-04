@@ -30,6 +30,7 @@ const CompanyAccountSchema = new mongoose.Schema({
     whatsappNo: { type: String, required: true, match: /^\+?\d{10,12}$/ },
     websiteUrl: { type: String, match: /^https?:\/\/.+/ },
     mapLink: { type: String },
+    navttc: { type: Boolean, default: false },
     services: {
         type: [{ type: String, minlength: 2, maxlength: 100 }],
         validate: [array => array.length <= 5, 'Maximum 5 services allowed']
@@ -39,7 +40,7 @@ const CompanyAccountSchema = new mongoose.Schema({
         twitter: { type: String, match: /^https?:\/\/(www\.)?x\.com\/.+/ },
         linkedin: { type: String, match: /^https?:\/\/(www\.)?linkedin\.com\/.+/ },
         instagram: { type: String, match: /^https?:\/\/(www\.)?instagram\.com\/.+/ }
-    }
+    },
 }, { timestamps: true });
 
 export default mongoose.models.CompanyAccount || mongoose.model('CompanyAccount', CompanyAccountSchema);

@@ -22,7 +22,7 @@ const naqalKafalaSchema = new mongoose.Schema(
         completeAddress: { type: String, required: true },
         experties: [{ type: String, required: true }],
         yearsOfExperience: { type: Number, required: true },
-
+        status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
         expireAt: {
             type: Date,
             default: () => new Date(Date.now() + 45 * 24 * 60 * 60 * 1000),
