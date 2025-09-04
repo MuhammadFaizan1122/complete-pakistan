@@ -39,6 +39,7 @@ import {
 import PhoneInput from 'react-phone-input-2';
 import StyledSelect from '../CV/CvDirectory/StyledSelect';
 import StyledInput from '../CV/StyledInput';
+import { handleUpload } from '../../handlers/contentUploading/contentUploading';
 
 export default function TravelAgentRegistration() {
   const toast = useToast();
@@ -197,15 +198,19 @@ export default function TravelAgentRegistration() {
         setIsSubmitting(false);
         return;
       }
+      const imageResp = formData.corporateLogo ? await handleUpload(formData.corporateLogo) : null;
+      const LicenesResp = formData.businessLicense ? await handleUpload(formData.businessLicense) : null;
 
-      // Prepare submission data
+      // // Prepare submission data
       const submissionData = {
         ...formData,
         services: filteredServices,
         airlines: filteredAirlines,
         branches: branches.filter(branch => branch.name && branch.address && branch.phone),
         staff: staff.filter(member => member.name && member.designation && member.contact),
-        socialLinks
+        socialLinks,
+        corporateLogo: imageResp.url,
+        businessLicense: LicenesResp.url,
       };
 
       // Submit to API
@@ -946,15 +951,31 @@ export default function TravelAgentRegistration() {
                 <VStack spacing={4} align="stretch">
                   <FormControl>
                     <FormLabel fontSize="sm">Corporate Logo</FormLabel>
-                    <StyledInput type="file" accept="image/*" p={1} />
+                    <StyledInput
+                      type="file"
+                      accept="image/*"
+                      p={1}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          corporateLogo: e.target.files[0],
+                        })
+                      }
+                    />
                     <Text fontSize="sm" color="gray.500" mt={1}>
                       Upload company logo or individual picture (max size 500 X 500)
                     </Text>
                   </FormControl>
 
+
                   <FormControl>
                     <FormLabel fontSize="sm">Business License</FormLabel>
-                    <StyledInput type="file" accept=".pdf,.jpg,.png" p={1} />
+                    <StyledInput type="file" accept=".pdf,.jpg,.png" p={1} onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        businessLicense: e.target.files[0],
+                      })
+                    } />
                     <Text fontSize="sm" color="gray.500" mt={1}>
                       Upload business license or registration documents (max size 1000 X 1000)
                     </Text>
@@ -964,8 +985,9 @@ export default function TravelAgentRegistration() {
 
               {/* Submit Button */}
               <Button
-                bg="@0a7450"
+                bg="#0a7450"
                 color="white"
+                rounded={'15px'}
                 size="lg"
                 py={6}
                 fontSize="md"

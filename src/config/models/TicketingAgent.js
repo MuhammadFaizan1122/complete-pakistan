@@ -63,12 +63,13 @@ const TicketingAgentSchema = new mongoose.Schema({
   primaryMobile: {
     type: String,
     required: true,
-      match: [/^\+92[0-9]{10}$/, 'Invalid phone number format. Use +923001234567']
+    match: [/^\+?92[0-9]{10}$/, 'Invalid phone number format. Use 923001234567 or +923001234567']
   },
   whatsappBusiness: {
     type: String,
     required: true,
-    match: [/^\+92[0-9]{10}$/, 'Invalid WhatsApp number format. Use +923001234567']
+      match: [/^\+?92[0-9]{10}$/, 'Invalid WhatsApp number format. Use 923001234567 or +923001234567']
+
   },
   officeDirectLine: {
     type: String,
@@ -151,7 +152,7 @@ TicketingAgentSchema.index({ registrationStatus: 1 });
 TicketingAgentSchema.index({ createdAt: -1 });
 
 // Virtual for full address
-TicketingAgentSchema.virtual('fullContactInfo').get(function() {
+TicketingAgentSchema.virtual('fullContactInfo').get(function () {
   return {
     name: this.businessName,
     proprietor: this.proprietorName,

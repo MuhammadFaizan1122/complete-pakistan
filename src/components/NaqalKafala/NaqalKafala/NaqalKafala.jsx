@@ -626,7 +626,7 @@ const NaqalKafala = () => {
     };
     fetchData();
   }, []);
-
+  console.log('agents', agents)
   if (loading) {
     return (
       <Center minH="100vh" bg="gray.50">

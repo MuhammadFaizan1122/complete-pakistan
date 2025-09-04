@@ -56,14 +56,14 @@ const AgentList = ({ agents }) => {
                     mr={2}
                     fontSize={{ base: "sm", md: "md" }}
                   >
-                    <Icon as={MdLocationOn} mr={1} boxSize={{ base: 4, md: 5 }} /> {agent.address?.city}, {agent.address?.country}
+                    <Icon as={MdLocationOn} mr={1} boxSize={{ base: 4, md: 5 }} /> {agent.vtpDetails[0]?.address?.city}, {agent.vtpDetails[0]?.address?.country}
                   </Text>
                 </Flex>
                 <Text color="gray.500" mb={2} fontSize={{ base: "sm", md: "md" }}>
-                  Premier recruitment services for {agent.services.join(", ")} professionals.
+                  Premier recruitment services for {agent?.services?.join(", ")} professionals.
                 </Text>
                 <HStack spacing={2} mb={4} flexWrap="wrap">
-                  {agent.services.map((service, i) => (
+                  {agent?.services?.map((service, i) => (
                     <Badge key={i} colorScheme="gray" variant="outline" borderRadius="full" px={3} fontSize={{ base: "xs", md: "sm" }}>
                       {service}
                     </Badge>
