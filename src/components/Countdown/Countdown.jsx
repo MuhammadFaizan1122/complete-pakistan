@@ -14,7 +14,7 @@ export default function Countdown() {
 
   useEffect(() => {
     setMounted(true);
-    const targetDate = new Date("2025-09-06T17:59:59").getTime();
+    const targetDate = new Date("2025-09-06T20:59:59").getTime();
 
     const updateCountdown = () => {
       const now = new Date().getTime();
