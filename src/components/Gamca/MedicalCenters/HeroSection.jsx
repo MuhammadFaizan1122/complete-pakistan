@@ -18,7 +18,7 @@ import Link from 'next/link';
 
 export function HeroSection({ sliderImages, news }) {
   const [currentSlide, setCurrentSlide] = useState(0);
-
+  console.log('sliderImages', sliderImages)
   return (
     <>
       <Box
@@ -37,31 +37,31 @@ export function HeroSection({ sliderImages, news }) {
           style={{ height: "100%" }}
           onSlideChange={(swiper) => setCurrentSlide(swiper.realIndex)}
         >
-          {(sliderImages.length > 0
-            ? sliderImages
-            : [
-              {
-                url: "/Images/approved-medical.jpg",
-                title: "GAMCA Medical Centers",
-                subtitle: "Find Approved Medical Centers in Pakistan",
-                description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit.",
-                buttons: [
-                  { text: "Explore Opportunities", link: "#" },
-                  { text: "Register Agency", link: "#" },
-                ],
-              },
-            ]
-          ).map((slide, index) => (
-            <SwiperSlide key={index}>
-              <Box
-                bgImage={`url('${slide.url}')`}
-                bgSize="cover"
-                bgPosition="center"
-                h={{ base: "300px", md: "700px" }}
-                w="100%"
-              />
-            </SwiperSlide>
-          ))}
+          {(sliderImages.length ? sliderImages : [
+            {
+              url: "/Images/approved-medical.jpg",
+              title: "Complete Pakistan",
+              subtitle: "Find Approved Medical Centers in Pakistan",
+              description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit.",
+              buttons: [
+                { text: "Explore Opportunities", link: "#" },
+                { text: "Register Agency", link: "#" },
+              ],
+            },
+          ]).map((slide, index) => {
+            return (
+              <SwiperSlide key={index}>
+                <Box
+                  bgImage={`url("https://completepakistann.s3.ap-south-1.amazonaws.com/1757104882802-6021032.jpg")`}
+                  bgSize="cover"
+                  bgPosition="center"
+                  h={{ base: "300px", md: "700px" }}
+                  w="100%"
+                />
+              </SwiperSlide>
+            )
+          })}
+
         </Swiper>
 
         <Box
@@ -100,7 +100,7 @@ export function HeroSection({ sliderImages, news }) {
                 </>
               ) : (
                 <>
-                  GAMCA <span className="text-green-500">Medical</span> Centers
+                  Complete <span className="text-green-500">Pakistan</span>
                 </>
               )}
             </Heading>
@@ -134,8 +134,8 @@ export function HeroSection({ sliderImages, news }) {
               {(sliderImages.length > 0 && sliderImages[currentSlide]?.buttons?.length > 0
                 ? sliderImages[currentSlide].buttons
                 : [
-                  { text: "Explore Opportunities", link: "#" },
-                  { text: "Register Agency", link: "#" },
+                  { text: "Explore Opportunities", link: "/jobs" },
+                  { text: "Register Agency", link: "/auth/company-registration" },
                 ]
               ).map((button, index) => (
                 <Button
