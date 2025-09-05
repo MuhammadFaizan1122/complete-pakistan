@@ -240,8 +240,8 @@ export default function TermsAndConditionsPage() {
                 <Section id="contact" title="12. Contact">
                     <Text>
                         Email:{' '}
-                        <CLink href="mailto:info@completepakistan.com" color="#0a7450">
-                            info@completepakistan.com
+                        <CLink href="mailto:info@completepakistan.com.pk" color="#0a7450">
+                            info@completepakistan.com.pk
                         </CLink>{' '}
                         | Phone:{' '}
                         <CLink href="tel:+923102632470" color="#0a7450">

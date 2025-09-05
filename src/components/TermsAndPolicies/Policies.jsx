@@ -176,8 +176,8 @@ export default function PrivacyPolicyPage() {
             <ListItem>Withdraw consent where processing is based on consent.</ListItem>
             <ListItem>
               To exercise rights, contact us at{' '}
-              <CLink href="mailto:info@completepakistan.com" color="#0a7450">
-                info@completepakistan.com
+              <CLink href="mailto:info@completepakistan.com.pk" color="#0a7450">
+                info@completepakistan.com.pk
               </CLink>
               .
             </ListItem>
@@ -203,8 +203,8 @@ export default function PrivacyPolicyPage() {
         <Section id="contact" title="11. Contact Us">
           <Text>
             Email:{' '}
-            <CLink href="mailto:info@completepakistan.com" color="#0a7450">
-              info@completepakistan.com
+            <CLink href="mailto:info@completepakistan.com.pk" color="#0a7450">
+              info@completepakistan.com.pk
             </CLink>{' '}
             | Phone:{' '}
             <CLink href="tel:+923102632470" color="#0a7450">

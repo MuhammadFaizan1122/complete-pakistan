@@ -32,7 +32,7 @@ const contactSchema = Yup.object().shape({
 const contactData = {
   details: [
     { icon: FaPhone, title: "Phone", value: "+92 310 2632470" },
-    { icon: FaEnvelope, title: "Email", value: "info@completepakistan.com" },
+    { icon: FaEnvelope, title: "Email", value: "info@completepakistan.com.pk" },
     { icon: FaMapMarkerAlt, title: "Address", value: "Islamabad, Pakistan" },
   ],
   socials: [

@@ -57,10 +57,10 @@ export default function Footer() {
             <Flex direction="column" gap={2} fontSize="md">
               <Link href="/about-us">About Us</Link>
               <Link href="/contact-us">Contact Us</Link>
-              <Text cursor="pointer">Our Team</Text>
+              {/* <Text cursor="pointer">Our Team</Text>
               <Text cursor="pointer">Partners</Text>
               <Text cursor="pointer">For Candidates</Text>
-              <Text cursor="pointer">For Employers</Text>
+              <Text cursor="pointer">For Employers</Text> */}
             </Flex>
           </GridItem>
 
@@ -70,11 +70,13 @@ export default function Footer() {
               Services
             </Heading>
             <Flex direction="column" gap={2} fontSize="md">
-              <Text cursor="pointer">Interview Scheduling</Text>
-              <Text cursor="pointer">Document Verification</Text>
-              <Text cursor="pointer">Trade Testing</Text>
-              <Text cursor="pointer">Pre-Employment Training</Text>
-              <Text cursor="pointer">Visa Processing</Text>
+              <Link href="/recruitment/oep">Overseas employment promoters</Link>
+              {/* <Text cursor="pointer">Interview Scheduling</Text> */}
+              {/* <Text cursor="pointer">Document Verification</Text> */}
+              <Link href="/recruitment/ttc">Trade Testing</Link>
+              <Link href="/recruitment/vtp">Verified trade partners</Link>
+              <Link href="/help-center">Help Center</Link>
+              <Link href="/naqal-kafala">Naqal Kafala</Link>
             </Flex>
           </GridItem>
 
@@ -93,8 +95,8 @@ export default function Footer() {
             </Flex>
             <Flex align="center" mb={2} fontSize="md">
               <FaEnvelope style={{ marginRight: "8px" }} />
-              <Link href="mailto:info@completepakistan.com">
-                info@completepakistan.com
+              <Link href="mailto:info@completepakistan.com.pk">
+                info@completepakistan.com.pk
               </Link>
             </Flex>
 

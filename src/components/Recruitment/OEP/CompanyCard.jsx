@@ -54,7 +54,7 @@ export default function CompanyCard({
       alignItems="center"
       w={'100%'}
       cursor={'pointer'}
-      onClick={() => router.push(`/recruitment/oep/details/${_id}`)}
+      // onClick={() => router.push(`/recruitment/oep/details/${_id}`)}
     >
       {/* Left: Logo + Name */}
       <Box w={{ base: 'full', md: "25%" }} >
