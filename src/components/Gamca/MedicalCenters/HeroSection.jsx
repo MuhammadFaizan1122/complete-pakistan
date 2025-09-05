@@ -52,7 +52,7 @@ export function HeroSection({ sliderImages, news }) {
             return (
               <SwiperSlide key={index}>
                 <Box
-                  bgImage={`url("https://completepakistann.s3.ap-south-1.amazonaws.com/1757104882802-6021032.jpg")`}
+                  bgImage={`url("${slide.url}")`}
                   bgSize="cover"
                   bgPosition="center"
                   h={{ base: "300px", md: "700px" }}
@@ -179,7 +179,14 @@ export function HeroSection({ sliderImages, news }) {
                     <Text
                       fontWeight="semibold"
                       color="orange"
+                      display="-webkit-box"
                       fontSize={{ base: "sm", md: "22px" }}
+                      overflow="hidden"
+                      css={{
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        lineClamp: 2,
+                      }}
                     >
                       Latest News /{" "}
                       <span className="text-[16px] text-white">{item}</span>
