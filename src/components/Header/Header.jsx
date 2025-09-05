@@ -57,7 +57,7 @@ export default function Header() {
         { href: '/naqal-kafala', label: 'Naqal Kafala' },
         { href: '/fraud-alert', label: 'Fraud Alert' },
         { href: '/help-center', label: 'Help Center' },
-        { href: '/about-us', label: 'About Us' },
+        // { href: '/about-us', label: 'About Us' },
         // { href: '#', label: 'More' },
     ];
 

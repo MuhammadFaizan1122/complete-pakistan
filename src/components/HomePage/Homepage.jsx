@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { StatsSection } from './StatsSection'
 import BrowseByCategory from './BrowseSection'
 import CoreFeatures from './CoreFeature'
+import SliderSection from './SliderSection'
 import ServiceSection from './ServicesSection'
 import { Center, Spinner, useToast } from '@chakra-ui/react'
 import { HeroSection } from '../Gamca/MedicalCenters/HeroSection'
@@ -48,6 +49,7 @@ const Homepage = () => {
     return (
         <div>
             <HeroSection sliderImages={sliderImages} news={news} />
+            <SliderSection />
             <StatsSection />
             <BrowseByCategory />
             <CoreFeatures />

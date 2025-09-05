@@ -3,14 +3,14 @@ import { Box, Text, SimpleGrid, VStack, HStack, Avatar, Badge, Flex } from "@cha
 import Image from "next/image";
 
 const categories = [
-  { label: "Agriculture", jobs: 1254, icon: '/Images/Icons/plant.png' },
-  { label: "Metal Production", jobs: 816, icon: '/Images/Icons/agriculture.png' },
-  { label: "Commerce", jobs: 2082, icon: '/Images/Icons/shoppingbag.png' },
-  { label: "Construction", jobs: 1520, icon: '/Images/Icons/buffet.png' },
-  { label: "Hotels & Tourism", jobs: 1022, icon: '/Images/Icons/luggeg.png' },
-  { label: "Education", jobs: 1496, icon: '/Images/Icons/cap.png' },
-  { label: "Financial Services", jobs: 1529, icon: '/Images/Icons/db.png' },
-  { label: "Transport", jobs: 1244, icon: '/Images/Icons/bus.png' },
+  { label: "Agriculture", jobs: 0, icon: '/Images/Icons/plant.png' },
+  { label: "Metal Production", jobs: 0, icon: '/Images/Icons/agriculture.png' },
+  { label: "Commerce", jobs: 0, icon: '/Images/Icons/shoppingbag.png' },
+  { label: "Construction", jobs: 0, icon: '/Images/Icons/buffet.png' },
+  { label: "Hotels & Tourism", jobs: 0, icon: '/Images/Icons/luggeg.png' },
+  { label: "Education", jobs: 0, icon: '/Images/Icons/cap.png' },
+  { label: "Financial Services", jobs: 0, icon: '/Images/Icons/db.png' },
+  { label: "Transport", jobs: 0, icon: '/Images/Icons/bus.png' },
 ];
 
 const videos = [
@@ -49,6 +49,8 @@ export default function BrowseByCategory() {
               h={{ base: "180px", md: "280px" }}
               shadow="md"
               textAlign="center"
+              transition="transform 0.3s ease-in-out"
+              _hover={{ transform: 'scale(1.05)', cursor: 'pointer' }}
             >
               <Flex
                 direction="column"

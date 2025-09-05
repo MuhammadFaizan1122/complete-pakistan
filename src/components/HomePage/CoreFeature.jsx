@@ -50,16 +50,19 @@ export default function CoreFeatures() {
           {features.map((feature, idx) => (
             <Box
               key={idx}
-              bg="#0a745026"
+              // bg="#0a745026"
               p={{ base: 4, md: 6 }}
-              h={{ base: "250px", sm: "320px", md: "360px" }}
+              // h={{ base: "250px", sm: "320px", md: "360px" }}
               w={{ base: "100%", sm: "90%", md: "306px" }}
               rounded="xl"
-              shadow="md"
+              border={'2px solid #0a745026'}
+              // shadow="md"
               textAlign="center"
               display="flex"
               justifyContent="center"
               alignItems="center"
+              transition="transform 0.3s ease-in-out"
+              _hover={{ transform: 'scale(1.05)', cursor: 'pointer' }}
               flexDirection="column"
             >
               <Box
@@ -90,7 +93,7 @@ export default function CoreFeatures() {
               </Text>
               <Text
                 fontSize={{ base: "sm", sm: "md", md: "16px" }}
-                color="black"
+                color="gray"
               >
                 {feature.description}
               </Text>

@@ -6,12 +6,12 @@ const statsData = [
   {
     icon: '/Images/Icons/community.png',
     title: "Visitors",
-    subtitle: "152,430+ visited",
+    subtitle: "1,000+ visited",
   },
   {
     icon: '/Images/Icons/user-outline.png',
     title: "Active Users",
-    subtitle: "8,920+ active users.",
+    subtitle: "200+ active users.",
   },
   {
     icon: '/Images/Icons/global.png',
@@ -21,12 +21,12 @@ const statsData = [
   {
     icon: '/Images/Icons/bag.png',
     title: "Job Posted",
-    subtitle: "5,000+ Verified Jobs.",
+    subtitle: "10+ Verified Jobs.",
   },
   {
     icon: '/Images/Icons/building.png',
     title: "Recruiting Agencies",
-    subtitle: "120+ Trusted Agencies.",
+    subtitle: "20+ Trusted Agencies.",
   },
   {
     icon: '/Images/Icons/shield.png',
