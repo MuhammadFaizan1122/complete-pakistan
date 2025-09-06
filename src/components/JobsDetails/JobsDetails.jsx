@@ -62,7 +62,7 @@ const Jobs = () => {
             salary: '$38000-$40000',
             location: 'Dhaka, Bangladesh',
             jobType: 'PART-TIME',
-            colors: ['#1877F2', '#42B883', '#FF6B6B', '#4ECDC4'] // Meta colors
+            colors: ['#1877F2', '#42B883', '#FF6B6B', '#4ECDC4'] 
         },
         {
             id: 3,
