@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
         const otp = generateOTP();
         const otpHash = await bcrypt.hash(otp, 10);
-        const expiryTime = new Date(Date.now() + 15 * 60 * 1000); 
+        const expiryTime = new Date(Date.now() + 15 * 60 * 1000);
 
         // @ts-ignore
         await Otp.findOneAndUpdate(
@@ -47,25 +47,27 @@ export async function POST(req: NextRequest) {
 
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
-            port: 587,
-            secure: false,
+            port: 465,
+            secure: true,
             auth: {
                 user: process.env.SMTP_USER,
                 pass: process.env.SMTP_PASS,
             },
+            tls: {
+                rejectUnauthorized: false,
+            },
         });
 
-        // Send OTP email
         await transporter.sendMail({
             from: `"Complete Pakistan" <${process.env.SMTP_USER}>`,
             to: email,
             subject: "Verify Your Email - OTP Code",
             html: `
-        <h2>Hello ${name},</h2>
-        <p>Your OTP code is:</p>
-        <h3 style="color:#4F46E5">${otp}</h3>
-        <p>This code will expire in <b>5 minutes</b>.</p>
-      `,
+                <h2>Hello ${name},</h2>
+                <p>Your OTP code is:</p>
+                <h3 style="color:#4F46E5">${otp}</h3>
+                <p>This code will expire in <b>5 minutes</b>.</p>
+            `,
         });
 
         return NextResponse.json(

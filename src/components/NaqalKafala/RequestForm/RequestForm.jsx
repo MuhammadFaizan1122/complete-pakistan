@@ -161,8 +161,8 @@ export default function ProfilePopup({ isOpen, onClose }) {
                         <FormControl isInvalid={!!errors.iqamaStatus}>
                             <FormLabel>Iqama / Betaqa / Permit Status</FormLabel>
                             <StyledSelect placeholder="Select status" {...register("iqamaStatus")}>
-                                <option value="3 months abshar">3 Months Abshar</option>
                                 <option value="no iqama">No Iqama</option>
+                                <option value="3 months abshar">3 Months Abshar</option>
                                 <option value="1 year">1 Year</option>
                             </StyledSelect>
                             <FormErrorMessage>{errors.iqamaStatus?.message}</FormErrorMessage>

@@ -18,7 +18,6 @@ import Link from 'next/link';
 
 export function HeroSection({ sliderImages, news }) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  console.log('sliderImages', sliderImages)
   return (
     <>
       <Box

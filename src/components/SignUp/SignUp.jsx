@@ -108,8 +108,8 @@ const SignupPage = () => {
                     password: data.password,
                 });
                 toast({
-                    title: 'Success',
-                    description: 'OTP sent to your email',
+                    title: 'OTP sent to your email',
+                    description: `OTP sent to your email (if you don't fint OTP in inbox please check spam folder!)`,
                     status: 'success',
                     duration: 4000,
                     isClosable: true,

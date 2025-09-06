@@ -2,8 +2,12 @@
 import { useState, useEffect } from "react";
 import { Card, CardBody, FormControl, FormLabel, Select, Button, SimpleGrid, Icon, Text } from "@chakra-ui/react";
 import { LuBuilding2 } from "react-icons/lu";
+import { City, Country, State } from "country-state-city";
 
 const AgentFilterForm = ({ agents }) => {
+  const [countries, setCountries] = useState(Country.getAllCountries());
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const [filters, setFilters] = useState({
     country: "",
     state: "",
@@ -14,23 +18,19 @@ const AgentFilterForm = ({ agents }) => {
   });
   const [filteredAgents, setFilteredAgents] = useState(agents);
 
-  // Extract unique values for dropdowns
-  const countries = [...new Set(agents.map(a => a.address?.country))].sort();
-  const states = [...new Set(agents.map(a => a.address?.state))].sort();
-  const cities = [...new Set(agents.map(a => a.address?.city))].sort();
   const services = [...new Set(agents.flatMap(a => a.services))].sort();
 
   useEffect(() => {
     let result = [...agents];
-    
+    console.log('result', result)
     if (filters.country) {
-      result = result.filter(a => a.address.country === filters.country);
+      result = result.filter(a => a.vtpDetails[0]?.address.country === filters.country);
     }
     if (filters.state) {
-      result = result.filter(a => a.address.state === filters.state);
+      result = result.filter(a => a.vtpDetails[0]?.address.state === filters.state);
     }
     if (filters.city) {
-      result = result.filter(a => a.address.city === filters.city);
+      result = result.filter(a => a.vtpDetails[0]?.address.city === filters.city);
     }
     if (filters.specialization) {
       result = result.filter(a => a.services.includes(filters.specialization));
@@ -44,6 +44,58 @@ const AgentFilterForm = ({ agents }) => {
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
+  };
+  const handleCountryChange = (e) => {
+    const iso = e.target.value; // we keep value = isoCode
+    const selected = countries.find(c => c.isoCode === iso);
+
+    // Load states for this country
+    const stateList = selected ? State.getStatesOfCountry(selected.isoCode) : [];
+    setStates(stateList);
+    setCities([]); // reset cities
+
+    setFilters(prev => ({
+      ...prev,
+      country: selected?.name || '',
+      countryCode: selected?.isoCode || '',
+      state: '',
+      stateCode: '',
+      city: ''
+    }));
+  };
+
+  const handleStateChange = (e) => {
+    const iso = e.target.value; // state isoCode
+    const selected = states.find(s => s.isoCode === iso);
+
+    // Load cities for this state
+    const cityList = (filters.countryCode && selected)
+      ? City.getCitiesOfState(filters.countryCode, selected.isoCode)
+      : [];
+    setCities(cityList);
+
+    setFilters(prev => ({
+      ...prev,
+      state: selected?.name || '',
+      stateCode: selected?.isoCode || '',
+      city: ''
+    }));
+  };
+
+  const handleCityChange = (e) => {
+    setFilters(prev => ({ ...prev, city: e.target.value }));
+  };
+
+  const clearAll = () => {
+    setFilters({
+      country: '',
+      countryCode: '',
+      state: '',
+      stateCode: '',
+      city: ''
+    });
+    setStates([]);
+    setCities([]);
   };
 
   return (
@@ -74,11 +126,11 @@ const AgentFilterForm = ({ agents }) => {
               variant="outline"
               bg="gray.50"
               size={{ base: "sm", md: "md" }}
-              value={filters.country}
-              onChange={(e) => handleFilterChange("country", e.target.value)}
+              value={filters.countryCode}
+              onChange={handleCountryChange}
             >
               {countries.map(country => (
-                <option key={country} value={country}>{country}</option>
+                <option key={country.isoCode} value={country.isoCode}>{country.name}</option>
               ))}
             </Select>
           </FormControl>
@@ -89,11 +141,12 @@ const AgentFilterForm = ({ agents }) => {
               variant="outline"
               bg="gray.50"
               size={{ base: "sm", md: "md" }}
-              value={filters.state}
-              onChange={(e) => handleFilterChange("state", e.target.value)}
+              value={filters.stateCode}
+              onChange={handleStateChange}
+              isDisabled={!filters.countryCode}
             >
               {states.map(state => (
-                <option key={state} value={state}>{state}</option>
+                <option key={state.isoCode} value={state.isoCode}>{state.name}</option>
               ))}
             </Select>
           </FormControl>
@@ -105,10 +158,12 @@ const AgentFilterForm = ({ agents }) => {
               bg="gray.50"
               size={{ base: "sm", md: "md" }}
               value={filters.city}
-              onChange={(e) => handleFilterChange("city", e.target.value)}
+              onChange={handleCityChange}
+              isDisabled={!filters.stateCode}
+              
             >
               {cities.map(city => (
-                <option key={city} value={city}>{city}</option>
+                <option key={city.isoCode} value={city.isoCode}>{city.name}</option>
               ))}
             </Select>
           </FormControl>

@@ -2,8 +2,12 @@
 import { useState, useEffect } from "react";
 import { Card, CardBody, FormControl, FormLabel, Select, Checkbox, Button, SimpleGrid, Grid, Icon, Text, Box } from "@chakra-ui/react";
 import { FaUser } from "react-icons/fa";
+import { Country, City, State } from "country-state-city";
 
 const CandidateFilterForm = ({ candidates }) => {
+  const [countries, setCountries] = useState(Country.getAllCountries());
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const [filters, setFilters] = useState({
     country: "",
     state: "",
@@ -17,17 +21,15 @@ const CandidateFilterForm = ({ candidates }) => {
   });
   const [filteredCandidates, setFilteredCandidates] = useState(candidates);
 
-  // Extract unique values for dropdowns
-  const countries = [...new Set(candidates.map(c => c.country))].sort();
-  const states = [...new Set(candidates.map(c => c.state))].sort();
-  const cities = [...new Set(candidates.map(c => c.city))].sort();
   const professions = [...new Set(candidates.map(c => c.profession))].sort();
-  const iqamaStatuses = [...new Set(candidates.map(c => c.iqamaStatus))].sort();
-  const languages = [...new Set(candidates.flatMap(c => c.experties))].sort();
-
+  const iqamaStatuses = [
+    "No Iqama",
+    "3 Months Abshar",
+    "1 Year",
+  ];
   useEffect(() => {
     let result = [...candidates];
-    
+
     if (filters.country) {
       result = result.filter(c => c.country === filters.country);
     }
@@ -44,7 +46,7 @@ const CandidateFilterForm = ({ candidates }) => {
       result = result.filter(c => c.iqamaStatus === filters.iqamaStatus);
     }
     if (filters.languages.length > 0) {
-      result = result.filter(c => 
+      result = result.filter(c =>
         filters.languages.every(lang => c.experties.includes(lang))
       );
     }
@@ -70,7 +72,44 @@ const CandidateFilterForm = ({ candidates }) => {
         : [...prev.languages, lang],
     }));
   };
+  const handleCountryChange = (e) => {
+    const iso = e.target.value;
+    const selected = countries.find(c => c.isoCode === iso);
 
+    const stateList = selected ? State.getStatesOfCountry(selected.isoCode) : [];
+    setStates(stateList);
+    setCities([]);
+
+    setFilters(prev => ({
+      ...prev,
+      country: selected?.name || '',
+      countryCode: selected?.isoCode || '',
+      state: '',
+      stateCode: '',
+      city: ''
+    }));
+  };
+
+  const handleStateChange = (e) => {
+    const iso = e.target.value;
+    const selected = states.find(s => s.isoCode === iso);
+
+    const cityList = (filters.countryCode && selected)
+      ? City.getCitiesOfState(filters.countryCode, selected.isoCode)
+      : [];
+    setCities(cityList);
+
+    setFilters(prev => ({
+      ...prev,
+      state: selected?.name || '',
+      stateCode: selected?.isoCode || '',
+      city: ''
+    }));
+  };
+
+  const handleCityChange = (e) => {
+    setFilters(prev => ({ ...prev, city: e.target.value }));
+  };
   return (
     <Card
       variant="outline"
@@ -99,11 +138,12 @@ const CandidateFilterForm = ({ candidates }) => {
               variant="outline"
               bg="gray.50"
               size={{ base: "sm", md: "md" }}
-              value={filters.country}
-              onChange={(e) => handleFilterChange("country", e.target.value)}
+              value={filters.countryCode}
+              onChange={handleCountryChange}
+
             >
               {countries.map(country => (
-                <option key={country} value={country}>{country}</option>
+                <option key={country.isoCode} value={country.isoCode}>{country.name}</option>
               ))}
             </Select>
           </FormControl>
@@ -114,11 +154,13 @@ const CandidateFilterForm = ({ candidates }) => {
               variant="outline"
               bg="gray.50"
               size={{ base: "sm", md: "md" }}
-              value={filters.state}
-              onChange={(e) => handleFilterChange("state", e.target.value)}
+              value={filters.stateCode}
+              onChange={handleStateChange}
+              isDisabled={!filters.countryCode}
+
             >
               {states.map(state => (
-                <option key={state} value={state}>{state}</option>
+                <option key={state.isoCode} value={state.isoCode}>{state.name}</option>
               ))}
             </Select>
           </FormControl>
@@ -130,10 +172,12 @@ const CandidateFilterForm = ({ candidates }) => {
               bg="gray.50"
               size={{ base: "sm", md: "md" }}
               value={filters.city}
-              onChange={(e) => handleFilterChange("city", e.target.value)}
+              onChange={handleCityChange}
+              isDisabled={!filters.stateCode}
+
             >
               {cities.map(city => (
-                <option key={city} value={city}>{city}</option>
+                <option key={city.isoCode} value={city.isoCode}>{city.name}</option>
               ))}
             </Select>
           </FormControl>
@@ -168,54 +212,6 @@ const CandidateFilterForm = ({ candidates }) => {
             </Select>
           </FormControl>
         </SimpleGrid>
-        <Box mt={{ base: 4, md: 6 }} textAlign="left">
-          <FormLabel fontSize={{ base: "sm", md: "md" }}>Languages</FormLabel>
-          <Grid templateColumns={{ base: "repeat(2, 1fr)", sm: "repeat(3, 1fr)", md: "repeat(4, 1fr)" }} gap={2}>
-            {languages.map(lang => (
-              <Checkbox
-                key={lang}
-                colorScheme="blue"
-                mb={2}
-                size={{ base: "sm", md: "md" }}
-                isChecked={filters.languages.includes(lang)}
-                onChange={() => handleLanguageChange(lang)}
-              >
-                {lang}
-              </Checkbox>
-            ))}
-          </Grid>
-        </Box>
-        <Box mt={{ base: 4, md: 6 }} textAlign="left">
-          <Grid templateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" }} gap={2}>
-            <Checkbox
-              colorScheme="blue"
-              mb={2}
-              size={{ base: "sm", md: "md" }}
-              isChecked={filters.hasDrivingLicense}
-              onChange={(e) => handleFilterChange("hasDrivingLicense", e.target.checked)}
-            >
-              Has Driving License
-            </Checkbox>
-            <Checkbox
-              colorScheme="blue"
-              mb={2}
-              size={{ base: "sm", md: "md" }}
-              isChecked={filters.jobSwitch}
-              onChange={(e) => handleFilterChange("jobSwitch", e.target.checked)}
-            >
-              Job Switch Candidates
-            </Checkbox>
-            <Checkbox
-              colorScheme="blue"
-              mb={2}
-              size={{ base: "sm", md: "md" }}
-              isChecked={filters.azadVisa}
-              onChange={(e) => handleFilterChange("azadVisa", e.target.checked)}
-            >
-              Azad Visa Candidates
-            </Checkbox>
-          </Grid>
-        </Box>
         <Button
           colorScheme="blue"
           mt={{ base: 4, md: 6 }}
