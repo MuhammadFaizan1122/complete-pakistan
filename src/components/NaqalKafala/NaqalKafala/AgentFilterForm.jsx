@@ -118,7 +118,7 @@ const AgentFilterForm = ({ agents }) => {
         >
           <Icon as={LuBuilding2} color="blue.500" mr={2} boxSize={{ base: 4, md: 5 }} /> Find Trusted Agents
         </Text>
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={{ base: 2, md: 4 }}>
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={{ base: 2, md: 4 }}>
           <FormControl>
             <FormLabel fontSize={{ base: "sm", md: "md" }}>Select Country</FormLabel>
             <Select
@@ -160,40 +160,10 @@ const AgentFilterForm = ({ agents }) => {
               value={filters.city}
               onChange={handleCityChange}
               isDisabled={!filters.stateCode}
-              
+
             >
               {cities.map(city => (
                 <option key={city.isoCode} value={city.isoCode}>{city.name}</option>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl>
-            <FormLabel fontSize={{ base: "sm", md: "md" }}>Specialization</FormLabel>
-            <Select
-              placeholder="Specialization"
-              variant="outline"
-              bg="gray.50"
-              size={{ base: "sm", md: "md" }}
-              value={filters.specialization}
-              onChange={(e) => handleFilterChange("specialization", e.target.value)}
-            >
-              {services.map(service => (
-                <option key={service} value={service}>{service}</option>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl>
-            <FormLabel fontSize={{ base: "sm", md: "md" }}>Service Type</FormLabel>
-            <Select
-              placeholder="Service Type"
-              variant="outline"
-              bg="gray.50"
-              size={{ base: "sm", md: "md" }}
-              value={filters.serviceType}
-              onChange={(e) => handleFilterChange("serviceType", e.target.value)}
-            >
-              {services.map(service => (
-                <option key={service} value={service}>{service}</option>
               ))}
             </Select>
           </FormControl>

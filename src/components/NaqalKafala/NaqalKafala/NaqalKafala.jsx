@@ -602,6 +602,7 @@ const NaqalKafala = () => {
   const [news, setNews] = useState([]);
   const [candidates, setCandidates] = useState([]);
   const [agents, setAgents] = useState([]);
+  const [filteredAgents, setFilteredAgents] = useState([]); // New state for filtered agents
   const [loading, setLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -614,9 +615,11 @@ const NaqalKafala = () => {
           axios.get('/api/company_registration/get-vtp'),
           axios.get('/api/naqal-kafala')
         ]);
+        const fetchedAgents = agentsResponse.data?.data?.filter(agent => agent.status === 'approved') || [];
         setSliderImages(sliderResponse.data?.data?.sliderImgs || []);
         setNews(sliderResponse.data?.data?.news || []);
-        setAgents(agentsResponse.data?.data?.filter(agent => agent.status === 'approved') || []);
+        setAgents(fetchedAgents);
+        setFilteredAgents(fetchedAgents); // Initialize filteredAgents with all agents
         setCandidates(candidatesResponse.data?.data?.filter(candidate => candidate.status === 'approved') || []);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -626,7 +629,7 @@ const NaqalKafala = () => {
     };
     fetchData();
   }, []);
-  console.log('agents', agents)
+
   if (loading) {
     return (
       <Center minH="100vh" bg="gray.50">
@@ -677,9 +680,9 @@ const NaqalKafala = () => {
             </Box>
           </Box>
         </Box>
-        <SearchTabs candidates={candidates} agents={agents} />
+        <SearchTabs candidates={candidates} agents={agents} onFilterAgents={setFilteredAgents} />
         <CandidateList candidates={candidates} />
-        <AgentList agents={agents} />
+        <AgentList agents={filteredAgents} />
       </Box>
       <ProfilePopup isOpen={isOpen} onClose={onClose} />
     </>

@@ -1,14 +1,35 @@
 'use client'
-import { Box, Heading, SimpleGrid, Card, CardBody, Text, Button, Flex, Badge, Icon, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  SimpleGrid,
+  Card,
+  CardBody,
+  Text,
+  Button,
+  Flex,
+  Badge,
+  Icon,
+  HStack,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Stack,
+} from "@chakra-ui/react";
 import { FaRegStar } from "react-icons/fa";
 import { MdWork, MdLocationOn } from "react-icons/md";
 import { useState } from "react";
 
 const CandidateList = ({ candidates }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const candidatesPerPage = 3;
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // Pagination logic
+  const candidatesPerPage = 3;
   const indexOfLastCandidate = currentPage * candidatesPerPage;
   const indexOfFirstCandidate = indexOfLastCandidate - candidatesPerPage;
   const currentCandidates = candidates.slice(indexOfFirstCandidate, indexOfLastCandidate);
@@ -16,6 +37,11 @@ const CandidateList = ({ candidates }) => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleViewProfile = (candidate) => {
+    setSelectedCandidate(candidate);
+    onOpen();
   };
 
   return (
@@ -89,6 +115,7 @@ const CandidateList = ({ candidates }) => {
                   colorScheme="blue"
                   mt="auto"
                   size={{ base: "sm", md: "md" }}
+                  onClick={() => handleViewProfile(candidate)}
                 >
                   View Profile
                 </Button>
@@ -111,6 +138,36 @@ const CandidateList = ({ candidates }) => {
           </Button>
         ))}
       </Flex>
+
+      {/* Profile Modal */}
+      {selectedCandidate && (
+        <Modal isOpen={isOpen} onClose={onClose} size="3xl" scrollBehavior="inside">
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>{selectedCandidate.name} - Profile</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Stack spacing={3} fontSize="sm" color="gray.700">
+                <Text><b>Passport Number:</b> {selectedCandidate.passportNumber}</Text>
+                <Text><b>Iqama Status:</b> {selectedCandidate.iqamaStatus}</Text>
+                <Text><b>Iqama Expiry:</b> {new Date(selectedCandidate.iqamaExpiry).toLocaleDateString()}</Text>
+                <Text><b>Country:</b> {selectedCandidate.country}</Text>
+                <Text><b>State:</b> {selectedCandidate.state}</Text>
+                <Text><b>City:</b> {selectedCandidate.city}</Text>
+                <Text><b>Complete Address:</b> {selectedCandidate.completeAddress}</Text>
+                <Text><b>Profession:</b> {selectedCandidate.profession}</Text>
+                <Text><b>Education:</b> {selectedCandidate.education}</Text>
+                <Text><b>Years of Experience:</b> {selectedCandidate.yearsOfExperience}</Text>
+                <Text><b>Contact Abroad:</b> {selectedCandidate.contactAbroad}</Text>
+                <Text><b>Contact Pakistani:</b> {selectedCandidate.contactPakistani}</Text>
+                <Text><b>WhatsApp:</b> {selectedCandidate.whatsapp}</Text>
+                <Text><b>Status:</b> {selectedCandidate.status}</Text>
+                <Text><b>Skills:</b> {selectedCandidate.experties.join(", ")}</Text>
+              </Stack>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      )}
     </Box>
   );
 };
