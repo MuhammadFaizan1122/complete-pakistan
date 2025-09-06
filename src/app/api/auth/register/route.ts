@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
 
         const { name, email, password, password_confirmation } = await req.json();
 
-        // Basic validation
         if (!name || !email || !password || !password_confirmation) {
             return NextResponse.json({ message: "All fields are required" }, { status: 400 });
         }
@@ -25,7 +24,6 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: "Password must be at least 6 characters" }, { status: 400 });
         }
 
-        // Check if user already exists
         // @ts-ignore
         const existingUser = await User.findOne({ email });
         if (existingUser) {
